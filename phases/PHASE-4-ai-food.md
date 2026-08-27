@@ -4,14 +4,14 @@
 
 **Depends on:** Phase 3 (meals + diary exist). First phase that touches the FastAPI AI layer.
 
-## DB changes — `supabase/migrations/0004_ai.sql`
+## DB changes — `backend/migrations/0004_ai.sql`
 
 - `ai_usage` (user_id, usage_date, feature, count; unique per user+date+feature). RLS: owner read-only (UI meters); writes service-role only.
 - `ai_calls` (per PLAN.md §6) — service-role only, no user read policy.
 - SQL function `increment_ai_usage(p_user uuid, p_feature text, p_limit int) returns boolean` — atomic upsert+increment, returns whether the call is allowed.
 - Storage: create private bucket `food-photos`; storage RLS so users can only read/write under `{auth.uid()}/`.
 
-## API tasks (`api/`)
+## API tasks (`backend/`)
 
 1. **Gemini service** — `app/services/gemini.py`: `google-genai` client, model `gemini-2.5-flash`, structured output (`response_mime_type="application/json"` + Pydantic schema), one retry, latency + token logging into `ai_calls`.
 2. **Schemas** — `FoodEstimate`: name, serving_description, calories, protein_g, carbs_g, fat_g, confidence (low/medium/high), notes.
@@ -41,4 +41,4 @@
 ## Notes
 
 - This phase sets the pattern Phases 5–6 reuse: auth → quota → storage fetch → Gemini structured output → log → respond. Build it clean.
-- Prompt lives in `api/app/services/prompts.py` — versioned in code, easy to tune.
+- Prompt lives in `backend/app/services/prompts.py` — versioned in code, easy to tune.

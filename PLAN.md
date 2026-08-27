@@ -10,7 +10,7 @@
 ## 1. How to use these docs (for any model/developer picking this up)
 
 1. Read this file fully — it is the single source of truth.
-2. Read `DESIGN.md` before touching any UI.
+2. Read `frontend/Design/DESIGN.md` before touching any UI.
 3. Open the current phase file in `phases/` (they are numbered in build order). Each phase has a **"Done when"** checklist — a phase is complete only when every box is verifiably checked.
 4. When a phase is complete, update its status in the phase table below and check off its items.
 5. Make **minimal, modular** changes. Follow existing code style. Do not expand scope beyond the phase file.
@@ -92,11 +92,11 @@ Plus a **personalization engine** (deterministic, unit-tested pure functions) th
 ## 5. Repo structure
 
 ```
-Fitness App/
+VULCAN/
 ├─ PLAN.md                 ← this file
-├─ DESIGN.md               ← design system + every screen spec
+├─ AGENTS.md               ← agent guidelines
 ├─ phases/                 ← phase-by-phase build instructions
-├─ mobile/                 # Expo app
+├─ frontend/               # Expo app (React Native + TypeScript, expo-router)
 │  ├─ app/                 # expo-router routes
 │  ├─ src/
 │  │  ├─ components/       # shared UI (from DESIGN.md specs)
@@ -104,16 +104,16 @@ Fitness App/
 │  │  ├─ engine/           # personalization PURE FUNCTIONS (unit-tested)
 │  │  ├─ lib/              # supabase client, api client, hooks
 │  │  └─ theme/            # tokens translated from DESIGN.md
+│  ├─ Design/              # design system: DESIGN.md + navigable HTML prototype
 │  └─ .env                 # EXPO_PUBLIC_* (anon key only — never secrets)
-├─ api/                    # FastAPI
+├─ backend/                # FastAPI + Supabase migrations
 │  ├─ app/
 │  │  ├─ main.py
 │  │  ├─ core/             # config, auth (JWT verify), quotas
 │  │  ├─ routers/          # ai.py, health.py
 │  │  ├─ services/         # gemini.py, program_context.py, supabase_admin.py
 │  │  └─ schemas.py        # pydantic models (also used as Gemini response_schema)
-│  └─ tests/
-├─ supabase/
+│  ├─ tests/
 │  └─ migrations/          # versioned SQL: 0001_profiles.sql, 0002_training.sql, ...
 └─ .env.example files on both sides — never commit real .env
 ```
@@ -122,7 +122,7 @@ Fitness App/
 
 ## 6. Database schema (canonical)
 
-All tables live in Supabase Postgres, created via versioned SQL migrations in `supabase/migrations/`. **Every table has RLS enabled**; policy: `auth.uid() = user_id` for user tables. `ai_calls` is service-role only (no user read).
+All tables live in Supabase Postgres, created via versioned SQL migrations in `backend/migrations/`. **Every table has RLS enabled**; policy: `auth.uid() = user_id` for user tables. `ai_calls` is service-role only (no user read).
 
 | Table | Key columns | Notes |
 |---|---|---|
@@ -168,7 +168,7 @@ Storage buckets (both **private**): `food-photos`, `progress-photos`. Storage RL
 
 ## 8. Personalization engine (TypeScript, pure functions, unit-tested)
 
-Lives in `mobile/src/engine/`. No I/O, no framework imports — deterministic and fully testable.
+Lives in `frontend/src/engine/`. No I/O, no framework imports — deterministic and fully testable.
 
 | Module | Function | Formula / rule |
 |---|---|---|
@@ -185,7 +185,7 @@ Lives in `mobile/src/engine/`. No I/O, no framework imports — deterministic an
 
 ---
 
-## 9. Design direction (summary — full spec in `DESIGN.md`)
+## 9. Design direction (summary — full spec in `frontend/Design/DESIGN.md`)
 
 - **Vibe:** dark forge atmosphere — near-black backgrounds, warm-white text, molten orange accent that "glows".
 - **Accent:** ember `#FF6A00` with flame gradient `#FFB347 → #FF6A00 → #E63E00`.
@@ -214,14 +214,14 @@ Phases are sequential — each depends on the previous. Do not start Phase N+1 u
 
 ## 11. Environments & secrets
 
-**`mobile/.env`** (safe, client-side):
+**`frontend/.env`** (safe, client-side):
 ```
 EXPO_PUBLIC_SUPABASE_URL=
 EXPO_PUBLIC_SUPABASE_ANON_KEY=
 EXPO_PUBLIC_API_URL=        # http://<LAN-IP>:8000 in dev
 ```
 
-**`api/.env`** (NEVER in the app, never committed):
+**`backend/.env`** (NEVER in the app, never committed):
 ```
 SUPABASE_URL=
 SUPABASE_SERVICE_ROLE_KEY=  # bypasses RLS — server only

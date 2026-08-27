@@ -4,7 +4,7 @@
 
 **Depends on:** Phase 4 (AI infra). Phase 5 benefits from it but isn't a hard prerequisite.
 
-## DB changes — `supabase/migrations/0006_physique.sql`
+## DB changes — `backend/migrations/0006_physique.sql`
 
 - `progress_photos` (per PLAN.md §6; `analysis jsonb` written by the API).
 - Storage: private bucket `progress-photos` + owner-scoped storage RLS (same pattern as `food-photos`).

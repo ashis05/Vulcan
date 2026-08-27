@@ -1,15 +1,16 @@
-# mobile/AGENTS.md — VULCAN Expo app
+# frontend/AGENTS.md — VULCAN Expo app
 
 Stack-specific rules for the React Native + Expo (TypeScript, Expo Router) app. Combine with root `../AGENTS.md`. Read `Design/DESIGN.md` (§3 tokens, §6 components, §8 screens) before any UI work — the navigable HTML prototype in `Design/screens/` is the visual spec; translate every value from `Design/screens/shared/tokens.css` into `src/theme/`.
 
 ## Structure (from PLAN.md §5)
 
-- `app/` — expo-router routes (`(auth)`, `(onboarding)`, `(tabs)`, modal/stack routes per DESIGN.md §7).
+- `src/app/` — expo-router routes (`(auth)`, `(onboarding)`, `(tabs)`, modal/stack routes per DESIGN.md §7).
 - `src/components/` — shared, reusable UI from DESIGN.md §6 specs. Move a component here only if reused on 2+ screens; otherwise keep it local to its feature.
 - `src/features/` — feature modules: today, train, nutrition, progress, profile.
 - `src/engine/` — personalization **pure functions**, no React/framework imports, no I/O. Deterministic and unit-tested with `vitest`.
 - `src/lib/` — supabase client, API client (FastAPI), hooks.
 - `src/theme/` — tokens translated from DESIGN.md §3; also wired into `tailwind.config.js`.
+- `Design/` — the design system + navigable HTML prototype (reference only, not shipped in the app bundle).
 
 ## Conventions
 

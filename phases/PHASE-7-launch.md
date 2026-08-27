@@ -6,7 +6,7 @@
 
 ## API deployment (Oracle Always Free)
 
-1. **Dockerize** — `api/Dockerfile` (python:3.12-slim, uvicorn with workers, non-root user), `.dockerignore`. Note: Oracle free tier is often **ARM64 (Ampere)** — build with `docker buildx --platform linux/arm64` or provision the AMD micro instance.
+1. **Dockerize** — `backend/Dockerfile` (python:3.12-slim, uvicorn with workers, non-root user), `.dockerignore`. Note: Oracle free tier is often **ARM64 (Ampere)** — build with `docker buildx --platform linux/arm64` or provision the AMD micro instance.
 2. **Server setup** — Docker + Caddy (automatic HTTPS) on the VM; `.env` via `--env-file`; `docker compose up -d` (api + caddy services); restart policies; firewall: 443 only.
 3. **Hardening** — `ALLOWED_ORIGINS` locked to the app scheme, request size limits (photos ≤8MB), structured logging, `/health` wired to uptime checks.
 4. Point `EXPO_PUBLIC_API_URL` at the production domain for release builds.

@@ -4,7 +4,7 @@
 
 **Depends on:** Phase 0.
 
-## DB changes — `supabase/migrations/0001_profiles.sql`
+## DB changes — `backend/migrations/0001_profiles.sql`
 
 - `profiles` (columns per PLAN.md §6) with `handle_new_user()` trigger on `auth.users` insert.
 - `body_metrics` (unique per user+date).
@@ -12,7 +12,7 @@
 
 ## Tasks
 
-1. **Engine** — `mobile/src/engine/` as pure TypeScript modules (no React/imports beyond utils):
+1. **Engine** — `frontend/src/engine/` as pure TypeScript modules (no React/imports beyond utils):
    - `units.ts` — kg↔lb, cm↔ft/in formatters/parsers
    - `tdee.ts` — Mifflin-St Jeor BMR, activity multipliers (PLAN.md §8)
    - `targets.ts` — goal adjustments (cut −20% / bulk +10% / floors 1200F·1500M), macro split (protein 2.2 g/kg cut else 1.8; fat 25% kcal; carbs remainder), pace→kcal-delta mapping for the wizard slider
