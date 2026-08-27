@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VULCAN · Past workout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/base.css">
+<link rel="stylesheet" href="shared/components.css">
+<link rel="stylesheet" href="shared/shell.css">
+<style>
+  .sum-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .done-set{display:flex;align-items:center;gap:8px;min-height:40px}
+  .done-set .ds{width:20px;flex:none;text-align:center;color:var(--text-muted);font-family:var(--font-display);font-variant-numeric:tabular-nums}
+  .done-set .dv{font-family:var(--font-display);font-weight:700;font-variant-numeric:tabular-nums}
+  .done-set .dt{font-size:var(--fs-caption);color:var(--text-muted)}
+  .exgroup{display:flex;flex-direction:column;gap:2px;padding:2px 6px}
+</style>
+</head>
+<body>
+<div class="app-page" data-od-id="past-workout">
+  <main class="screen-pad">
+    <div class="top-nav">
+      <a class="back-btn" href="s14-history.html" data-od-id="past-back"><span id="backIco"></span> History</a>
+      <span class="pr-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 13.75 10.25 22 12 13.75 13.75 12 22 10.25 13.75 2 12 10.25 10.25Z"/></svg> Read-only</span>
+    </div>
+
+    <div class="stack-sm">
+      <h1 class="fs-title" data-od-id="past-title">Push · A</h1>
+      <div class="fs-caption c-muted" id="pastDate"></div>
+    </div>
+
+    <div class="sum-stats" data-od-id="past-stats">
+      <div class="stat-tile"><span class="st-label">Duration</span><span class="st-value tnum">42:11</span></div>
+      <div class="stat-tile"><span class="st-label">Volume</span><span class="st-value tnum">4,280</span><span class="fs-caption c-muted">kg</span></div>
+      <div class="stat-tile"><span class="st-label">Sets</span><span class="st-value tnum">17</span></div>
+    </div>
+
+    <div class="exercise-card" data-od-id="past-ex-bench">
+      <div class="exercise-head">
+        <div class="stack-sm"><span class="exercise-kicker">1 · Chest</span><span class="exercise-name">Bench Press</span></div>
+        <div class="set-done-flash"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> 5/5</div>
+      </div>
+      <div class="exgroup">
+        <div class="done-set"><span class="ds tnum">1</span><span class="dv tnum">60 × 8</span><span class="dt tnum">RPE 8</span></div>
+        <div class="done-set"><span class="ds tnum">2</span><span class="dv tnum">60 × 8</span><span class="dt tnum">RPE 8</span></div>
+        <div class="done-set"><span class="ds tnum">3</span><span class="dv tnum">62.5 × 8</span><span class="dt tnum">RPE 8.5</span></div>
+        <div class="done-set"><span class="ds tnum">4</span><span class="dv tnum">62.5 × 7</span><span class="dt tnum">RPE 9</span></div>
+        <div class="done-set"><span class="ds tnum">5</span><span class="dv tnum">60 × 8</span><span class="dt tnum">RPE 8</span></div>
+      </div>
+    </div>
+
+    <div class="exercise-card" data-superset style="--sup-color:#FFB347;margin-top:12px">
+      <div class="exercise-head">
+        <div class="stack-sm"><span class="exercise-kicker">2 · Shoulders · superset</span><span class="exercise-name">Overhead Press</span></div>
+        <div class="set-done-flash"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> 4/4</div>
+      </div>
+      <div class="exgroup">
+        <div class="done-set"><span class="ds tnum">1</span><span class="dv tnum">35 × 10</span><span class="dt tnum">RPE 7.5</span></div>
+        <div class="done-set"><span class="ds tnum">2</span><span class="dv tnum">35 × 10</span><span class="dt tnum">RPE 8</span></div>
+        <div class="done-set"><span class="ds tnum">3</span><span class="dv tnum">37.5 × 8</span><span class="dt tnum">RPE 8.5</span></div>
+        <div class="done-set"><span class="ds tnum">4</span><span class="dv tnum">37.5 × 7</span><span class="dt tnum">RPE 8.5</span></div>
+      </div>
+    </div>
+
+    <a class="btn btn-ghost" data-full href="s10-active-workout.html" data-od-id="btn-repeat">Repeat as new workout</a>
+  </main>
+</div>
+<script src="shared/icons.js"></script>
+<script src="shared/mock-data.js"></script>
+<script src="shared/shell.js"></script>
+<script>
+(function(){
+  document.getElementById('backIco').innerHTML=window.VULCAN_ICONS.icon('arrow-left',{size:18});
+  document.getElementById('pastDate').textContent=new Intl.DateTimeFormat(undefined,{month:'long',day:'numeric'}).format(new Date())+' · gym · Push A';
+})();
+</script>
+</body>
+</html>

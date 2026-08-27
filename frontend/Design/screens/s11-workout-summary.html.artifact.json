@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "screens/s11-workout-summary.html",
+  "entry": "screens/s11-workout-summary.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-08-26T19:12:59.955Z",
+  "updatedAt": "2026-08-26T19:12:59.955Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

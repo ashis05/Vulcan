@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "screens/s10-active-workout.html",
+  "entry": "screens/s10-active-workout.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-08-26T19:12:48.877Z",
+  "updatedAt": "2026-08-26T19:12:48.877Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

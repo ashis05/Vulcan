@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VULCAN · Summary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/base.css">
+<link rel="stylesheet" href="shared/components.css">
+<link rel="stylesheet" href="shared/shell.css">
+<style>
+  .burst{position:fixed;inset:0;display:grid;place-items:center;background:var(--bg-base);z-index:40;pointer-events:none}
+  .burst svg{color:var(--ember-500);animation:burstAnim 0.9s ease-out both}
+  @keyframes burstAnim{0%{transform:scale(0.2);opacity:0}35%{transform:scale(1.18);opacity:1;filter:drop-shadow(0 0 44px rgba(255,106,0,0.7))}100%{transform:scale(1);opacity:0}}
+  .sum-main{display:flex;flex-direction:column;gap:16px;padding:26px 16px 28px}
+  .sum-kick{font-size:var(--fs-caption);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--ember-500)}
+  .sum-title{font-family:var(--font-display);font-size:var(--fs-title);font-weight:700;letter-spacing:-0.01em;line-height:1.15}
+  .sum-date{font-size:var(--fs-caption);color:var(--text-muted);margin-top:4px}
+  .sum-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .pr-list{display:flex;flex-direction:column;gap:8px}
+</style>
+</head>
+<body>
+<div class="burst" id="burst" data-od-id="summary-burst"><span id="burstIco"></span></div>
+
+<div class="app-page" data-od-id="summary-screen">
+  <main class="sum-main" id="sumBody" hidden>
+    <div class="stack-sm">
+      <span class="sum-kick">Session forged</span>
+      <h1 class="sum-title">Push A — done.</h1>
+      <div class="sum-date" id="sumDate"></div>
+    </div>
+
+    <div class="sum-stats" data-od-id="summary-stats">
+      <div class="stat-tile"><span class="st-label">Duration</span><span class="st-value tnum" id="stDur">—</span></div>
+      <div class="stat-tile"><span class="st-label">Volume</span><span class="st-value tnum" id="stVol">—</span><span class="fs-caption c-muted">kg</span></div>
+      <div class="stat-tile"><span class="st-label">Sets</span><span class="st-value tnum" id="stSets">—</span></div>
+    </div>
+
+    <div class="card" data-od-id="pr-list">
+      <span class="fs-label c-secondary" style="display:block;margin-bottom:12px">New PRs</span>
+      <div class="pr-list">
+        <div class="spread">
+          <span class="fs-body">Bench Press</span>
+          <span class="pr-badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 13.75 10.25 22 12 13.75 13.75 12 22 10.25 13.75 2 12 10.25 10.25Z"/></svg><span class="tnum">60 kg × 8 · e1RM 76</span></span>
+        </div>
+        <div class="spread">
+          <span class="fs-body">Overhead Press</span>
+          <span class="pr-badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 13.75 10.25 22 12 13.75 13.75 12 22 10.25 13.75 2 12 10.25 10.25Z"/></svg><span class="tnum">35 kg × 10 · e1RM 47</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="fs-label c-secondary" style="display:block;margin-bottom:10px">Notes</span>
+      <textarea class="field-control" id="notes" placeholder="How did it feel? Save it for the coach."></textarea>
+      <p class="fs-caption c-muted" style="margin-top:8px">RPE trend feeds your next forged program.</p>
+    </div>
+
+    <a class="btn btn-primary" data-full href="s07-train-home.html" data-od-id="btn-done">Done</a>
+  </main>
+</div>
+
+<script src="shared/icons.js"></script>
+<script src="shared/mock-data.js"></script>
+<script src="shared/shell.js"></script>
+<script>
+(function(){
+  'use strict';
+  document.getElementById('burstIco').innerHTML=window.VULCAN_ICONS.icon('spark',{filled:true,size:120});
+  var now=new Date();
+  document.getElementById('sumDate').textContent=new Intl.DateTimeFormat(undefined,{weekday:'long',day:'numeric',month:'long'}).format(now);
+
+  var def={elapsed:1260,vol:4280,sets:5};
+  var r=null;
+  try{ r=JSON.parse(sessionStorage.getItem('vulcan.result')||'null'); }catch(e){}
+  var d=r||def;
+  var mm=Math.floor(d.elapsed/60), ss=String(d.elapsed%60).padStart(2,'0');
+  document.getElementById('stDur').textContent=mm+':'+ss;
+  document.getElementById('stVol').textContent=Math.round(d.vol).toLocaleString();
+  document.getElementById('stSets').textContent=d.sets;
+
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  setTimeout(function(){
+    var b=document.getElementById('burst'); if(b) b.remove();
+    document.getElementById('sumBody').hidden=false;
+  }, reduce?60:1000);
+})();
+</script>
+</body>
+</html>

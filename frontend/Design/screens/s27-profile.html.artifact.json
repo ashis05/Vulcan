@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "screens/s27-profile.html",
+  "entry": "screens/s27-profile.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-08-26T19:26:51.431Z",
+  "updatedAt": "2026-08-26T19:26:51.431Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

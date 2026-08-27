@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VULCAN · Log in</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/base.css">
+<link rel="stylesheet" href="shared/components.css">
+<style>
+  .app-page{display:flex;flex-direction:column;gap:24px;padding:max(20px,env(safe-area-inset-top)) 20px 28px}
+  .nav-row{display:flex;align-items:center;justify-content:space-between}
+  .back-btn{display:inline-flex;align-items:center;gap:6px;color:var(--text-secondary);font-size:var(--fs-label);min-height:44px;padding:0 6px}
+  .back-btn:hover{color:var(--text-primary)}
+  .form-stack{display:flex;flex-direction:column;gap:14px}
+  .forgot{align-self:flex-start;color:var(--text-secondary);font-size:var(--fs-label)}
+  .switch-row{text-align:center;font-size:var(--fs-label);color:var(--text-secondary)}
+</style>
+</head>
+<body>
+<div class="app-page" data-od-id="login-screen">
+  <div class="nav-row">
+    <a class="back-btn" href="s02-welcome.html" data-od-id="login-back"><span id="back-ico"></span>Back</a>
+    <div style="height:44px"></div>
+  </div>
+  <div class="stack-sm">
+    <h1 class="fs-title" data-od-id="login-title">Welcome back.</h1>
+    <p class="fs-caption c-muted">The forge kept your place.</p>
+  </div>
+  <form class="form-stack" id="login-form" data-od-id="login-form" novalidate>
+    <div class="field" id="f-email">
+      <label for="in-email">Email</label>
+      <input class="field-control" id="in-email" type="email" inputmode="email" autocomplete="email" placeholder="you@forge.gg">
+      <span class="field-hint" id="h-email"></span>
+    </div>
+    <div class="field" id="f-pass">
+      <label for="in-pass">Password</label>
+      <input class="field-control" id="in-pass" type="password" autocomplete="current-password" placeholder="••••••••">
+      <span class="field-hint" id="h-pass"></span>
+    </div>
+    <a class="forgot" href="#" data-od-id="link-forgot">Forgot password?</a>
+    <button class="btn btn-primary" data-full id="btn-login" data-od-id="btn-login" type="submit">Log in</button>
+  </form>
+  <p class="switch-row">New to VULCAN? <a href="s04-signup.html" data-od-id="link-signup">Create account</a></p>
+</div>
+<script src="shared/icons.js"></script>
+<script>
+  document.getElementById('back-ico').innerHTML = window.VULCAN_ICONS.icon('arrow-left',{size:18});
+  var form=document.getElementById('login-form');
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var em=document.getElementById('in-email'), pw=document.getElementById('in-pass');
+    var ok=true;
+    var ef=document.getElementById('f-email'), eh=document.getElementById('h-email');
+    var pf=document.getElementById('f-pass'), ph=document.getElementById('h-pass');
+    ef.setAttribute('data-error','false'); eh.removeAttribute('data-state'); eh.textContent='';
+    pf.setAttribute('data-error','false'); ph.removeAttribute('data-state'); ph.textContent='';
+    if(!em.value.trim() || em.value.indexOf('@')<0){ ef.setAttribute('data-error',''); eh.setAttribute('data-state','error'); eh.textContent='Enter the email on your account.'; ok=false; }
+    if(!pw.value){ pf.setAttribute('data-error',''); ph.setAttribute('data-state','error'); ph.textContent='Enter your password.'; ok=false; }
+    if(!ok){ window.OD && window.OD.toast('Check the fields','Two inputs need your attention.'); return; }
+    try{ localStorage.setItem('vulcan.user', JSON.stringify({name:'Marcus', goal:'Cut · −0.5 kg/wk'})); }catch(e2){}
+    location.href='s06-today.html';
+  });
+  document.querySelectorAll('#login-form .field-hint').forEach(function(){});
+</script>
+</body>
+</html>

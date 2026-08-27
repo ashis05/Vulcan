@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "screens/s15-past-workout.html",
+  "entry": "screens/s15-past-workout.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-08-26T19:29:09.454Z",
+  "updatedAt": "2026-08-26T19:29:09.454Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

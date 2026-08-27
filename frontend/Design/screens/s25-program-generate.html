@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VULCAN · Forge program</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/base.css">
+<link rel="stylesheet" href="shared/components.css">
+<link rel="stylesheet" href="shared/shell.css">
+<style>
+  .snap-row{display:flex;align-items:center;gap:12px;min-height:56px;border-bottom:1px solid var(--border-hairline)}
+  .snap-row:last-child{border-bottom:0}
+  .snap-row .sn{font-family:var(--font-display);font-weight:700;font-variant-numeric:tabular-nums;color:var(--ember-500)}
+  .anim-overlay{position:fixed;inset:0;z-index:70;background:radial-gradient(80% 80% at 50% 45%,#14120f,#050506 78%);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;display:none}
+  .anim-overlay.on{display:flex}
+  .forge-mark{position:relative;width:150px;height:150px;display:grid;place-items:center}
+  .forge-mark svg{color:var(--ember-500);animation:strikeSpin 1.6s cubic-bezier(0.22,1,0.36,1) infinite}
+  @keyframes strikeSpin{0%{transform:rotate(0) scale(1)}45%{transform:rotate(8deg) scale(1.12);filter:drop-shadow(0 0 34px rgba(255,106,0,.8))}60%{transform:scale(0.94)}100%{transform:rotate(0) scale(1)}}
+  .hammer-pulse{position:absolute;width:140%;height:140%;border:1px solid rgba(255,106,0,0.35);border-radius:50%;animation:hp 1.6s ease-out infinite}
+  @keyframes hp{0%{transform:scale(0.4);opacity:1}100%{transform:scale(1.25);opacity:0}}
+  .status-cycler{text-align:center;font-size:var(--fs-label);color:var(--text-secondary);min-height:20px}
+  .status-cycler b{color:var(--ember-400)}
+</style>
+</head>
+<body>
+<div class="app-page" data-od-id="program-generate">
+  <main class="screen-pad">
+    <div class="top-nav">
+      <a class="back-btn" href="s21-progress-home.html" data-od-id="gen-back"><span id="backIco"></span> Progress</a>
+    </div>
+
+    <div class="card" data-od-id="intro-card">
+      <span class="pr-badge" style="float:right"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 13.75 10.25 22 12 13.75 13.75 12 22 10.25 13.75 2 12 10.25 10.25Z"/></svg> AI</span>
+      <h1 class="fs-title" style="margin:4px 0 8px">Forge a program</h1>
+      <p class="fs-body c-secondary">VULCAN builds your split from every set you've logged — volume, RPE drift, recovery, and your goal. Nothing is guessed.</p>
+    </div>
+
+    <div class="card" data-od-id="goal-snapshot">
+      <span class="overline" style="display:block;margin-bottom:6px">Current snapshot</span>
+      <div class="snap-row"><span class="sn tnum">82.4</span><span class="fs-body">kg · trending −0.5 kg/wk · Cut</span></div>
+      <div class="snap-row"><span class="sn tnum">4</span><span class="fs-body">sessions / week · 60 min · Full gym</span></div>
+      <div class="snap-row"><span class="sn tnum">7.9</span><span class="fs-body">average RPE, last 90 days</span></div>
+      <div class="snap-row"><span class="sn tnum">118</span><span class="fs-body">e1RM bench · top lift</span></div>
+    </div>
+
+    <div class="field">
+      <label for="focus">Focus (optional)</label>
+      <input class="field-control" id="focus" type="text" placeholder="Chest definition — from Aug 24 check-in" value="Chest definition">
+      <span class="field-hint">Attached to the program rationale.</span>
+    </div>
+
+    <div class="quota" data-od-id="program-quota">
+      <div class="spread"><span class="fs-label c-secondary">Program forgings this week</span><span class="fs-label tnum c-ember">1 of 2</span></div>
+      <div class="quota-track"><div class="quota-fill" style="width:50%"></div></div>
+      <span class="quota-label">Resets Monday. The forge cools.</span>
+    </div>
+
+    <button class="btn btn-primary" data-full data-od-id="btn-forge" id="btnForge">Forge my program</button>
+  </main>
+</div>
+
+<div class="anim-overlay" id="anim" data-od-id="forge-animation" aria-hidden="true">
+  <div class="forge-mark">
+    <span class="hammer-pulse"></span>
+    <svg width="120" height="120" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 13.75 10.25 22 12 13.75 13.75 12 22 10.25 13.75 2 12 10.25 10.25Z"/></svg>
+  </div>
+  <div class="status-cycler" id="statusLine">Reading your history…</div>
+  <span class="fs-caption c-muted">usually 3–15 seconds</span>
+</div>
+
+<script src="shared/icons.js"></script>
+<script src="shared/mock-data.js"></script>
+<script src="shared/shell.js"></script>
+<script>
+(function(){
+  document.getElementById('backIco').innerHTML=window.VULCAN_ICONS.icon('arrow-left',{size:18});
+  var lines=['Reading your history…','Balancing volume…','Tempering the split…','Weighing RPE drift…','Forging the program…'];
+  var running=false;
+  document.getElementById('btnForge').addEventListener('click',function(){
+    if(running) return; running=true;
+    var ov=document.getElementById('anim'); ov.classList.add('on');
+    var i=0, sl=document.getElementById('statusLine');
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches){
+      setTimeout(function(){ location.href='s26-program-review.html'; },700);
+      return;
+    }
+    var iv=setInterval(function(){ i++; if(i<lines.length) sl.innerHTML='<b>'+lines[i]+'</b>'; },850);
+    setTimeout(function(){ clearInterval(iv); location.href='s26-program-review.html'; },3800);
+  });
+})();
+</script>
+</body>
+</html>

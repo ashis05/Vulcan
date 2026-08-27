@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VULCAN · Progress</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/base.css">
+<link rel="stylesheet" href="shared/components.css">
+<link rel="stylesheet" href="shared/shell.css">
+<style>
+  .sec-block{display:flex;flex-direction:column;gap:10px}
+  .pr-grid{display:flex;flex-direction:column;gap:8px}
+  .pr-row{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:48px;width:100%;text-align:left;color:var(--text-primary)}
+  .pr-row .pr-name{font-size:var(--fs-body)}
+  .physique-row{display:flex;align-items:center;gap:14px}
+  .physique-row .pa{flex:none;width:46px;height:46px;border-radius:50%;background:var(--bg-overlay);color:var(--ember-400);display:grid;place-items:center}
+</style>
+</head>
+<body>
+<div class="app-page has-tabbar" data-od-id="progress-home">
+  <main class="screen-pad tabbed">
+    <div class="top-nav"><div><h1 class="t-title">Progress</h1><div class="fs-caption c-muted">8-week window · 3.1 kg down</div></div></div>
+
+    <section class="sec-block" data-od-id="weight-section">
+      <div class="spread">
+        <span class="overline">Weight</span>
+        <div class="segmented"><button aria-pressed="false" data-w="30">30</button><button aria-pressed="true" data-w="90">90</button><button aria-pressed="false" data-w="all">All</button></div>
+      </div>
+      <div class="card">
+        <svg class="chart chart-area" viewBox="0 0 250 120" preserveAspectRatio="none">
+          <defs><linearGradient id="areaProg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(255,106,0,.35)"/><stop offset="1" stop-color="rgba(255,106,0,0)"/></linearGradient></defs>
+          <g class="chart-grid"><line x1="0" y1="30" x2="250" y2="30"></line><line x1="0" y1="60" x2="250" y2="60"></line><line x1="0" y1="90" x2="250" y2="90"></line></g>
+          <path class="chart-area-fill" d="M0,96 C30,92 45,94 66,88 S110,90 132,84 S172,88 198,78 S240,86 250,74 L250,120 L0,120 Z"></path>
+          <path class="chart-area-line" d="M0,96 C30,92 45,94 66,88 S110,90 132,84 S172,88 198,78 S240,86 250,74"></path>
+        </svg>
+        <button class="btn btn-ghost btn-sm" data-full data-od-id="log-weight" style="margin-top:10px">Log weight</button>
+      </div>
+    </section>
+
+    <section class="sec-block" data-od-id="strength-section">
+      <span class="overline">Strength · e1RM</span>
+      <div class="row" style="gap:6px">
+        <button class="chip" aria-pressed="true" data-lift="Bench">Bench</button>
+        <button class="chip" aria-pressed="false" data-lift="Squat">Squat</button>
+        <button class="chip" aria-pressed="false" data-lift="Deadlift">Deadlift</button>
+        <button class="chip" aria-pressed="false" data-lift="Row">Row</button>
+      </div>
+      <div class="card">
+        <svg class="chart" viewBox="0 0 250 120" preserveAspectRatio="none">
+          <g class="chart-grid"><line x1="0" y1="30" x2="250" y2="30"></line><line x1="0" y1="60" x2="250" y2="60"></line><line x1="0" y1="90" x2="250" y2="90"></line></g>
+          <path class="chart-area-fill" d="M0,72 C35,62 60,66 90,54 S140,60 170,44 S220,50 250,34 L250,120 L0,120 Z"></path>
+          <path class="chart-line" d="M0,72 C35,62 60,66 90,54 S140,60 170,44 S220,50 250,34"></path>
+          <circle class="chart-dot" cx="250" cy="34" r="4"></circle>
+        </svg>
+        <span class="fs-caption c-muted tnum" style="margin-top:8px;display:block">Bench e1RM 76 → 105 kg</span>
+      </div>
+    </section>
+
+    <section class="sec-block" data-od-id="volume-section">
+      <span class="overline">Volume · kg / week</span>
+      <div class="card">
+        <svg class="chart" viewBox="0 0 250 120" preserveAspectRatio="none">
+          <g class="chart-grid"><line x1="0" y1="30" x2="250" y2="30"></line><line x1="0" y1="60" x2="250" y2="60"></line><line x1="0" y1="90" x2="250" y2="90"></line></g>
+          <rect class="chart-bar" x="14" y="60" width="24" height="60" rx="5"></rect>
+          <rect class="chart-bar" x="46" y="46" width="24" height="74" rx="5"></rect>
+          <rect class="chart-bar" x="78" y="56" width="24" height="64" rx="5"></rect>
+          <rect class="chart-bar" x="110" y="36" width="24" height="84" rx="5"></rect>
+          <rect class="chart-bar" x="142" y="50" width="24" height="70" rx="5"></rect>
+          <rect class="chart-bar" x="174" y="28" width="24" height="92" rx="5"></rect>
+          <rect class="chart-bar is-today" x="206" y="0" width="24" height="120" rx="5"></rect>
+        </svg>
+      </div>
+    </section>
+
+    <section class="sec-block" data-od-id="physique-section">
+      <span class="overline">Physique</span>
+      <div class="card spread" data-od-id="checkin-cta">
+        <div class="physique-row">
+          <span class="pa"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></span>
+          <div class="stack-sm"><span class="fs-h3">Monthly check-in</span><span class="fs-caption c-muted">3 frames · AI analysis · 2 of 5 left</span></div>
+        </div>
+        <a class="btn btn-primary btn-sm" href="s22-photo-checkin.html" data-od-id="cta-checkin">Start</a>
+      </div>
+      <div class="card" style="cursor:pointer" data-od-id="analysis-card" id="analysisCard">
+        <div class="spread" style="margin-bottom:8px"><span class="fs-label c-secondary">Latest analysis</span><span class="fs-caption tnum c-ember">Aug 24</span></div>
+        <p class="fs-body c-secondary">Shoulder balance improved. Chest definition is the current lag — focus work suggested.</p>
+      </div>
+    </section>
+
+    <section class="sec-block" data-od-id="pr-wall">
+      <span class="overline">PR wall</span>
+      <div class="card pr-grid">
+        <button class="pr-row" data-pr="Bench Press" data-od-id="pr-bench"><span class="pr-name">Bench Press</span><span class="pr-badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 13.75 10.25 22 12 13.75 13.75 12 22 10.25 13.75 2 12 10.25 10.25Z"/></svg><span class="tnum">102.5×5 · Aug 12</span></span></button>
+        <button class="pr-row" data-pr="Deadlift" data-od-id="pr-deadlift"><span class="pr-name">Deadlift</span><span class="pr-badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 13.75 10.25 22 12 13.75 13.75 12 22 10.25 13.75 2 12 10.25 10.25Z"/></svg><span class="tnum">180×3 · Aug 3</span></span></button>
+        <button class="pr-row" data-pr="Squat" data-od-id="pr-squat"><span class="pr-name">Squat</span><span class="pr-badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 13.75 10.25 22 12 13.75 13.75 12 22 10.25 13.75 2 12 10.25 10.25Z"/></svg><span class="tnum">140×5 · Jul 28</span></span></button>
+      </div>
+    </section>
+  </main>
+  <nav id="tabbar"></nav>
+</div>
+<script src="shared/icons.js"></script>
+<script src="shared/mock-data.js"></script>
+<script src="shared/shell.js"></script>
+<script>
+(function(){
+  'use strict';
+  window.OD.mountBar(document.getElementById('tabbar'),'progress');
+  document.querySelectorAll('[data-lift]').forEach(function(c){
+    c.addEventListener('click',function(){
+      document.querySelectorAll('[data-lift]').forEach(function(x){ x.setAttribute('aria-pressed', x===c?'true':'false'); });
+    });
+  });
+  document.querySelectorAll('[data-w]').forEach(function(c){
+    c.addEventListener('click',function(){
+      document.querySelectorAll('[data-w]').forEach(function(x){ x.setAttribute('aria-pressed', x===c?'true':'false'); });
+    });
+  });
+  function weightSheet(){
+    var cur=75.1;
+    var back=document.createElement('div'); back.className='sheet-backdrop';
+    var sh=document.createElement('div'); sh.className='sheet';
+    sh.innerHTML='<div class="sheet-handle"></div><div class="sheet-title">Log weight</div>'
+      +'<div class="stepper" style="margin:12px auto;display:inline-flex"><button id="wDown">−</button><span class="stepper-value" id="wVal">75.1</span><button id="wUp">+</button></div>'
+      +'<p class="fs-caption c-muted" style="text-align:center;margin-bottom:16px">kg · today</p>'
+      +'<div class="spread" style="gap:10px"><button class="btn btn-ghost" data-close>Cancel</button><button class="btn btn-primary" data-full id="wSave">Save</button></div>';
+    back.addEventListener('click',close); sh.querySelector('[data-close]').addEventListener('click',close);
+    document.body.appendChild(back); document.body.appendChild(sh);
+    requestAnimationFrame(function(){ back.classList.add('is-open'); sh.classList.add('is-open'); });
+    var v=75.1;
+    sh.querySelector('#wDown').addEventListener('click',function(){ v=Math.round((v-0.1)*10)/10; sh.querySelector('#wVal').textContent=v; });
+    sh.querySelector('#wUp').addEventListener('click',function(){ v=Math.round((v+0.1)*10)/10; sh.querySelector('#wVal').textContent=v; });
+    sh.querySelector('#wSave').addEventListener('click',function(){ close(); window.OD.toast('Weight logged', v+' kg','ember'); });
+    function close(){ back.classList.remove('is-open'); sh.classList.remove('is-open'); setTimeout(function(){back.remove();sh.remove();},300); }
+  }
+  document.querySelector('[data-od-id="log-weight"]').addEventListener('click',weightSheet);
+  document.getElementById('analysisCard').addEventListener('click',function(){ location.href='s24-physique-analysis.html'; });
+  document.querySelectorAll('[data-pr]').forEach(function(b){
+    b.addEventListener('click',function(){ try{ localStorage.setItem('vulcan.exercise', b.getAttribute('data-pr')); }catch(e){} location.href='s13-exercise-detail.html'; });
+  });
+})();
+</script>
+</body>
+</html>

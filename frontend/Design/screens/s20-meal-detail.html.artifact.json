@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "screens/s20-meal-detail.html",
+  "entry": "screens/s20-meal-detail.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-08-26T19:25:16.870Z",
+  "updatedAt": "2026-08-26T19:25:16.870Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

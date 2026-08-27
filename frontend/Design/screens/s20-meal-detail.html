@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VULCAN · Meal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/base.css">
+<link rel="stylesheet" href="shared/components.css">
+<link rel="stylesheet" href="shared/shell.css">
+<style>
+  .photo-band{position:relative;border-radius:var(--r-lg);overflow:hidden;aspect-ratio:16/10;
+    background:radial-gradient(70% 90% at 30% 30%,#3a2a1c,#17130f 80%)}
+  .photo-band .dish{position:absolute;left:50%;top:58%;transform:translate(-50%,-50%);width:42%;aspect-ratio:1;
+    border-radius:50%;background:radial-gradient(circle at 35% 30%,#4a3826,#241a12 72%)}
+  .photo-band .dish::before{content:"";position:absolute;inset:18%;border-radius:50%;background:radial-gradient(circle at 40% 35%,#7a4f26,#3c2510 80%)}
+  .macro-cell{border:1px solid var(--border-hairline);border-radius:var(--r-md);background:var(--bg-card);padding:10px;display:flex;flex-direction:column;gap:2px;text-align:center}
+  .macro-cell .v{font-family:var(--font-display);font-weight:700;font-size:var(--fs-h2);font-variant-numeric:tabular-nums}
+  .macro-cell .u{font-size:var(--fs-caption);color:var(--text-muted)}
+  .macro-edit{display:flex;align-items:center;gap:10px;border:1px solid var(--border-hairline);border-radius:var(--r-lg);background:var(--bg-card);padding:12px;box-shadow:var(--shadow-card)}
+  .macro-edit .me-val{flex:1;text-align:center}
+  .macro-edit .me-val .v{font-family:var(--font-display);font-weight:700;font-size:var(--fs-h2);font-variant-numeric:tabular-nums;line-height:1}
+  .macro-edit .me-btn{width:40px;height:40px;border-radius:50%;background:var(--bg-overlay);color:var(--text-secondary);display:grid;place-items:center;font-size:18px}
+</style>
+</head>
+<body>
+<div class="app-page" data-od-id="meal-detail">
+  <main class="screen-pad">
+    <div class="top-nav">
+      <a class="back-btn" href="s16-nutrition-diary.html" data-od-id="meal-back"><span id="backIco"></span> Diary</a>
+      <span class="fs-caption c-muted" id="mmTime"></span>
+    </div>
+
+    <div class="photo-band" data-od-id="meal-photo"><div class="dish"></div></div>
+
+    <div class="field">
+      <label for="mdName">Name</label>
+      <input class="field-control" id="mdName" type="text">
+    </div>
+
+    <div class="grid2">
+      <div class="macro-cell" data-od-id="mcell-kcal"><span class="v tnum" id="d-kcal">—</span><span class="u">kcal</span></div>
+      <div class="macro-cell"><span class="v tnum" id="d-p">—</span><span class="u">protein g</span></div>
+      <div class="macro-cell"><span class="v tnum" id="d-c">—</span><span class="u">carbs g</span></div>
+      <div class="macro-cell"><span class="v tnum" id="d-f">—</span><span class="u">fat g</span></div>
+    </div>
+
+    <div class="grid2" data-od-id="macro-editors">
+      <div class="macro-edit" data-key="kcal" data-step="10">
+        <button class="me-btn" data-dec>−</button><div class="me-val"><span class="v tnum" id="e-kcal">0</span><span class="u">kcal</span></div><button class="me-btn" data-inc>+</button>
+      </div>
+      <div class="macro-edit" data-key="p" data-step="1">
+        <button class="me-btn" data-dec>−</button><div class="me-val"><span class="v tnum" id="e-p">0</span><span class="u">protein g</span></div><button class="me-btn" data-inc>+</button>
+      </div>
+      <div class="macro-edit" data-key="c" data-step="1">
+        <button class="me-btn" data-dec>−</button><div class="me-val"><span class="v tnum" id="e-c">0</span><span class="u">carbs g</span></div><button class="me-btn" data-inc>+</button>
+      </div>
+      <div class="macro-edit" data-key="f" data-step="1">
+        <button class="me-btn" data-dec>−</button><div class="me-val"><span class="v tnum" id="e-f">0</span><span class="u">fat g</span></div><button class="me-btn" data-inc>+</button>
+      </div>
+    </div>
+
+    <button class="btn btn-destructive" data-full data-od-id="meal-delete" id="btnDel">Delete meal</button>
+  </main>
+</div>
+<script src="shared/icons.js"></script>
+<script src="shared/mock-data.js"></script>
+<script src="shared/shell.js"></script>
+<script>
+(function(){
+  'use strict';
+  document.getElementById('backIco').innerHTML=window.VULCAN_ICONS.icon('arrow-left',{size:18});
+  var KEY='vulcan.diary';
+  function load(){ try{ return JSON.parse(localStorage.getItem(KEY)||'null'); }catch(e){ return null; } }
+  function save(o){ try{ localStorage.setItem(KEY,JSON.stringify(o)); }catch(e){} }
+
+  var id=+(localStorage.getItem('vulcan.view-meal')||0);
+  var diary=load()||{meals:[]};
+  var meal=null;
+  diary.meals.forEach(function(m){ if(m.id===id) meal=m; });
+  if(!meal){ meal=diary.meals[0]||{name:'Meal',kcal:520,p:42,c:64,f:11}; }
+  var m={name:meal.name,kcal:meal.kcal,p:meal.p,c:meal.c,f:meal.f};
+
+  function paint(){
+    document.getElementById('mdName').value=m.name;
+    ['kcal','p','c','f'].forEach(function(k){
+      document.getElementById('d-'+k).textContent=m[k];
+      document.getElementById('e-'+k).textContent=m[k];
+    });
+  }
+  paint();
+  var now=new Date(); document.getElementById('mmTime').textContent='Logged '+new Intl.DateTimeFormat(undefined,{hour:'2-digit',minute:'2-digit'}).format(now);
+
+  document.querySelectorAll('.macro-edit').forEach(function(card){
+    var key=card.getAttribute('data-key'), step=+card.getAttribute('data-step');
+    card.querySelector('[data-dec]').addEventListener('click',function(){ m[key]=Math.max(0,m[key]-step); paint(); });
+    card.querySelector('[data-inc]').addEventListener('click',function(){ m[key]=Math.min(9999,m[key]+step); paint(); });
+  });
+  document.getElementById('mdName').addEventListener('input',function(){ m.name=this.value; });
+
+  document.getElementById('btnDel').addEventListener('click',function(){
+    diary.meals=diary.meals.filter(function(x){return x.id!==meal.id;});
+    save(diary);
+    window.OD.toast('Meal deleted','Removed from the diary.');
+    setTimeout(function(){ location.href='s16-nutrition-diary.html'; },600);
+  });
+  window.addEventListener('pagehide',function(){ if(meal){ meal.name=m.name; meal.kcal=m.kcal; meal.p=m.p; meal.c=m.c; meal.f=m.f; save(diary); } });
+})();
+</script>
+</body>
+</html>

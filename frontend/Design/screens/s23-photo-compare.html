@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VULCAN · Photo compare</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/base.css">
+<link rel="stylesheet" href="shared/components.css">
+<link rel="stylesheet" href="shared/shell.css">
+<style>
+  .photo-compare{border:1px solid var(--border-hairline)}
+  .compare-layer .fig{color:rgba(255,106,0,0.16)}
+  .compare-layer.before .fig{color:rgba(255,255,255,0.10)}
+  .compare-dates{display:flex;justify-content:space-between;align-items:center}
+  .range-sink{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize}
+  .delta-chip{align-self:flex-start}
+</style>
+</head>
+<body>
+<div class="app-page" data-od-id="photo-compare">
+  <main class="screen-pad">
+    <div class="top-nav">
+      <a class="back-btn" href="s21-progress-home.html" data-od-id="compare-back"><span id="backIco"></span> Progress</a>
+      <span class="fs-h2" style="margin-left:4px">Compare</span>
+    </div>
+
+    <div class="photo-compare" id="compare" style="--reveal:50%" data-od-id="compare-slider">
+      <div class="compare-layer before" data-od-id="compare-before">
+        <span class="fig"><svg width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+      </div>
+      <div class="compare-layer after" data-od-id="compare-after">
+        <span class="fig"><svg width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+      </div>
+      <div class="compare-handle" data-od-id="compare-handle"><span class="knob">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5 3 12l5 7M16 5l5 7-5 7"/></svg>
+      </span></div>
+      <input class="range-sink" type="range" min="0" max="100" value="50" aria-label="Drag to compare" role="slider">
+    </div>
+
+    <div class="compare-dates">
+      <div class="stack-sm"><span class="fs-label tnum">Jun 24</span><span class="fs-caption c-muted">baseline · 78.1 kg</span></div>
+      <span class="chip delta-chip" aria-pressed="true" data-od-id="delta-chip">−3.0 kg</span>
+      <div class="stack-sm" style="align-items:flex-end;text-align:right"><span class="fs-label tnum">Aug 24</span><span class="fs-caption c-muted">latest · 75.1 kg</span></div>
+    </div>
+
+    <span class="fs-caption c-muted" style="align-self:center">Drag the handle. Photos stay on-device.</span>
+
+    <button class="btn btn-ghost" data-full data-od-id="btn-download">Download comparison</button>
+  </main>
+</div>
+<script src="shared/icons.js"></script>
+<script src="shared/mock-data.js"></script>
+<script src="shared/shell.js"></script>
+<script>
+(function(){
+  document.getElementById('backIco').innerHTML=window.VULCAN_ICONS.icon('arrow-left',{size:18});
+  var cmp=document.getElementById('compare');
+  cmp.querySelector('input[type=range]').addEventListener('input',function(e){
+    cmp.style.setProperty('--reveal',e.target.value+'%');
+  });
+  document.querySelector('[data-od-id="btn-download"]').addEventListener('click',function(){ window.OD.toast('Export','Comparison export ships with the real camera pipeline.'); });
+})();
+</script>
+</body>
+</html>

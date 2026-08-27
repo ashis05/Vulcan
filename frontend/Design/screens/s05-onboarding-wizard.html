@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VULCAN · Onboarding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/base.css">
+<link rel="stylesheet" href="shared/components.css">
+<link rel="stylesheet" href="shared/shell.css">
+<style>
+  .wiz-body{flex:1;overflow-y:auto;padding:26px 20px 20px;display:flex;flex-direction:column}
+  .wiz-step{display:flex;flex-direction:column;gap:20px;max-width:400px;margin-inline:auto;width:100%}
+  .wiz-kick{font-size:var(--fs-caption);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--ember-500)}
+  .wiz-q{font-family:var(--font-display);font-size:var(--fs-title);line-height:1.2;letter-spacing:-0.01em;font-weight:700}
+  .wiz-sub{color:var(--text-secondary);max-width:36ch}
+  .wiz-foot{flex:none;padding:12px 20px calc(16px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--border-hairline)}
+  .value-num{font-family:var(--font-display);font-weight:700;font-size:var(--fs-display);font-variant-numeric:tabular-nums;letter-spacing:-0.02em}
+  .unit-sub{font-size:var(--fs-caption);color:var(--text-secondary)}
+  .seal{position:relative;width:140px;height:140px;margin:4px auto;display:grid;place-items:center}
+  .seal svg{color:var(--ember-500);animation:sealSpin 0.9s cubic-bezier(0.22,1,0.36,1) both}
+  @keyframes sealSpin{0%{transform:scale(0.3) rotate(-70deg);filter:drop-shadow(0 0 0 rgba(255,106,0,0))}
+    70%{transform:scale(1.08) rotate(6deg);filter:drop-shadow(0 0 30px rgba(255,106,0,0.6))}
+    100%{transform:scale(1) rotate(0);filter:drop-shadow(0 0 16px rgba(255,106,0,0.35))}}
+  .seal .particle{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--ember-400);animation:spew 1s ease-out both}
+  .p1{animation-delay:.08s}.p2{animation-delay:.15s}.p3{animation-delay:.22s}.p4{animation-delay:.3s}.p5{animation-delay:.38s}
+  @keyframes spew{0%{transform:translate(-50%,-50%) scale(1);opacity:1}100%{transform:translate(var(--tx),var(--ty)) scale(0.2);opacity:0}}
+  .targets-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .target-cell{display:flex;flex-direction:column;gap:2px}
+  .target-num{font-family:var(--font-display);font-weight:700;font-size:var(--fs-h2);font-variant-numeric:tabular-nums}
+  .target-label{font-size:var(--fs-caption);color:var(--text-secondary)}
+</style>
+</head>
+<body>
+<div class="app-page no-scroll" data-od-id="onboarding-wizard">
+  <div class="wizard-top" id="wizTop" data-od-id="wizard-top">
+    <div class="spread" style="margin-bottom:12px">
+      <button class="btn btn-ghost btn-sm" id="wizBack" data-od-id="wizard-back"><span id="backIco"></span>&nbsp;Back</button>
+      <span class="fs-caption c-muted tnum" id="wizCount">1 / 13</span>
+    </div>
+    <div class="progress-track" data-od-id="wizard-progress"><div class="progress-fill" id="wizFill" style="width:7.7%"></div></div>
+  </div>
+  <div class="wiz-body" id="wizBody"></div>
+  <div class="wiz-foot">
+    <button class="btn btn-primary" data-full id="wizNext" data-od-id="wizard-continue" disabled>Continue</button>
+  </div>
+</div>
+<script src="shared/icons.js"></script>
+<script>
+(function(){
+  'use strict';
+  var IC=window.VULCAN_ICONS.icon;
+  document.getElementById('backIco').innerHTML=IC('arrow-left',{size:16});
+
+  var S={ name:'', sex:null, bd:{d:1,m:8,y:1998}, height:175, hUnit:'cm', weight:82, wUnit:'kg',
+          goal:null, pace:-0.5, exp:null, days:4, len:60, equip:[], inj:[], injNote:'' };
+  var step=0, last=12, user=null;
+
+  var USD={ step0:function(){ return '<div class="wiz-kick">Welcome</div><p class="wiz-q">Answer a few questions. The forge does the rest.</p><p class="wiz-sub fs-body">Your training split, meals, and targets come out of these answers — not the other way around.</p>'; },
+    step1:function(){ return '<div class="wiz-kick">You</div><p class="wiz-q">What do we call you?</p><div class="field"><label for="iname">Name</label><input class="field-control" id="iname" type="text" autocomplete="name" placeholder="Marcus" value="'+S.name+'"></div>'; },
+    step2:function(){ var s=''; ['Man','Woman'].forEach(function(x){ s+=arc(x, x, S.sex===x); }); return '<div class="wiz-kick">You</div><p class="wiz-q">Your sex at birth</p><div class="stack">'+s+'</div>'; },
+    step3:function(){ return '<div class="wiz-kick">You</div><p class="wiz-q">When were you hammered out?</p>'+triple('Day',S.bd.d,1,31,'S.bd.d')+triple('Month',S.bd.m,1,12,'S.bd.m')+triple('Year',S.bd.y,1950,2010,'S.bd.y'); },
+    step4:function(){ return '<div class="wiz-kick">Build</div><p class="wiz-q">How tall are you?</p>'
+        +'<div class="spread" style="margin:6px 0"><span class="value-num tnum" id="hv">'+valH()+'</span><span class="unit-sub" id="hu">'+hUnitLabel()+'</span></div>'
+        +'<div class="stepper" data-stepper="height"><button data-dec aria-label="Decrease">&minus;</button><span class="stepper-value tnum" id="hs">'+S.height+'</span><button data-inc aria-label="Increase">&plus;</button></div>'
+        +'<div class="segmented" style="align-self:flex-start" data-unit="height"><button aria-pressed="'+(S.hUnit==='cm')+'" data-u="cm">cm</button><button aria-pressed="'+(S.hUnit==='ft')+'" data-u="ft">ft / in</button></div>'; },
+    step5:function(){ return '<div class="wiz-kick">Build</div><p class="wiz-q">And your starting weight?</p>'
+        +'<div class="spread" style="margin:6px 0"><span class="value-num tnum" id="wv">'+valW()+'</span><span class="unit-sub" id="wu">'+wUnitLabel()+'</span></div>'
+        +'<div class="stepper" data-stepper="weight"><button data-dec aria-label="Decrease">&minus;</button><span class="stepper-value tnum" id="ws">'+S.weight+'</span><button data-inc aria-label="Increase">&plus;</button></div>'
+        +'<div class="segmented" style="align-self:flex-start" data-unit="weight"><button aria-pressed="'+(S.wUnit==='kg')+'" data-u="kg">kg</button><button aria-pressed="'+(S.wUnit==='lb')+'" data-u="lb">lb</button></div>'; },
+    step6:function(){ return '<div class="wiz-kick">Direction</div><p class="wiz-q">What is your goal?</p><div class="stack">'
+        + goalCard('Cut','Drop fat, keep the muscle.','spark')+ goalCard('Recomp','Build and burn at once.','flame')
+        + goalCard('Maintain','Hold. Grind. Stay sharp.','scale')+ goalCard('Bulk','Add mass to the stock.','zap')+'</div>'; },
+    step7:function(){ return '<div class="wiz-kick">Direction</div><p class="wiz-q">How fast?</p>'
+        +'<p class="wiz-sub">Pick your weekly rate. Targets update live.</p>'
+        +'<div class="slider" id="pace-slider" style="--fill:'+paceFill()+'%"><div class="slider-ticks"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="slider-track"></div><div class="slider-fill"></div><div class="slider-thumb" tabindex="0" role="slider" aria-valuenow="'+S.pace+'" aria-valuemin="-1" aria-valuemax="0.5" aria-valuestep="0.05"></div></div>'
+        +'<div class="spread"><span class="fs-label c-secondary">Rate</span><span class="fs-label c-ember tnum" id="paceLabel">'+paceLabel()+'</span></div>'; },
+    step8:function(){ var s=''; [['Beginner','Under 1 year of lifting'],['Intermediate','1 to 3 years'],['Advanced','3 years and up']].forEach(function(x,i){ s+=arc('exp'+i, x[0], S.exp===i, x[1]); }); return '<div class="wiz-kick">Training</div><p class="wiz-q">How long at the anvil?</p><div class="stack">'+s+'</div>'; },
+    step9:function(){ return '<div class="wiz-kick">Training</div><p class="wiz-q">Your week</p>'
+        +'<div class="stepper" data-stepper="days"><button data-dec aria-label="Decrease">&minus;</button><span class="stepper-value">'+S.days+'</span><button data-inc aria-label="Increase">&plus;</button></div>'
+        +'<span class="fs-caption c-muted">sessions per week</span>'
+        +'<div class="row" data-chips="len">'+['45','60','90'].map(function(x){ return '<button class="chip" aria-pressed="'+(S.len===+x)+'" data-v="'+x+'" data-od-id="chip-len-'+x+'">'+x+' min</button>'; }).join('')+'</div>'; },
+    step10:function(){ return '<div class="wiz-kick">Training</div><p class="wiz-q">What do you have?</p>'
+        +'<div class="row" data-chips="equip">'+['Full gym','Dumbbells','Barbell + rack','Machines','Bands','Bodyweight'].map(function(x){ return '<button class="chip" aria-pressed="'+($.in(S.equip,x)+'')+'" data-v="'+x+'" data-od-id="chip-equip">'+x+'</button>'; }).join('')+'</div>'
+        +'<span class="fs-caption c-muted">Pick at least one.</span>'; },
+    step11:function(){ return '<div class="wiz-kick">Training</div><p class="wiz-q">Any limitations we should work around?</p>'
+        +'<div class="row" data-chips="inj">'+['Lower back','Shoulder','Knee','Wrist'].map(function(x){ return '<button class="chip" aria-pressed="'+($.in(S.inj,x)+'')+'" data-v="'+x+'">'+x+'</button>'; }).join('')+'</div>'
+        +'<div class="field"><label for="inote">Anything else (optional)</label><textarea class="field-control" id="inote" placeholder="e.g. recovering from a sprained ankle">'+S.injNote+'</textarea></div>'; },
+    step12:function(){ return '<div class="wiz-kick">The reveal</div><p class="wiz-q">Forging your numbers…</p>'
+        +'<div class="seal" id="seal" data-od-id="forge-seal">'+IC('spark',{filled:true,size:110})
+        +'<i class="particle p1" style="--tx:-70px;--ty:-50px"></i><i class="particle p2" style="--tx:64px;--ty:-60px"></i><i class="particle p3" style="--tx:72px;--ty:44px"></i><i class="particle p4" style="--tx:-60px;--ty:56px"></i><i class="particle p5" style="--tx:0px;--ty:-74px"></i></div>'
+        +'<div class="card" id="targetsCard" data-od-id="targets-card" hidden>' +
+          '<div class="spread"><span class="fs-label c-secondary">Daily targets</span><span class="chip" aria-pressed="true" data-od-id="goal-chip">'+goalName()+'</span></div>' +
+          '<div style="text-align:center;margin:14px 0 4px"><div class="target-num" style="font-family:var(--font-display);font-weight:700;font-size:56px;line-height:1;font-variant-numeric:tabular-nums" id="kcalN">0</div><div class="unit-sub">kcal / day</div></div>' +
+          '<div class="macro-bar"><i id="bP" style="width:0;background:var(--macro-protein)"></i><i id="bC" style="width:0;background:var(--macro-carbs)"></i><i id="bF" style="width:0;background:var(--macro-fat)"></i></div>' +
+          '<div class="targets-grid" style="margin-top:14px"><div class="target-cell"><span class="target-num tnum" id="tP">—</span><span class="target-label">protein g</span></div><div class="target-cell"><span class="target-num tnum" id="tC">—</span><span class="target-label">carbs g</span></div><div class="target-cell"><span class="target-num tnum" id="tF">—</span><span class="target-label">fat g</span></div></div>' +
+        '</div>'; }
+  };
+  var $={ in:function(a,v){ for(var i=0;i<a.length;i++) if(a[i]===v) return true; return false; } };
+
+  function arc(id,title,sel,sub){ return '<button class="option-card'+(sel?' is-selected':'')+'" data-opt="'+id+'"><span class="oc-title">'+(sel?'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>':'')+title+'</span>'+(sub?'<span class="oc-sub">'+sub+'</span>':'')+'</button>'; }
+  function goalCard(t,sub,ic){ var sel=S.goal===t; return '<button class="option-card'+(sel?' is-selected':'')+'" data-goal="'+t+'"><span class="oc-title">'+IC(ic,{size:18})+' '+t+'</span><span class="oc-sub">'+sub+'</span></button>'; }
+  function triple(label,val,min,max,key){ return '<div class="spread" style="border-bottom:1px solid var(--border-hairline);padding:8px 0"><span class="fs-label c-secondary">'+label+'</span><div class="stepper" data-stepper="bd" data-key="'+key+'" data-min="'+min+'" data-max="'+max+'"><button data-dec aria-label="Decrease">&minus;</button><span class="stepper-value tnum">'+val+'</span><button data-inc aria-label="Increase">&plus;</button></div></div>'; }
+  function hUnitLabel(){ return S.hUnit==='cm' ? 'centimeters' : 'feet · inches'; }
+  function wUnitLabel(){ return S.wUnit==='kg' ? 'kilograms' : 'pounds'; }
+  function valH(){ return S.hUnit==='cm' ? S.height : hFeetLabel(); }
+  function hFeetLabel(){ var t=S.height/2.54, ft=Math.floor(t/12), ini=Math.round(t-ft*12); return ft+"' "+ini+'"'; }
+  function valW(){ return S.wUnit==='kg' ? S.weight : Math.round(S.weight*2.2046); }
+  function paceFill(){ return (S.pace+1)/1.5*100; }
+  function paceLabel(){ var k=Math.round(-S.pace*1100); return (S.pace.toFixed(2))+' kg/wk · '+(k>=0?'−':'+')+Math.abs(k)+' kcal daily'; }
+  function goalName(){ return S.goal||'Cut'; }
+
+  function render(){
+    var host=document.getElementById('wizBody');
+    host.innerHTML='<div class="wiz-step">'+(USD['step'+step]()||'')+'</div>';
+    document.getElementById('wizFill').style.width=((step)/12*100)+'%';
+    document.getElementById('wizCount').textContent=(step+1)+' / 13';
+    document.getElementById('wizBack').disabled=step===0;
+    document.getElementById('wizNext').textContent = step===last ? 'Enter the forge' : 'Continue';
+    bind();
+    var r=matches(); document.getElementById('wizNext').disabled = step===last ? true : !r;
+    animateIn();
+  }
+  function animateIn(){ if(matchMedia('(prefers-reduced-motion: reduce)').matches) return; var el=document.querySelector('.wiz-step'); el.style.opacity='0'; el.style.transform='translateY(8px)'; requestAnimationFrame(function(){ el.style.transition='opacity .3s ease,transform .3s ease'; el.style.opacity='1'; el.style.transform='none'; }); }
+
+  function matches(){
+    if(step===1) return S.name.trim().length>0;
+    if(step===2) return !!S.sex;
+    if(step===6) return !!S.goal;
+    if(step===8) return S.exp!==null;
+    if(step===10) return S.equip.length>0;
+    return true;
+  }
+  function bind(){
+    var host=document.getElementById('wizBody');
+    if(step===2){ host.querySelectorAll('[data-opt]').forEach(function(b){ b.addEventListener('click',function(){ S.sex=b.getAttribute('data-opt'); host.querySelectorAll('[data-opt]').forEach(function(x){ x.classList.toggle('is-selected',x===b); }); refreshNext(); }); }); }
+    if(step===1){ var inp=document.getElementById('iname'); inp.addEventListener('input',function(){ S.name=inp.value; refreshNext(); }); inp.focus(); }
+    if(step===3){ host.querySelectorAll('[data-stepper="bd"]').forEach(function(g){
+      g.querySelectorAll('[data-dec],[data-inc]').forEach(function(b){ b.addEventListener('click',function(){
+        var key=b.parentElement.getAttribute('data-key'), dir=b.getAttribute('data-inc')?1:-1;
+        var cur=eval(key); var min=+g.getAttribute('data-min'), max=+g.getAttribute('data-max');
+        var nv=Math.min(max,Math.max(min,cur+dir)); eval(key+'='+nv+';');
+        b.parentElement.querySelector('.stepper-value').textContent=nv; refreshNext();
+      }); });
+    }); }
+    if(step===4||step===5){
+      var unit=step===4?'height':'weight';
+      host.querySelectorAll('[data-unit="'+unit+'"] button').forEach(function(b){ b.addEventListener('click',function(){
+        S[unit+'Unit']=b.getAttribute('data-u');
+        host.querySelectorAll('[data-unit="'+unit+'"] button').forEach(function(x){ x.setAttribute('aria-pressed',x===b?'true':'false'); });
+        syncDU(); refreshNext();
+      }); });
+      host.querySelector('[data-stepper="'+unit+'"]').querySelectorAll('[data-dec],[data-inc]').forEach(function(b){ b.addEventListener('click',function(){
+        var d=b.getAttribute('data-inc')?1:-1, cur=S[unit];
+        var mn=unit==='height'?140:40, mx=unit==='height'?220:250;
+        S[unit]=Math.min(mx,Math.max(mn,cur+d));
+        syncDU(); refreshNext();
+      }); });
+      syncDU();
+    }
+    if(step===6){ host.querySelectorAll('[data-goal]').forEach(function(b){ b.addEventListener('click',function(){
+      S.goal=b.getAttribute('data-goal'); host.querySelectorAll('[data-goal]').forEach(function(x){ x.classList.toggle('is-selected',x===b); });
+      if(S.goal==='Bulk') S.pace=0.3; else if(S.goal==='Maintain') S.pace=0; else S.pace=-0.5;
+      refreshNext();
+    }); }); }
+    if(step===7){ var sl=document.getElementById('pace-slider'), th=sl.querySelector('.slider-thumb'), lbl=document.getElementById('paceLabel');
+      function set(v){ S.pace=Math.max(-1,Math.min(0.5,Math.round(v*100)/100)); sl.style.setProperty('--fill',paceFill()+'%'); th.setAttribute('aria-valuenow',S.pace); lbl.textContent=paceLabel(); }
+      th.addEventListener('pointerdown',function(e){ th.setPointerCapture(e.pointerId); function mv(x){ var r=sl.getBoundingClientRect(); set(-1+(x-r.left)/r.width*1.5); } mv(e.clientX);
+        function up(){ th.removeEventListener('pointermove',th._mv); } var mv2=th._mv=mv; th.addEventListener('pointermove',mv2); th.addEventListener('pointerup',up,{once:true}); });
+      th.addEventListener('keydown',function(e){ if(e.key==='ArrowRight')set(S.pace+0.05); if(e.key==='ArrowLeft')set(S.pace-0.05); });
+    }
+    if(step===8){ host.querySelectorAll('[data-opt]').forEach(function(b){ b.addEventListener('click',function(){ S.exp=+b.getAttribute('data-opt').slice(3); host.querySelectorAll('[data-opt]').forEach(function(x){ x.classList.toggle('is-selected',x===b); }); refreshNext(); }); }); }
+    if(step===9){ host.querySelector('[data-stepper="days"]').querySelectorAll('[data-dec],[data-inc]').forEach(function(b){ b.addEventListener('click',function(){ var d=b.getAttribute('data-inc')?1:-1; S.days=Math.min(6,Math.max(3,S.days+d)); b.parentElement.querySelector('.stepper-value').textContent=S.days; }); });
+      host.querySelectorAll('[data-chips="len"] .chip').forEach(function(c){ c.addEventListener('click',function(){ S.len=+c.getAttribute('data-v'); host.querySelectorAll('[data-chips="len"] .chip').forEach(function(x){ x.setAttribute('aria-pressed',x===c?'true':'false'); }); }); }); }
+    if(step===10){ host.querySelectorAll('[data-chips="equip"] .chip').forEach(function(c){ c.addEventListener('click',function(){ var v=c.getAttribute('data-v'); if(c.getAttribute('aria-pressed')==='true'){ S.equip=S.equip.filter(function(x){return x!==v;}); c.setAttribute('aria-pressed','false'); } else { S.equip.push(v); c.setAttribute('aria-pressed','true'); } refreshNext(); }); }); }
+    if(step===11){ host.querySelectorAll('[data-chips="inj"] .chip').forEach(function(c){ c.addEventListener('click',function(){ var v=c.getAttribute('data-v'); if(c.getAttribute('aria-pressed')==='true'){ S.inj=S.inj.filter(function(x){return x!==v;}); c.setAttribute('aria-pressed','false'); } else { S.inj.push(v); c.setAttribute('aria-pressed','true'); } }); });
+      var n=document.getElementById('inote'); if(n) n.addEventListener('input',function(){ S.injNote=n.value; }); }
+    if(step===last){ reveal(); }
+  }
+  function syncDU(){
+    if(step===4){ document.getElementById('hv').textContent=valH(); document.getElementById('hu').textContent=hUnitLabel(); document.getElementById('hs').textContent=S.height; }
+    if(step===5){ document.getElementById('wv').textContent=valW(); document.getElementById('wu').textContent=wUnitLabel(); document.getElementById('ws').textContent=S.weight; }
+  }
+  function refreshNext(){ document.getElementById('wizNext').disabled=!matches(); }
+
+  function reveal(){
+    var card=document.getElementById('targetsCard');
+    var kg=S.wUnit==='kg'?S.weight:S.weight*0.4536, cm=S.height;
+    var age=Math.max(16,2026-S.bd.y);
+    var bmr=10*kg+6.25*cm-5*age+5, act={Cut:1.55,Recomp:1.6,Maintain:1.6,Bulk:1.65}[S.goal||'Cut']||1.55;
+    var tdee=Math.round(bmr*act), kcall=Math.round(-S.pace*1100);
+    var kcal=Math.max(1400,tdee+kcall);
+    var p=Math.round(2.0*kg), fat=Math.round(0.8*kg);
+    var carbs=Math.max(0,Math.round((kcal-p*4-fat*9)/4));
+    var pct=Math.round(p*4/kcal*100), cct=Math.round(carbs*4/kcal*100), fct=100-pct-cct;
+    setTimeout(function(){
+      document.getElementById('kcalN').textContent=kcal.toLocaleString();
+      document.getElementById('bP').style.width=pct+'%';
+      document.getElementById('bC').style.width=cct+'%';
+      document.getElementById('bF').style.width=fct+'%';
+      document.getElementById('tP').textContent=p;
+      document.getElementById('tC').textContent=carbs;
+      document.getElementById('tF').textContent=fat;
+      card.hidden=false;
+      document.getElementById('wizNext').disabled=false;
+    }, matchMedia('(prefers-reduced-motion: reduce)').matches?60:950);
+  }
+
+  document.getElementById('wizBack').addEventListener('click',function(){
+    if(step===0){ location.href='s04-signup.html'; return; }
+    step--; render();
+  });
+  document.getElementById('wizNext').addEventListener('click',function(){
+    if(step===last){
+      try{ var u=JSON.parse(localStorage.getItem('vulcan.user')||'{}'); u.onboarding=S; localStorage.setItem('vulcan.user',JSON.stringify(u)); }catch(e){}
+      location.href='s06-today.html'; return;
+    }
+    step++; render();
+  });
+  render();
+})();
+</script>
+</body>
+</html>

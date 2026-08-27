@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VULCAN · Active session</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/base.css">
+<link rel="stylesheet" href="shared/components.css">
+<link rel="stylesheet" href="shared/shell.css">
+<style>
+  body{background:var(--bg-base)}
+  .session{width:min(100%,var(--app-max));margin-inline:auto;min-height:100svh;display:flex;flex-direction:column;position:relative}
+  .workout-top{position:sticky;top:0;z-index:10;background:rgba(11,11,13,0.9);backdrop-filter:blur(12px);
+    display:flex;align-items:center;gap:10px;padding:max(12px,env(safe-area-inset-top)) 16px 10px;border-bottom:1px solid var(--border-hairline)}
+  .workout-timer{font-family:var(--font-display);font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:0.02em}
+  .workout-timer .t-unit{color:var(--text-muted);font-size:13px;font-weight:500;margin-left:4px}
+  .workout-top-actions{margin-left:auto;display:flex;gap:4px}
+  .session-body{flex:1;display:flex;flex-direction:column;gap:14px;padding:16px 14px 24px}
+  .mark-chip{font-size:var(--fs-caption);color:var(--text-muted)}
+  .set-value-num{font-family:var(--font-display);font-weight:700;font-variant-numeric:tabular-nums;font-size:15px}
+  .rest-float{position:sticky;bottom:10px;z-index:8;margin-top:4px}
+  .keypad-hint{font-size:var(--fs-caption);color:var(--text-muted)}
+</style>
+</head>
+<body>
+<div class="session" data-od-id="active-session">
+  <div class="workout-top" data-od-id="session-topbar">
+    <div class="workout-timer tnum" id="timer">0:00<span class="t-unit">elapsed</span></div>
+    <div class="workout-top-actions">
+      <button class="btn btn-ghost btn-sm" id="btnDiscard" data-od-id="btn-discard">Discard</button>
+      <button class="btn btn-ghost btn-sm" id="btnFinish" data-od-id="btn-finish" style="color:var(--ember-500)">Finish</button>
+    </div>
+  </div>
+
+  <main class="session-body">
+    <div class="spread">
+      <span class="fs-h3">Push A — today</span>
+      <span class="mark-chip tnum" id="doneCount">0 / 5 sets</span>
+    </div>
+
+    <!-- Bench Press -->
+    <div class="exercise-card" data-ex="bench" data-od-id="exercise-bench">
+      <div class="exercise-head">
+        <div class="stack-sm">
+          <span class="exercise-kicker">1 · Chest</span>
+          <span class="exercise-name">Bench Press</span>
+        </div>
+        <div class="set-done-flash" data-od-id="bench-done-flash"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Exercise done</div>
+        <div class="exercise-head-actions">
+          <button class="btn-icon" aria-label="Note"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg></button>
+          <button class="btn-icon" aria-label="More"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 12.5h.01M6 12.5h.01M18 12.5h.01"/></svg></button>
+        </div>
+      </div>
+      <div class="set-list" data-exsets="bench">
+        <div class="set-row" data-set="1">
+          <span class="set-num tnum">1</span><button class="set-prev" data-prev="60 × 8">60 × 8</button>
+          <input class="set-field tnum" data-k="kg" inputmode="decimal" placeholder="kg">
+          <input class="set-field tnum" data-k="reps" inputmode="numeric" placeholder="reps">
+          <input class="set-field tnum" data-k="rpe" inputmode="decimal" placeholder="RPE">
+          <button class="set-check" data-toggle-set aria-label="Complete set 1"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></button>
+        </div>
+        <div class="set-row" data-set="2">
+          <span class="set-num tnum">2</span><button class="set-prev" data-prev="60 × 8">60 × 8</button>
+          <input class="set-field tnum" data-k="kg" inputmode="decimal" placeholder="kg">
+          <input class="set-field tnum" data-k="reps" inputmode="numeric" placeholder="reps">
+          <input class="set-field tnum" data-k="rpe" inputmode="decimal" placeholder="RPE">
+          <button class="set-check" data-toggle-set aria-label="Complete set 2"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></button>
+        </div>
+        <div class="set-row" data-set="3">
+          <span class="set-num tnum">3</span><button class="set-prev" data-prev="60 × 8">60 × 8</button>
+          <input class="set-field tnum" data-k="kg" inputmode="decimal" placeholder="kg">
+          <input class="set-field tnum" data-k="reps" inputmode="numeric" placeholder="reps">
+          <input class="set-field tnum" data-k="rpe" inputmode="decimal" placeholder="RPE">
+          <button class="set-check" data-toggle-set aria-label="Complete set 3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></button>
+        </div>
+      </div>
+      <button class="add-set" data-addset="bench"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg> Add set</button>
+    </div>
+
+    <!-- Overhead Press · superset -->
+    <div class="exercise-card" data-ex="ohp" data-superset style="--sup-color:#FFB347" data-od-id="exercise-ohp">
+      <div class="exercise-head">
+        <div class="stack-sm">
+          <span class="exercise-kicker">2 · Shoulders · superset</span>
+          <span class="exercise-name">Overhead Press</span>
+        </div>
+        <div class="set-done-flash" data-od-id="ohp-done-flash"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Exercise done</div>
+        <div class="exercise-head-actions">
+          <button class="btn-icon" aria-label="Note"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg></button>
+          <button class="btn-icon" aria-label="More"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 12.5h.01M6 12.5h.01M18 12.5h.01"/></svg></button>
+        </div>
+      </div>
+      <div class="set-list" data-exsets="ohp">
+        <div class="set-row" data-set="1">
+          <span class="set-num tnum">1</span><button class="set-prev" data-prev="35 × 10">35 × 10</button>
+          <input class="set-field tnum" data-k="kg" inputmode="decimal" placeholder="kg">
+          <input class="set-field tnum" data-k="reps" inputmode="numeric" placeholder="reps">
+          <input class="set-field tnum" data-k="rpe" inputmode="decimal" placeholder="RPE">
+          <button class="set-check" data-toggle-set aria-label="Complete set 1"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></button>
+        </div>
+        <div class="set-row" data-set="2">
+          <span class="set-num tnum">2</span><button class="set-prev" data-prev="35 × 10">35 × 10</button>
+          <input class="set-field tnum" data-k="kg" inputmode="decimal" placeholder="kg">
+          <input class="set-field tnum" data-k="reps" inputmode="numeric" placeholder="reps">
+          <input class="set-field tnum" data-k="rpe" inputmode="decimal" placeholder="RPE">
+          <button class="set-check" data-toggle-set aria-label="Complete set 2"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></button>
+        </div>
+      </div>
+      <button class="add-set" data-addset="ohp"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg> Add set</button>
+    </div>
+
+    <button class="btn btn-ghost" data-full id="btnAddEx" data-od-id="btn-add-exercise">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg> Add exercise
+    </button>
+
+    <!-- Rest timer floats above the bottom edge -->
+    <div class="rest-float" data-od-id="rest-timer">
+      <div class="rest-timer" id="restBar" data-total="120" hidden>
+        <svg viewBox="0 0 56 56" width="56" height="56" style="flex:none"><defs><linearGradient id="restAct" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFB347"/><stop offset="1" stop-color="#C2410C"/></linearGradient></defs>
+          <circle cx="28" cy="28" r="24" fill="none" stroke="var(--bg-overlay)" stroke-width="4" stroke-linecap="round"></circle>
+          <circle id="restFill" cx="28" cy="28" r="24" fill="none" stroke="url(#restAct)" stroke-width="4" stroke-linecap="round" stroke-dasharray="100" stroke-dashoffset="0" pathLength="100"></circle></svg>
+        <div class="rest-labels">
+          <span class="rest-state" id="restState">Rest · auto</span>
+          <span class="rest-total tnum" id="restTime">2:00</span>
+        </div>
+        <div class="rest-actions">
+          <button class="btn-icon btn-secondary" id="restPlus" aria-label="Add 30s"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+          <button class="btn btn-ghost btn-sm" id="restSkip">Skip ×</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="shared/icons.js"></script>
+<script src="shared/mock-data.js"></script>
+<script src="shared/shell.js"></script>
+<script>
+(function(){
+  'use strict';
+  var SAVE='vulcan.session';
+  var save={ ex:{ bench:[{done:false,kg:'60',reps:'8',rpe:'8'},{done:false,kg:'',reps:'',rpe:''},{done:false,kg:'',reps:'',rpe:''}],
+                  ohp:[{done:false,kg:'',reps:'',rpe:''},{done:false,kg:'',reps:'',rpe:''}] },
+    start:Date.now(), elapsed:0, rest:0, restRunning:false };
+  try{ var s=localStorage.getItem(SAVE); if(s){ var m=JSON.parse(s); if(m&&m.ex){ save.ex=m.ex; if(typeof m.start==='number') save.start=m.start; } } }catch(e){}
+
+  function persist(obj){ save.ex=obj; try{ localStorage.setItem(SAVE,JSON.stringify({ex:obj,start:save.start})); }catch(e){} }
+
+  /* restore DOM */
+  document.querySelectorAll('[data-exsets]').forEach(function(list){
+    var key=list.getAttribute('data-exsets');
+    var sets=save.ex[key]||[];
+    list.querySelectorAll('.set-row').forEach(function(row,i){
+      var s=sets[i]||{};
+      if(s.done){ row.classList.add('is-lit'); row.querySelector('.set-check').classList.add('is-done'); }
+      ['kg','reps','rpe'].forEach(function(k){ var inp=row.querySelector('[data-k="'+k+'"]'); if(inp&&s[k]) inp.value=s[k]; });
+    });
+  });
+
+  function collect(exKey){
+    var list=document.querySelector('[data-exsets="'+exKey+'"]');
+    return Array.prototype.map.call(list.querySelectorAll('.set-row'),function(row){
+      return { done:row.querySelector('.set-check').classList.contains('is-done'),
+        kg:row.querySelector('[data-k="kg"]').value, reps:row.querySelector('[data-k="reps"]').value,
+        rpe:row.querySelector('[data-k="rpe"]').value };
+    });
+  }
+  function refreshCounts(){
+    var total=0,done=0;
+    Object.keys(save.ex).forEach(function(k){ save.ex[k]=collect(k); });
+    Object.keys(save.ex).forEach(function(k){ save.ex[k].forEach(function(s){ total++; if(s.done)done++; }); });
+    document.getElementById('doneCount').textContent=done+' / '+total+' sets';
+    ['bench','ohp'].forEach(function(k){ document.querySelector('[data-ex="'+k+'"]').classList.toggle('has-done', save.ex[k].every(function(s){return s.done;})); });
+    try{ localStorage.setItem(SAVE,JSON.stringify({ex:save.ex,start:save.start})); }catch(e){}
+  }
+
+  /* prev-value one-tap repeat */
+  document.addEventListener('click',function(e){
+    var pv=e.target.closest('.set-prev'); if(!pv) return;
+    var m=pv.getAttribute('data-prev').match(/(\d+\.?\d*)\s*×\s*(\d+)/);
+    if(!m) return;
+    var row=pv.closest('.set-row');
+    row.querySelector('[data-k="kg"]').value=m[1];
+    row.querySelector('[data-k="reps"]').value=m[2];
+    refreshCounts();
+  });
+
+  /* set complete → ignite + rest */
+  document.addEventListener('click',function(e){
+    var cb=e.target.closest('[data-toggle-set]'); if(!cb) return;
+    var done=!cb.classList.contains('is-done');
+    cb.classList.toggle('is-done',done);
+    cb.closest('.set-row').classList.toggle('is-lit',done);
+    refreshCounts();
+    if(done){
+      if('vibrate' in navigator){ try{ navigator.vibrate(12); }catch(e2){} }
+      startRest();
+    }
+  });
+
+  /* inputs persist on every keystroke */
+  document.querySelectorAll('.set-field').forEach(function(inp){
+    inp.addEventListener('input',function(){ refreshCounts(); });
+  });
+
+  /* timer */
+  refreshCounts();
+  var elapsed=Math.floor((Date.now()-save.start)/1000);
+  setInterval(function(){ elapsed=Math.floor((Date.now()-save.start)/1000); paintTimer(); },1000);
+  function paintTimer(){ var mm=Math.floor(elapsed/60), ss=String(elapsed%60).padStart(2,'0'); document.getElementById('timer').firstChild.textContent=mm+':'+ss+' '; }
+  paintTimer();
+
+  /* rest timer */
+  var restTotal=120, restLeft=0, restIv=null;
+  function startRest(){
+    var bar=document.getElementById('restBar');
+    if(restIv) clearInterval(restIv);
+    restLeft=restTotal;
+    bar.hidden=false;
+    paintRest();
+    restIv=setInterval(function(){ restLeft-=1; if(restLeft<=0){ clearInterval(restIv); restIv=null; paintRest(); window.OD.toast('Rest done','Next set starts now'); bar.classList.remove('is-running','is-critical'); setTimeout(function(){ bar.hidden=true; },1200); return; } paintRest(); },1000);
+    bar.classList.add('is-running');
+  }
+  function paintRest(){
+    var bar=document.getElementById('restBar');
+    var mm=Math.floor(Math.max(0,restLeft)/60), ss=String(Math.max(0,restLeft)%60).padStart(2,'0');
+    document.getElementById('restTime').textContent=mm+':'+ss;
+    document.getElementById('restFill').style.strokeDashoffset=String(100-(Math.max(0,restLeft)/restTotal*100));
+    bar.classList.toggle('is-critical',restLeft>0&&restLeft<=10);
+  }
+  document.getElementById('restPlus').addEventListener('click',function(){ if(restIv){ restLeft+=30; paintRest(); } });
+  document.getElementById('restSkip').addEventListener('click',function(){ if(restIv){ clearInterval(restIv); restIv=null; } document.getElementById('restBar').hidden=true; });
+
+  /* sheets */
+  function sheet(html){
+    var back=document.createElement('div'); back.className='sheet-backdrop';
+    var sh=document.createElement('div'); sh.className='sheet'; sh.setAttribute('role','dialog'); sh.setAttribute('aria-modal','true');
+    sh.innerHTML='<div class="sheet-handle"></div>'+html;
+    function close(){ back.classList.remove('is-open'); sh.classList.remove('is-open'); setTimeout(function(){back.remove();sh.remove();},300); }
+    back.addEventListener('click',close);
+    sh.querySelectorAll('[data-close]').forEach(function(b){ b.addEventListener('click',close); });
+    document.body.appendChild(back); document.body.appendChild(sh);
+    requestAnimationFrame(function(){ back.classList.add('is-open'); sh.classList.add('is-open'); });
+    return sh;
+  }
+
+  document.getElementById('btnAddEx').addEventListener('click',function(){
+    var sh=sheet('<div class="sheet-title">Add exercise</div>'
+      +'<div class="field" style="margin-bottom:10px"><input class="field-control" type="text" placeholder="Search exercises" id="exQ"></div>'
+      +['Bench Press','Overhead Press','Incline DB Press','Dips','Skull Crushers','Lateral Raise'].map(function(n){ return '<button class="spread" data-close style="width:100%;min-height:48px;border-radius:var(--r-sm);color:var(--text-primary)"><span>'+n+'</span></button>'; }).join('')
+      +'<p class="fs-caption c-muted" style="margin-top:8px">More search, muscles &amp; equipment live in S12.</p><a class="btn btn-primary" data-full data-close style="margin-top:12px" href="s12-exercise-picker.html">Open full picker</a>');
+    var q=sh.querySelector('#exQ'); if(q) q.focus();
+  });
+
+  /* Finish → confirm → S11 */
+  document.getElementById('btnFinish').addEventListener('click',function(){
+    refreshCounts();
+    var total=0,done=0,vol=0;
+    Object.keys(save.ex).forEach(function(k){ save.ex[k].forEach(function(s){ total++; if(s.done){ done++; var kg=parseFloat(s.kg)||0, rp=parseInt(s.reps)||0; vol+=kg*rp; } }); });
+    var mm=Math.floor(elapsed/60)||1;
+    var sh=sheet('<div class="sheet-title">Finish workout?</div>'
+      +'<p class="sheet-body"><span class="tnum">'+done+'/'+total+'</span> sets · <span class="tnum">'+vol.toLocaleString()+'</span> kg volume · <span class="tnum">'+mm+'</span> min. Unfinished sets are dropped.</p>'
+      +'<div class="spread" style="gap:10px"><button class="btn btn-ghost" data-close>Keep going</button><button class="btn btn-primary" data-full id="finishYes">Finish</button></div>');
+    sh.querySelector('#finishYes').addEventListener('click',function(){
+      sessionStorage.setItem('vulcan.result', JSON.stringify({elapsed:elapsed,vol:Math.round(vol),sets:done}));
+      try{ localStorage.removeItem(SAVE); }catch(e){}
+      location.href='s11-workout-summary.html';
+    });
+  });
+
+  document.getElementById('btnDiscard').addEventListener('click',function(){
+    var sh=sheet('<div class="sheet-title">Discard session?</div>'
+      +'<p class="sheet-body">The forge forgets. Nothing is saved.</p>'
+      +'<div class="spread" style="gap:10px"><button class="btn btn-ghost" data-close>Stay</button><button class="btn btn-destructive" data-full id="discardYes">Discard</button></div>');
+    sh.querySelector('#discardYes').addEventListener('click',function(){ try{ localStorage.removeItem(SAVE); }catch(e){} location.href='s07-train-home.html'; });
+  });
+})();
+</script>
+</body>
+</html>

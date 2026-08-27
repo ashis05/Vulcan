@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VULCAN · Photo check-in</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/base.css">
+<link rel="stylesheet" href="shared/components.css">
+<link rel="stylesheet" href="shared/shell.css">
+<style>
+  .poses{display:flex;gap:10px}
+  .poses .pose-frame{flex:1;cursor:pointer;transition:border-color 0.2s ease,box-shadow 0.2s ease}
+  .poses .pose-frame.is-captured{border-color:var(--border-focus);box-shadow:var(--shadow-glow-soft)}
+  .pose-frame .pose-icon{color:rgba(255,255,255,0.16)}
+  .pose-cap{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted)}
+  .pose-check{position:absolute;left:10px;bottom:10px;width:26px;height:26px;border-radius:50%;background:var(--grad-flame);color:var(--text-on-accent);display:none;place-items:center;box-shadow:var(--shadow-glow-soft)}
+  .pose-frame.is-captured .pose-check{display:grid}
+  .privacy{display:flex;gap:10px;align-items:center;padding:12px 14px;border:1px solid var(--border-hairline);border-radius:var(--r-md);background:var(--bg-elevated)}
+</style>
+</head>
+<body>
+<div class="app-page" data-od-id="photo-checkin">
+  <main class="screen-pad">
+    <div class="top-nav">
+      <a class="back-btn" href="s21-progress-home.html" data-od-id="checkin-back"><span id="backIco"></span> Progress</a>
+      <span class="fs-caption tnum c-muted" id="capCount">0 of 3 captured</span>
+    </div>
+
+    <div class="stack-sm">
+      <h1 class="fs-title" data-od-id="checkin-title">Monthly check-in</h1>
+      <p class="fs-caption c-secondary">Front, side, back. Optional — one frame is enough to start.</p>
+    </div>
+
+    <div class="poses" data-od-id="pose-frames">
+      <div class="pose-frame" data-pose="Front" data-od-id="pose-front">
+        <div class="pose-label">Front</div>
+        <span class="pose-icon"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+        <span class="pose-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <span class="pose-cap">Tap to capture</span>
+      </div>
+      <div class="pose-frame" data-pose="Side" data-od-id="pose-side">
+        <div class="pose-label">Side</div>
+        <span class="pose-icon"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+        <span class="pose-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <span class="pose-cap">Tap to capture</span>
+      </div>
+      <div class="pose-frame" data-pose="Back" data-od-id="pose-back">
+        <div class="pose-label">Back</div>
+        <span class="pose-icon"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+        <span class="pose-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <span class="pose-cap">Tap to capture</span>
+      </div>
+    </div>
+
+    <div class="privacy" data-od-id="privacy-note">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--success);flex:none"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <span class="fs-caption c-secondary">Photos stay private on your account. Only VULCAN's model reads them.</span>
+    </div>
+
+    <div class="quota" data-od-id="physique-quota">
+      <div class="spread"><span class="fs-label c-secondary">Physique scans this week</span><span class="fs-label tnum c-ember">2 of 5</span></div>
+      <div class="quota-track"><div class="quota-fill" style="width:40%"></div></div>
+    </div>
+
+    <div class="spread" style="gap:10px">
+      <a class="btn btn-ghost" href="s21-progress-home.html" data-od-id="btn-skip">Skip</a>
+      <button class="btn btn-primary" data-full id="btnAnalyze" data-od-id="btn-analyze" disabled>Analyze with VULCAN</button>
+    </div>
+  </main>
+</div>
+<script src="shared/icons.js"></script>
+<script src="shared/mock-data.js"></script>
+<script src="shared/shell.js"></script>
+<script>
+(function(){
+  document.getElementById('backIco').innerHTML=window.VULCAN_ICONS.icon('arrow-left',{size:18});
+  var count=0;
+  var frames=document.querySelectorAll('.pose-frame');
+  frames.forEach(function(f){
+    f.addEventListener('click',function(){
+      var captured=f.classList.toggle('is-captured');
+      count+=captured?1:-1;
+      document.getElementById('capCount').textContent=count+' of 3 captured';
+      document.getElementById('btnAnalyze').disabled=count<1;
+      if(captured) window.OD.toast(f.getAttribute('data-pose')+' captured','Lighting is even — good frame.','ember');
+    });
+  });
+  document.getElementById('btnAnalyze').addEventListener('click',function(){ location.href='s24-physique-analysis.html'; });
+})();
+</script>
+</body>
+</html>

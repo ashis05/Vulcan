@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VULCAN · Exercise</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/base.css">
+<link rel="stylesheet" href="shared/components.css">
+<link rel="stylesheet" href="shared/shell.css">
+<style>
+  .set-history-row{display:flex;align-items:center;gap:10px;min-height:44px;border-bottom:1px solid var(--border-hairline)}
+  .set-history-row:last-child{border-bottom:0}
+  .set-history-row .sd{flex:1;font-size:var(--fs-caption);color:var(--text-muted)}
+</style>
+</head>
+<body>
+<div class="app-page" data-od-id="exercise-detail">
+  <main class="screen-pad">
+    <div class="top-nav">
+      <a class="back-btn" href="s21-progress-home.html" data-od-id="ex-back"><span id="backIco"></span> Back</a>
+      <span class="pr-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 13.75 10.25 22 12 13.75 13.75 12 22 10.25 13.75 2 12 10.25 10.25Z"/></svg> PR</span>
+    </div>
+
+    <div class="stack-sm">
+      <h1 class="fs-title" id="exName">Bench Press</h1>
+      <div class="row" style="gap:6px">
+        <span class="chip" aria-pressed="true" style="height:26px;padding:0 10px">Chest</span>
+        <span class="chip" aria-pressed="false" style="height:26px;padding:0 10px">Triceps</span>
+        <span class="fs-caption c-muted">Barbell · compound</span>
+      </div>
+    </div>
+
+    <div class="card" data-od-id="ex-instructions">
+      <span class="overline" style="display:block;margin-bottom:8px">Form</span>
+      <p class="fs-body c-secondary">Pinch the shoulder blades, wrists stacked over elbows. Touch mid-sternum, pause one beat at the bottom — the pause is the set. Bar path stays vertical.</p>
+    </div>
+
+    <div class="card" data-od-id="ex-e1rm">
+      <div class="spread" style="margin-bottom:8px"><span class="fs-label c-secondary">e1RM</span>
+        <div class="segmented"><button aria-pressed="true" data-ch="rm">e1RM</button><button aria-pressed="false" data-ch="vol">Volume</button></div></div>
+      <svg id="exChart" class="chart" viewBox="0 0 250 120" preserveAspectRatio="none">
+        <g class="chart-grid"><line x1="0" y1="30" x2="250" y2="30"></line><line x1="0" y1="60" x2="250" y2="60"></line><line x1="0" y1="90" x2="250" y2="90"></line></g>
+        <path class="chart-area-fill" d="M0,72 C35,62 60,66 90,54 S140,60 170,44 S220,50 250,34 L250,120 L0,120 Z"></path>
+        <path class="chart-line" d="M0,72 C35,62 60,66 90,54 S140,60 170,44 S220,50 250,34"></path>
+        <circle class="chart-dot" cx="250" cy="34" r="4"></circle>
+      </svg>
+    </div>
+
+    <div class="card" data-od-id="pr-history">
+      <span class="overline" style="display:block;margin-bottom:6px">PR history</span>
+      <div class="pr-grid">
+        <div class="spread" style="min-height:44px"><span class="fs-body tnum">102.5 × 5 · e1RM 118</span><span class="fs-caption c-muted tnum">Aug 12</span></div>
+        <div class="spread" style="min-height:44px"><span class="fs-body tnum">100 × 5 · e1RM 116</span><span class="fs-caption c-muted tnum">Jul 27</span></div>
+        <div class="spread" style="min-height:44px"><span class="fs-body tnum">97.5 × 6 · e1RM 116</span><span class="fs-caption c-muted tnum">Jul 8</span></div>
+      </div>
+    </div>
+
+    <div class="card" data-od-id="sets-history">
+      <span class="overline" style="display:block;margin-bottom:6px">All time · top sets</span>
+      <div class="set-history-row"><span class="sd tnum">Aug 12</span><span class="fs-body tnum">60 × 8 × RPE 8</span><span class="fs-caption c-muted tnum">Set 3 · PR</span></div>
+      <div class="set-history-row"><span class="sd tnum">Aug 10</span><span class="fs-body tnum">57.5 × 8 × RPE 8</span><span class="fs-caption c-muted tnum">Set 2</span></div>
+      <div class="set-history-row"><span class="sd tnum">Aug 7</span><span class="fs-body tnum">55 × 8 × RPE 7.5</span><span class="fs-caption c-muted tnum">Set 1</span></div>
+      <div class="set-history-row"><span class="sd tnum">Aug 5</span><span class="fs-body tnum">55 × 8 × RPE 7</span><span class="fs-caption c-muted tnum">Set 3</span></div>
+    </div>
+  </main>
+</div>
+<script src="shared/icons.js"></script>
+<script src="shared/mock-data.js"></script>
+<script src="shared/shell.js"></script>
+<script>
+(function(){
+  document.getElementById('backIco').innerHTML=window.VULCAN_ICONS.icon('arrow-left',{size:18});
+  try{ var n=localStorage.getItem('vulcan.exercise'); if(n) document.getElementById('exName').textContent=n; }catch(e){}
+  document.querySelectorAll('[data-ch]').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('[data-ch]').forEach(function(x){ x.setAttribute('aria-pressed',x===b?'true':'false'); });
+    });
+  });
+})();
+</script>
+</body>
+</html>

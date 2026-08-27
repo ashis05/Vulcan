@@ -1,0 +1,66 @@
+/* VULCAN — shell.css · app frame, tab bar, toast, bottom sheet (P5) */
+.app-mount{position:relative;height:min(660px,88vh);overflow:hidden;background:var(--bg-base);
+  border:1px solid var(--border-hairline);border-radius:var(--r-xl);box-shadow:0 24px 80px rgba(0,0,0,0.5)}
+.app-content{position:absolute;inset:0;overflow-y:auto;overscroll-behavior:contain;
+  padding:max(var(--sp-6),env(safe-area-inset-top)) var(--sp-4) calc(var(--tab-bar-height) + var(--sp-6))}
+.app-content::-webkit-scrollbar{width:0}
+
+.app-topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:var(--sp-4)}
+.app-topbar .app-title{font-family:var(--font-display);font-size:var(--fs-title);font-weight:700;letter-spacing:-0.01em}
+.app-topbar .app-sub{font-size:var(--fs-caption);color:var(--text-muted)}
+
+/* bottom tab bar — fixed on app pages, absolute inside a .app-mount preview card */
+.tab-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,var(--app-max));height:var(--tab-bar-height);z-index:30;
+  display:grid;grid-template-columns:repeat(5,1fr);align-items:stretch;
+  background:var(--bg-base);border-top:1px solid var(--border-hairline);padding:0 4px calc(4px + env(safe-area-inset-bottom))}
+.app-mount .tab-bar{position:absolute;transform:none}
+a.tab-btn{text-decoration:none}
+a.tab-btn:hover{text-decoration:none;color:var(--text-secondary)}
+.tab-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:48px;align-self:end;
+  color:var(--text-muted);font-size:11px;font-weight:500;transition:color 0.2s ease}
+.tab-btn:hover{color:var(--text-secondary)}
+.tab-btn.is-active{color:var(--text-primary)}
+.tab-btn .tab-icon{width:24px;height:24px}
+.train-slot{position:relative}
+.train-btn{position:absolute;left:50%;bottom:calc(var(--tab-bar-height) - 34px);transform:translate(-50%,0);
+  width:56px;height:56px;border-radius:50%;display:grid;place-items:center;
+  background:var(--grad-flame);color:var(--text-on-accent);box-shadow:var(--shadow-glow);
+  border:3px solid var(--bg-base);transition:filter 0.2s ease,transform 0.12s ease}
+.train-btn:hover{filter:brightness(1.07)}
+.train-btn:active{transform:translate(-50%,0) scale(0.95)}
+
+/* app page — one screen, phone-width, full-height */
+.app-page{width:min(100%,var(--app-max));min-height:100svh;margin-inline:auto;position:relative;background:var(--bg-base)}
+.app-page.has-tabbar{padding-bottom:calc(var(--tab-bar-height) + var(--sp-6))}
+.app-page.no-scroll{height:100svh;overflow:hidden;display:flex;flex-direction:column}
+
+/* placeholder tab panels until P6–P8 */
+.tabpanel[hidden]{display:none}
+.placeholder-panel{display:flex;flex-direction:column;gap:var(--sp-4)}
+.placeholder-chip{display:inline-flex;align-self:flex-start;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:var(--r-pill);
+  background:var(--bg-card);border:1px solid var(--border-hairline);color:var(--text-secondary);font-size:var(--fs-caption);font-weight:600;letter-spacing:0.04em;text-transform:uppercase}
+
+/* toast */
+.toast{position:fixed;top:12px;left:50%;transform:translate(-50%,-12px);z-index:60;
+  min-width:min(86vw,320px);max-width:min(92vw,420px);
+  background:var(--bg-overlay);border:1px solid var(--border-hairline);border-radius:var(--r-md);
+  padding:12px 16px;display:flex;gap:10px;align-items:center;box-shadow:var(--shadow-card);
+  opacity:0;pointer-events:none;transition:opacity 0.25s ease,transform 0.25s ease}
+.toast.is-open{opacity:1;transform:translate(-50%,0)}
+.toast .toast-body{display:flex;flex-direction:column;gap:2px}
+.toast .toast-title{font-size:var(--fs-label);font-weight:600}
+.toast .toast-sub{font-size:var(--fs-caption);color:var(--text-secondary)}
+.toast.is-ember .toast-title{color:var(--ember-500)}
+
+/* bottom sheet */
+.sheet-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:50;opacity:0;pointer-events:none;
+  transition:opacity var(--motion-sheet)}
+.sheet-backdrop.is-open{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:50%;bottom:0;transform:translate(-50%,100%);z-index:51;
+  width:min(100%,var(--app-max));background:var(--bg-elevated);border-radius:var(--r-xl) var(--r-xl) 0 0;
+  border-top:1px solid var(--border-hairline);padding:12px 20px calc(20px + env(safe-area-inset-bottom));
+  transition:transform var(--motion-sheet)}
+.sheet.is-open{transform:translate(-50%,0)}
+.sheet-handle{width:40px;height:4px;border-radius:var(--r-pill);background:var(--border-hairline);margin:0 auto 14px}
+.sheet-title{font-family:var(--font-display);font-size:var(--fs-h2);font-weight:700;margin-bottom:4px}
+.sheet-body{color:var(--text-secondary);margin-bottom:var(--sp-4)}

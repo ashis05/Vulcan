@@ -1,0 +1,124 @@
+{
+  "name": "VULCAN — Design System & Screen Specification",
+  "tagline": "> Input document for OPENDESIGN.",
+  "description": "Forge your physique. An AI-native, all-in-one fitness app: workout tracking, AI coaching, food photo analysis, physique analysis, and step-driven calorie budgeting — personalized to every user.\n\nLet there only have dark theme and no light theme",
+  "sourceUrl": "designmd://vulcan-design-system-screen-specification",
+  "logo": {
+    "primary": "logos/logo.png",
+    "alternates": [],
+    "notes": "No logo supplied in pasted DESIGN.md."
+  },
+  "colors": [
+    {
+      "role": "background",
+      "hex": "#f5f2ec",
+      "oklch": "",
+      "name": "\"primary\":   \"",
+      "usage": "page canvas"
+    },
+    {
+      "role": "foreground",
+      "hex": "#0b0b0d",
+      "oklch": "",
+      "name": "Flat solid points, soft outer glow, must work as a 1024px app icon on flat",
+      "usage": "body text and headings"
+    },
+    {
+      "role": "accent",
+      "hex": "#ff6a00",
+      "oklch": "",
+      "name": "\"border\": { \"hairline\": \"#2A2A31\", \"focus\": \"",
+      "usage": "primary actions and emphasis"
+    },
+    {
+      "role": "surface",
+      "hex": "#1b1b20",
+      "oklch": "",
+      "name": "\"card\":     \"",
+      "usage": "cards and panels"
+    },
+    {
+      "role": "muted",
+      "hex": "#a6a29b",
+      "oklch": "",
+      "name": "\"secondary\": \"",
+      "usage": "secondary text and metadata"
+    },
+    {
+      "role": "border",
+      "hex": "#2a2a31",
+      "oklch": "",
+      "name": "\"border\": { \"hairline\": \"",
+      "usage": "rules and dividers"
+    },
+    {
+      "role": "accent-secondary",
+      "hex": "#3ecf8e",
+      "oklch": "",
+      "name": "\"success\": \"",
+      "usage": "secondary actions and links"
+    }
+  ],
+  "typography": {
+    "display": {
+      "family": "Inter",
+      "fallbacks": [
+        "system-ui",
+        "-apple-system",
+        "Segoe UI",
+        "Helvetica Neue",
+        "Arial",
+        "sans-serif"
+      ],
+      "weights": [
+        400,
+        700
+      ]
+    },
+    "body": {
+      "family": "Inter",
+      "fallbacks": [
+        "system-ui",
+        "-apple-system",
+        "Segoe UI",
+        "Helvetica Neue",
+        "Arial",
+        "sans-serif"
+      ],
+      "weights": [
+        400,
+        700
+      ]
+    }
+  },
+  "voice": {
+    "adjectives": [],
+    "tone": "Forge your physique.",
+    "messagingPillars": [
+      "Forge your physique. An AI-native, all-in-one fitness app: workout tracking, AI coaching, food photo analysis, physique analysis, and step-driven calorie budgeting — personalized to every user.\n\nLet there only have dark theme and no light theme",
+      "> Input document for OPENDESIGN. Build in this order: **1) tokens → 2) primitives → 3) components → 4) screens** (order listed in §10). Every value is a token — no one-off colors or spacing."
+    ],
+    "vocabulary": {
+      "use": [],
+      "avoid": []
+    }
+  },
+  "imagery": {
+    "style": "",
+    "subjects": [],
+    "treatment": "",
+    "avoid": [],
+    "samples": [
+      {
+        "file": "imagery/wordmark.png",
+        "kind": "upload"
+      }
+    ]
+  },
+  "layout": {
+    "radius": "8px",
+    "borderWeight": "1px",
+    "spacing": "8px baseline grid",
+    "postureRules": []
+  }
+}

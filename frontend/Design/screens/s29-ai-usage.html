@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VULCAN · AI usage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/base.css">
+<link rel="stylesheet" href="shared/components.css">
+<link rel="stylesheet" href="shared/shell.css">
+<style>
+  .quota-card{display:flex;flex-direction:column;gap:10px}
+  .q-row{display:flex;justify-content:space-between;align-items:baseline}
+  .q-row .qn{font-size:var(--fs-body)}
+  .q-row .qnum{font-size:var(--fs-label);font-weight:600;font-variant-numeric:tabular-nums;color:var(--ember-400)}
+</style>
+</head>
+<body>
+<div class="app-page" data-od-id="ai-usage">
+  <main class="screen-pad">
+    <div class="top-nav">
+      <a class="back-btn" href="s27-profile.html" data-od-id="ai-back"><span id="backIco"></span> Profile</a>
+      <div class="fs-h2" style="margin-left:4px">AI usage</div>
+    </div>
+
+    <div class="card quota-card" data-od-id="quota-food" style="margin-left:0">
+      <div class="q-row"><span class="qn">Food scans · today</span><span class="qnum tnum">2 of 5</span></div>
+      <div class="quota-track"><div class="quota-fill" style="width:40%"></div></div>
+      <span class="quota-label">Resets at midnight · 3 left</span>
+    </div>
+
+    <div class="card quota-card" data-od-id="quota-program">
+      <div class="q-row"><span class="qn">Program forgings · this week</span><span class="qnum tnum">1 of 2</span></div>
+      <div class="quota-track"><div class="quota-fill" style="width:50%"></div></div>
+      <span class="quota-label">Resets Monday</span>
+    </div>
+
+    <div class="card quota-card" data-od-id="quota-physique">
+      <div class="q-row"><span class="qn">Physique analyses · this week</span><span class="qnum tnum">2 of 5</span></div>
+      <div class="quota-track"><div class="quota-fill" style="width:40%"></div></div>
+      <span class="quota-label">Resets Monday</span>
+    </div>
+
+    <div class="card" data-od-id="what-costs">
+      <span class="overline" style="display:block;margin-bottom:10px">What costs quota</span>
+      <p class="fs-body c-secondary">Photo analysis (food and physique) and program generation run the model. Coaching notes, targets, and macro math are free — they're computed from your logs, not generated.</p>
+    </div>
+  </main>
+</div>
+<script src="shared/icons.js"></script>
+<script src="shared/mock-data.js"></script>
+<script src="shared/shell.js"></script>
+<script>
+(function(){ document.getElementById('backIco').innerHTML=window.VULCAN_ICONS.icon('arrow-left',{size:18}); })();
+</script>
+</body>
+</html>

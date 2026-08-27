@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VULCAN · Routine builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/base.css">
+<link rel="stylesheet" href="shared/components.css">
+<link rel="stylesheet" href="shared/shell.css">
+<style>
+  .build-ex{align-items:center;gap:10px;border:1px solid var(--border-hairline);border-radius:var(--r-lg);background:var(--bg-card);padding:12px;box-shadow:var(--shadow-card)}
+  .build-ex[data-superset]{border-left:3px solid var(--chart-2)}
+  .mini-field input{width:56px;height:40px;border-radius:var(--r-sm);background:var(--bg-elevated);border:1px solid var(--border-hairline);color:var(--text-primary);text-align:center;font-family:var(--font-display);font-variant-numeric:tabular-nums;font-weight:700}
+  .mini-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .sup-toggle{color:var(--text-secondary)}
+  .sup-toggle.is-on{color:var(--chart-2)}
+</style>
+</head>
+<body>
+<div class="app-page" data-od-id="routine-builder">
+  <main class="screen-pad">
+    <div class="top-nav">
+      <a class="back-btn" href="s07-train-home.html" data-od-id="builder-back"><span id="backIco"></span> Train</a>
+      <span class="fs-h2" style="margin-left:4px">Builder</span>
+    </div>
+
+    <div class="field">
+      <label for="rn">Routine name</label>
+      <input class="field-control" id="rn" type="text" value="Push · A">
+    </div>
+
+    <div class="stack" style="gap:10px" data-od-id="building-list">
+      <div class="build-ex" data-od-id="build-bench">
+        <div class="spread"><span class="fs-body" style="font-weight:600">Bench Press</span>
+          <button class="btn-icon" style="color:var(--text-muted);width:36px;height:36px" data-remove aria-label="Remove">×</button></div>
+        <div class="mini-row">
+          <span class="fs-caption c-muted">Sets</span><div class="mini-field"><input inputmode="numeric" value="5"></div>
+          <span class="fs-caption c-muted">Reps</span><div class="mini-field"><input inputmode="numeric" value="5"></div>
+          <span class="fs-caption c-muted">RPE</span><div class="mini-field"><input inputmode="numeric" value="8"></div>
+        </div>
+        <div class="spread">
+          <span class="fs-caption c-muted">Rest</span><span class="tnum fs-label c-secondary">90s</span>
+          <button class="sup-toggle" data-sup aria-pressed="false">+ Superset</button>
+        </div>
+      </div>
+      <div class="build-ex" data-od-id="build-ohp">
+        <div class="spread"><span class="fs-body" style="font-weight:600">Overhead Press</span>
+          <button class="btn-icon" style="color:var(--text-muted);width:36px;height:36px" data-remove aria-label="Remove">×</button></div>
+        <div class="mini-row">
+          <span class="fs-caption c-muted">Sets</span><div class="mini-field"><input inputmode="numeric" value="4"></div>
+          <span class="fs-caption c-muted">Reps</span><div class="mini-field"><input inputmode="numeric" value="8"></div>
+          <span class="fs-caption c-muted">RPE</span><div class="mini-field"><input inputmode="numeric" value="7.5"></div>
+        </div>
+        <div class="spread">
+          <span class="fs-caption c-muted">Rest</span><span class="tnum fs-label c-secondary">75s</span>
+          <button class="sup-toggle is-on" data-sup aria-pressed="true" style="color:var(--chart-2)">✓ Superset</button>
+        </div>
+      </div>
+    </div>
+
+    <a class="btn btn-ghost" data-full href="s12-exercise-picker.html" data-od-id="btn-add-ex">+ Add exercise</a>
+
+    <button class="btn btn-primary" data-full data-od-id="btn-save" id="btnSave">Save routine</button>
+  </main>
+</div>
+<script src="shared/icons.js"></script>
+<script src="shared/mock-data.js"></script>
+<script src="shared/shell.js"></script>
+<script>
+(function(){
+  document.getElementById('backIco').innerHTML=window.VULCAN_ICONS.icon('arrow-left',{size:18});
+  document.querySelectorAll('[data-sup]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var on=b.getAttribute('aria-pressed')==='true', now=!on;
+      b.setAttribute('aria-pressed',now?'true':'false');
+      b.classList.toggle('is-on',now);
+      b.textContent=(now?'✓ ':'+ ')+'Superset';
+      b.closest('.build-ex').setAttribute('data-superset',now?'':'none');
+    });
+  });
+  document.querySelectorAll('[data-remove]').forEach(function(b){
+    b.addEventListener('click',function(){ b.closest('.build-ex').remove(); });
+  });
+  document.getElementById('btnSave').addEventListener('click',function(){
+    window.OD.toast('Routine saved', (document.getElementById('rn').value||'Routine')+' is ready to run.','ember');
+    setTimeout(function(){ location.href='s07-train-home.html'; },800);
+  });
+})();
+</script>
+</body>
+</html>

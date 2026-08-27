@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "screens/s28-goals-targets.html",
+  "entry": "screens/s28-goals-targets.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-08-26T19:27:01.241Z",
+  "updatedAt": "2026-08-26T19:27:01.241Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

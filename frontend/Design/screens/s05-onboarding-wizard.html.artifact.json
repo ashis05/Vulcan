@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "screens/s05-onboarding-wizard.html",
+  "entry": "screens/s05-onboarding-wizard.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-08-26T19:11:00.006Z",
+  "updatedAt": "2026-08-26T19:11:00.006Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

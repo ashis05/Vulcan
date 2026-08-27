@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "screens/s18-scan-camera.html",
+  "entry": "screens/s18-scan-camera.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-08-26T19:24:49.344Z",
+  "updatedAt": "2026-08-26T19:24:49.344Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

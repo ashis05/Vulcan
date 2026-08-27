@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "screens/s16-nutrition-diary.html",
+  "entry": "screens/s16-nutrition-diary.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-08-26T19:24:17.095Z",
+  "updatedAt": "2026-08-26T19:24:17.095Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

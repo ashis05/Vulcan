@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "screens/s01-splash.html",
+  "entry": "screens/s01-splash.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-08-26T19:09:21.207Z",
+  "updatedAt": "2026-08-26T19:09:21.207Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

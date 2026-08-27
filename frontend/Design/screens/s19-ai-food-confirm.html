@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VULCAN · Confirm meal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/base.css">
+<link rel="stylesheet" href="shared/components.css">
+<link rel="stylesheet" href="shared/shell.css">
+<style>
+  .photo-band{position:relative;border-radius:var(--r-lg);overflow:hidden;aspect-ratio:16/10;
+    background:radial-gradient(70% 90% at 30% 30%,#3a2a1c,#17130f 80%)}
+  .photo-band .dish{position:absolute;left:50%;top:58%;transform:translate(-50%,-50%);width:42%;aspect-ratio:1;
+    border-radius:50%;background:radial-gradient(circle at 35% 30%,#4a3826,#241a12 72%);box-shadow:0 12px 30px rgba(0,0,0,.5)}
+  .photo-band .dish::before{content:"";position:absolute;inset:18%;border-radius:50%;background:radial-gradient(circle at 40% 35%,#7a4f26,#3c2510 80%)}
+  .chip-overlay{position:absolute;top:12px;right:12px}
+  .macro-edit{display:flex;align-items:center;gap:10px;border:1px solid var(--border-hairline);border-radius:var(--r-lg);background:var(--bg-card);padding:12px;box-shadow:var(--shadow-card)}
+  .macro-edit .me-val{flex:1;text-align:center}
+  .macro-edit .me-val .v{font-family:var(--font-display);font-weight:700;font-size:var(--fs-h2);font-variant-numeric:tabular-nums;line-height:1}
+  .macro-edit .me-val .u{font-size:var(--fs-caption);color:var(--text-muted);display:block;margin-top:3px}
+  .macro-edit .me-btn{width:40px;height:40px;border-radius:50%;background:var(--bg-overlay);color:var(--text-secondary);display:grid;place-items:center;font-size:18px}
+  .macro-edit .me-btn:hover{color:var(--text-primary)}
+  .serving{display:flex;align-items:center;gap:12px;border:1px solid var(--border-hairline);border-radius:var(--r-pill);padding:4px;background:var(--bg-card);align-self:flex-start}
+  .serving .sv{min-width:40px;text-align:center;font-family:var(--font-display);font-weight:700;font-variant-numeric:tabular-nums}
+</style>
+</head>
+<body>
+<div class="app-page" data-od-id="food-confirm">
+  <main class="screen-pad">
+    <div class="top-nav">
+      <a class="back-btn" href="s16-nutrition-diary.html" data-od-id="confirm-back"><span id="backIco"></span> Diary</a>
+      <div class="fs-h2" style="margin-left:4px">Confirm</div>
+    </div>
+
+    <div class="photo-band" data-od-id="scan-photo">
+      <div class="dish"></div>
+      <span class="confidence chip-overlay" data-level="high" data-od-id="confidence-chip">92% AI estimate</span>
+    </div>
+
+    <div class="field">
+      <label for="cfName">What is it?</label>
+      <input class="field-control" id="cfName" type="text" value="Grilled chicken & rice bowl">
+    </div>
+
+    <div class="spread">
+      <span class="overline">Servings</span>
+      <div class="serving">
+        <button class="me-btn" id="svDown" data-od-id="serving-down" aria-label="Fewer">—</button>
+        <span class="sv tnum" id="svVal">1×</span>
+        <button class="me-btn" id="svUp" data-od-id="serving-up" aria-label="More">+</button>
+      </div>
+    </div>
+
+    <div class="grid2" data-od-id="macro-editors">
+      <div class="macro-edit" data-key="kcal" data-step="10" data-od-id="edit-kcal">
+        <button class="me-btn" data-dec>−</button><div class="me-val"><span class="v tnum" id="v-kcal">520</span><span class="u">kcal</span></div><button class="me-btn" data-inc>+</button>
+      </div>
+      <div class="macro-edit" data-key="p" data-step="1" data-od-id="edit-protein">
+        <button class="me-btn" data-dec>−</button><div class="me-val"><span class="v tnum" id="v-p">42</span><span class="u">protein g</span></div><button class="me-btn" data-inc>+</button>
+      </div>
+      <div class="macro-edit" data-key="c" data-step="1" data-od-id="edit-carbs">
+        <button class="me-btn" data-dec>−</button><div class="me-val"><span class="v tnum" id="v-c">64</span><span class="u">carbs g</span></div><button class="me-btn" data-inc>+</button>
+      </div>
+      <div class="macro-edit" data-key="f" data-step="1" data-od-id="edit-fat">
+        <button class="me-btn" data-dec>−</button><div class="me-val"><span class="v tnum" id="v-f">11</span><span class="u">fat g</span></div><button class="me-btn" data-inc>+</button>
+      </div>
+    </div>
+
+    <p class="fs-caption c-secondary">AI estimate — adjust before logging. Small edits happen in grams, not guesses.</p>
+
+    <div class="quota" data-od-id="scan-quota">
+      <div class="spread"><span class="fs-label c-secondary">Food scans today</span><span class="fs-label tnum c-ember">2 of 5</span></div>
+      <div class="quota-track"><div class="quota-fill" style="width:40%"></div></div>
+      <span class="quota-label">The forge cools at midnight — 3 scans reset then.</span>
+    </div>
+
+    <div class="spread" style="gap:10px">
+      <a class="btn btn-ghost" href="s18-scan-camera.html" data-od-id="btn-retake">Retake</a>
+      <button class="btn btn-primary" data-full id="btnLog" data-od-id="btn-log">Log meal</button>
+    </div>
+  </main>
+</div>
+<script src="shared/icons.js"></script>
+<script src="shared/mock-data.js"></script>
+<script src="shared/shell.js"></script>
+<script>
+(function(){
+  'use strict';
+  document.getElementById('backIco').innerHTML=window.VULCAN_ICONS.icon('arrow-left',{size:18});
+  var BASE={kcal:520,p:42,c:64,f:11};
+  var val={kcal:520,p:42,c:64,f:11}, serving=1;
+
+  function paint(){
+    document.getElementById('svVal').textContent=serving+'×';
+    document.getElementById('v-kcal').textContent=val.kcal;
+    document.getElementById('v-p').textContent=val.p;
+    document.getElementById('v-c').textContent=val.c;
+    document.getElementById('v-f').textContent=val.f;
+  }
+  function rescale(){ val={kcal:Math.round(BASE.kcal*serving),p:Math.round(BASE.p*serving),c:Math.round(BASE.c*serving),f:Math.round(BASE.f*serving)}; paint(); }
+
+  document.getElementById('svUp').addEventListener('click',function(){ serving=Math.min(5,serving+1); rescale(); });
+  document.getElementById('svDown').addEventListener('click',function(){ serving=Math.max(1,serving-1); rescale(); });
+
+  document.querySelectorAll('.macro-edit').forEach(function(card){
+    var key=card.getAttribute('data-key'), step=+card.getAttribute('data-step');
+    card.querySelector('[data-dec]').addEventListener('click',function(){ val[key]=Math.max(0,val[key]-step); paint(); });
+    card.querySelector('[data-inc]').addEventListener('click',function(){ val[key]=Math.min(9999,val[key]+step); paint(); });
+  });
+
+  var KEY='vulcan.diary';
+  function loadDiary(){ try{ return JSON.parse(localStorage.getItem(KEY)||'null'); }catch(e){ return null; } }
+  function saveDiary(o){ try{ localStorage.setItem(KEY,JSON.stringify(o)); }catch(e){} }
+
+  document.getElementById('btnLog').addEventListener('click',function(){
+    var d=loadDiary()||{meals:[]};
+    var name=document.getElementById('cfName').value.trim()||'Logged meal';
+    d.meals.push({id:(Date.now()%100000),meal:'Lunch',name:name,kcal:val.kcal,p:val.p,c:val.c,f:val.f});
+    saveDiary(d);
+    window.OD.toast('Meal logged', name+' · '+val.kcal+' kcal','ember');
+    setTimeout(function(){ location.href='s16-nutrition-diary.html'; },700);
+  });
+})();
+</script>
+</body>
+</html>

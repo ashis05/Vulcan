@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "screens/s03-login.html",
+  "entry": "screens/s03-login.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-08-26T19:09:32.718Z",
+  "updatedAt": "2026-08-26T19:09:32.718Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

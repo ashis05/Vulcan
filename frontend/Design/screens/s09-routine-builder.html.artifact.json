@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "screens/s09-routine-builder.html",
+  "entry": "screens/s09-routine-builder.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-08-26T19:27:43.103Z",
+  "updatedAt": "2026-08-26T19:27:43.103Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

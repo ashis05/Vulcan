@@ -1,0 +1,52 @@
+# Dependencies
+node_modules/
+
+# Expo / React Native
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# Native build artifacts
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.keystore
+
+# Env files — never commit secrets
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Python / FastAPI
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Cloud / build outputs
+*.aab
+*.apk
+*.ipa
+
+# Logs
+*.log
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# OS / editor / local tooling
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+.obsidian/
+frontend/Design/.file-versions/

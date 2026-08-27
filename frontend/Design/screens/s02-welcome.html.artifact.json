@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "screens/s02-welcome.html",
+  "entry": "screens/s02-welcome.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-08-26T19:09:25.713Z",
+  "updatedAt": "2026-08-26T19:09:25.713Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

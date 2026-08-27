@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VULCAN · Program review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/base.css">
+<link rel="stylesheet" href="shared/components.css">
+<link rel="stylesheet" href="shared/shell.css">
+<style>
+  .week-tabs{display:flex;gap:6px}
+  .ex-row{display:flex;align-items:center;gap:8px;min-height:48px;border-bottom:1px solid var(--border-hairline)}
+  .ex-row:last-child{border-bottom:0}
+  .ex-row .exn{flex:1;min-width:0;font-size:var(--fs-body)}
+  .ex-row .exd{font-size:var(--fs-caption);color:var(--text-secondary);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .day-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px}
+  .day-head .dh{font-family:var(--font-display);font-size:var(--fs-h2);font-weight:700}
+</style>
+</head>
+<body>
+<div class="app-page" data-od-id="program-review">
+  <main class="screen-pad">
+    <div class="top-nav">
+      <a class="back-btn" href="s25-program-generate.html" data-od-id="review-back"><span id="backIco"></span> Back</a>
+      <span class="pr-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 13.75 10.25 22 12 13.75 13.75 12 22 10.25 13.75 2 12 10.25 10.25Z"/></svg> AI program</span>
+    </div>
+
+    <div class="field">
+      <label for="progName">Program name</label>
+      <input class="field-control" id="progName" type="text" value="Forge · Hypertrophy v2">
+    </div>
+
+    <div class="week-tabs" data-od-id="week-tabs">
+      <button class="chip" aria-pressed="true" data-w="1">W1 · Load</button>
+      <button class="chip" aria-pressed="false" data-w="2">W2 · Build</button>
+      <button class="chip" aria-pressed="false" data-w="3">W3 · Peak</button>
+      <button class="chip" aria-pressed="false" data-w="4">W4 · Deload</button>
+    </div>
+
+    <div id="days" class="stack" style="gap:14px"></div>
+
+    <div class="coach-note" data-od-id="review-rationale">
+      <span class="cn-meta"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 13.75 10.25 22 12 13.75 13.75 12 22 10.25 13.75 2 12 10.25 10.25Z"/></svg> Why this split</span>
+      <span class="cn-body">Upper/lower with a pause-rep bench lead on push days — targeting the chest-definition gap from your latest check-in. RPE caps held under the 7.9 you've been self-selecting, so recovery improves without losing 0.5 kg/wk.</span>
+      <span class="cn-foot">AI guidance · review before applying</span>
+    </div>
+
+    <div class="spread" style="gap:10px">
+      <button class="btn btn-ghost" id="btnRegen" data-od-id="btn-regen">Regenerate</button>
+      <button class="btn btn-primary" data-full id="btnApply" data-od-id="btn-apply">Apply program</button>
+    </div>
+  </main>
+</div>
+<script src="shared/icons.js"></script>
+<script src="shared/mock-data.js"></script>
+<script src="shared/shell.js"></script>
+<script>
+(function(){
+  'use strict';
+  document.getElementById('backIco').innerHTML=window.VULCAN_ICONS.icon('arrow-left',{size:18});
+
+  var DAYS={
+    1:[
+      {n:'Day 1 · Push',subs:[['Pause-rep Bench Press','5×5 · RPE 8 · 90s'],['Incline DB Press','4×10 · RPE 7.5 · 75s'],['Dips','3×AMRAP · RPE 8 · 90s'],['Skull Crushers','3×12 · RPE 7 · 60s']]},
+      {n:'Day 2 · Pull',subs:[['Deadlift','4×4 · RPE 8.5 · 150s'],['Weighted Pull-ups','4×8 · RPE 8 · 90s'],['DB Row','4×10 · RPE 7.5 · 60s']]}
+    ],
+    2:[
+      {n:'Day 1 · Push',subs:[['Pause-rep Bench Press','5×5 @7 · 85s'],['Incline DB Press','4×10 · RPE 7 · 75s'],['Lateral Raise','4×15 · RPE 7.5 · 45s']]},
+      {n:'Day 2 · Pull',subs:[['Trap Bar Deadlift','4×5 · RPE 8 · 150s'],['Chest-supported Row','4×10 · RPE 7.5 · 60s']]},
+      {n:'Day 3 · Lower',subs:[['Heel-elevated Squat','4×6 · RPE 8 · 120s'],['Romanian Deadlift','3×8 · RPE 7.5 · 90s']]}
+    ],
+    3:[
+      {n:'Day 1 · Push',subs:[['Pause-rep Bench Press','4×3 @7.5 · 110s'],['Incline DB Press','3×8 · RPE 8 · 75s']]},
+      {n:'Day 2 · Pull',subs:[['Deadlift','3×2 @8 · 180s'],['Pull-ups','4×6 · RPE 8.5 · 120s']]}
+    ],
+    4:[
+      {n:'Deload · Full body',subs:[['Bench Press','3×5 @5 · 90s'],['Squat','3×5 @5 · 120s'],['Row','3×10 @5 · 60s']]}
+    ]
+  };
+
+  function rows(days){
+    return '<div class="stack" style="gap:14px">'+days.map(function(d){ return '<div class="card" data-od-id="day-card">'
+      +'<div class="day-head"><span class="dh">'+d.n+'</span><span class="fs-caption c-muted">'+d.subs.length+' ex</span></div>'
+      +d.subs.map(function(s){ return '<div class="ex-row"><span class="exn">'+s[0]+'</span><span class="exd">'+s[1]+'</span></div>'; }).join('')
+      +'</div>'; }).join('')+'</div>';
+  }
+  function paint(w){ document.getElementById('days').innerHTML=rows(DAYS[w]||DAYS[1]); }
+  paint(1);
+
+  document.querySelectorAll('[data-w]').forEach(function(c){
+    c.addEventListener('click',function(){
+      document.querySelectorAll('[data-w]').forEach(function(x){ x.setAttribute('aria-pressed', x===c?'true':'false'); });
+      paint(+c.getAttribute('data-w'));
+    });
+  });
+
+  document.getElementById('btnApply').addEventListener('click',function(){
+    window.OD.toast('Program applied', (document.getElementById('progName').value||'Program')+' is now your active split.','ember');
+    setTimeout(function(){ location.href='s07-train-home.html'; },900);
+  });
+  document.getElementById('btnRegen').addEventListener('click',function(){
+    var back=document.createElement('div'); back.className='sheet-backdrop';
+    var sh=document.createElement('div'); sh.className='sheet';
+    sh.innerHTML='<div class="sheet-handle"></div><div class="sheet-title">Forge again?</div>'
+      +'<p class="sheet-body">Regenerating uses your second forging for the week. This review is discarded.</p>'
+      +'<div class="spread" style="gap:10px"><button class="btn btn-ghost" data-close>Keep this</button><button class="btn btn-primary" data-full id="regenYes">Regenerate</button></div>';
+    back.addEventListener('click',close); sh.querySelector('[data-close]').addEventListener('click',close);
+    sh.querySelector('#regenYes').addEventListener('click',function(){ close(); location.href='s25-program-generate.html'; });
+    document.body.appendChild(back); document.body.appendChild(sh);
+    requestAnimationFrame(function(){ back.classList.add('is-open'); sh.classList.add('is-open'); });
+    function close(){ back.classList.remove('is-open'); sh.classList.remove('is-open'); setTimeout(function(){back.remove();sh.remove();},300); }
+  });
+})();
+</script>
+</body>
+</html>

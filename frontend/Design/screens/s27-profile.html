@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VULCAN · Profile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/base.css">
+<link rel="stylesheet" href="shared/components.css">
+<link rel="stylesheet" href="shared/shell.css">
+</head>
+<body>
+<div class="app-page has-tabbar" data-od-id="profile-screen">
+  <main class="screen-pad tabbed">
+    <div class="top-nav"><div><h1 class="t-title">Profile</h1><div class="fs-caption c-muted">Forged for you</div></div></div>
+
+    <div class="row" style="gap:14px">
+      <div class="avatar" data-od-id="profile-avatar" id="avatarInit">M</div>
+      <div class="stack-sm">
+        <span class="fs-h2" id="profileName">Marcus</span>
+        <span class="chip" aria-pressed="true" data-od-id="goal-chip" style="align-self:flex-start">Cut · −0.5 kg/wk</span>
+      </div>
+    </div>
+
+    <div class="card" style="padding:6px;display:flex;flex-direction:column">
+      <button class="setting-row" data-od-id="row-edit-profile" data-go="edit"><span class="sr-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg></span>Edit profile<span class="c-muted" style="margin-left:auto"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span></button>
+      <button class="setting-row" data-go="goals"><span class="sr-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="5.5"/><circle cx="12" cy="12" r="1.5"/></svg></span>Goals &amp; targets<span class="c-muted" style="margin-left:auto"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span></button>
+      <button class="setting-row" data-go="units"><span class="sr-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 9v6M6 8v8M6 12h12M18 8v8M21 9v6"/></svg></span>Units &amp; equipment<span class="c-muted" style="margin-left:auto"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span></button>
+      <button class="setting-row" data-go="ai"><span class="sr-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></span>AI usage<span class="fs-caption tnum c-ember" style="margin-left:auto">4 of 12</span><span class="c-muted" style="margin-left:8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span></button>
+      <button class="setting-row" data-go="privacy"><span class="sr-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>Privacy &amp; data<span class="c-muted" style="margin-left:auto"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span></button>
+      <button class="setting-row" data-go="about"><span class="sr-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 16v-5M12 8h.01"/></svg></span>About VULCAN<span class="c-muted" style="margin-left:auto"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span></button>
+      <button class="setting-row" data-go="signout" style="color:var(--danger)"><span class="sr-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg></span>Sign out<span class="c-muted" style="margin-left:auto"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span></button>
+    </div>
+  </main>
+  <nav id="tabbar"></nav>
+</div>
+<script src="shared/icons.js"></script>
+<script src="shared/mock-data.js"></script>
+<script src="shared/shell.js"></script>
+<script>
+(function(){
+  window.OD.mountBar(document.getElementById('tabbar'),'profile');
+  try{ var u=JSON.parse(localStorage.getItem('vulcan.user')||'{}'); if(u.name){ document.getElementById('profileName').textContent=u.name; document.getElementById('avatarInit').textContent=u.name.charAt(0); } }catch(e){}
+  document.querySelectorAll('.setting-row').forEach(function(r){
+    r.addEventListener('click',function(){
+      var g=r.getAttribute('data-go');
+      if(g==='goals') location.href='s28-goals-targets.html';
+      else if(g==='ai') location.href='s29-ai-usage.html';
+      else if(g==='privacy') location.href='s30-privacy-data.html';
+      else if(g==='edit') window.OD.toast('Edit profile','Name fields live in the signup flow for now.');
+      else if(g==='units') window.OD.toast('Units & equipment','Set in onboarding — cm / kg · Full gym.');
+      else if(g==='about') window.OD.toast('VULCAN v2.4','Roman god of fire. The forge remembers.');
+      else if(g==='signout') location.href='s02-welcome.html';
+    });
+  });
+})();
+</script>
+</body>
+</html>

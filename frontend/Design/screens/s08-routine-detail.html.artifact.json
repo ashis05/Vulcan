@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "screens/s08-routine-detail.html",
+  "entry": "screens/s08-routine-detail.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-08-26T19:27:29.815Z",
+  "updatedAt": "2026-08-26T19:27:29.815Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

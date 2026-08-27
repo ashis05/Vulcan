@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VULCAN · History</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/base.css">
+<link rel="stylesheet" href="shared/components.css">
+<link rel="stylesheet" href="shared/shell.css">
+<style>
+  .month-head{font-size:var(--fs-label);font-weight:600;color:var(--text-secondary);letter-spacing:0.05em;text-transform:uppercase;margin:6px 0 2px}
+  .hist-btn{display:flex;align-items:center;gap:12px;min-height:60px;border-bottom:1px solid var(--border-hairline);width:100%;text-align:left}
+  .hist-btn:last-child{border-bottom:0}
+  .hist-btn .hn{font-size:var(--fs-body);font-weight:600}
+  .hist-btn .hm{font-size:var(--fs-caption);color:var(--text-muted)}
+  .hist-btn .hv{margin-left:auto;text-align:right;display:flex;flex-direction:column;gap:2px;align-items:flex-end}
+</style>
+</head>
+<body>
+<div class="app-page" data-od-id="history-screen">
+  <main class="screen-pad">
+    <div class="top-nav">
+      <a class="back-btn" href="s07-train-home.html" data-od-id="history-back"><span id="backIco"></span> Train</a>
+      <div class="fs-h2" style="margin-left:4px">History</div>
+    </div>
+
+    <div class="card" style="padding:6px 16px">
+      <div class="month-head">August</div>
+      <button class="hist-btn" data-id="1">
+        <div class="stack-sm"><span class="hn">Push · A</span><span class="hm">Mon · 42 min · 5 exercises</span></div>
+        <span class="hv"><span class="fs-caption tnum c-muted">4,280 kg</span><span class="fs-caption c-ember">1 PR</span></span>
+      </button>
+      <button class="hist-btn" data-id="2">
+        <div class="stack-sm"><span class="hn">Pull · B</span><span class="hm">Sat · 51 min · 5 exercises</span></div>
+        <span class="hv"><span class="fs-caption tnum c-muted">5,040 kg</span><span class="fs-caption c-muted">18 sets</span></span>
+      </button>
+      <button class="hist-btn" data-id="3">
+        <div class="stack-sm"><span class="hn">Legs · C</span><span class="hm">Fri · 55 min · 6 exercises</span></div>
+        <span class="hv"><span class="fs-caption tnum c-muted">6,120 kg</span><span class="fs-caption c-ember">1 PR</span></span>
+      </button>
+      <button class="hist-btn" data-id="4">
+        <div class="stack-sm"><span class="hn">Push · A</span><span class="hm">Wed · 45 min</span></div>
+        <span class="hv"><span class="fs-caption tnum c-muted">4,540 kg</span><span class="fs-caption c-muted">17 sets</span></span>
+      </button>
+      <div class="month-head" style="margin-top:10px">July</div>
+      <button class="hist-btn" data-id="5">
+        <div class="stack-sm"><span class="hn">Push · A</span><span class="hm">Sun · 46 min</span></div>
+        <span class="hv"><span class="fs-caption tnum c-muted">4,480 kg</span><span class="fs-caption c-ember">1 PR</span></span>
+      </button>
+      <button class="hist-btn" data-id="6">
+        <div class="stack-sm"><span class="hn">Pull · B</span><span class="hm">Thu · 49 min</span></div>
+        <span class="hv"><span class="fs-caption tnum c-muted">4,960 kg</span><span class="fs-caption c-muted">18 sets</span></span>
+      </button>
+      <button class="hist-btn" data-id="7">
+        <div class="stack-sm"><span class="hn">Full body</span><span class="hm">Tue · 38 min</span></div>
+        <span class="hv"><span class="fs-caption tnum c-muted">3,780 kg</span><span class="fs-caption c-muted">15 sets</span></span>
+      </button>
+    </div>
+    <span class="fs-caption c-muted" style="align-self:center">All sessions sync to your data export.</span>
+  </main>
+</div>
+<script src="shared/icons.js"></script>
+<script src="shared/mock-data.js"></script>
+<script src="shared/shell.js"></script>
+<script>
+(function(){
+  document.getElementById('backIco').innerHTML=window.VULCAN_ICONS.icon('arrow-left',{size:18});
+  document.querySelectorAll('.hist-btn').forEach(function(b){
+    b.addEventListener('click',function(){ try{ localStorage.setItem('vulcan.past-session', b.getAttribute('data-id')); }catch(e){} location.href='s15-past-workout.html'; });
+  });
+})();
+</script>
+</body>
+</html>

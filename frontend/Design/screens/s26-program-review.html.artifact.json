@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "screens/s26-program-review.html",
+  "entry": "screens/s26-program-review.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-08-26T19:26:41.006Z",
+  "updatedAt": "2026-08-26T19:26:41.006Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

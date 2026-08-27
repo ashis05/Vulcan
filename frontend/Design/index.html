@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VULCAN · Screen Specification</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="screens/shared/tokens.css">
+<link rel="stylesheet" href="screens/shared/base.css">
+<link rel="stylesheet" href="screens/shared/components.css">
+<link rel="stylesheet" href="screens/shared/shell.css">
+<style>
+  .sticky-head{position:sticky;top:0;z-index:30;background:rgba(11,11,13,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-hairline)}
+  .wordmark{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;font-size:var(--fs-h2);letter-spacing:-0.02em}
+  .wordmark svg{color:var(--ember-500)}
+  .chip-done{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 12px;border-radius:var(--r-pill);background:var(--grad-flame);color:var(--text-on-accent);font-size:var(--fs-caption);font-weight:700;letter-spacing:0.06em;text-transform:uppercase}
+  .hero{padding:40px 0 8px}
+  .launcher{width:min(100%,720px);margin-inline:auto;padding-inline:var(--gutter)}
+  .group{margin-top:34px}
+  .group-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:12px}
+  .group-head h2{font-size:var(--fs-h2)}
+  .group-head .gr{font-size:var(--fs-caption);color:var(--text-muted)}
+  .tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .tile{display:flex;flex-direction:column;gap:5px;padding:14px;border-radius:var(--r-lg);border:1px solid var(--border-hairline);
+    background:var(--bg-card);text-align:left;transition:border-color 0.2s ease,transform 0.12s ease}
+  .tile:hover{border-color:#3a3a44}
+  a.tile{text-decoration:none}
+  .tile:active{transform:scale(0.99)}
+  .tile-num{font-family:var(--font-display);font-weight:700;font-size:11px;color:var(--ember-500);letter-spacing:0.05em}
+  .tile-name{font-size:var(--fs-body);font-weight:600;color:var(--text-primary);display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .tile-sub{font-size:var(--fs-caption);color:var(--text-muted);line-height:1.45}
+  .tile.is-hero{border-color:var(--border-focus)}
+  .system-link{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px;border:1px solid var(--border-hairline);border-radius:var(--r-lg);background:var(--bg-elevated);margin-top:34px}
+  .system-link a{color:var(--text-primary);font-weight:600}
+  .flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:12px}
+  .flow .fstep{font-size:var(--fs-caption);color:var(--text-secondary)}
+</style>
+</head>
+<body>
+<header class="sticky-head">
+  <div class="launcher spread" style="padding-block:14px">
+    <div class="wordmark"><span id="wm"></span>VULCAN</div>
+    <span class="chip-done">Complete · 30 screens</span>
+  </div>
+</header>
+
+<main class="launcher">
+  <section class="hero" data-od-id="launcher-hero">
+    <div class="spec-kicker">Screen specification · Forge your physique</div>
+    <h1 class="fs-display" style="margin:8px 0;line-height:1.05">Every screen, wired.</h1>
+    <p class="fs-body c-secondary" style="max-width:58ch;margin-top:8px">
+      S1–S30 ship as screens under <code class="tnum">screens/</code>, bound to the token layer in
+      <code class="tnum">screens/shared/*</code>. Tab bars navigate to the live screens; back
+      buttons and CTAs traverse the real flows.
+    </p>
+    <div class="flow" data-od-id="flow-path">
+      <span class="fstep">S1–S5 Auth &amp; onboarding</span><span class="c-muted">→</span>
+      <span class="fstep">S6–S15 Train</span><span class="c-muted">→</span>
+      <span class="fstep">S16–S20 Nutrition</span><span class="c-muted">→</span>
+      <span class="fstep">S21–S24 Progress</span><span class="c-muted">→</span>
+      <span class="fstep">S25–S26 Program</span><span class="c-muted">→</span>
+      <span class="fstep">S27–S30 Profile</span>
+    </div>
+  </section>
+
+  <section class="group" data-od-id="auth-group">
+    <div class="group-head"><h2>Auth &amp; onboarding</h2><span class="gr">S1–S5</span></div>
+    <div class="tiles">
+      <a class="tile is-hero" href="screens/s01-splash.html" data-od-id="tile-splash"><span class="tile-num">S1</span><span class="tile-name">Splash</span><span class="tile-sub">Ember ignites &lt;1.2s → welcome</span></a>
+      <a class="tile" href="screens/s02-welcome.html" data-od-id="tile-welcome"><span class="tile-num">S2</span><span class="tile-name">Welcome</span><span class="tile-sub">Forge your physique · Google/email</span></a>
+      <a class="tile" href="screens/s03-login.html" data-od-id="tile-login"><span class="tile-num">S3</span><span class="tile-name">Log in</span><span class="tile-sub">Inline validation · forgot password</span></a>
+      <a class="tile" href="screens/s04-signup.html" data-od-id="tile-signup"><span class="tile-num">S4</span><span class="tile-name">Create account</span><span class="tile-sub">Name · email · password</span></a>
+      <a class="tile" href="screens/s05-onboarding-wizard.html" data-od-id="tile-wizard"><span class="tile-num">S5</span><span class="tile-name">Onboarding · 13 steps</span><span class="tile-sub">Name → reveal, with the forge-seal and computed targets</span></a>
+    </div>
+  </section>
+
+  <section class="group" data-od-id="train-group">
+    <div class="group-head"><h2>Train</h2><span class="gr">S6–S15</span></div>
+    <div class="tiles">
+      <a class="tile is-hero" href="screens/s06-today.html" data-od-id="tile-today"><span class="tile-num">S6</span><span class="tile-name">Today</span><span class="tile-sub">Hero ring · steps · weight log · coach note</span></a>
+      <a class="tile is-hero" href="screens/s07-train-home.html" data-od-id="tile-train"><span class="tile-num">S7</span><span class="tile-name">Train home</span><span class="tile-sub">AI program · routines · history · start empty</span></a>
+      <a class="tile" href="screens/s08-routine-detail.html" data-od-id="tile-routine"><span class="tile-num">S8</span><span class="tile-name">Routine detail</span><span class="tile-sub">Exercise list · muscle chips · rationale</span></a>
+      <a class="tile" href="screens/s09-routine-builder.html" data-od-id="tile-builder"><span class="tile-num">S9</span><span class="tile-name">Routine builder</span><span class="tile-sub">Sets/reps/RPE · superset toggle · rest</span></a>
+      <a class="tile is-hero" href="screens/s10-active-workout.html" data-od-id="tile-active"><span class="tile-num">S10</span><span class="tile-name">Active session</span><span class="tile-sub">The crown: tap-to-repeat, ignite, rest timer, persisted</span></a>
+      <a class="tile" href="screens/s11-workout-summary.html" data-od-id="tile-summary"><span class="tile-num">S11</span><span class="tile-name">Summary</span><span class="tile-sub">Ember burst · stats · PR badges · notes</span></a>
+      <a class="tile" href="screens/s12-exercise-picker.html" data-od-id="tile-picker"><span class="tile-num">S12</span><span class="tile-name">Exercise picker</span><span class="tile-sub">Search · muscle filters · custom create</span></a>
+      <a class="tile" href="screens/s13-exercise-detail.html" data-od-id="tile-exdetail"><span class="tile-num">S13</span><span class="tile-name">Exercise detail</span><span class="tile-sub">e1RM/volume · PR history · top sets</span></a>
+      <a class="tile" href="screens/s14-history.html" data-od-id="tile-history"><span class="tile-num">S14</span><span class="tile-name">History</span><span class="tile-sub">Month-grouped sessions</span></a>
+      <a class="tile" href="screens/s15-past-workout.html" data-od-id="tile-past"><span class="tile-num">S15</span><span class="tile-name">Past workout</span><span class="tile-sub">Read-only · repeat as new</span></a>
+    </div>
+  </section>
+
+  <section class="group" data-od-id="nutrition-group">
+    <div class="group-head"><h2>Nutrition</h2><span class="gr">S16–S20</span></div>
+    <div class="tiles">
+      <a class="tile" href="screens/s16-nutrition-diary.html" data-od-id="tile-diary"><span class="tile-num">S16</span><span class="tile-name">Diary</span><span class="tile-sub">Date strip · ring · macrobar · meals · delete</span></a>
+      <a class="tile" href="screens/s17-add-meal.html" data-od-id="tile-add"><span class="tile-num">S17</span><span class="tile-name">Add meal</span><span class="tile-sub">Scan · quick add · recent re-log</span></a>
+      <a class="tile" href="screens/s18-scan-camera.html" data-od-id="tile-scan"><span class="tile-num">S18</span><span class="tile-name">Food scan</span><span class="tile-sub">Camera · ember frame guides · shutter</span></a>
+      <a class="tile" href="screens/s19-ai-food-confirm.html" data-od-id="tile-confirm"><span class="tile-num">S19</span><span class="tile-name">AI confirm</span><span class="tile-sub">Editable macros · confidence · quota · log</span></a>
+      <a class="tile" href="screens/s20-meal-detail.html" data-od-id="tile-meal"><span class="tile-num">S20</span><span class="tile-name">Meal detail</span><span class="tile-sub">Breakdown · edit · delete</span></a>
+    </div>
+  </section>
+
+  <section class="group" data-od-id="progress-group">
+    <div class="group-head"><h2>Progress</h2><span class="gr">S21–S24</span></div>
+    <div class="tiles">
+      <a class="tile" href="screens/s21-progress-home.html" data-od-id="tile-progress"><span class="tile-num">S21</span><span class="tile-name">Progress</span><span class="tile-sub">Weight/strength/volume charts · PR wall</span></a>
+      <a class="tile" href="screens/s22-photo-checkin.html" data-od-id="tile-checkin"><span class="tile-num">S22</span><span class="tile-name">Photo check-in</span><span class="tile-sub">3 poses · privacy note · quota</span></a>
+      <a class="tile" href="screens/s23-photo-compare.html" data-od-id="tile-compare"><span class="tile-num">S23</span><span class="tile-name">Compare</span><span class="tile-sub">Drag slider · date labels</span></a>
+      <a class="tile" href="screens/s24-physique-analysis.html" data-od-id="tile-analysis"><span class="tile-num">S24</span><span class="tile-name">Physique analysis</span><span class="tile-sub">Strong/focus areas · posture · recs</span></a>
+    </div>
+  </section>
+
+  <section class="group" data-od-id="program-group">
+    <div class="group-head"><h2>AI program</h2><span class="gr">S25–S26</span></div>
+    <div class="tiles">
+      <a class="tile" href="screens/s25-program-generate.html" data-od-id="tile-generate"><span class="tile-num">S25</span><span class="tile-name">Generate</span><span class="tile-sub">Snapshot · forge animation · status lines</span></a>
+      <a class="tile" href="screens/s26-program-review.html" data-od-id="tile-review"><span class="tile-num">S26</span><span class="tile-name">Review</span><span class="tile-sub">Week tabs · day cards · rationale · apply</span></a>
+    </div>
+  </section>
+
+  <section class="group" data-od-id="profile-group">
+    <div class="group-head"><h2>Profile</h2><span class="gr">S27–S30</span></div>
+    <div class="tiles">
+      <a class="tile" href="screens/s27-profile.html" data-od-id="tile-profile"><span class="tile-num">S27</span><span class="tile-name">Profile</span><span class="tile-sub">Settings rows · sign out</span></a>
+      <a class="tile" href="screens/s28-goals-targets.html" data-od-id="tile-goals"><span class="tile-num">S28</span><span class="tile-name">Goals &amp; targets</span><span class="tile-sub">Computed targets · recalc · change goal</span></a>
+      <a class="tile" href="screens/s29-ai-usage.html" data-od-id="tile-usage"><span class="tile-num">S29</span><span class="tile-name">AI usage</span><span class="tile-sub">Quota per feature · resets</span></a>
+      <a class="tile" href="screens/s30-privacy-data.html" data-od-id="tile-privacy"><span class="tile-num">S30</span><span class="tile-name">Privacy &amp; data</span><span class="tile-sub">Export · double-confirm delete</span></a>
+    </div>
+  </section>
+
+  <div class="system-link" data-od-id="foundation-link">
+    <div class="stack-sm">
+      <span class="fs-label c-secondary">Foundation · tokens, components, shell</span>
+      <a href="screens/spec-components.html">Milestone 1 system layers</a>
+    </div>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted)"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </div>
+</main>
+
+<footer class="launcher" data-od-id="launcher-footer" style="padding-bottom:var(--sp-9);padding-top:28px">
+  <hr class="hr" style="margin-bottom:var(--sp-4)">
+  <p class="fs-caption c-muted">Global states, empty states &amp; reduced-motion QA pass ship as shared rules — every screen honors them. Plan: <code class="tnum">screen-spec-plan.md</code>.</p>
+</footer>
+
+<script src="screens/shared/icons.js"></script>
+<script src="screens/shared/mock-data.js"></script>
+<script src="screens/shared/shell.js"></script>
+<script>
+(function(){ document.getElementById('wm').innerHTML=window.VULCAN_ICONS.icon('spark',{filled:true,size:22}); })();
+</script>
+</body>
+</html>

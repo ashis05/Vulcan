@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VULCAN · Train</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/base.css">
+<link rel="stylesheet" href="shared/components.css">
+<link rel="stylesheet" href="shared/shell.css">
+<style>
+  .train-main{display:flex;flex-direction:column;gap:22px;padding:22px 16px 16px}
+  .page-title{font-family:var(--font-display);font-size:var(--fs-title);font-weight:700;letter-spacing:-0.01em}
+  .sec-label{font-size:var(--fs-label);font-weight:600;color:var(--text-secondary);letter-spacing:0.04em;text-transform:uppercase}
+  .program-banner{display:flex;flex-direction:column;gap:12px}
+  .program-row{display:flex;align-items:center;gap:12px}
+  .pname{font-size:var(--fs-h3);line-height:1.25}
+  .pmeta{font-size:var(--fs-caption);color:var(--text-muted);margin-top:2px}
+  .progress-track{width:100%}
+  .routine-card{display:flex;flex-direction:column;gap:8px}
+  .routine-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+  .routine-name{font-size:var(--fs-body);font-weight:600}
+  .routine-sub{font-size:var(--fs-caption);color:var(--text-muted)}
+  .hist-row{display:flex;align-items:center;gap:12px;min-height:56px;border-bottom:1px solid var(--border-hairline);width:100%;text-align:left;padding:6px 2px}
+  .hist-row:last-child{border-bottom:0}
+  .hist-name{font-size:var(--fs-body);font-weight:500}
+  .hist-meta{font-size:var(--fs-caption);color:var(--text-muted);margin-top:1px}
+  .hist-vol{margin-left:auto;text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+  .cta-row{position:sticky;bottom:calc(var(--tab-bar-height) + 10px);z-index:5;padding:0 16px}
+</style>
+</head>
+<body>
+<div class="app-page has-tabbar" data-od-id="train-screen">
+  <main class="train-main">
+    <h1 class="page-title" data-od-id="train-title">Train</h1>
+
+    <section class="program-banner" data-od-id="active-program">
+      <div class="card" style="background:var(--bg-elevated)">
+        <div class="program-row">
+          <div class="stack-sm" style="flex:1;min-width:0">
+            <span class="chip" aria-pressed="true" style="align-self:flex-start;height:26px;padding:0 10px;color:var(--ember-400)">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 13.75 10.25 22 12 13.75 13.75 12 22 10.25 13.75 2 12 10.25 10.25Z"/></svg> AI program
+            </span>
+            <span class="pname" data-od-id="program-name">Forge · Hypertrophy</span>
+            <span class="pmeta tnum">Week 3 of 8 · forged to 206 kg total volume</span>
+          </div>
+          <a class="btn btn-ghost btn-sm" href="#" data-od-id="view-program" id="viewProgram">View</a>
+        </div>
+        <div class="program-row" style="margin-top:4px">
+          <div class="progress-track" style="flex:1">
+            <div class="progress-fill" style="width:38%"></div>
+          </div>
+          <span class="fs-caption c-muted tnum">3/8</span>
+        </div>
+      </div>
+    </section>
+
+    <section data-od-id="my-routines">
+      <div class="spread" style="margin-bottom:10px">
+        <span class="sec-label">My routines</span>
+        <button class="btn btn-ghost btn-sm" data-od-id="new-routine">+ New routine</button>
+      </div>
+      <div class="stack-sm">
+        <div class="card routine-card" data-od-id="routine-push" style="cursor:pointer">
+          <div class="routine-top">
+            <div class="stack-sm">
+              <span class="routine-name">Push · A</span>
+              <span class="routine-sub">Chest · Shoulders · Triceps · 4 exercises · 45 min</span>
+            </div>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted);margin-top:4px"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+          <div class="row" style="gap:6px">
+            <span class="chip" aria-pressed="false" style="height:26px;padding:0 10px">Bench Press</span>
+            <span class="chip" aria-pressed="false" style="height:26px;padding:0 10px">OHP</span>
+            <span class="chip" aria-pressed="false" style="height:26px;padding:0 10px">Skull Crushers</span>
+          </div>
+        </div>
+        <div class="card routine-card" data-od-id="routine-pull" style="cursor:pointer">
+          <div class="routine-top">
+            <div class="stack-sm">
+              <span class="routine-name">Pull · B</span>
+              <span class="routine-sub">Back · Biceps · 5 exercises · 50 min</span>
+            </div>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted);margin-top:4px"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+          <div class="row" style="gap:6px">
+            <span class="chip" aria-pressed="false" style="height:26px;padding:0 10px">Deadlift</span>
+            <span class="chip" aria-pressed="false" style="height:26px;padding:0 10px">Row</span>
+            <span class="chip" aria-pressed="false" style="height:26px;padding:0 10px">Pull-ups</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section data-od-id="history">
+      <span class="sec-label" style="display:block;margin-bottom:4px">History</span>
+      <div class="card" style="padding:6px 16px">
+        <button class="hist-row" data-od-id="history-1">
+          <div class="stack-sm" style="min-width:0">
+            <span class="hist-name">Push · A</span>
+            <span class="hist-meta">Mon · 42 min</span>
+          </div>
+          <span class="hist-vol"><span class="fs-caption c-muted tnum">4,2<span style="font-size:11px">80</span> kg</span><span class="fs-caption c-ember">16 sets · 1 PR</span></span>
+        </button>
+        <button class="hist-row" data-od-id="history-2">
+          <div class="stack-sm" style="min-width:0">
+            <span class="hist-name">Pull · B</span>
+            <span class="hist-meta">Sat · 51 min</span>
+          </div>
+          <span class="hist-vol"><span class="fs-caption c-muted tnum">5,040 kg</span><span class="fs-caption c-muted">18 sets</span></span>
+        </button>
+        <button class="hist-row" data-od-id="history-3">
+          <div class="stack-sm" style="min-width:0">
+            <span class="hist-name">Legs · C</span>
+            <span class="hist-meta">Fri · 55 min</span>
+          </div>
+          <span class="hist-vol"><span class="fs-caption c-muted tnum">6,120 kg</span><span class="fs-caption c-ember">20 sets · 1 PR</span></span>
+        </button>
+        <button class="hist-row" data-od-id="history-4">
+          <div class="stack-sm" style="min-width:0">
+            <span class="hist-name">Push · A</span>
+            <span class="hist-meta">Wed · 45 min</span>
+          </div>
+          <span class="hist-vol"><span class="fs-caption c-muted tnum">4,540 kg</span><span class="fs-caption c-muted">17 sets</span></span>
+        </button>
+        <button class="hist-row" data-od-id="history-5">
+          <div class="stack-sm" style="min-width:0">
+            <span class="hist-name">Full body</span>
+            <span class="hist-meta">Mon · 38 min</span>
+          </div>
+          <span class="hist-vol"><span class="fs-caption c-muted tnum">3,780 kg</span><span class="fs-caption c-muted">15 sets</span></span>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <div class="cta-row">
+    <a class="btn btn-primary" data-full href="s10-active-workout.html" data-od-id="cta-empty-workout">Start empty workout</a>
+  </div>
+
+  <nav id="tabbar"></nav>
+</div>
+
+<script src="shared/icons.js"></script>
+<script src="shared/mock-data.js"></script>
+<script src="shared/shell.js"></script>
+<script>
+(function(){
+  window.OD.mountBar(document.getElementById('tabbar'),'train');
+  document.getElementById('viewProgram').addEventListener('click',function(e){ e.preventDefault(); location.href='s26-program-review.html'; });
+  document.querySelectorAll('.routine-card').forEach(function(el){
+    el.addEventListener('click',function(){ location.href='s08-routine-detail.html'; });
+  });
+  document.querySelectorAll('.hist-row').forEach(function(el){
+    el.addEventListener('click',function(){ location.href='s14-history.html'; });
+  });
+})();
+</script>
+</body>
+</html>

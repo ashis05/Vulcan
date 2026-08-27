@@ -1,0 +1,88 @@
+/* VULCAN — tokens.css · single source of truth (input-DESIGN.md §3) · dark only */
+:root{
+  /* background */
+  --bg-base:#0B0B0D;
+  --bg-elevated:#141417;
+  --bg-card:#1B1B20;
+  --bg-overlay:#232329;
+
+  /* border */
+  --border-hairline:#2A2A31;
+  --border-focus:#FF6A00;
+
+  /* text */
+  --text-primary:#F5F2EC;
+  --text-secondary:#A6A29B;
+  --text-muted:#6E6A64;
+  --text-on-accent:#0B0B0D;
+
+  /* accent — ember scale */
+  --ember-300:#FFB347;
+  --ember-400:#FF8A3D;
+  --ember-500:#FF6A00;
+  --ember-700:#C2410C;
+  --glow:0 0 24px rgba(255,106,0,0.35);
+  --glow-soft:0 0 16px rgba(255,106,0,0.18);
+
+  /* gradient */
+  --grad-flame:linear-gradient(135deg,#FFB347 0%,#FF6A00 55%,#E63E00 100%);
+  --grad-flame-strong:linear-gradient(135deg,#FF9A3D 0%,#FF6A00 45%,#D63E00 100%);
+  --grad-chart-fade:linear-gradient(180deg,rgba(255,106,0,0.35) 0%,rgba(255,106,0,0) 100%);
+
+  /* semantic */
+  --success:#3ECF8E;
+  --warning:#FFB020;
+  --danger:#F4502F;
+
+  /* macros */
+  --macro-protein:#FF6A00;
+  --macro-carbs:#FFB020;
+  --macro-fat:#B08CF2;
+
+  /* charts palette */
+  --chart-1:#FF6A00;
+  --chart-2:#FFB347;
+  --chart-3:#B08CF2;
+  --chart-4:#7DD3FC;
+  --chart-5:#3ECF8E;
+
+  /* steps */
+  --steps-color:#3ECF8E;
+
+  /* font */
+  --font-display:"Space Grotesk","Inter",system-ui,-apple-system,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --font-body:"Inter",system-ui,-apple-system,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+
+  /* type scale */
+  --fs-display:44px; --lh-display:48px; --fw-display:700; --ls-display:-0.02em;
+  --fs-title:28px; --lh-title:34px; --fw-title:700; --ls-title:-0.01em;
+  --fs-h2:22px; --lh-h2:28px; --fw-h2:600;
+  --fs-h3:17px; --lh-h3:24px; --fw-h3:600;
+  --fs-body:15px; --lh-body:22px; --fw-body:400;
+  --fs-label:13px; --lh-label:18px; --fw-label:500;
+  --fs-caption:11px; --lh-caption:16px; --fw-caption:500;
+
+  /* spacing · 8px grid */
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:20px;
+  --sp-6:24px; --sp-7:32px; --sp-8:40px; --sp-9:56px;
+
+  /* radius */
+  --r-xs:6px; --r-sm:10px; --r-md:14px; --r-lg:20px; --r-xl:28px; --r-pill:999px;
+
+  /* shadow */
+  --shadow-glow:0 0 24px rgba(255,106,0,0.35);
+  --shadow-glow-soft:0 0 16px rgba(255,106,0,0.18);
+  --shadow-card:0 2px 12px rgba(0,0,0,0.4);
+
+  /* motion */
+  --motion-ring-fill:800ms ease-out;
+  --motion-ignite:350ms ease-out;
+  --motion-sheet:280ms ease-out;
+
+  /* layout */
+  --target-min:44px;
+  --row-height:48px;
+  --tab-bar-height:64px;
+  --gutter:16px;
+  --app-max:480px;
+}

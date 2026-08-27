@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VULCAN · Privacy & data</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/base.css">
+<link rel="stylesheet" href="shared/components.css">
+<link rel="stylesheet" href="shared/shell.css">
+</head>
+<body>
+<div class="app-page" data-od-id="privacy-data">
+  <main class="screen-pad">
+    <div class="top-nav">
+      <a class="back-btn" href="s27-profile.html" data-od-id="privacy-back"><span id="backIco"></span> Profile</a>
+      <div class="fs-h2" style="margin-left:4px">Privacy &amp; data</div>
+    </div>
+
+    <div class="card" data-od-id="privacy-card">
+      <div class="stack-sm" style="margin-bottom:12px">
+        <span class="fs-label c-secondary">Yours, not theirs</span>
+        <p class="fs-body c-secondary">Workouts, meals, physique photos, and AI conversations belong to your account. Export moves them out in one file; deleting wipes them from the forge.</p>
+      </div>
+      <button class="btn btn-ghost" data-full data-od-id="btn-export">Export all my data</button>
+      <button class="btn btn-destructive" data-full style="margin-top:10px" data-od-id="btn-delete" id="btnDelete">Delete account</button>
+    </div>
+
+    <div class="card" data-od-id="privacy-links">
+      <div class="spread" style="min-height:44px"><span class="fs-label c-secondary">Privacy policy</span><a href="#">Read</a></div>
+      <div class="spread" style="min-height:44px"><span class="fs-label c-secondary">Data processing</span><a href="#">Details</a></div>
+    </div>
+
+    <p class="fs-caption c-muted" style="margin-top:4px">Deleting your account removes logs, photos, and AI history. Current goals reset. There is no grace period — the forge forgets on request.</p>
+  </main>
+</div>
+<script src="shared/icons.js"></script>
+<script src="shared/mock-data.js"></script>
+<script src="shared/shell.js"></script>
+<script>
+(function(){
+  'use strict';
+  document.getElementById('backIco').innerHTML=window.VULCAN_ICONS.icon('arrow-left',{size:18});
+  document.querySelector('[data-od-id="btn-export"]').addEventListener('click',function(){
+    window.OD.toast('Export ready', 'Your data file downloads to your device.','ember');
+  });
+  var clicks=0;
+  document.getElementById('btnDelete').addEventListener('click',function(){
+    if(clicks===0){ clicks=1; window.OD.toast('One more tap','Confirm to delete everything.'); return; }
+    var back=document.createElement('div'); back.className='sheet-backdrop';
+    var sh=document.createElement('div'); sh.className='sheet';
+    sh.innerHTML='<div class="sheet-handle"></div><div class="sheet-title" style="color:var(--danger)">Delete account?</div>'
+      +'<p class="sheet-body">This is final. Workouts, 47-day streak, physique photos and AI history go cold. Type-forge to confirm.</p>'
+      +'<div class="field" style="margin-bottom:14px"><input class="field-control" id="delType" placeholder="type: forget me"></div>'
+      +'<div class="spread" style="gap:10px"><button class="btn btn-ghost" data-close>Keep my forge</button><button class="btn btn-destructive" data-full data-od-id="delConfirm" disabled>Delete permanently</button></div>';
+    back.addEventListener('click',close); sh.querySelector('[data-close]').addEventListener('click',close);
+    var inp=sh.querySelector('#delType');
+    inp.addEventListener('input',function(){ sh.querySelector('[data-od-id="delConfirm"]').disabled=inp.value.trim().toLowerCase()!=='forget me'; });
+    sh.querySelector('[data-od-id="delConfirm"]').addEventListener('click',function(){
+      try{ localStorage.clear(); sessionStorage.clear(); }catch(e){}
+      location.href='s02-welcome.html';
+    });
+    document.body.appendChild(back); document.body.appendChild(sh);
+    requestAnimationFrame(function(){ back.classList.add('is-open'); sh.classList.add('is-open'); inp.focus(); });
+    function close(){ back.classList.remove('is-open'); sh.classList.remove('is-open'); setTimeout(function(){back.remove();sh.remove();},300); }
+  });
+})();
+</script>
+</body>
+</html>

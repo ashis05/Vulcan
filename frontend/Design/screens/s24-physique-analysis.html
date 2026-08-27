@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VULCAN · Physique analysis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/base.css">
+<link rel="stylesheet" href="shared/components.css">
+<link rel="stylesheet" href="shared/shell.css">
+<style>
+  .rate-row{display:flex;align-items:center;gap:12px;min-height:52px;border-bottom:1px solid var(--border-hairline)}
+  .rate-row:last-child{border-bottom:0}
+  .rate-row .rn{flex:1;font-size:var(--fs-body)}
+  .rate-row .mark{font-family:var(--font-display);font-weight:700;font-variant-numeric:tabular-nums}
+  .rec-row{display:flex;gap:10px;align-items:flex-start;min-height:44px;font-size:var(--fs-body);color:var(--text-secondary)}
+  .tip-card{border:1px solid var(--border-hairline);border-left:3px solid var(--warning);border-radius:var(--r-lg);padding:var(--sp-4);background:rgba(255,176,32,0.04)}
+</style>
+</head>
+<body>
+<div class="app-page" data-od-id="physique-analysis">
+  <main class="screen-pad">
+    <div class="top-nav">
+      <a class="back-btn" href="s21-progress-home.html" data-od-id="analysis-back"><span id="backIco"></span> Progress</a>
+      <span class="confidence" data-level="high" data-od-id="analysis-confidence">88% AI estimate</span>
+    </div>
+
+    <div class="coach-note" data-od-id="analysis-summary">
+      <span class="cn-meta"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 13.75 10.25 22 12 13.75 13.75 12 22 10.25 13.75 2 12 10.25 10.25Z"/></svg> VULCAN physique analysis</span>
+      <span class="cn-body">Read for Aug 24. Shoulder balance is up 6 points since May. Chest definition is the current lag — front delts carry, the pecs don't. Symmetry otherwise holds.</span>
+      <span class="cn-foot">AI estimate · photos stayed on your account</span>
+    </div>
+
+    <section data-od-id="strong-areas">
+      <span class="overline" style="display:block;margin-bottom:8px">Strong areas</span>
+      <div class="row" style="gap:6px">
+        <button class="chip" aria-pressed="true" data-od-id="strong-1" style="color:var(--success);border-color:rgba(62,207,142,.35)">Shoulder balance</button>
+        <button class="chip" aria-pressed="true" style="color:var(--success);border-color:rgba(62,207,142,.35)">Recovery</button>
+        <button class="chip" aria-pressed="true" style="color:var(--success);border-color:rgba(62,207,142,.35)">Condyle symmetry</button>
+      </div>
+    </section>
+
+    <section data-od-id="focus-areas">
+      <span class="overline" style="display:block;margin-bottom:8px">Focus areas</span>
+      <div class="row" style="gap:6px">
+        <button class="chip" aria-pressed="true" data-od-id="focus-1">Chest definition</button>
+        <button class="chip" aria-pressed="true">Lats insertion</button>
+        <button class="chip" aria-pressed="true">Calf balance</button>
+      </div>
+    </section>
+
+    <section class="card" data-od-id="posture-notes">
+      <span class="overline" style="display:block;margin-bottom:10px">Posture notes</span>
+      <div class="stack">
+        <div class="rate-row"><span class="rn">Shoulder roll (L/R)</span><span class="mark tnum c-success">B · −3°</span></div>
+        <div class="rate-row"><span class="rn">Anterior pelvic tilt</span><span class="mark tnum c-ember">C · 7°</span></div>
+        <div class="rate-row"><span class="rn">Thoracic extension</span><span class="mark tnum c-success">A · 24°</span></div>
+        <div class="rate-row"><span class="rn">Knee valgus, squat</span><span class="mark tnum c-muted">B · mild</span></div>
+      </div>
+      <p class="fs-caption c-muted" style="margin-top:10px">Angles in degrees at 2 m, lit dusk. Not a clinical read.</p>
+    </section>
+
+    <section class="card" data-od-id="recommendations">
+      <span class="overline" style="display:block;margin-bottom:10px">Recommended next</span>
+      <div class="stack" style="gap:8px">
+        <div class="rec-row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ember-500);flex:none;margin-top:3px"><path d="M20 6 9 17l-5-5"/></svg><span>Lead every push day with a pause-rep bench to load the pec peak, not the triceps.</span></div>
+        <div class="rec-row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ember-500);flex:none;margin-top:3px"><path d="M20 6 9 17l-5-5"/></svg><span>Two weekly dead hangs for lats + anterior pelvis; 2×10s with a neutral grip.</span></div>
+        <div class="rec-row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ember-500);flex:none;margin-top:3px"><path d="M20 6 9 17l-5-5"/></svg><span>Drop leg-day knee worry: add heel-elevated squats, 3 weeks, then re-photo.</span></div>
+      </div>
+    </section>
+
+    <div class="tip-card" data-od-id="retake-tips">
+      <span class="fs-label c-ember" style="font-weight:600">Next scan, read better</span>
+      <p class="fs-caption c-secondary" style="margin-top:6px">Even light, mid-height camera, 2 m back. Same pose each month — the model compares anchors, not angles.</p>
+    </div>
+
+    <button class="btn btn-primary" data-full data-od-id="cta-apply" id="btnApply">Apply focus to next program</button>
+  </main>
+</div>
+<script src="shared/icons.js"></script>
+<script src="shared/mock-data.js"></script>
+<script src="shared/shell.js"></script>
+<script>
+(function(){
+  document.getElementById('backIco').innerHTML=window.VULCAN_ICONS.icon('arrow-left',{size:18});
+  document.getElementById('btnApply').addEventListener('click',function(){ location.href='s25-program-generate.html'; });
+})();
+</script>
+</body>
+</html>

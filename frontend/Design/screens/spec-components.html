@@ -1,0 +1,526 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VULCAN Â· Screen Specification â€” Milestone 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/base.css">
+<link rel="stylesheet" href="shared/components.css">
+<link rel="stylesheet" href="shared/shell.css">
+<style>
+  .sticky-head{position:sticky;top:0;z-index:30;background:rgba(11,11,13,0.85);backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--border-hairline)}
+  .wordmark{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;font-size:var(--fs-h2);letter-spacing:-0.02em}
+  .wordmark svg{color:var(--ember-500)}
+  .milestone-chip{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 12px;border-radius:var(--r-pill);
+    background:var(--grad-flame);color:var(--text-on-accent);font-size:var(--fs-caption);font-weight:700;letter-spacing:0.06em;text-transform:uppercase}
+  .hero{padding:var(--sp-8) 0 var(--sp-6)}
+  .swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:var(--sp-2)} 
+  .swatch{border:1px solid var(--border-hairline);border-radius:var(--r-md);overflow:hidden;background:var(--bg-card)}
+  .swatch-chip{height:44px;border-bottom:1px solid var(--border-hairline)}
+  .swatch-meta{padding:8px 10px;display:flex;flex-direction:column;gap:1px}
+  .swatch-name{font-size:var(--fs-caption);font-weight:600}
+  .swatch-hex{font-size:11px;color:var(--text-muted);font-variant-numeric:tabular-nums}
+  .type-row{display:flex;align-items:center;gap:16px;border-bottom:1px solid var(--border-hairline);padding:12px 0}
+  .type-row .type-tag{flex:none;width:96px;font-size:var(--fs-caption);color:var(--text-muted)}
+  .icon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:var(--sp-2)}
+  .icon-cell{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 4px;border:1px solid var(--border-hairline);
+    border-radius:var(--r-md);background:var(--bg-card);color:var(--text-secondary)}
+  .icon-cell span{font-size:10px;text-align:center;line-height:1.2}
+  .demo-tile{border:1px dashed var(--border-hairline);border-radius:var(--r-lg);padding:var(--sp-4)}
+  .roadmap{display:flex;flex-direction:column;gap:6px}
+  .roadmap .rm{display:flex;gap:12px;align-items:baseline;font-size:var(--fs-label);color:var(--text-secondary);padding:6px 0;border-bottom:1px solid var(--border-hairline)}
+  .roadmap .rm b{color:var(--text-primary);font-family:var(--font-display);width:44px;flex:none}
+  .roadmap .rm.is-current{color:var(--ember-500)}
+  .set-list-demo .set-row{margin-inline:-6px}
+</style>
+</head>
+<body>
+
+<header class="sticky-head">
+  <div class="gallery spread" data-od-id="m1-header" style="padding-block:14px">
+    <div class="wordmark"><span id="wm-spark">â€¦</span>VULCAN</div>
+    <span class="milestone-chip" data-od-id="milestone-chip">M1 Â· System</span>
+  </div>
+</header>
+
+<main class="gallery" style="padding-top:0">
+  <section class="hero" data-od-id="m1-hero">
+    <div class="spec-kicker">Screen specification Â· Forge your physique</div>
+    <h1 class="fs-display" style="margin:8px 0">System layers,<br>before the screens.</h1>
+    <p class="fs-body c-secondary" style="max-width:54ch;margin-top:8px">
+      Milestone 1 ships the foundation: tokens bound to the input spec Â§3, typography, icons,
+      primitives, data and workout components, and the five-tab shell. Screens S1â€“S30 build on
+      top of these in P6+.
+    </p>
+  </section>
+
+  <!-- P1 Â· tokens -->
+  <section data-od-id="spec-tokens">
+    <div class="spec-head">
+      <span class="spec-kicker">P1 Â· Foundation</span>
+      <h2 class="spec-title">Design tokens</h2>
+      <p class="spec-desc">Every value in the spec is a token. No one-off colors or spacing. Dark theme only.</p>
+    </div>
+    <div id="swatch-grid" class="swatches" data-od-id="tokens-swatches"></div>
+    <div class="spec-head" style="margin-top:var(--sp-7)">
+      <h3 class="fs-h3">Spacing Â· 8px grid</h3>
+    </div>
+    <div class="card row" data-od-id="tokens-spacing" style="gap:0;justify-content:space-between;padding:16px 20px">
+      <span class="fs-caption c-muted">4</span><span class="fs-caption c-muted">8</span><span class="fs-caption c-muted">12</span>
+      <span class="fs-caption c-muted">16</span><span class="fs-caption c-muted">20</span><span class="fs-caption c-muted">24</span>
+      <span class="fs-caption c-muted">32</span><span class="fs-caption c-muted">40</span><span class="fs-caption c-muted">56</span>
+    </div>
+    <div class="card row" data-od-id="tokens-radii" style="padding:16px 20px;margin-top:12px">
+      <span class="fs-caption c-muted">Radii</span>
+      <span class="chip">6 Â· xs</span><span class="chip">10 Â· sm</span><span class="chip">14 Â· md</span>
+      <span class="chip">20 Â· lg</span><span class="chip">28 Â· xl</span><span class="chip">pill Â· 999</span>
+    </div>
+  </section>
+
+  <!-- P1 Â· type -->
+  <section data-od-id="spec-typography">
+    <div class="spec-head">
+      <span class="spec-kicker">P1 Â· Typography</span>
+      <h2 class="spec-title">Two faces, tabular numerals</h2>
+      <p class="spec-desc">Space Grotesk for display &amp; numerals. Inter for everything else. Max two weights per screen.</p>
+    </div>
+    <div class="card" data-od-id="type-scale">
+      <div class="type-row"><span class="type-tag">display Â· 44/48</span><span class="fs-display">0,250 kcal</span></div>
+      <div class="type-row"><span class="type-tag">title Â· 28/34</span><span class="fs-title">Bench Press</span></div>
+      <div class="type-row"><span class="type-tag">h2 Â· 22/28</span><span class="fs-h2">Weekly volume</span></div>
+      <div class="type-row"><span class="type-tag">h3 Â· 17/24</span><span class="fs-h3">Strong areas Â· 3 reps left</span></div>
+      <div class="type-row"><span class="type-tag">body Â· 15/22</span><span class="fs-body">Tempo the descent â€” the stretch is doing the work.</span></div>
+      <div class="type-row"><span class="type-tag">label Â· 13/18</span><span class="fs-label">Continue with Google</span></div>
+      <div class="type-row"><span class="type-tag">caption Â· 11/16</span><span class="fs-caption c-secondary">2 of 5 scans left Â· resets at midnight</span></div>
+    </div>
+  </section>
+
+  <!-- P1 Â· icons -->
+  <section data-od-id="spec-icons">
+    <div class="spec-head">
+      <span class="spec-kicker">P1 Â· Icon set</span>
+      <h2 class="spec-title">Lucide-style, custom ember set</h2>
+      <p class="spec-desc">1.5px stroke, round caps, 24px in 48px targets. Filled only where data is hot: the center Train tab.</p>
+    </div>
+    <div id="icon-grid" class="icon-grid" data-od-id="icons-grid"></div>
+    <p class="fs-caption c-muted" style="margin-top:10px">Custom by spec Â§5: <b class="c-ember">ember</b> (streak) Â· <b class="c-ember">anvil</b> (brand) Â· <b class="c-ember">spark</b> (PR) Â· <b class="c-ember">plate</b> (weight). The eight-pointed Spark is the brand mark.</p>
+  </section>
+
+  <!-- P2 Â· primitives -->
+  <section data-od-id="spec-primitives">
+    <div class="spec-head">
+      <span class="spec-kicker">P2 Â· Primitives</span>
+      <h2 class="spec-title">Buttons, inputs, chips</h2>
+      <p class="spec-desc">Primary glows â€” nothing else does. Focus = ember border + soft glow. Targets â‰¥44px.</p>
+    </div>
+    <div class="card stack" data-od-id="spec-buttons">
+      <span class="fs-label c-secondary">Buttons</span>
+      <div class="row">
+        <button class="btn btn-primary" data-od-id="btn-primary">Enter the forge</button>
+        <button class="btn btn-secondary" data-od-id="btn-secondary">Continue</button>
+        <button class="btn btn-ghost" data-od-id="btn-ghost">Log weight</button>
+        <button class="btn btn-destructive" data-od-id="btn-destructive">Delete account</button>
+      </div>
+      <div class="row">
+        <button class="btn btn-primary btn-sm" data-od-id="btn-primary-sm">Add meal</button>
+        <button class="btn btn-secondary btn-icon" data-od-id="btn-icon" aria-label="Add">&plus;</button>
+        <button class="btn btn-primary" disabled data-od-id="btn-disabled">Continue</button>
+      </div>
+    </div>
+    <div class="grid2" style="margin-top:12px">
+      <div class="card field" data-od-id="spec-field">
+        <span class="fs-label c-secondary">TextField</span>
+        <div class="field">
+          <label for="tf-email">Email</label>
+          <input class="field-control" id="tf-email" type="email" placeholder="you@forge.gg">
+        </div>
+        <div class="field" data-error>
+          <label for="tf-pass">Password</label>
+          <input class="field-control" id="tf-pass" type="password" value="wrongpass">
+          <span class="field-hint" data-state="error">That password didn't match. Forge remembers â€” it forgives rarely.</span>
+        </div>
+      </div>
+      <div class="card stack" data-od-id="spec-controls">
+        <span class="fs-label c-secondary">Stepper</span>
+        <div class="stepper" data-od-id="stepper-height">
+          <button aria-label="Decrease">&minus;</button><span class="stepper-value tnum">176</span><button aria-label="Increase">&plus;</button>
+        </div>
+        <span class="fs-label c-secondary" style="margin-top:6px">Slider</span>
+        <div class="slider" id="slider-pace" style="--fill:36%" data-od-id="slider-pace">
+          <div class="slider-ticks"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="slider-track"></div><div class="slider-fill"></div>
+          <div class="slider-thumb" role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="36" aria-label="Pace"></div>
+        </div>
+        <span class="field-hint tnum" id="pace-label">âˆ’0.5 kg / week</span>
+        <span class="fs-label c-secondary" style="margin-top:6px">Segmented</span>
+        <div class="segmented" data-od-id="segmented-window"><button aria-pressed="true">30</button><button aria-pressed="false">90</button><button aria-pressed="false">All</button></div>
+        <div class="row" style="margin-top:4px">
+          <button class="chip" aria-pressed="true" data-od-id="chip-muscle">Full gym</button>
+          <button class="chip" aria-pressed="false">Dumbbells</button>
+          <button class="chip" aria-pressed="false">Bodyweight</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- P3 Â· data components -->
+  <section data-od-id="spec-data">
+    <div class="spec-head">
+      <span class="spec-kicker">P3 Â· Data components</span>
+      <h2 class="spec-title">The ring, the bar, the badges</h2>
+      <p class="spec-desc">Data glows. Charts encode with fills. No legends on mobile â€” chips live above the chart.</p>
+    </div>
+    <div class="grid2" data-od-id="spec-data-grid">
+      <div class="card" data-od-id="ring-demo">
+        <div class="ring" id="ring-demo" data-ring="65" style="margin-inline:auto;--ring-size:176px">
+          <svg viewBox="0 0 120 120">
+            <defs><linearGradient id="ringDemoGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFB347"/><stop offset="1" stop-color="#C2410C"/></linearGradient></defs>
+            <circle class="ring-track" cx="60" cy="60" r="48" pathLength="100"/>
+            <circle class="ring-fill" cx="60" cy="60" r="48" pathLength="100" stroke="url(#ringDemoGrad)" stroke-dasharray="100" stroke-dashoffset="100"/>
+          </svg>
+          <div class="ring-center"><div><div class="ring-value tnum">760</div><div class="ring-caption">kcal remaining</div></div></div>
+        </div>
+        <div class="macro-bar" style="margin-top:14px">
+          <i style="width:81%;background:var(--macro-protein)"></i>
+          <i style="width:55%;background:var(--macro-carbs)"></i>
+          <i style="width:70%;background:var(--macro-fat)"></i>
+        </div>
+        <div class="macro-legend" style="margin-top:10px">
+          <span class="ml"><span class="dot" data-macro="protein"></span>Protein <b class="tnum">146/180g</b></span>
+          <span class="ml"><span class="dot" data-macro="carbs"></span>Carbs <b class="tnum">142/260g</b></span>
+          <span class="ml"><span class="dot" data-macro="fat"></span>Fat <b class="tnum">48/68g</b></span>
+        </div>
+      </div>
+      <div class="stack">
+        <div class="grid2">
+          <div class="stat-tile" data-od-id="stat-tile-steps"><span class="st-label">Steps</span><span class="st-value tnum">10,240</span>
+            <svg width="100%" height="26" viewBox="0 0 100 26" preserveAspectRatio="none">
+              <rect x="2" y="16" width="8" height="8" rx="2" fill="rgba(62,207,142,.35)"></rect>
+              <rect x="15" y="10" width="8" height="14" rx="2" fill="rgba(62,207,142,.35)"></rect>
+              <rect x="28" y="17" width="8" height="7" rx="2" fill="rgba(62,207,142,.35)"></rect>
+              <rect x="41" y="6" width="8" height="18" rx="2" fill="rgba(62,207,142,.35)"></rect>
+              <rect x="54" y="10" width="8" height="14" rx="2" fill="rgba(62,207,142,.35)"></rect>
+              <rect x="67" y="15" width="8" height="9" rx="2" fill="rgba(62,207,142,.35)"></rect>
+              <rect x="80" y="3" width="8" height="21" rx="2" fill="#3ECF8E"></rect>
+            </svg>
+          </div>
+          <div class="stat-tile" data-od-id="stat-tile-weight"><span class="st-label">Weight</span>
+            <span class="st-value tnum">82.4<span class="fs-caption c-muted"> kg</span></span>
+            <span class="st-delta down">â–¼ 0.6 kg Â· 7d</span>
+          </div>
+        </div>
+        <div class="card row" style="justify-content:space-between;flex-wrap:wrap;gap:12px" data-od-id="badges-row">
+          <span class="pr-badge" data-od-id="pr-badge-row"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 13.75 10.25 22 12 13.75 13.75 12 22 10.25 13.75 2 12 10.25 10.25Z"/></svg>PR Â· 102.5Ã—5</span>
+          <span class="streak is-lit" data-od-id="streak-lit"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg><span class="streak-font tnum">47</span></span>
+          <span class="streak" data-od-id="streak-unlit"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg><span class="streak-font tnum">0</span></span>
+          <span class="confidence" data-level="high" data-od-id="confidence-high">92% AI estimate</span>
+          <span class="confidence" data-level="medium" data-od-id="confidence-medium">68% AI estimate</span>
+          <span class="confidence" data-level="low" data-od-id="confidence-low">41% AI estimate</span>
+        </div>
+        <div class="card" data-od-id="quota-meter">
+          <div class="spread"><span class="fs-label c-secondary">Food scans today</span><span class="fs-label tnum c-ember">2 of 5</span></div>
+          <div class="quota-track"><div class="quota-fill" style="width:40%"></div></div>
+          <span class="quota-label">The forge cools until tomorrow.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid2" style="margin-top:12px" data-od-id="charts-grid">
+      <div class="card" data-od-id="chart-area">
+        <div class="spread" style="margin-bottom:10px"><span class="fs-label c-secondary">Weight Â· 8 weeks</span>
+          <div class="segmented"><button aria-pressed="false">30</button><button aria-pressed="true">90</button><button aria-pressed="false">All</button></div>
+        </div>
+        <svg class="chart chart-area" viewBox="0 0 250 120" preserveAspectRatio="none">
+          <defs><linearGradient id="areaGradGal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(255,106,0,.35)"/><stop offset="1" stop-color="rgba(255,106,0,0)"/></linearGradient></defs>
+          <g class="chart-grid">
+            <line x1="0" y1="30" x2="250" y2="30"></line><line x1="0" y1="60" x2="250" y2="60"></line>
+            <line x1="0" y1="90" x2="250" y2="90"></line>
+          </g>
+          <path class="chart-area-fill" d="M0,96 C30,92 45,94 66,88 S110,90 132,84 S172,88 198,78 S240,86 250,74 L250,120 L0,120 Z"></path>
+          <path class="chart-area-line" d="M0,96 C30,92 45,94 66,88 S110,90 132,84 S172,88 198,78 S240,86 250,74"></path>
+        </svg>
+        <div class="row" style="margin-top:8px"><span class="chip chips" aria-pressed="false" data-od-id="chip-cat">3.1 kg down</span><span class="fs-caption c-muted tnum">76.2 â†’ 75.1</span></div>
+      </div>
+      <div class="card" data-od-id="chart-volume">
+        <span class="fs-label c-secondary" style="display:block;margin-bottom:8px">Volume Â· kg</span>
+        <svg class="chart" viewBox="0 0 250 120" preserveAspectRatio="none">
+          <g class="chart-grid">
+            <line x1="0" y1="30" x2="250" y2="30"></line><line x1="0" y1="60" x2="250" y2="60"></line><line x1="0" y1="90" x2="250" y2="90"></line>
+          </g>
+          <rect class="chart-bar" x="14" y="60" width="24" height="60" rx="5"></rect>
+          <rect class="chart-bar" x="46" y="46" width="24" height="74" rx="5"></rect>
+          <rect class="chart-bar" x="78" y="56" width="24" height="64" rx="5"></rect>
+          <rect class="chart-bar" x="110" y="36" width="24" height="84" rx="5"></rect>
+          <rect class="chart-bar" x="142" y="50" width="24" height="70" rx="5"></rect>
+          <rect class="chart-bar" x="174" y="28" width="24" height="92" rx="5"></rect>
+          <rect class="chart-bar is-today" x="206" y="0" width="24" height="120" rx="5"></rect>
+        </svg>
+        <div class="row" style="margin-top:8px"><span class="chip" aria-pressed="true" data-od-id="chip-today">This week Â· 12,760</span></div>
+      </div>
+      <div class="card" data-od-id="chart-line" style="grid-column:1/-1">
+        <span class="fs-label c-secondary" style="display:block;margin-bottom:8px">e1RM Â· Bench Press</span>
+        <svg class="chart" viewBox="0 0 250 120" preserveAspectRatio="none">
+          <defs><linearGradient id="lineGradGal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(255,106,0,.35)"/><stop offset="1" stop-color="rgba(255,106,0,0)"/></linearGradient></defs>
+          <g class="chart-grid"><line x1="0" y1="30" x2="250" y2="30"></line><line x1="0" y1="60" x2="250" y2="60"></line><line x1="0" y1="90" x2="250" y2="90"></line></g>
+          <path class="chart-area-fill" d="M0,72 C35,62 60,66 90,54 S140,60 170,44 S220,50 250,34 L250,120 L0,120 Z"></path>
+          <path class="chart-line" d="M0,72 C35,62 60,66 90,54 S140,60 170,44 S220,50 250,34"></path>
+          <circle class="chart-dot" cx="250" cy="34" r="4"></circle>
+        </svg>
+        <div class="row" style="margin-top:8px"><span class="pr-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 13.75 10.25 22 12 13.75 13.75 12 22 10.25 13.75 2 12 10.25 10.25Z"/></svg>e1RM 105 kg</span></div>
+      </div>
+    </div>
+
+    <div class="grid2" style="margin-top:12px" data-od-id="skeleton-row">
+      <div class="card">
+        <span class="fs-label c-secondary" style="display:block;margin-bottom:10px">Loading Â· skeleton</span>
+        <div class="stack-sm">
+          <div class="skeleton sk-title"></div>
+          <div class="skeleton sk-card"></div>
+          <div class="row"><div class="skeleton sk-dot"></div><div class="skeleton sk-line" style="flex:1"></div></div>
+          <div class="skeleton sk-line" style="width:64%"></div>
+        </div>
+      </div>
+      <div class="card">
+        <span class="fs-label c-secondary" style="display:block;margin-bottom:10px">Empty state</span>
+        <div class="empty-state" data-od-id="empty-state">
+          <span class="empty-icon">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2 13.75 10.25 22 12 13.75 13.75 12 22 10.25 13.75 2 12 10.25 10.25Z"/></svg>
+          </span>
+          <h3 class="fs-h3">Nothing forged yet</h3>
+          <p class="fs-caption">Start your first session.</p>
+          <button class="btn btn-primary btn-sm" style="margin-top:6px">Start empty workout</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- P4 Â· workout components -->
+  <section data-od-id="spec-workout">
+    <div class="spec-head">
+      <span class="spec-kicker">P4 Â· Workout components</span>
+      <h2 class="spec-title">SetRow Â· ignite</h2>
+      <p class="spec-desc">Tap a check â€” the row ignites: ember wash, filled flame check, 350ms. Tap again to un-ignite.</p>
+    </div>
+    <div class="exercise-card" data-od-id="spec-exercise-card">
+      <div class="exercise-head">
+        <div class="stack-sm"><span class="exercise-kicker">1 Â· Chest</span><span class="exercise-name">Bench Press</span></div>
+        <div class="exercise-head-actions">
+          <button class="btn-icon" aria-label="Note"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg></button>
+          <button class="btn-icon" aria-label="More"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 12.5h.01M6 12.5h.01M18 12.5h.01"/></svg></button>
+        </div>
+      </div>
+      <div class="set-list" data-od-id="set-list-demo">
+        <div class="set-row is-lit">
+          <span class="set-num tnum">1</span><span class="set-prev">60 Ã— 8</span>
+          <input class="set-field tnum" inputmode="numeric" value="60"><input class="set-field tnum" inputmode="numeric" value="8"><input class="set-field tnum" inputmode="numeric" value="8">
+          <button class="set-check is-done" data-toggle-set aria-label="Complete set 1"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></button>
+        </div>
+        <div class="set-row">
+          <span class="set-num tnum">2</span><span class="set-prev">60 Ã— 8</span>
+          <input class="set-field tnum" inputmode="numeric" value="60"><input class="set-field tnum" inputmode="numeric" value="8"><input class="set-field tnum" inputmode="numeric" value="8.5">
+          <button class="set-check" data-toggle-set aria-label="Complete set 2"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></button>
+        </div>
+        <div class="set-row">
+          <span class="set-num tnum">3</span><span class="set-prev">60 Ã— 8</span>
+          <input class="set-field tnum" inputmode="numeric" placeholder="kg"><input class="set-field tnum" inputmode="numeric" placeholder="reps"><input class="set-field tnum" inputmode="numeric" placeholder="RPE">
+          <button class="set-check" data-toggle-set aria-label="Complete set 3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></button>
+        </div>
+      </div>
+      <button class="add-set" data-od-id="add-set-demo"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg> Add set</button>
+    </div>
+    <div class="card" style="margin-top:12px" data-od-id="rest-timer-demo">
+      <div class="spread" style="margin-bottom:10px"><span class="fs-label c-secondary">RestTimerBar Â· dashed target next set</span>
+        <button class="btn btn-secondary btn-sm" id="rest-run" data-od-id="rest-run"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="m10 8 6 4-6 4V8z"/></svg> Run 2:00</button>
+      </div>
+      <div class="rest-timer" id="rest-demo" data-total="120" data-od-id="rest-demo-bar">
+        <div class="rest-ring">
+          <svg viewBox="0 0 56 56"><defs><linearGradient id="restDemoGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFB347"/><stop offset="1" stop-color="#C2410C"/></linearGradient></defs>
+            <circle class="rest-track" cx="28" cy="28" r="24" pathLength="100"></circle>
+            <circle class="rest-fill" cx="28" cy="28" r="24" pathLength="100" stroke="url(#restDemoGrad)" stroke-dasharray="100" stroke-dashoffset="0"></circle>
+          </svg><span class="rest-sec tnum">2:00</span>
+        </div>
+        <div class="rest-labels"><span class="rest-state">Rest Â· auto</span><span class="rest-total tnum">Next set at 2 min</span></div>
+        <div class="rest-actions">
+          <button class="btn-icon btn-secondary" id="rest-plus" data-od-id="rest-plus-demo" aria-label="Add 30s"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+          <button class="btn btn-secondary btn-sm" id="rest-skip" data-od-id="rest-skip-demo">Skip</button>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:12px" data-od-id="coach-note-demo">
+      <span class="fs-label c-secondary" style="display:block;margin-bottom:8px">CoachNoteCard</span>
+      <div class="coach-note">
+        <span class="cn-meta"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 13.75 10.25 22 12 13.75 13.75 12 22 10.25 13.75 2 12 10.25 10.25Z"/></svg> VULCAN coach</span>
+        <span class="cn-body">Heavy rack pulls at P meant leaving the last two reps short. Tempo the descent â€” the stretch is doing the work, not the bounce.</span>
+        <span class="cn-foot">AI guidance Â· review before logging</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- P5 Â· overlays -->
+  <section data-od-id="spec-overlays">
+    <div class="spec-head">
+      <span class="spec-kicker">P5 Â· Overlays</span>
+      <h2 class="spec-title">Toast &amp; bottom sheet</h2>
+      <p class="spec-desc">Toasts top-left of attention, top of the screen. Sheets grow from the bottom over a 60% dim backdrop.</p>
+    </div>
+    <div class="card row" data-od-id="overlay-triggers">
+      <button class="btn btn-secondary" id="toast-ember" data-od-id="toast-pr">Toast Â· new PR</button>
+      <button class="btn btn-secondary" id="toast-off" data-od-id="toast-off">Toast Â· offline</button>
+      <button class="btn btn-secondary" id="sheet-open" data-od-id="sheet-quota">Sheet Â· quota exhausted</button>
+    </div>
+  </section>
+
+  <!-- P5 Â· shell -->
+  <section data-od-id="spec-shell">
+    <div class="spec-head">
+      <span class="spec-kicker">P5 Â· Shell &amp; navigation</span>
+      <h2 class="spec-title">Five tabs, one raised Train</h2>
+      <p class="spec-desc">The center Train button is a raised 56px flame circle â€” reachable one-thumb mid-session from every tab. Tab content is honest placeholder until P6â€“P8.</p>
+    </div>
+    <div data-shell data-od-id="app-shell-demo"></div>
+  </section>
+
+  <!-- roadmap -->
+  <section data-od-id="spec-roadmap">
+    <div class="spec-head">
+      <span class="spec-kicker">Roadmap Â· P6+</span>
+      <h2 class="spec-title">Screens build on this</h2>
+    </div>
+    <div class="roadmap" data-od-id="roadmap">
+      <div class="rm"><b>P6</b>Auth &amp; onboarding â€” S1 Splash Â· S2 Welcome Â· S3 Login Â· S4 Signup Â· S5 Wizard (13 steps)</div>
+      <div class="rm"><b>P7</b>Today â€” S6 dashboard (hero ring, macrobars, coach note)</div>
+      <div class="rm"><b>P8</b>Train core â€” S7 Train home Â· S10 Active session Â· S11 Summary</div>
+      <div class="rm"><b>P9</b>Nutrition â€” S16â€“S19 diary â†’ scan â†’ AI confirm</div>
+      <div class="rm"><b>P10</b>Progress â€” S21â€“S24 charts, photo check-in, analysis</div>
+      <div class="rm"><b>P11</b>Program â€” S25 generate Â· S26 review</div>
+      <div class="rm"><b>P12</b>Profile â€” S27â€“S30 settings, goals, AI usage, privacy</div>
+      <div class="rm"><b>P13</b>Remaining â€” S8/S9/S12â€“S15/S20</div>
+      <div class="rm is-current"><b>P14</b>Global states, empty states &amp; final QA</div>
+    </div>
+  </section>
+</main>
+
+<footer class="gallery" data-od-id="m1-footer" style="padding-top:0;padding-bottom:var(--sp-9)">
+  <hr class="hr" style="margin-bottom:var(--sp-4)">
+  <p class="fs-caption c-muted">Milestone 1 files: <span class="tnum">shared/{tokens,base,components,shell}.css Â· icons.js Â· shell.js Â· mock-data.js</span> â€” bound to input-DESIGN.md Â§3â€“Â§6.</p>
+</footer>
+
+<script src="shared/icons.js"></script>
+<script src="shared/mock-data.js"></script>
+<script src="shared/shell.js"></script>
+<script>
+(function(){
+  var IC = window.VULCAN_ICONS.icon;
+
+  document.getElementById('wm-spark').innerHTML = IC('spark',{filled:true,size:22});
+
+  var swatches = [
+    {name:'bg Â· base',hex:'#0B0B0D',c:'#141417'},
+    {name:'bg Â· elevated',hex:'#141417',c:'#2A2A31'},
+    {name:'bg Â· card',hex:'#1B1B20',c:'#3A3A44'},
+    {name:'bg Â· overlay',hex:'#232329',c:'#4A4A54'},
+    {name:'border Â· hairline',hex:'#2A2A31',c:'#3A3A44'},
+    {name:'text Â· primary',hex:'#F5F2EC',c:'#C8C5BF'},
+    {name:'text Â· secondary',hex:'#A6A29B',c:'#7A7670'},
+    {name:'text Â· muted',hex:'#6E6A64',c:'#4A4640'},
+    {name:'ember 300',hex:'#FFB347',c:'#C77B1C'},
+    {name:'ember 400',hex:'#FF8A3D',c:'#C25B10'},
+    {name:'ember 500 Â· accent',hex:'#FF6A00',c:'#C2410C'},
+    {name:'ember 700',hex:'#C2410C',c:'#8A2E08'},
+    {name:'success',hex:'#3ECF8E',c:'#1E8A58'},
+    {name:'warning',hex:'#FFB020',c:'#C28120'},
+    {name:'danger',hex:'#F4502F',c:'#B0321B'},
+    {name:'macro Â· fat',hex:'#B08CF2',c:'#7A5CB2'},
+    {name:'chart Â· sky',hex:'#7DD3FC',c:'#4A8FB3'},
+    {name:'on-accent',hex:'#0B0B0D',c:'#FF6A00'}
+  ];
+  document.getElementById('swatch-grid').innerHTML = swatches.map(function(s){
+    return '<div class="swatch"><div class="swatch-chip" style="background:'+s.hex+';box-shadow:inset 0 0 0 1px '+s.c+'"></div>'
+      +'<div class="swatch-meta"><span class="swatch-name">'+s.name+'</span><span class="swatch-hex">'+s.hex+'</span></div></div>';
+  }).join('');
+
+  var labels = { flame:'flame', spark:'spark', anvil:'anvil', plate:'plate', apple:'apple', chart:'chart', person:'person', plus:'plus', check:'check', more:'more', timer:'timer', camera:'camera', note:'note', trash:'trash', sliders:'sliders', target:'target', zap:'zap', scale:'scale', pencil:'pencil', 'arrow-right':'arrow-right', move:'move' };
+  var names = ['flame','spark','anvil','plate','apple','chart','person','plus','minus','check','x','timer','clock','more','note','camera','refresh','trash','download','sliders','target','zap','scale','pencil','arrow-left','arrow-right','move','search'];
+  document.getElementById('icon-grid').innerHTML = names.map(function(n){
+    return '<div class="icon-cell">'+IC(n)+'<span>'+(labels[n]||n)+'</span></div>';
+  }).join('');
+
+  /* animate rings */
+  function fillRing(ring){
+    var v = Math.max(0, Math.min(100, parseInt(ring.getAttribute('data-ring')||'0',10)));
+    var f = ring.querySelector('.ring-fill');
+    if(!f) return;
+    requestAnimationFrame(function(){ f.style.strokeDashoffset = String(100 - v); });
+  }
+  document.querySelectorAll('[data-ring]').forEach(fillRing);
+
+  /* slider */
+  (function(){
+    var wrap=document.getElementById('slider-pace'), thumb=wrap.querySelector('.slider-thumb'),
+        label=document.getElementById('pace-label');
+    var dragging=false;
+    function setPct(x){
+      var r=wrap.getBoundingClientRect();
+      var p=Math.max(0,Math.min(100,(x-r.left)/r.width*100));
+      wrap.style.setProperty('--fill',p.toFixed(1)+'%');
+      thumb.setAttribute('aria-valuenow',String(Math.round(p)));
+      var rate = -0.1 + p/100*0.9; var kcal=Math.round(rate*500);
+      label.textContent = rate.toFixed(1)+' kg / week Â· '+kcal+' kcal daily';
+    }
+    thumb.addEventListener('pointerdown',function(e){dragging=true;thumb.setPointerCapture(e.pointerId);setPct(e.clientX);});
+    thumb.addEventListener('pointermove',function(e){if(dragging)setPct(e.clientX);});
+    thumb.addEventListener('pointerup',function(){dragging=false;});
+    thumb.addEventListener('keydown',function(e){
+      var p=parseFloat(thumb.getAttribute('aria-valuenow'));
+      if(e.key==='ArrowRight'||e.key==='ArrowUp')setPct(thumb.getBoundingClientRect().left+ (p+5)/100*wrap.getBoundingClientRect().width);
+      if(e.key==='ArrowLeft'||e.key==='ArrowDown')setPct(thumb.getBoundingClientRect().left+ (p-5)/100*wrap.getBoundingClientRect().width);
+    });
+  })();
+
+  /* rest timer demo */
+  (function(){
+    var bar=document.getElementById('rest-demo'), sec=document.getElementById('rest-sec')||bar.querySelector('.rest-sec'),
+        fill=bar.querySelector('.rest-fill'), run=document.getElementById('rest-run'),
+        total=parseInt(bar.getAttribute('data-total'),10), iv=null;
+    function paint(s){
+      s=Math.max(0,s);
+      bar.setAttribute('data-remaining',s);
+      sec.textContent=Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+      fill.style.strokeDashoffset=String(100-(s/total*100));
+      bar.classList.toggle('is-critical',s>0&&s<=10);
+      var running=s>0&&!isPaused;
+      bar.classList.toggle('is-running',running);
+    }
+    var remaining=total,isPaused=true;
+    paint(total);
+    function tick(){ remaining-=1; paint(remaining); if(remaining<=0){ clearInterval(iv); isPaused=true; paint(0); run.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="m10 8 6 4-6 4V8z"/></svg> Run 2:00'; window.OD.toast('Rest done','Next set starts now','ember'); } }
+    run.addEventListener('click',function(){
+      if(isPaused){ isPaused=false; if(remaining<=0){remaining=total;} paint(remaining); iv=setInterval(tick,1000); }
+      else { isPaused=true; clearInterval(iv); bar.classList.remove('is-running'); }
+      run.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="'+(isPaused?'M6 4l14 8-14 8V4z':'M6 6h4v12H6zM14 6h4v12h-4z')+'"/></svg> '+(isPaused?'Resume':'Pause');
+    });
+    document.getElementById('rest-plus').addEventListener('click',function(){ remaining+=30; paint(remaining); });
+    document.getElementById('rest-skip').addEventListener('click',function(){ remaining=0; paint(0); });
+  })();
+
+  /* toasts + sheet */
+  document.getElementById('toast-ember').addEventListener('click',function(){ window.OD.toast('New PR Â· 102.5 kg','The forge remembers.','ember'); });
+  document.getElementById('toast-off').addEventListener('click',function(){ window.OD.toast('Offline','Changes sync later.'); });
+  document.getElementById('sheet-open').addEventListener('click',function(){ window.OD.sheet('The forge cools', 'You hit your scan limit for today. Three scans free again at midnight.'); });
+
+  /* set-row ignite (gallery) */
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('[data-toggle-set]');
+    if(!b) return;
+    b.classList.toggle('is-done');
+    b.closest('.set-row').classList.toggle('is-lit', b.classList.contains('is-done'));
+  });
+})();
+</script>
+</body>
+</html>

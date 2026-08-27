@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VULCAN · Nutrition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/base.css">
+<link rel="stylesheet" href="shared/components.css">
+<link rel="stylesheet" href="shared/shell.css">
+<style>
+  .diary-total{text-align:center;padding:6px 0 2px}
+  .macrow{display:flex;gap:10px;align-items:center}
+  .sec-block{display:flex;flex-direction:column;gap:8px}
+  .sec-chip{font-size:var(--fs-caption);color:var(--text-muted);padding-left:4px}
+  .meal-del{color:var(--text-muted)}
+  .meal-del:hover{color:var(--danger)}
+  .empty-sec{display:flex;flex-direction:column;gap:6px;align-items:center;justify-content:center;padding:22px;border:1px dashed var(--border-hairline);border-radius:var(--r-lg);text-align:center}
+</style>
+</head>
+<body>
+<div class="app-page has-tabbar" data-od-id="nutrition-diary">
+  <main class="screen-pad tabbed">
+    <div class="top-nav">
+      <div><h1 class="t-title">Nutrition</h1><div class="fs-caption c-muted" id="dDate"></div></div>
+    </div>
+
+    <div class="day-strip" id="dayStrip" data-od-id="day-strip"></div>
+
+    <div class="card" data-od-id="kcal-ring-card">
+      <div class="spread" style="margin-bottom:10px"><span class="fs-label c-secondary">Calories</span>
+        <span class="fs-label tnum c-ember" id="kcalPct">0%</span></div>
+      <div class="ring" data-ring="65" style="margin-inline:auto;--ring-size:150px">
+        <svg viewBox="0 0 120 120"><defs><linearGradient id="ringDiary" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFB347"/><stop offset="1" stop-color="#C2410C"/></linearGradient></defs>
+          <circle class="ring-track" cx="60" cy="60" r="48" pathLength="100"/><circle class="ring-fill" cx="60" cy="60" r="48" pathLength="100" stroke="url(#ringDiary)" stroke-dasharray="100" stroke-dashoffset="100"/></svg>
+        <div class="ring-center"><div><div class="ring-value tnum" id="kcalNow">0</div><div class="ring-caption">of <span class="tnum" id="kcalGoal">2,140</span> kcal</div></div></div>
+      </div>
+      <div class="macro-bar" style="margin-top:14px"><i id="mP" style="width:73%;background:var(--macro-protein)"></i><i id="mC" style="width:52%;background:var(--macro-carbs)"></i><i id="mF" style="width:51%;background:var(--macro-fat)"></i></div>
+      <div class="macro-legend" style="margin-top:10px">
+        <span class="ml"><span class="dot" data-macro="protein"></span>Protein <b class="tnum" id="lP">132/180g</b></span>
+        <span class="ml"><span class="dot" data-macro="carbs"></span>Carbs <b class="tnum" id="lC">136/260g</b></span>
+        <span class="ml"><span class="dot" data-macro="fat"></span>Fat <b class="tnum" id="lF">35/68g</b></span>
+      </div>
+    </div>
+
+    <div id="dayDiary" class="stack" style="gap:16px"></div>
+  </main>
+
+  <a class="fab" href="s17-add-meal.html" data-od-id="fab-add" aria-label="Add meal">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+  </a>
+  <nav id="tabbar"></nav>
+</div>
+
+<script src="shared/icons.js"></script>
+<script src="shared/mock-data.js"></script>
+<script src="shared/shell.js"></script>
+<script>
+(function(){
+  'use strict';
+  var IC=window.VULCAN_ICONS.icon;
+  window.OD.mountBar(document.getElementById('tabbar'),'nutrition');
+  var now=new Date();
+  document.getElementById('dDate').textContent=new Intl.DateTimeFormat(undefined,{weekday:'short',month:'short',day:'numeric'}).format(now);
+
+  var DAYS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  document.getElementById('dayStrip').innerHTML=DAYS.map(function(d,i){
+    return '<button class="day-cell'+(i===2?' is-today':'')+'" data-od-id="day-'+(i+1)+'"><span class="d tnum">'+(i+3)+'</span><span class="wd">'+d+'</span></button>';
+  }).join('');
+
+  var MEALS=[
+    {id:1,meal:'Breakfast',name:'Oats, whey & berry bowl',kcal:520,p:42,c:64,f:11},
+    {id:2,meal:'Breakfast',name:'Black coffee',kcal:5,p:0,c:0,f:0},
+    {id:3,meal:'Lunch',name:'Grilled chicken & rice bowl',kcal:650,p:72,c:60,f:16},
+    {id:4,meal:'Snacks',name:'Greek yogurt + almonds',kcal:210,p:18,c:12,f:8}
+  ];
+  var KEY='vulcan.diary';
+  function load(){ try{ return JSON.parse(localStorage.getItem(KEY)||'null'); }catch(e){ return null; } }
+  var diary=load()||{meals:MEALS};
+  function save(o){ try{ localStorage.setItem(KEY,JSON.stringify(o)); }catch(e){} }
+
+  var order=['Breakfast','Lunch','Dinner','Snacks'];
+  function render(){
+    var tot={kcal:0,p:0,c:0,f:0};
+    var groups={}; order.forEach(function(m){ groups[m]=[]; });
+    diary.meals.forEach(function(m){ groups[m.meal]=groups[m.meal]||[]; groups[m.meal].push(m); tot.kcal+=m.kcal; tot.p+=m.p; tot.c+=m.c; tot.f+=m.f; });
+    var pct=Math.round(tot.kcal/2140*100);
+    document.getElementById('kcalNow').textContent=tot.kcal.toLocaleString();
+    document.getElementById('kcalPct').textContent=pct+'%';
+    var ring=document.querySelector('[data-ring]').querySelector('.ring-fill'); ring.style.strokeDashoffset=String(100-Math.min(100,pct));
+    document.getElementById('lP').textContent=tot.p+'/180g';
+    document.getElementById('lC').textContent=tot.c+'/260g';
+    document.getElementById('lF').textContent=tot.f+'/68g';
+    document.getElementById('mP').style.width=Math.round(tot.p/180*100)+'%';
+    document.getElementById('mC').style.width=Math.round(tot.c/260*100)+'%';
+    document.getElementById('mF').style.width=Math.round(tot.f/68*100)+'%';
+
+    document.getElementById('dayDiary').innerHTML=order.map(function(meal){
+      var list=groups[meal]||[];
+      var cards=list.map(function(m){
+        return '<div class="meal-card" data-id="'+m.id+'" data-od-id="meal-'+m.meal.toLowerCase().replace(' ','-')+'-'+m.id+'">'
+          +'<div class="meal-thumb">'+IC('plate',{size:26})+'</div>'
+          +'<div class="meal-body"><span class="meal-name">'+m.name+'</span><span class="meal-meta tnum">P '+m.p+'g · C '+m.c+'g · F '+m.f+'g</span></div>'
+          +'<div class="meal-kcal"><span class="k tnum">'+m.kcal+'</span><span class="fs-caption c-muted">kcal</span></div>'
+          +'<button class="btn-icon meal-del" data-del="'+m.id+'" aria-label="Delete '+m.name+'">'+IC('trash',{size:18})+'</button>'
+          +'</div>';
+      }).join('');
+      var empty = list.length===0 ? '<div class="empty-sec" data-od-id="empty-'+meal.toLowerCase()+'"><span class="empty-icon">'+IC('plate',{size:26})+'</span><span class="fs-label c-secondary">Nothing after sundown yet</span><span class="fs-caption c-muted">Add a meal to keep the tally honest.</span></div>' : '';
+      return '<section class="sec-block"><span class="sec-chip overline">'+meal+'</span>'+(cards||empty)+'</section>';
+    }).join('');
+  }
+  render();
+
+  document.getElementById('dayDiary').addEventListener('click',function(e){
+    var d=e.target.closest('[data-del]');
+    if(d){
+      var id=+d.getAttribute('data-del');
+      diary.meals=diary.meals.filter(function(m){return m.id!==id;});
+      save(diary); render();
+      window.OD.toast('Meal removed','The diary re-tallies.');
+      return;
+    }
+    var card=e.target.closest('.meal-card');
+    if(card){
+      try{ localStorage.setItem('vulcan.view-meal',String(card.getAttribute('data-id'))); }catch(e2){}
+      location.href='s20-meal-detail.html';
+    }
+  });
+})();
+</script>
+</body>
+</html>

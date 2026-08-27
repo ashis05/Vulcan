@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "screens/s06-today.html",
+  "entry": "screens/s06-today.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-08-26T19:11:25.022Z",
+  "updatedAt": "2026-08-26T19:11:25.022Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

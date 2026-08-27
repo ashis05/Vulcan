@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VULCAN · Today</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/base.css">
+<link rel="stylesheet" href="shared/components.css">
+<link rel="stylesheet" href="shared/shell.css">
+<style>
+  .offline-banner{display:flex;align-items:center;gap:8px;margin:0 16px 12px;padding:9px 12px;border:1px solid var(--border-hairline);border-radius:var(--r-sm);
+    background:var(--bg-card);font-size:var(--fs-caption);color:var(--text-secondary)}
+  .offline-banner .wdot{width:7px;height:7px;border-radius:50%;background:var(--warning);flex:none}
+  .offline-banner button{margin-left:auto;color:var(--amber-color,var(--ember-500));font-size:var(--fs-caption);font-weight:600}
+  .today-main{display:flex;flex-direction:column;gap:14px;padding:22px 16px 24px}
+  .today-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .today-title{font-family:var(--font-display);font-size:var(--fs-title);line-height:1.15;font-weight:700;letter-spacing:-0.01em}
+  .today-date{font-size:var(--fs-caption);color:var(--text-muted);margin-top:2px}
+  .tile-tap{cursor:pointer;transition:transform 0.12s ease}
+  .tile-tap:active{transform:scale(0.98)}
+  .card+.card{margin:0}
+  .demo-foot{display:flex;justify-content:flex-end;padding:6px 16px 18px}
+</style>
+</head>
+<body>
+<div class="app-page has-tabbar" data-od-id="today-screen">
+  <div class="offline-banner" id="offlineBanner" data-od-id="offline-banner" hidden>
+    <span class="wdot"></span><span>Offline — changes sync later.</span>
+    <button data-od-id="offline-retry">Retry</button>
+  </div>
+
+  <!-- loading skeleton -->
+  <main class="today-main" id="skeletonLoad" data-od-id="today-skeleton">
+    <div class="row" style="justify-content:space-between"><div class="skeleton sk-title"></div><div class="skeleton sk-dot"></div></div>
+    <div class="skeleton sk-card" style="height:240px"></div>
+    <div class="grid2"><div class="skeleton sk-card" style="height:120px"></div><div class="skeleton sk-card" style="height:120px"></div></div>
+    <div class="skeleton sk-card" style="height:120px"></div>
+    <div class="skeleton sk-card" style="height:110px"></div>
+  </main>
+
+  <main class="today-main" id="pageContent" data-od-id="today-content" hidden>
+    <div class="today-top">
+      <div>
+        <h1 class="today-title" data-od-id="today-greeting">Today, <span id="nameSpan">Marcus</span></h1>
+        <div class="today-date" id="dateSpan"></div>
+      </div>
+      <span class="streak is-lit" data-od-id="streak-flame">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+        <span class="streak-font tnum" id="streakNum">47</span>
+      </span>
+    </div>
+
+    <div class="card" data-od-id="hero-card">
+      <div class="spread" style="margin-bottom:12px">
+        <span class="fs-label c-secondary">Calories</span>
+        <span class="pr-badge" data-od-id="kcal-left"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 13.75 10.25 22 12 13.75 13.75 12 22 10.25 13.75 2 12 10.25 10.25Z"/></svg><span class="tnum" id="kcalLeft">760</span> left</span>
+      </div>
+      <div class="ring" data-ring="65" data-od-id="hero-ring" style="margin-inline:auto;--ring-size:176px">
+        <svg viewBox="0 0 120 120">
+          <defs><linearGradient id="ringToday" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFB347"/><stop offset="1" stop-color="#C2410C"/></linearGradient></defs>
+          <circle class="ring-track" cx="60" cy="60" r="48" pathLength="100"/>
+          <circle class="ring-fill" cx="60" cy="60" r="48" pathLength="100" stroke="url(#ringToday)" stroke-dasharray="100" stroke-dashoffset="100"/>
+        </svg>
+        <div class="ring-center"><div><div class="ring-value tnum" id="ringCenter">760</div><div class="ring-caption">kcal remaining</div></div></div>
+      </div>
+      <div class="macro-bar" style="margin-top:16px">
+        <i style="width:81%;background:var(--macro-protein)"></i><i style="width:55%;background:var(--macro-carbs)"></i><i style="width:70%;background:var(--macro-fat)"></i>
+      </div>
+      <div class="macro-legend" style="margin-top:10px">
+        <span class="ml"><span class="dot" data-macro="protein"></span>Protein <b class="tnum">146/180g</b></span>
+        <span class="ml"><span class="dot" data-macro="carbs"></span>Carbs <b class="tnum">142/260g</b></span>
+        <span class="ml"><span class="dot" data-macro="fat"></span>Fat <b class="tnum">48/68g</b></span>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="stat-tile" data-od-id="stat-steps">
+        <span class="st-label">Steps</span>
+        <span class="st-value tnum">10,240</span>
+        <svg width="100%" height="30" viewBox="0 0 100 30" preserveAspectRatio="none">
+          <rect x="2" y="20" width="8" height="8" rx="2" fill="rgba(62,207,142,.35)"></rect>
+          <rect x="15" y="13" width="8" height="15" rx="2" fill="rgba(62,207,142,.35)"></rect>
+          <rect x="28" y="21" width="8" height="7" rx="2" fill="rgba(62,207,142,.35)"></rect>
+          <rect x="41" y="9" width="8" height="19" rx="2" fill="rgba(62,207,142,.35)"></rect>
+          <rect x="54" y="15" width="8" height="13" rx="2" fill="rgba(62,207,142,.35)"></rect>
+          <rect x="67" y="19" width="8" height="9" rx="2" fill="rgba(62,207,142,.35)"></rect>
+          <rect x="80" y="4" width="8" height="24" rx="2" fill="#3ECF8E"></rect>
+        </svg>
+      </div>
+      <div class="stat-tile tile-tap" data-od-id="stat-weight" id="weightTile" role="button" tabindex="0">
+        <span class="st-label">Weight</span>
+        <span class="st-value tnum"><span id="weightVal">82.4</span><span class="fs-caption c-muted"> kg</span></span>
+        <span class="st-delta down">▼ 0.6 kg · 7d</span>
+      </div>
+    </div>
+
+    <div class="card spread" data-od-id="workout-card">
+      <div class="stack-sm">
+        <span class="fs-label c-secondary">Today · Program</span>
+        <span class="fs-h3">Bench Press — Push A</span>
+        <span class="fs-caption c-muted">Week 3 of 8 · 3 exercises · 42 min</span>
+        <div class="row" style="gap:6px;margin-top:2px">
+          <span class="chip" aria-pressed="true" style="height:26px;padding:0 10px">Chest</span>
+          <span class="chip" aria-pressed="false" style="height:26px;padding:0 10px">Triceps</span>
+          <span class="chip" aria-pressed="false" style="height:26px;padding:0 10px">Shoulders</span>
+        </div>
+      </div>
+      <a class="btn btn-primary" href="s10-active-workout.html" data-od-id="cta-start">Start</a>
+    </div>
+
+    <div class="coach-note" data-od-id="coach-note">
+      <span class="cn-meta"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 13.75 10.25 22 12 13.75 13.75 12 22 10.25 13.75 2 12 10.25 10.25Z"/></svg> VULCAN coach</span>
+      <span class="cn-body">Heavy rack pulls at P meant leaving the last two reps short. Tempo the descent — the stretch is doing the work, not the bounce.</span>
+      <span class="cn-foot">AI guidance · review before logging</span>
+    </div>
+  </main>
+
+  <div class="demo-foot">
+    <button class="btn btn-ghost btn-sm" data-od-id="demo-offline" id="demoOffline">Simulate offline</button>
+  </div>
+
+  <nav id="tabbar"></nav>
+</div>
+
+<script src="shared/icons.js"></script>
+<script src="shared/mock-data.js"></script>
+<script src="shared/shell.js"></script>
+<script>
+(function(){
+  'use strict';
+  var M=window.OD_MOCK;
+  try{ var u=JSON.parse(localStorage.getItem('vulcan.user')||'{}'); if(u && u.name){ document.getElementById('nameSpan').textContent=u.name; } }catch(e){}
+  var now=new Date(), ds=new Intl.DateTimeFormat(undefined,{weekday:'short',day:'numeric',month:'short'}).format(now);
+  document.getElementById('dateSpan').textContent=ds;
+
+  window.OD.mountBar(document.getElementById('tabbar'),'today');
+
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  setTimeout(function(){
+    document.getElementById('skeletonLoad').hidden=true;
+    var page=document.getElementById('pageContent'); page.hidden=false;
+    var ring=page.querySelector('[data-ring]');
+    requestAnimationFrame(function(){
+      var f=ring.querySelector('.ring-fill'); f.style.strokeDashoffset='35';
+    });
+  }, reduce?60:650);
+
+  function openWeightSheet(){
+    var cur=+document.getElementById('weightVal').textContent;
+    var back=document.createElement('div'); back.className='sheet-backdrop';
+    var sh=document.createElement('div'); sh.className='sheet'; sh.setAttribute('role','dialog'); sh.setAttribute('aria-modal','true');
+    sh.innerHTML='<div class="sheet-handle"></div><div class="sheet-title">Log weight</div>'+
+      '<div class="stepper" id="ws" style="margin:12px auto;display:flex"><button data-wd="-0.5">&minus;</button><span class="stepper-value" id="wsv">'+cur+'</span><button data-wi="0.5">&plus;</button></div>'+
+      '<p class="fs-caption c-muted" style="text-align:center;margin-bottom:16px">kg · today · taps to log</p>'+
+      '<div class="spread" style="gap:10px"><button class="btn btn-ghost" id="wCancel">Cancel</button><button class="btn btn-primary" data-full id="wSave">Save</button></div>';
+    function open(){ back.classList.add('is-open'); sh.classList.add('is-open'); }
+    function close(){ back.classList.remove('is-open'); sh.classList.remove('is-open'); setTimeout(function(){back.remove();sh.remove();},300); }
+    back.addEventListener('click',close);
+    sh.querySelector('#wCancel').addEventListener('click',close);
+    sh.querySelector('#wsv').textContent=cur;
+    var v=cur;
+    sh.querySelectorAll('[data-wi],[data-wd]').forEach(function(b){ b.addEventListener('click',function(){
+      v=Math.round((v + (+b.getAttribute('data-wi')||0) + (+b.getAttribute('data-wd')||0))*10)/10;
+      v=Math.max(40,Math.min(250,v));
+      sh.querySelector('#wsv').textContent=v;
+    }); });
+    sh.querySelector('#wSave').addEventListener('click',function(){
+      document.getElementById('weightVal').textContent=v;
+      close();
+      window.OD.toast('Weight logged', v+' kg · synced to targets','ember');
+    });
+    document.body.appendChild(back); document.body.appendChild(sh);
+    requestAnimationFrame(open);
+  }
+  document.getElementById('weightTile').addEventListener('click',openWeightSheet);
+  document.getElementById('weightTile').addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' ') openWeightSheet(); });
+
+  var banner=document.getElementById('offlineBanner');
+  document.getElementById('demoOffline').addEventListener('click',function(){ banner.hidden=!banner.hidden; });
+  banner.querySelector('[data-od-id="offline-retry"]').addEventListener('click',function(){
+    banner.hidden=true; window.OD.toast('Back online','Everything synced.');
+  });
+})();
+</script>
+</body>
+</html>

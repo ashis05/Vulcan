@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VULCAN · Create account</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/base.css">
+<link rel="stylesheet" href="shared/components.css">
+<style>
+  .app-page{display:flex;flex-direction:column;gap:24px;padding:max(20px,env(safe-area-inset-top)) 20px 28px}
+  .nav-row{display:flex;align-items:center;justify-content:space-between}
+  .back-btn{display:inline-flex;align-items:center;gap:6px;color:var(--text-secondary);font-size:var(--fs-label);min-height:44px;padding:0 6px}
+  .back-btn:hover{color:var(--text-primary)}
+  .form-stack{display:flex;flex-direction:column;gap:14px}
+  .switch-row{text-align:center;font-size:var(--fs-label);color:var(--text-secondary)}
+</style>
+</head>
+<body>
+<div class="app-page" data-od-id="signup-screen">
+  <div class="nav-row">
+    <a class="back-btn" href="s02-welcome.html" data-od-id="signup-back"><span id="back-ico"></span>Back</a>
+    <div style="height:44px"></div>
+  </div>
+  <div class="stack-sm">
+    <h1 class="fs-title" data-od-id="signup-title">Forge your account.</h1>
+    <p class="fs-caption c-muted">Steel starts with a name on the metal.</p>
+  </div>
+  <form class="form-stack" id="signup-form" data-od-id="signup-form" novalidate>
+    <div class="field" id="f-name">
+      <label for="in-name">Name</label>
+      <input class="field-control" id="in-name" type="text" autocomplete="name" placeholder="Marcus">
+      <span class="field-hint" id="h-name"></span>
+    </div>
+    <div class="field" id="f-email">
+      <label for="in-email">Email</label>
+      <input class="field-control" id="in-email" type="email" inputmode="email" autocomplete="email" placeholder="you@forge.gg">
+      <span class="field-hint" id="h-email"></span>
+    </div>
+    <div class="field" id="f-pass">
+      <label for="in-pass">Password</label>
+      <input class="field-control" id="in-pass" type="password" autocomplete="new-password" placeholder="8+ characters">
+      <span class="field-hint" id="h-pass"></span>
+    </div>
+    <button class="btn btn-primary" data-full id="btn-create" data-od-id="btn-create" type="submit">Create account</button>
+  </form>
+  <p class="switch-row">Already on the forge? <a href="s03-login.html" data-od-id="link-login">Log in</a></p>
+</div>
+<script>
+  document.getElementById('back-ico').textContent='\u2190';
+  document.getElementById('back-ico').style.fontSize='20px';
+  var form=document.getElementById('signup-form');
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var ok=true;
+    var fields={ name:{el:document.getElementById('in-name'),h:document.getElementById('h-name'),w:document.getElementById('f-name')},
+                 email:{el:document.getElementById('in-email'),h:document.getElementById('h-email'),w:document.getElementById('f-email')},
+                 pass:{el:document.getElementById('in-pass'),h:document.getElementById('h-pass'),w:document.getElementById('f-pass')} };
+    for(var k in fields){
+      var f=fields[k]; f.w.setAttribute('data-error','false'); f.h.removeAttribute('data-state'); f.h.textContent='';
+    }
+    if(!fields.name.el.value.trim()){ warn(fields.name,'Add your name.'); ok=false; }
+    if(!fields.email.el.value.trim() || fields.email.el.value.indexOf('@')<0){ warn(fields.email,'Enter a valid email.'); ok=false; }
+    if(fields.pass.el.value.length<4){ warn(fields.pass,'Use at least 4 characters.'); ok=false; }
+    if(!ok) return;
+    try{ localStorage.setItem('vulcan.user', JSON.stringify({name:fields.name.el.value.trim(), goal:'Cut · −0.5 kg/wk'})); }catch(e2){}
+    location.href='s05-onboarding-wizard.html';
+  });
+  function warn(f,msg){ f.w.setAttribute('data-error',''); f.h.setAttribute('data-state','error'); f.h.textContent=msg; }
+</script>
+</body>
+</html>

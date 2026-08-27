@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VULCAN · S1 Splash</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/base.css">
+<style>
+  html,body{height:100%}
+  #splash{position:fixed;inset:0;display:grid;place-items:center;background:var(--bg-base)}
+  .splash-inner{display:flex;flex-direction:column;align-items:center;gap:22px}
+  .splash-mark{color:var(--ember-500);animation:ignite 0.72s ease-out both}
+  @keyframes ignite{0%{transform:scale(0.4);opacity:0;filter:drop-shadow(0 0 0 rgba(255,106,0,0))}
+    62%{transform:scale(1.07);opacity:1;filter:drop-shadow(0 0 24px rgba(255,106,0,0.65))}
+    100%{transform:scale(1);filter:drop-shadow(0 0 14px rgba(255,106,0,0.35))}}
+  .splash-word{font-family:var(--font-display);font-weight:700;font-size:34px;letter-spacing:0.16em;color:var(--text-primary);opacity:0;animation:raise 0.6s ease-out 0.28s both}
+  @keyframes raise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .splash-note{font-family:var(--font-body);font-size:var(--fs-caption);color:var(--text-muted);letter-spacing:0.14em;text-transform:uppercase;opacity:0;animation:raise 0.6s ease-out 0.5s both;animation-fill-mode:forwards}
+</style>
+</head>
+<body>
+<div id="splash" data-od-id="splash">
+  <div class="splash-inner">
+    <div class="splash-mark" id="splash-mark" data-od-id="splash-mark"></div>
+    <div class="splash-word" data-od-id="splash-wordmark">VULCAN</div>
+    <div class="splash-note">Forged by Vulcan</div>
+  </div>
+</div>
+<script src="shared/icons.js"></script>
+<script>
+  document.getElementById('splash-mark').innerHTML = window.VULCAN_ICONS.icon('spark',{filled:true,size:100});
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  setTimeout(function(){ location.replace('s02-welcome.html'); }, reduce ? 500 : 1350);
+</script>
+</body>
+</html>
