@@ -1,0 +1,104 @@
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css";
+
+@import "nativewind/theme";
+
+@theme {
+  /* background */
+  --color-bg-base: #0b0b0d;
+  --color-bg-elevated: #141417;
+  --color-bg-card: #1b1b20;
+  --color-bg-overlay: #232329;
+
+  /* border */
+  --color-border-hairline: #2a2a31;
+  --color-border-focus: #ff6a00;
+
+  /* text */
+  --color-text-primary: #f5f2ec;
+  --color-text-secondary: #a6a29b;
+  --color-text-muted: #6e6a64;
+  --color-text-on-accent: #0b0b0d;
+
+  /* accent — ember scale */
+  --color-ember-300: #ffb347;
+  --color-ember-400: #ff8a3d;
+  --color-ember-500: #ff6a00;
+  --color-ember-700: #c2410c;
+
+  /* semantic */
+  --color-success: #3ecf8e;
+  --color-warning: #ffb020;
+  --color-danger: #f4502f;
+
+  /* macros */
+  --color-macro-protein: #ff6a00;
+  --color-macro-carbs: #ffb020;
+  --color-macro-fat: #b08cf2;
+
+  /* charts palette + steps */
+  --color-chart-1: #ff6a00;
+  --color-chart-2: #ffb347;
+  --color-chart-3: #b08cf2;
+  --color-chart-4: #7dd3fc;
+  --color-chart-5: #3ecf8e;
+  --color-steps: #3ecf8e;
+
+  /* font families (loaded via expo-font; weight-specific faces) */
+  --font-display: "SpaceGrotesk_700Bold", "Space Grotesk", sans-serif;
+  --font-display-medium: "SpaceGrotesk_500Medium", "Space Grotesk", sans-serif;
+  --font-body: "Inter_400Regular", "Inter", sans-serif;
+  --font-body-medium: "Inter_500Medium", "Inter", sans-serif;
+  --font-body-semibold: "Inter_600SemiBold", "Inter", sans-serif;
+  --font-body-bold: "Inter_700Bold", "Inter", sans-serif;
+
+  /* type scale */
+  --text-display: 44px;
+  --text-display--line-height: 48px;
+  --text-display--font-weight: 700;
+  --text-display--letter-spacing: -0.02em;
+  --text-title: 28px;
+  --text-title--line-height: 34px;
+  --text-title--font-weight: 700;
+  --text-title--letter-spacing: -0.01em;
+  --text-h2: 22px;
+  --text-h2--line-height: 28px;
+  --text-h2--font-weight: 600;
+  --text-h3: 17px;
+  --text-h3--line-height: 24px;
+  --text-h3--font-weight: 600;
+  --text-body: 15px;
+  --text-body--line-height: 22px;
+  --text-body--font-weight: 400;
+  --text-label: 13px;
+  --text-label--line-height: 18px;
+  --text-label--font-weight: 500;
+  --text-caption: 11px;
+  --text-caption--line-height: 16px;
+  --text-caption--font-weight: 500;
+
+  /* spacing · 8px grid */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 20px;
+  --spacing-2xl: 24px;
+  --spacing-3xl: 32px;
+  --spacing-4xl: 40px;
+  --spacing-5xl: 56px;
+
+  /* radius */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;
+
+  /* shadows */
+  --shadow-glow: 0 0 24px rgba(255, 106, 0, 0.35);
+  --shadow-glow-soft: 0 0 16px rgba(255, 106, 0, 0.18);
+  --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.4);
+}

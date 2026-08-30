@@ -4,7 +4,7 @@
 
 **Depends on:** Phase 1 (profile exists; app shell + auth done).
 
-## DB changes — `supabase/migrations/0002_training.sql`
+## DB changes — `backend/migrations/0002_training.sql`
 
 - `exercises` (global rows have `user_id NULL`) + **seed ~60 common lifts** (barbell/dumbbell/machine/bodyweight, with primary_muscle + equipment).
 - `routines`, `routine_exercises`, `workouts`, `workout_sets` (columns per PLAN.md §6).
@@ -13,7 +13,7 @@
 
 ## Tasks
 
-1. **Strength engine** — `mobile/src/engine/strength.ts`: Epley e1RM, PR detection (max weight / max reps-at-weight / max e1RM per exercise), volume calc, stall detection (no e1RM gain over 3 exposures). Unit tests.
+1. **Strength engine** — `frontend/src/engine/strength.ts`: Epley e1RM, PR detection (max weight / max reps-at-weight / max e1RM per exercise), volume calc, stall detection (no e1RM gain over 3 exposures). Unit tests.
 2. **Train home** (S7): routines list, "Start empty workout", recent history preview.
 3. **Routine builder** (S9) + routine detail (S8): CRUD routines, add/reorder/remove exercises, targets per exercise (sets, rep range, RPE, rest seconds, superset group).
 4. **Exercise picker** (S12): search + muscle/equipment filters + create custom exercise.
