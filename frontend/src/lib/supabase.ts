@@ -1,6 +1,10 @@
 import 'react-native-url-polyfill/auto';
+import { install as installQuickCrypto } from 'react-native-quick-crypto';
+
 import { createClient } from '@supabase/supabase-js';
 import * as SecureStore from 'expo-secure-store';
+
+installQuickCrypto();
 
 type StorageLike = {
   getItem: (key: string) => Promise<string | null>;
@@ -30,5 +34,6 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     autoRefreshToken: true,
     persistSession: true,
     detectSessionInUrl: false,
+    flowType: 'pkce',
   },
 });

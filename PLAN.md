@@ -15,7 +15,7 @@
 4. When a phase is complete, update its status in the phase table below and check off its items.
 5. Make **minimal, modular** changes. Follow existing code style. Do not expand scope beyond the phase file.
 
-**Project status:** 🟡 Planning complete — not yet scaffolded. Start with `phases/PHASE-0-scaffold.md`.
+**Project status:** ✅ Phase 0 complete — Expo app + FastAPI + Supabase scaffolded, auth end-to-end (Google-only). Next: `phases/PHASE-1-onboarding-engine.md`.
 
 ---
 
@@ -199,7 +199,7 @@ Lives in `frontend/src/engine/`. No I/O, no framework imports — deterministic 
 
 | Phase | File | Deliverable | Status |
 |---|---|---|---|
-| 0 | `phases/PHASE-0-scaffold.md` | Expo + FastAPI + Supabase scaffold, auth end-to-end | ⬜ |
+| 0 | `phases/PHASE-0-scaffold.md` | Expo + FastAPI + Supabase scaffold, auth end-to-end | ✅ |
 | 1 | `phases/PHASE-1-onboarding-engine.md` | Onboarding wizard + personalization engine (tested) | ⬜ |
 | 2 | `phases/PHASE-2-gym-tracker.md` | Full workout logging core (offline-tolerant) | ⬜ |
 | 3 | `phases/PHASE-3-steps-budget.md` | Health Connect steps, calorie budget, weight, manual meals | ⬜ |

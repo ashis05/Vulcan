@@ -15,6 +15,7 @@ import {
   SpaceGrotesk_700Bold,
 } from '@expo-google-fonts/space-grotesk';
 
+import { useAuth } from '@/lib/use-auth';
 import { colors } from '@/theme';
 
 SplashScreen.preventAutoHideAsync();
@@ -28,6 +29,7 @@ export default function RootLayout() {
     SpaceGrotesk_500Medium,
     SpaceGrotesk_700Bold,
   });
+  const { session, isLoading } = useAuth();
 
   useEffect(() => {
     if (loaded || error) {
@@ -35,9 +37,11 @@ export default function RootLayout() {
     }
   }, [loaded, error]);
 
-  if (!loaded && !error) {
+  if ((!loaded && !error) || isLoading) {
     return null;
   }
+
+  const isAuthed = !!session;
 
   return (
     <>
@@ -47,7 +51,14 @@ export default function RootLayout() {
           headerShown: false,
           contentStyle: { backgroundColor: colors.bg.base },
         }}
-      />
+      >
+        <Stack.Protected guard={!isAuthed}>
+          <Stack.Screen name="(auth)" />
+        </Stack.Protected>
+        <Stack.Protected guard={isAuthed}>
+          <Stack.Screen name="(tabs)" />
+        </Stack.Protected>
+      </Stack>
     </>
   );
 }

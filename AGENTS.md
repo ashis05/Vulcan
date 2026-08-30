@@ -60,7 +60,13 @@ If a phase file contradicts `PLAN.md`, `PLAN.md` wins — flag the conflict rath
 - Commit only when explicitly asked. Write a concise commit message matching the repo's style. Never commit secrets, `.env` files, or build artifacts.
 - Do not commit `.planning/`-style scratch or local tooling state (`.idea/`, `.obsidian/`, `.expo/` are ignored).
 
-## 7. When in doubt
+## 7. Session memory (MEM.md)
+
+- `MEM.md` (repo root) is the session log + current-state snapshot. **Read it first when resuming work.**
+- **After every session, append a concise summary to the Session log** in `MEM.md`: what was done, decisions, verification results, current state, and next steps. Keep it factual, no secrets.
+- Keep the **Current state** section in `MEM.md` up to date when the branch/status changes materially.
+
+## 8. When in doubt
 
 - Read the current phase file fully before touching code.
 - If a task is ambiguous, ask — do not guess at scope, formulas, or design intent.

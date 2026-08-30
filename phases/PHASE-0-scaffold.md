@@ -25,13 +25,13 @@
 
 ## Done when
 
-- [ ] App launches on a physical Android device (dev build, not Expo Go)
-- [ ] Email sign-up + login persists across app restarts (SecureStore session)
-- [ ] Google sign-in completes and returns to the app
-- [ ] Unauthenticated users are redirected to `(auth)`; authenticated users land on tabs
-- [ ] The Today tab shows the `user_id` returned by FastAPI `/health/protected` (JWT verified server-side)
-- [ ] `GET /health` returns 200 without a token; `/health/protected` returns 401 without one
-- [ ] No secrets in `frontend/.env` beyond the Supabase anon key
+- [x] App launches on a physical Android device (dev build, not Expo Go)
+- [x] Google session persists across app restarts (SecureStore session) — email UI removed, Google-only
+- [x] Google sign-in completes and returns to the app
+- [x] Unauthenticated users are redirected to `(auth)`; authenticated users land on tabs
+- [x] The Today tab shows the `user_id` returned by FastAPI `/health/protected` (JWT verified server-side)
+- [x] `GET /health` returns 200 without a token; `/health/protected` returns 401 without one
+- [x] No secrets in `frontend/.env` beyond the Supabase anon key
 
 ## Test plan
 
