@@ -109,12 +109,14 @@ VULCAN/
 ├─ backend/                # FastAPI + Supabase migrations
 │  ├─ app/
 │  │  ├─ main.py
-│  │  ├─ core/             # config, auth (JWT verify), quotas
+│  │  ├─ core/             # config, db, auth (JWT verify), quotas
+│  │  ├─ db.py             # SQLModel engine/session
+│  │  ├─ models.py         # SQLModel tables (schema source of truth)
 │  │  ├─ routers/          # ai.py, health.py
 │  │  ├─ services/         # gemini.py, program_context.py, supabase_admin.py
 │  │  └─ schemas.py        # pydantic models (also used as Gemini response_schema)
 │  ├─ tests/
-│  └─ migrations/          # versioned SQL: 0001_profiles.sql, 0002_training.sql, ...
+│  └─ alembic/             # Alembic migrations (versions/0001_profiles.py, ...)
 └─ .env.example files on both sides — never commit real .env
 ```
 
@@ -122,11 +124,11 @@ VULCAN/
 
 ## 6. Database schema (canonical)
 
-All tables live in Supabase Postgres, created via versioned SQL migrations in `backend/migrations/`. **Every table has RLS enabled**; policy: `auth.uid() = user_id` for user tables. `ai_calls` is service-role only (no user read).
+All tables live in Supabase Postgres, created via **Alembic** migrations in `backend/alembic/versions/` — table DDL from SQLModel metadata (`backend/app/models.py`), with raw SQL for RLS policies and triggers. **Every table has RLS enabled**; policy: `auth.uid() = user_id` for user tables. `ai_calls` is service-role only (no user read).
 
 | Table | Key columns | Notes |
 |---|---|---|
-| `profiles` | id (FK auth.users), display_name, sex, birth_date, height_cm, unit_pref, goal (cut/maintain/bulk/recomp), experience, days_per_week, equipment text[], injuries text, activity_level, onboarding_completed | auto-created via `handle_new_user` trigger |
+| `profiles` | id (FK auth.users), display_name, sex, birth_date, height_cm, height_unit, weight_unit, goal (cut/recomp/maintain/bulk), pace_kg_wk, activity_level, experience, days_per_week, session_len_min, equipment text[], injuries text[], injuries_note, onboarding_completed | auto-created via `handle_new_user` trigger |
 | `body_metrics` | user_id, measured_on (date), weight_kg, bodyfat_pct? | unique(user_id, measured_on); drives weight trend |
 | `exercises` | id, user_id NULL (= global), name, primary_muscle, secondary_muscles text[], equipment, is_custom | global readable by all authed users; customs owner-only |
 | `routines` | id, user_id, name, source (manual/ai), program_id?, day_label, sort_order | templates; AI-generated ones link to `programs` |
@@ -173,12 +175,12 @@ Lives in `frontend/src/engine/`. No I/O, no framework imports — deterministic 
 | Module | Function | Formula / rule |
 |---|---|---|
 | `units.ts` | kg↔lb, cm↔ft/in conversions | — |
-| `tdee.ts` | BMR | Mifflin-St Jeor — male: `10w + 6.25h − 5a + 5`; female: `10w + 6.25h − 5a − 161` |
+| `tdee.ts` | BMR | Mifflin-St Jeor — male: `10w + 6.25h − 5a + 5`; female: `10w + 6.25h − 5a − 161` · Katch-McArdle `370 + 21.6 × leanMass` when body-fat % is known |
 | | TDEE | BMR × activity multiplier (sedentary 1.2 / light 1.375 / moderate 1.55 / very 1.725) |
-| `targets.ts` | Calorie target | cut: −20% · bulk: +10% · recomp/maintain: ±0 — floors: 1200 (F) / 1500 (M) kcal |
+| `targets.ts` | Calorie target | pace-based: TDEE + `pace_kg_wk × 7700 ÷ 7`; pace capped to ≤1% BW/wk (cut/recomp) · ≤0.5% BW/wk (bulk) and the delta capped at ±25% TDEE — floors: 1500 (M) / 1200 (F) kcal |
 | | Macros | protein: cut 2.2 g/kg, else 1.8 g/kg · fat: 25% of kcal · carbs: remainder |
 | `steps.ts` | Step calorie bonus | `steps × weight_kg × 0.0005` — added on top of sedentary-baseline target |
-| | Trend adjustment | if 14-day weight trend contradicts goal (no loss on cut / no gain on bulk), adjust target ∓100 kcal |
+| | Trend adjustment | if 14-day weight trend contradicts goal (no loss on cut / no gain on bulk), adjust target ∓100 kcal · **Phase 3: adaptive TDEE** (see PHASE-3) |
 | `strength.ts` | Estimated 1RM | Epley: `weight × (1 + reps/30)` |
 | | PR detection | new max weight, max reps at weight, or max e1RM per exercise |
 | | Stall detection | no e1RM improvement across 3+ exposures → flag for deload / feed to program generation |
@@ -224,6 +226,7 @@ EXPO_PUBLIC_API_URL=        # http://<LAN-IP>:8000 in dev
 **`backend/.env`** (NEVER in the app, never committed):
 ```
 SUPABASE_URL=
+DATABASE_URL=               # Postgres pooler URI — Alembic migrations only
 SUPABASE_SERVICE_ROLE_KEY=  # bypasses RLS — server only
 GEMINI_API_KEY=
 ALLOWED_ORIGINS=            # app scheme in prod, * in dev

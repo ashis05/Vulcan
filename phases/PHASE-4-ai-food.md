@@ -4,7 +4,7 @@
 
 **Depends on:** Phase 3 (meals + diary exist). First phase that touches the FastAPI AI layer.
 
-## DB changes — `backend/migrations/0004_ai.sql`
+## DB changes — Alembic revision `0004_ai` (`backend/alembic/versions/0004_ai.py`)
 
 - `ai_usage` (user_id, usage_date, feature, count; unique per user+date+feature). RLS: owner read-only (UI meters); writes service-role only.
 - `ai_calls` (per PLAN.md §6) — service-role only, no user read policy.

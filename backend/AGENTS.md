@@ -4,9 +4,9 @@ Stack-specific rules for the backend: the Python FastAPI AI proxy **and** the Su
 
 ## Layout
 
-- `app/` — FastAPI: `main.py` (app + CORS via `ALLOWED_ORIGINS`) · `core/` (`config.py` pydantic-settings, `auth.py` JWT verify, `quotas.py`) · `routers/` (`ai.py`, `health.py`) · `services/` (`gemini.py`, `program_context.py`, `supabase_admin.py`, `prompts.py`) · `schemas.py` (pydantic models, doubled as Gemini `response_schema`).
+- `app/` — FastAPI: `main.py` (app + CORS via `ALLOWED_ORIGINS`) · `core/` (`config.py` pydantic-settings, `auth.py` JWT verify, `quotas.py`) · `db.py` (SQLModel engine/session) · `models.py` (SQLModel tables = schema source of truth) · `routers/` (`ai.py`, `health.py`) · `services/` (`gemini.py`, `program_context.py`, `supabase_admin.py`, `prompts.py`) · `schemas.py` (pydantic models, doubled as Gemini `response_schema`).
 - `tests/` — `pytest`.
-- `migrations/` — versioned SQL (`0001_profiles.sql`, `0002_training.sql`, `0003_activity_nutrition.sql`, `0004_ai.sql`, `0005_programs.sql`, `0006_physique.sql`). One per phase; never edit an applied migration — add a new titled one. Keep them additive/idempotent.
+- `alembic/` — Alembic migrations (`alembic.ini`, `env.py`, `versions/000N_*.py`). One revision per phase; never edit an applied revision — add a new one. Table DDL comes from SQLModel metadata (`app/models.py`); RLS policies, the `handle_new_user` trigger, and the cross-schema `auth.users` FK live as raw SQL inside the revision. Apply with `alembic upgrade head`.
 - `backend/.env` is never committed; commit only `.env.example` with all vars from PLAN.md §11.
 
 ## FastAPI — the AI route pipeline (reusable; follow it on every AI endpoint)

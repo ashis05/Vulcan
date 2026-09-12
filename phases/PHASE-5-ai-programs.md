@@ -4,7 +4,7 @@
 
 **Depends on:** Phase 2 (training data + routines), Phase 4 (AI infrastructure pattern).
 
-## DB changes — `backend/migrations/0005_programs.sql`
+## DB changes — Alembic revision `0005_programs` (`backend/alembic/versions/0005_programs.py`)
 
 - `programs` (per PLAN.md §6; one `active` per user — enforce via partial unique index `ON programs(user_id) WHERE status='active'`).
 - `routines.program_id` column already exists from Phase 2 — verify.

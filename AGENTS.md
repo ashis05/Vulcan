@@ -35,8 +35,8 @@ If a phase file contradicts `PLAN.md`, `PLAN.md` wins — flag the conflict rath
 
 - Everything is modular: reusable components and utilities, not one-off blobs. Follow the folder responsibilities from `PLAN.md` §5:
   - `frontend/src/components/` — shared UI (from DESIGN.md specs) · `frontend/src/features/` — today, train, nutrition, progress, profile · `frontend/src/engine/` — pure functions · `frontend/src/lib/` — supabase client, api client, hooks · `frontend/src/theme/` — tokens from DESIGN.md.
-  - `backend/app/core/` — config, auth, quotas · `backend/app/routers/` — ai.py, health.py · `backend/app/services/` — gemini.py, program_context.py, supabase_admin.py · `backend/app/schemas.py` — pydantic models.
-  - `backend/migrations/` — versioned SQL only.
+  - `backend/app/core/` — config, db, auth, quotas · `backend/app/routers/` — ai.py, health.py · `backend/app/services/` — gemini.py, program_context.py, supabase_admin.py · `backend/app/models.py` — SQLModel tables · `backend/app/schemas.py` — pydantic models.
+  - `backend/alembic/` — Alembic migrations; SQLModel metadata (`app/models.py`) is the schema source of truth, with raw SQL for RLS/triggers.
 - When a piece of logic already exists (units, e1RM, TDEE, quota check, AI call pipeline), **reuse it** — do not duplicate or re-implement inline.
 - If you find yourself writing the same thing twice, extract it into the right shared module. If a component is only used by one screen and won't be reused, keep it local to that feature.
 - The AI route pipeline is a reusable pattern: **auth → quota → fetch storage → Gemini structured output → log call → respond.** Phases 5–6 reuse Phase 4's infrastructure. Build it clean.

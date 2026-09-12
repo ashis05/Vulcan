@@ -5,6 +5,7 @@ import { AccessibilityInfo, Animated, StyleSheet, View } from 'react-native';
 import { Screen } from '@/components/ui/Screen';
 import { SparkIcon } from '@/components/icons';
 import { useAuth } from '@/lib/use-auth';
+import { useProfile } from '@/lib/use-profile';
 import { colors, fonts, motion } from '@/theme';
 
 const IGNITE_MS = 720;
@@ -15,6 +16,7 @@ const ROUTE_DELAY_REDUCED = 450;
 export default function SplashScreen() {
   const router = useRouter();
   const { session, isLoading } = useAuth();
+  const profileQuery = useProfile();
   const [reduceMotion, setReduceMotion] = useState(false);
 
   const scale = useMemo(() => new Animated.Value(0.4), []);
@@ -59,13 +61,18 @@ export default function SplashScreen() {
   }, [reduceMotion, scale, markOpacity, glowOpacity, wordOpacity, wordY]);
 
   useEffect(() => {
-    if (isLoading) return;
+    if (isLoading || (session && profileQuery.isPending)) return;
+    const dest = !session
+      ? '/welcome'
+      : profileQuery.data?.onboardingCompleted
+        ? '/today'
+        : '/onboarding';
     const timer = setTimeout(
-      () => router.replace(session ? '/today' : '/welcome'),
+      () => router.replace(dest),
       reduceMotion ? ROUTE_DELAY_REDUCED : ROUTE_DELAY,
     );
     return () => clearTimeout(timer);
-  }, [isLoading, session, reduceMotion, router]);
+  }, [isLoading, session, reduceMotion, router, profileQuery.data, profileQuery.isPending]);
 
   return (
     <Screen>

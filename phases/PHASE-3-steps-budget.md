@@ -4,7 +4,7 @@
 
 **Depends on:** Phase 1 (engine, targets) and Phase 2 (Today shell exists).
 
-## DB changes — `backend/migrations/0003_activity_nutrition.sql`
+## DB changes — Alembic revision `0003_activity_nutrition` (`backend/alembic/versions/0003_activity_nutrition.py`)
 
 - `daily_activity` (user_id, activity_date, steps, target_kcal, step_bonus_kcal; unique per user+date).
 - `meals` (columns per PLAN.md §6; `photo_path` nullable, `source` manual|photo).
@@ -38,3 +38,4 @@
 
 - Health Connect requires the Play declaration only for store release (Phase 7) — sideloaded dev builds work now.
 - Do not build the food camera here. Phase 4 owns it.
+- **Adaptive TDEE (this phase's accuracy upgrade):** once `meals` + `body_metrics` have history, estimate `TDEE = avg_intake + (Δweight_kg × 7700 ÷ days)` over a rolling 14–21 day window and let it converge from the Mifflin/Katch cold-start prior. This self-corrects for metabolic adaptation, activity drift, and logging error — more accurate than any static equation. Keep it in `frontend/src/engine/` as a pure function with unit tests.

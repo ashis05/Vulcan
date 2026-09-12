@@ -12,20 +12,38 @@ Continuing the project from anywhere. This file is the session log and current-s
 
 ## Current state
 
-- **Active branch:** `master` (Phase 0 merged in from `feat/auth`). Next feature branches from here.
-- **Branches:** `master` (init + frontend scaffold + Phase 0/auth) · `frontend` (scaffold only) · `feat/auth` (merged into master).
+- **Active branch:** `feat/onboarding` (Phase 1 — engine + wizard + Alembic built, uncommitted). `master` has Phase 0 merged.
+- **Branches:** `master` (init + frontend scaffold + Phase 0/auth) · `frontend` (scaffold only) · `feat/auth` (merged into master) · `feat/onboarding` (Phase 1, WIP).
 - **Frontend** (`frontend/`): Expo SDK 57 · expo-router (new `js-tabs`) · React Native 0.86 · TypeScript · NativeWind v5 preview + Tailwind v4 · fonts (Space Grotesk/Inter) · DESIGN tokens in `src/theme/` + `src/global.css` (`@theme`).
 - **Routes:** `/` = **splash** (`src/app/index.tsx`, S1 ember ignite → wordmark → redirects `/welcome` or `/today`) · `(auth)/welcome|login|signup|forgot-password` · `(tabs)/today|nutrition|train|progress|profile`. `Stack.Protected` gates `(auth)` vs `(tabs)`; splash is always available as the anchor.
 - **Auth (Google-only UI):** welcome screen offers **Google sign-in only** (email button removed; `login`/`signup`/`forgot-password` route files still exist but unreachable — candidate for deletion). Google flow: PKCE (`src/lib/oauth.ts`, client `flowType:'pkce'`, redirect `vulcan://`), deep-link fallback via `Linking.addEventListener`, WebCrypto polyfill (`react-native-quick-crypto`) for SHA-256. Works end-to-end on device. Session persisted in SecureStore.
 - **Styling:** **No `className` anywhere** — all styles are explicit RN `StyleSheet` objects derived from DESIGN tokens (NativeWind v5 `react-native-css` runtime was unreliable for a subset of `--text-*` utilities on native; inline styles are proven to work). `src/components/ui/{Screen,Button,TextField,TabBar}.tsx` + all screens use tokens directly.
 - **Tab bar:** floating dock (rounded pill, 16px margins, elevated + shadow), center Train button raised with flame gradient, **DumbbellIcon** (64px button / 28px icon).
 - **Backend** (`backend/`): FastAPI skeleton — `GET /health` (public), `GET /health/protected` (JWT verified against Supabase JWKS). **Fixed ES256 support** (Supabase signs with EC P-256): `_key_for_kid` handles EC, decode accepts `["ES256","RS256"]`. Tests 8/8 passing.
+- **Migrations (switched to Alembic + SQLModel):** `backend/app/models.py` = schema source of truth (`profiles`, `body_metrics`); `backend/app/db.py` (engine, psycopg3 URL normalization); `backend/alembic/` with revision `0001_profiles` (table DDL from SQLModel metadata + raw SQL for RLS, `handle_new_user` trigger, and the cross-schema `auth.users` FK). `DATABASE_URL` set in `backend/.env`; **`0001_profiles` applied to the live DB and RLS verified**. Old `backend/migrations/*.sql` removed.
 - **Frontend ↔ backend proof:** Today tab "Verify FastAPI (Phase 0 proof)" button calls `/health/protected` with the access token and shows the server-verified `user_id` — **pending device re-test after the ES256 backend fix** (was 401).
 - **Docs:** `README.md` (run backend/frontend/test-on-phone), `frontend/ANDROID-EMULATOR.md` (device/emulator setup).
 
 ---
 
 ## Session log
+
+### 2026-09-12 · Session 9 — Phase 1 engine caps + Katch-McArdle; migration stack switched to Alembic + SQLModel
+
+- **Supabase project had been paused** (`/auth/v1/health` → 502; `db` host briefly NXDOMAIN). User restored it → health 200. Confirmed `profiles`/`body_metrics` did **not** exist (PGRST205) → `0001` migration was never applied.
+- **Engine accuracy (Phase 1):** `tdee.ts` gained `bmrKatchMcArdle` + `leanMassKg`. `targets.ts` stays pace-based but now (a) caps pace to bodyweight (cut/recomp ≤1% BW/wk, bulk ≤0.5% BW/wk), (b) caps the pace delta at ±25% of TDEE, (c) uses Katch-McArdle when `bodyfatPct` is supplied. `Targets` gained `effectivePaceKgWk`. Tests 25→**36 passing**. Adaptive TDEE documented as the Phase-3 upgrade (PLAN §8 + PHASE-3 notes).
+- **Migration stack switched to Alembic + SQLModel** (user decision — supersedes the earlier "raw SQL only" rule): added `app/models.py` (profiles, body_metrics = schema source of truth), `app/db.py` (engine + psycopg3 URL normalization), `backend/alembic/` (`alembic.ini`, `env.py`, `script.py.mako`, `versions/0001_profiles.py`). Revision creates tables from SQLModel metadata, then applies raw SQL for the `auth.users` FK, RLS policies, and the `handle_new_user` trigger. Added `sqlmodel`, `alembic`, `psycopg[binary]`; added `DATABASE_URL` to config + `.env.example`. Removed `backend/migrations/`.
+- **Docs synced:** root `AGENTS.md` §4, `backend/AGENTS.md` layout, `PLAN.md` §5/§6/§8/§11, every phase `DB changes` header, PHASE-3 adaptive-TDEE note.
+- **Pace slider fix:** `PaceSlider` jittered back and forth because `locationX` switches reference frame between the track and the thumb as the finger moves. Now uses absolute `pageX` against a `measureInWindow`-tracked offset, refuses responder termination (it lives inside a `ScrollView`), and marks decorative layers `pointerEvents="none"`.
+- **Onboarding completion fix:** `onContinue` now `setQueryData`s the saved profile and navigation is a `useEffect` keyed on `onboardingCompleted` — the old inline `router.replace('/today')` raced the `(tabs)` guard (still false) and was dropped, so finishing the wizard didn't reach home.
+- **Auth/cache fix:** `RootNavigator` removes the previous account's `['profile', id]` query when the auth user changes (sign-out or account switch), so a new account starts fresh instead of inheriting stale onboarding state.
+- **Verification:** vitest 36/36 · `tsc --noEmit` clean · `expo lint` clean · pytest 8/8 · `alembic upgrade head --sql` (offline) renders the correct tables/FK/RLS/trigger.
+- **Migration applied:** `DATABASE_URL` (Session pooler) added to `backend/.env` → `alembic upgrade head` succeeded; `alembic current` = `0001_profiles (head)`; `profiles` + `body_metrics` live.
+- **RLS verified at runtime (rolled-back simulation, no rows persisted):** user A sees 1 profile, user B sees 1, unknown user sees 0; `rowsecurity = true` on both tables; 6 owner policies + `on_auth_user_created` trigger + `handle_new_user` fn + `profiles_id_fkey` confirmed; anon REST read → `200 []`.
+
+**Next:** run the Phase-1 "Done when" gate on device (fresh account → wizard → Reveal targets; profile + first weight row persisted; edit profile recalculates) → commit.
+
+---
 
 ### 2026-08-30 · Session 8 — Phase 0 closed: email routes deleted, deep-link diagnostics, committed + merged to master
 
@@ -212,6 +230,6 @@ Continuing the project from anywhere. This file is the session log and current-s
 
 - [x] Session 7: Google sign-in works end-to-end (deep-link fallback + WebCrypto polyfill); **backend ES256 fix** (was rejecting valid tokens with 401 — `auth.py` now handles EC keys, 8/8 pytest); welcome is Google-only with real Google logo; app icon = splash ember mark confirmed; **floating dock tab bar + DumbbellIcon** (64px Train button).
 - [x] Session 8: Verify FastAPI shows `user_id` on device ✅; deep-link fallback diagnostic log added (confirm via Metro log on next Google sign-in); email auth routes deleted; Phase 0 "Done when" closed; `feat/auth` committed + merged into `master`.
-- [ ] Phase 1: onboarding wizard + personalization engine (`frontend/src/engine/`) + `backend/migrations/0001_profiles.sql` — branch `feat/onboarding`.
+- [ ] Phase 1: engine + wizard + settings stub built on `feat/onboarding` (uncommitted); `0001_profiles` applied to the live DB and RLS verified. Remaining: device "Done when" gate (wizard → Reveal targets, profile + first weight persisted, edit recalculates).
 - [ ] Backend: add `routers/ai.py` + `schemas.py` when Phase 4 starts.
 - [ ] Set the real Android bundle id in `app.json` (Phase 7; currently `com.anonymous.vulcan`).

@@ -4,7 +4,7 @@
 
 **Depends on:** Phase 1 (profile exists; app shell + auth done).
 
-## DB changes — `backend/migrations/0002_training.sql`
+## DB changes — Alembic revision `0002_training` (`backend/alembic/versions/0002_training.py`)
 
 - `exercises` (global rows have `user_id NULL`) + **seed ~60 common lifts** (barbell/dumbbell/machine/bodyweight, with primary_muscle + equipment).
 - `routines`, `routine_exercises`, `workouts`, `workout_sets` (columns per PLAN.md §6).

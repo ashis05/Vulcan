@@ -6,7 +6,7 @@
 
 ## Tasks
 
-1. **Repo layout** — ensure `frontend/`, `backend/`, and `backend/migrations/` exist inside the project root (alongside PLAN.md / AGENTS.md / phases/).
+1. **Repo layout** — ensure `frontend/`, `backend/`, and `backend/alembic/` exist inside the project root (alongside PLAN.md / AGENTS.md / phases/).
 2. **Frontend app init** — `npx create-expo-app@latest frontend` (TypeScript + expo-router template). Install:
    - core: `expo-router`, `expo-constants`, `expo-linking`, `expo-status-bar`, `expo-dev-client`
    - data: `@supabase/supabase-js`, `react-native-url-polyfill`, `expo-secure-store`, `@tanstack/react-query`, `zustand`

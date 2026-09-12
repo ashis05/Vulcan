@@ -4,10 +4,10 @@
 
 **Depends on:** Phase 0.
 
-## DB changes — `backend/migrations/0001_profiles.sql`
+## DB changes — Alembic revision `0001_profiles` (`backend/alembic/versions/0001_profiles.py`)
 
-- `profiles` (columns per PLAN.md §6) with `handle_new_user()` trigger on `auth.users` insert.
-- `body_metrics` (unique per user+date).
+- SQLModel tables in `backend/app/models.py`: `profiles` (columns per PLAN.md §6) and `body_metrics` (unique per user+date).
+- Revision applies raw SQL for RLS policies and the `handle_new_user()` trigger on `auth.users` insert.
 - RLS enabled + policies: owner select/insert/update (no delete needed).
 
 ## Tasks
