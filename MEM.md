@@ -24,13 +24,28 @@ Continuing the project from anywhere. This file is the session log and current-s
 - **Phase 2 wave A (done, committed+`548b817`/`73c8246`):** training schema + seed applied; `frontend/src/engine/strength.ts` (Epley e1RM, PR detection, volume, stall) with vitest tests.
 - **Phase 2 wave B (done, committed `919b339`/`778e4fb`):** Train data layer (`features/train/`), S7 Train home, S8 routine detail, S9 routine builder, S12 exercise picker + custom exercise, route guards, `/workout/active` scaffold.
 - **Phase 2 wave C (done, committed `7551980`/`4046ca5`):** S10 active session, rest timer (notification + keep-awake), Zustand+AsyncStorage session persistence, prev-performance ghost, summary scaffold.
-- **Phase 2 wave D (done, uncommitted):** finish flow → `workout-result.ts` (PR detection + payload), offline sync queue (`sync.ts` + NetInfo reconnect flush), full S11 summary with PR list + notes, offline banner. Native dep `@react-native-community/netinfo` added → rebuild needed.
+- **Phase 2 wave D (done, committed `b026dda`/`b544131`):** finish flow → `workout-result.ts` (PR detection + payload), offline sync queue (`sync.ts` + NetInfo reconnect flush), full S11 summary with PR list + notes, offline banner. Native dep `@react-native-community/netinfo` added → rebuild needed.
+- **Phase 2 wave E (done, committed `f269bc0`):** S14 history, S15 past workout + Repeat, S13 exercise detail (gifted-charts), S7 history preview filled. **All Phase-2 code written; only the device pass remains.**
 - **Frontend ↔ backend proof:** Today tab "Verify FastAPI (Phase 0 proof)" button calls `/health/protected` with the access token and shows the server-verified `user_id` — **pending device re-test after the ES256 backend fix** (was 401).
 - **Docs:** `README.md` (run backend/frontend/test-on-phone), `frontend/ANDROID-EMULATOR.md` (device/emulator setup).
 
 ---
 
 ## Session log
+
+### 2026-09-12 · Session 14 — Phase 2 wave E: history, past workout + Repeat, exercise detail + charts
+
+- **Dep added (JS):** `react-native-gifted-charts` (uses the existing `react-native-svg`).
+- **S14 History** (`app/history.tsx`): month-grouped workout history with duration/exercise count, volume, sets or PR count; tap → past workout.
+- **S15 Past workout** (`app/workout/[id].tsx`): read-only stats + per-exercise set groups; tapping an exercise opens its detail; **Repeat as new workout** rebuilds a prefilled session (`sessionExercisesFromHistory`) and starts it.
+- **S13 Exercise detail** (`app/exercise/[id].tsx`): e1RM/Volume toggle with `LineChart`/`BarChart`, PR history, all-time top sets.
+- **S7 Train home** history preview now lists the 5 most recent workouts with a "See all" link.
+- **API** (`features/train/api.ts`): `fetchWorkoutHistory`, `fetchWorkoutDetail`, `fetchExerciseStats`; new hooks + sync invalidations. Root layout guards `history` + `exercise`.
+- **Verification:** vitest 53/53 · `tsc --noEmit` clean · `expo lint` clean · web bundle (incl. gifted-charts) OK. Device test pending.
+
+**Next:** native rebuild + full device pass against the Phase-2 "Done when" list (airplane-mode sync, kill/resume, rest notification with screen off, supersets/dropsets/warmup/RPE render, charts from real data) → then Phase 2 complete.
+
+---
 
 ### 2026-09-12 · Session 13 — Phase 2 wave D: finish/summary + PR detection + offline sync queue
 
@@ -285,11 +300,27 @@ Continuing the project from anywhere. This file is the session log and current-s
 - `backend/.env`: `SUPABASE_URL` (filled), `DATABASE_URL` (Supabase Session pooler URI, for Alembic), `ALLOWED_ORIGINS=*`.
 - Android SDK: `C:\Users\Dell\AppData\Local\Android\Sdk`; `local.properties` written; env vars persisted.
 
+## Phase 2 device test checklist (pending)
+
+Rebuild first (`npx expo run:android`) — wave C–E added native modules. Backend/FastAPI not needed (training CRUD goes straight to Supabase).
+
+1. **Exercise picker (S12):** Train → New routine → Add exercise. 71 seeded lifts; search + muscle filters; create a custom exercise.
+2. **Routine builder/detail (S9/S8):** add exercises + targets, toggle a superset, reorder, Save; open it → Start workout.
+3. **Active session (S10):** complete sets → ignite + haptic + rest timer; +30/Skip; long-press a set → set type/delete; add/remove sets & exercises; prev-value ghost on a repeat exercise.
+4. **Kill/resume:** swipe the app away mid-session, reopen → Train → Start empty workout → the session is restored.
+5. **Rest notification:** with the screen off/locked, the "Rest done" notification fires (grant notification permission on first run).
+6. **Finish/summary (S11):** confirm sheet → ember burst, duration/volume/sets, PR list (first-ever set = PR), notes.
+7. **Airplane-mode sync:** log a session in airplane mode → Finish works locally → turn signal back on → the workout appears in History and in Supabase `workouts`/`workout_sets` (`is_pr` set); nothing lost.
+8. **History/past (S14/S15):** month grouping; tap → read-only detail; Repeat prefills a new session.
+9. **Exercise detail (S13):** e1RM line / Volume bars from real data; PR history; top sets.
+
+Caveats: drag-reorder → up/down; set-type → long-press (not swipe).
+
 ## Open questions / next steps
 
 - [x] Session 7: Google sign-in works end-to-end (deep-link fallback + WebCrypto polyfill); **backend ES256 fix** (was rejecting valid tokens with 401 — `auth.py` now handles EC keys, 8/8 pytest); welcome is Google-only with real Google logo; app icon = splash ember mark confirmed; **floating dock tab bar + DumbbellIcon** (64px Train button).
 - [x] Session 8: Verify FastAPI shows `user_id` on device ✅; deep-link fallback diagnostic log added (confirm via Metro log on next Google sign-in); email auth routes deleted; Phase 0 "Done when" closed; `feat/auth` committed + merged into `master`.
 - [x] Phase 1 complete (engine + wizard + settings stub; `0001_profiles` applied, RLS verified, persistence confirmed on device). Merged to `master` and pushed to `origin`.
-- [ ] Phase 2 (waves A–D done): schema + engine + Train/routine/picker + S10 session/timer/persistence + S11 summary/PR/offline sync. Next: **native rebuild + device test**, then **wave E** (S14 history, S15 past workout + Repeat, S13 exercise detail + charts).
+- [ ] Phase 2 (waves A–E done, code complete): schema + engine + Train/routine/picker + S10 session/timer/persistence + S11 summary/PR/offline sync + history/past-workout/exercise-detail/charts. **Remaining: native rebuild + device test (airplane sync, kill/resume, rest notification, set types, charts), then mark Phase 2 complete.**
 - [ ] Backend: add `routers/ai.py` + `schemas.py` when Phase 4 starts.
 - [ ] Set the real Android bundle id in `app.json` (Phase 7; currently `com.anonymous.vulcan`).
