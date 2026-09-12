@@ -181,3 +181,28 @@ export async function deleteRoutine(id: string): Promise<void> {
   const { error } = await supabase.from('routines').delete().eq('id', id);
   if (error) throw error;
 }
+
+/** Most recent completed set per exercise — powers the S10 "previous" ghost. */
+export async function fetchLastPerformance(
+  exerciseIds: string[],
+): Promise<Record<string, { weightKg: number; reps: number }>> {
+  if (exerciseIds.length === 0) return {};
+  const { data, error } = await supabase
+    .from('workout_sets')
+    .select('exercise_id, weight_kg, reps, created_at')
+    .in('exercise_id', exerciseIds)
+    .eq('completed', true)
+    .not('weight_kg', 'is', null)
+    .not('reps', 'is', null)
+    .order('created_at', { ascending: false })
+    .limit(500);
+  if (error) throw error;
+
+  const map: Record<string, { weightKg: number; reps: number }> = {};
+  for (const row of data as { exercise_id: string; weight_kg: number; reps: number }[]) {
+    if (!map[row.exercise_id]) {
+      map[row.exercise_id] = { weightKg: Number(row.weight_kg), reps: Number(row.reps) };
+    }
+  }
+  return map;
+}

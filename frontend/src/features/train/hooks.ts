@@ -56,3 +56,12 @@ export function useDeleteRoutine() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['routines'] }),
   });
 }
+
+export function useLastPerformance(exerciseIds: string[]) {
+  const key = [...exerciseIds].sort().join(',');
+  return useQuery({
+    queryKey: ['last-performance', key],
+    queryFn: () => api.fetchLastPerformance(exerciseIds),
+    enabled: exerciseIds.length > 0,
+  });
+}

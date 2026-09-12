@@ -191,3 +191,11 @@ export function ChevronDownIcon({ size = 24, color = 'currentColor' }: IconProps
     </Svg>
   );
 }
+
+export function MoreIcon({ size = 24, color = 'currentColor' }: IconProps) {
+  return (
+    <Svg {...baseProps(size, color)} strokeWidth={2}>
+      <Path d="M12 12.5h.01M6 12.5h.01M18 12.5h.01" />
+    </Svg>
+  );
+}

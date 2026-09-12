@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import {
   ActivityIndicator,
   FlatList,
@@ -18,6 +18,7 @@ import { TextField } from '@/components/ui/TextField';
 import { ChoiceChip, PickerRow } from '@/features/train/components';
 import { useBuilderStore } from '@/features/train/builder-store';
 import { useCreateExercise, useExercises } from '@/features/train/hooks';
+import { useSessionStore } from '@/features/train/session-store';
 import type { Equipment, Exercise, MuscleGroup } from '@/features/train/types';
 import { EQUIPMENT_LABELS, MUSCLE_FILTERS, MUSCLE_LABELS } from '@/features/train/types';
 import { colors, fonts, radius, typeScale } from '@/theme';
@@ -27,8 +28,10 @@ const EQUIPMENT_OPTIONS = Object.keys(EQUIPMENT_LABELS) as Equipment[];
 
 export default function ExercisePickerScreen() {
   const router = useRouter();
+  const { target } = useLocalSearchParams<{ target?: string }>();
   const exercises = useExercises();
-  const addExercises = useBuilderStore((s) => s.addExercises);
+  const addToRoutine = useBuilderStore((s) => s.addExercises);
+  const addToSession = useSessionStore((s) => s.addExercises);
   const createExercise = useCreateExercise();
 
   const [query, setQuery] = useState('');
@@ -62,7 +65,9 @@ export default function ExercisePickerScreen() {
   };
 
   const onDone = () => {
-    addExercises(Object.values(selected));
+    const values = Object.values(selected);
+    if (target === 'session') addToSession(values);
+    else addToRoutine(values);
     router.back();
   };
 
