@@ -126,3 +126,68 @@ export function ArrowLeftIcon({ size = 24, color = 'currentColor' }: IconProps) 
     </Svg>
   );
 }
+
+export function ChevronRightIcon({ size = 24, color = 'currentColor' }: IconProps) {
+  return (
+    <Svg {...baseProps(size, color)}>
+      <Path d="M9 18l6-6-6-6" />
+    </Svg>
+  );
+}
+
+export function PlusIcon({ size = 24, color = 'currentColor' }: IconProps) {
+  return (
+    <Svg {...baseProps(size, color)}>
+      <Path d="M12 5v14M5 12h14" />
+    </Svg>
+  );
+}
+
+export function CloseIcon({ size = 24, color = 'currentColor' }: IconProps) {
+  return (
+    <Svg {...baseProps(size, color)}>
+      <Path d="M18 6 6 18M6 6l12 12" />
+    </Svg>
+  );
+}
+
+export function CheckIcon({ size = 24, color = 'currentColor' }: IconProps) {
+  return (
+    <Svg {...baseProps(size, color)} strokeWidth={2.5}>
+      <Path d="M20 6 9 17l-5-5" />
+    </Svg>
+  );
+}
+
+export function SearchIcon({ size = 24, color = 'currentColor' }: IconProps) {
+  return (
+    <Svg {...baseProps(size, color)}>
+      <Circle cx="11" cy="11" r="7" />
+      <Path d="m21 21-4.3-4.3" />
+    </Svg>
+  );
+}
+
+export function GripIcon({ size = 24, color = 'currentColor' }: IconProps) {
+  return (
+    <Svg {...baseProps(size, color)} strokeWidth={2}>
+      <Path d="M8 7h.01M8 12h.01M8 17h.01M16 7h.01M16 12h.01M16 17h.01" />
+    </Svg>
+  );
+}
+
+export function ChevronUpIcon({ size = 24, color = 'currentColor' }: IconProps) {
+  return (
+    <Svg {...baseProps(size, color)}>
+      <Path d="M18 15l-6-6-6 6" />
+    </Svg>
+  );
+}
+
+export function ChevronDownIcon({ size = 24, color = 'currentColor' }: IconProps) {
+  return (
+    <Svg {...baseProps(size, color)}>
+      <Path d="M6 9l6 6 6-6" />
+    </Svg>
+  );
+}

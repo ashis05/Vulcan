@@ -63,6 +63,9 @@ function RootNavigator() {
         </Stack.Protected>
         <Stack.Protected guard={isAuthed && onboarded}>
           <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="routine" />
+          <Stack.Screen name="workout" />
+          <Stack.Screen name="exercise-picker" />
         </Stack.Protected>
       </Stack>
     </>
