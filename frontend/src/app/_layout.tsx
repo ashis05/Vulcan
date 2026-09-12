@@ -18,6 +18,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 
 import { useAuth } from '@/lib/use-auth';
 import { useProfile } from '@/lib/use-profile';
+import { useSyncManager } from '@/features/train/hooks';
 import { queryClient } from '@/lib/query-client';
 import { colors } from '@/theme';
 
@@ -26,6 +27,7 @@ SplashScreen.preventAutoHideAsync();
 function RootNavigator() {
   const { session, isLoading } = useAuth();
   const profileQuery = useProfile();
+  useSyncManager();
 
   const userId = session?.user?.id ?? null;
   const prevUserId = useRef<string | null>(null);

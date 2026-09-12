@@ -5,16 +5,23 @@ import { useKeepAwake } from 'expo-keep-awake';
 import { ActivityIndicator, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { Screen } from '@/components/ui/Screen';
+import { OfflineBanner } from '@/components/ui/OfflineBanner';
+import { fetchExerciseHistory } from '@/features/train/api';
 import { ExerciseCard, RestTimerBar } from '@/features/train/session-components';
 import { useLastPerformance, useRoutine } from '@/features/train/hooks';
 import { ensureNotificationsReady } from '@/features/train/notifications';
+import { useResultStore } from '@/features/train/result-store';
 import {
   sessionExercisesFromRoutine,
   useSessionStore,
   type SessionSet,
 } from '@/features/train/session-store';
+import { enqueueWorkout, flushQueue } from '@/features/train/sync';
 import { useRestTimer } from '@/features/train/use-rest-timer';
+import { buildWorkoutResult } from '@/features/train/workout-result';
 import type { SetType } from '@/engine/strength';
+import { uuidv4 } from '@/lib/id';
+import { useAuth } from '@/lib/use-auth';
 import { colors, fonts, radius, typeScale } from '@/theme';
 
 const SET_TYPES: { key: SetType; label: string }[] = [
@@ -42,6 +49,8 @@ export default function ActiveWorkoutScreen() {
   const setSetType = useSessionStore((s) => s.setSetType);
   const clear = useSessionStore((s) => s.clear);
 
+  const { user } = useAuth();
+  const setResult = useResultStore((s) => s.setResult);
   const rest = useRestTimer();
   const [elapsed, setElapsed] = useState(0);
   const [hydrated, setHydrated] = useState(useSessionStore.persist.hasHydrated());
@@ -114,17 +123,33 @@ export default function ActiveWorkoutScreen() {
     0,
   );
 
-  const doFinish = () => {
+  const doFinish = async () => {
+    if (!user) return;
     setConfirmFinish(false);
     rest.stop();
-    const params = {
-      name: routineName ?? 'Workout',
-      elapsed: String(elapsed),
-      vol: String(Math.round(volume)),
-      sets: String(doneSets),
-    };
+    const endedAt = Date.now();
+    let history: Record<string, { weightKg: number; reps: number }[]> = {};
+    try {
+      history = await fetchExerciseHistory(exerciseIds);
+    } catch {
+      history = {};
+    }
+    const workoutId = useSessionStore.getState().workoutId ?? uuidv4();
+    const result = buildWorkoutResult({
+      workoutId,
+      userId: user.id,
+      routineId: routineId ?? null,
+      routineName,
+      startedAt: startedAt || endedAt,
+      endedAt,
+      exercises,
+      history,
+    });
+    await enqueueWorkout(result.payload);
+    flushQueue().catch(() => {});
+    setResult(result);
     clear();
-    router.replace({ pathname: '/workout/summary', params });
+    router.replace('/workout/summary');
   };
 
   const doDiscard = () => {
@@ -160,6 +185,8 @@ export default function ActiveWorkoutScreen() {
           </Pressable>
         </View>
       </View>
+
+      <OfflineBanner />
 
       <ScrollView style={styles.body} contentContainerStyle={styles.bodyContent} keyboardShouldPersistTaps="handled">
         <View style={styles.headRow}>

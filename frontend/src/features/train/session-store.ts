@@ -3,6 +3,7 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import type { SetType } from '@/engine/strength';
+import { uuidv4 } from '@/lib/id';
 
 import type { Exercise, Routine } from './types';
 
@@ -34,14 +35,6 @@ function makeKey(prefix: string): string {
 }
 
 /** RFC-4122 v4 id — client-generated so sessions work offline. */
-export function uuidv4(): string {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-    const r = (Math.random() * 16) | 0;
-    const v = c === 'x' ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
-}
-
 export function makeSet(setNumber: number): SessionSet {
   return {
     key: makeKey('set'),

@@ -206,3 +206,25 @@ export async function fetchLastPerformance(
   }
   return map;
 }
+
+/** Chronological completed-set history per exercise — used for PR detection at finish. */
+export async function fetchExerciseHistory(
+  exerciseIds: string[],
+): Promise<Record<string, { weightKg: number; reps: number }[]>> {
+  if (exerciseIds.length === 0) return {};
+  const { data, error } = await supabase
+    .from('workout_sets')
+    .select('exercise_id, weight_kg, reps, created_at')
+    .in('exercise_id', exerciseIds)
+    .eq('completed', true)
+    .not('weight_kg', 'is', null)
+    .not('reps', 'is', null)
+    .order('created_at', { ascending: true });
+  if (error) throw error;
+
+  const map: Record<string, { weightKg: number; reps: number }[]> = {};
+  for (const row of data as { exercise_id: string; weight_kg: number; reps: number }[]) {
+    (map[row.exercise_id] ??= []).push({ weightKg: Number(row.weight_kg), reps: Number(row.reps) });
+  }
+  return map;
+}

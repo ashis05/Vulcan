@@ -1,8 +1,11 @@
+import { useEffect } from 'react';
+import NetInfo from '@react-native-community/netinfo';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { useAuth } from '@/lib/use-auth';
 
 import * as api from './api';
+import { flushQueue } from './sync';
 import type { Equipment, MuscleGroup, RoutineDraftExercise } from './types';
 
 export function useExercises() {
@@ -64,4 +67,24 @@ export function useLastPerformance(exerciseIds: string[]) {
     queryFn: () => api.fetchLastPerformance(exerciseIds),
     enabled: exerciseIds.length > 0,
   });
+}
+
+/** Flush queued offline writes on mount and whenever connectivity returns. */
+export function useSyncManager() {
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    const run = () => {
+      flushQueue()
+        .then((count) => {
+          if (count > 0) {
+            queryClient.invalidateQueries({ queryKey: ['last-performance'] });
+          }
+        })
+        .catch(() => {});
+    };
+    run();
+    return NetInfo.addEventListener((state) => {
+      if (state.isConnected) run();
+    });
+  }, [queryClient]);
 }
