@@ -132,3 +132,273 @@ class BodyMetric(SQLModel, table=True):
             DateTime(timezone=True), nullable=False, server_default=func.now()
         ),
     )
+
+
+MUSCLE_GROUPS = (
+    "chest",
+    "back",
+    "shoulders",
+    "quads",
+    "hamstrings",
+    "glutes",
+    "biceps",
+    "triceps",
+    "calves",
+    "core",
+)
+EQUIPMENT_TYPES = ("barbell", "dumbbell", "machine", "cable", "bodyweight", "other")
+_SET_TYPES = ("warmup", "normal", "drop", "failure")
+
+# Reusable SQL fragments for the CHECK constraints below.
+_MUSCLE_IN = ", ".join(f"'{m}'" for m in MUSCLE_GROUPS)
+_EQUIPMENT_IN = ", ".join(f"'{e}'" for e in EQUIPMENT_TYPES)
+_SET_TYPES_IN = ", ".join(f"'{s}'" for s in _SET_TYPES)
+
+# Cross-schema / forward references which cannot be resolved from metadata are
+# added as raw SQL in the revision: `auth.users` (0001) and `programs` (Phase 5).
+
+
+class Exercise(SQLModel, table=True):
+    """Global rows (`user_id IS NULL`) are readable by any authenticated user;
+    custom rows are owner-only. Seeded in revision 0002_training."""
+
+    __tablename__ = "exercises"
+    __table_args__ = (
+        CheckConstraint(f"primary_muscle in ({_MUSCLE_IN})", name="exercises_primary_muscle_check"),
+        CheckConstraint(f"equipment in ({_EQUIPMENT_IN})", name="exercises_equipment_check"),
+        Index("exercises_user_id_idx", "user_id"),
+        {"schema": "public"},
+    )
+
+    id: UUID = Field(
+        default_factory=uuid4,
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            primary_key=True,
+            server_default=func.gen_random_uuid(),
+        ),
+    )
+    user_id: Optional[UUID] = Field(
+        default=None,
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            ForeignKey("public.profiles.id", ondelete="CASCADE"),
+            nullable=True,
+        ),
+    )
+    name: str = Field(sa_column=Column(Text, nullable=False))
+    primary_muscle: str = Field(sa_column=Column(Text, nullable=False))
+    secondary_muscles: List[str] = Field(
+        default_factory=list,
+        sa_column=Column(ARRAY(Text), nullable=False, server_default=text("'{}'")),
+    )
+    equipment: str = Field(
+        default="other",
+        sa_column=Column(Text, nullable=False, server_default=text("'other'")),
+    )
+    is_custom: bool = Field(
+        default=False,
+        sa_column=Column(Boolean, nullable=False, server_default=text("false")),
+    )
+    created_at: datetime = Field(
+        default_factory=datetime.utcnow,
+        sa_column=Column(
+            DateTime(timezone=True), nullable=False, server_default=func.now()
+        ),
+    )
+
+
+class Routine(SQLModel, table=True):
+    __tablename__ = "routines"
+    __table_args__ = (
+        CheckConstraint("source in ('manual', 'ai')", name="routines_source_check"),
+        Index("routines_user_id_idx", "user_id"),
+        {"schema": "public"},
+    )
+
+    id: UUID = Field(
+        default_factory=uuid4,
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            primary_key=True,
+            server_default=func.gen_random_uuid(),
+        ),
+    )
+    user_id: UUID = Field(
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            ForeignKey("public.profiles.id", ondelete="CASCADE"),
+            nullable=False,
+        )
+    )
+    name: str = Field(sa_column=Column(Text, nullable=False))
+    source: str = Field(
+        default="manual",
+        sa_column=Column(Text, nullable=False, server_default=text("'manual'")),
+    )
+    # FK to programs added in Phase 5 (table does not exist yet).
+    program_id: Optional[UUID] = Field(
+        default=None, sa_column=Column(PG_UUID(as_uuid=True), nullable=True)
+    )
+    day_label: Optional[str] = Field(default=None, sa_column=Column(Text))
+    sort_order: int = Field(
+        default=0,
+        sa_column=Column(Integer, nullable=False, server_default=text("0")),
+    )
+    created_at: datetime = Field(
+        default_factory=datetime.utcnow,
+        sa_column=Column(
+            DateTime(timezone=True), nullable=False, server_default=func.now()
+        ),
+    )
+
+
+class RoutineExercise(SQLModel, table=True):
+    __tablename__ = "routine_exercises"
+    __table_args__ = (
+        CheckConstraint("target_sets is null or target_sets > 0", name="routine_exercises_sets_check"),
+        CheckConstraint("target_rpe is null or (target_rpe >= 0 and target_rpe <= 10)", name="routine_exercises_rpe_check"),
+        Index("routine_exercises_routine_id_idx", "routine_id"),
+        Index("routine_exercises_exercise_id_idx", "exercise_id"),
+        {"schema": "public"},
+    )
+
+    id: UUID = Field(
+        default_factory=uuid4,
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            primary_key=True,
+            server_default=func.gen_random_uuid(),
+        ),
+    )
+    routine_id: UUID = Field(
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            ForeignKey("public.routines.id", ondelete="CASCADE"),
+            nullable=False,
+        )
+    )
+    exercise_id: UUID = Field(
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            ForeignKey("public.exercises.id", ondelete="CASCADE"),
+            nullable=False,
+        )
+    )
+    sort_order: int = Field(
+        default=0,
+        sa_column=Column(Integer, nullable=False, server_default=text("0")),
+    )
+    target_sets: Optional[int] = Field(default=None, sa_column=Column(Integer))
+    target_reps: Optional[str] = Field(default=None, sa_column=Column(Text))
+    target_rpe: Optional[float] = Field(default=None, sa_column=Column(Numeric(3, 1)))
+    superset_group: Optional[str] = Field(default=None, sa_column=Column(Text))
+    rest_seconds: Optional[int] = Field(default=None, sa_column=Column(Integer))
+
+
+class Workout(SQLModel, table=True):
+    __tablename__ = "workouts"
+    __table_args__ = (
+        Index("workouts_user_started_idx", "user_id", text("started_at DESC")),
+        {"schema": "public"},
+    )
+
+    id: UUID = Field(
+        default_factory=uuid4,
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            primary_key=True,
+            server_default=func.gen_random_uuid(),
+        ),
+    )
+    user_id: UUID = Field(
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            ForeignKey("public.profiles.id", ondelete="CASCADE"),
+            nullable=False,
+        )
+    )
+    routine_id: Optional[UUID] = Field(
+        default=None,
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            ForeignKey("public.routines.id", ondelete="SET NULL"),
+            nullable=True,
+        ),
+    )
+    started_at: datetime = Field(
+        default_factory=datetime.utcnow,
+        sa_column=Column(
+            DateTime(timezone=True), nullable=False, server_default=func.now()
+        ),
+    )
+    ended_at: Optional[datetime] = Field(
+        default=None, sa_column=Column(DateTime(timezone=True))
+    )
+    notes: Optional[str] = Field(default=None, sa_column=Column(Text))
+    created_at: datetime = Field(
+        default_factory=datetime.utcnow,
+        sa_column=Column(
+            DateTime(timezone=True), nullable=False, server_default=func.now()
+        ),
+    )
+
+
+class WorkoutSet(SQLModel, table=True):
+    __tablename__ = "workout_sets"
+    __table_args__ = (
+        CheckConstraint(f"set_type in ({_SET_TYPES_IN})", name="workout_sets_set_type_check"),
+        CheckConstraint("set_number >= 1", name="workout_sets_set_number_check"),
+        CheckConstraint("reps is null or reps >= 0", name="workout_sets_reps_check"),
+        CheckConstraint("weight_kg is null or weight_kg >= 0", name="workout_sets_weight_check"),
+        CheckConstraint("rpe is null or (rpe >= 0 and rpe <= 10)", name="workout_sets_rpe_check"),
+        Index("workout_sets_workout_id_idx", "workout_id"),
+        Index("workout_sets_exercise_id_idx", "exercise_id"),
+        {"schema": "public"},
+    )
+
+    id: UUID = Field(
+        default_factory=uuid4,
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            primary_key=True,
+            server_default=func.gen_random_uuid(),
+        ),
+    )
+    workout_id: UUID = Field(
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            ForeignKey("public.workouts.id", ondelete="CASCADE"),
+            nullable=False,
+        )
+    )
+    exercise_id: UUID = Field(
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            ForeignKey("public.exercises.id", ondelete="RESTRICT"),
+            nullable=False,
+        )
+    )
+    set_number: int = Field(sa_column=Column(Integer, nullable=False))
+    set_type: str = Field(
+        default="normal",
+        sa_column=Column(Text, nullable=False, server_default=text("'normal'")),
+    )
+    superset_group: Optional[str] = Field(default=None, sa_column=Column(Text))
+    reps: Optional[int] = Field(default=None, sa_column=Column(Integer))
+    weight_kg: Optional[float] = Field(default=None, sa_column=Column(Numeric(6, 2)))
+    rpe: Optional[float] = Field(default=None, sa_column=Column(Numeric(3, 1)))
+    completed: bool = Field(
+        default=False,
+        sa_column=Column(Boolean, nullable=False, server_default=text("false")),
+    )
+    is_pr: bool = Field(
+        default=False,
+        sa_column=Column(Boolean, nullable=False, server_default=text("false")),
+    )
+    created_at: datetime = Field(
+        default_factory=datetime.utcnow,
+        sa_column=Column(
+            DateTime(timezone=True), nullable=False, server_default=func.now()
+        ),
+    )
