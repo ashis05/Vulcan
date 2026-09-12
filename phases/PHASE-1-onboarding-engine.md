@@ -26,11 +26,11 @@
 
 ## Done when
 
-- [ ] Fresh account → wizard → Reveal shows targets consistent with engine formulas (spot-check 3 profiles by hand against Mifflin-St Jeor)
-- [ ] Profile + first weight row persisted in Supabase (verify in dashboard)
-- [ ] RLS verified: a second user cannot read the first user's `profiles` row (manual SQL/API test)
-- [ ] `vitest run` passes all engine tests
-- [ ] Editing profile updates targets on next calculation
+- [x] Fresh account → wizard → Reveal shows targets consistent with engine formulas (spot-check 3 profiles by hand against Mifflin-St Jeor)
+- [x] Profile + first weight row persisted in Supabase (verify in dashboard)
+- [x] RLS verified: a second user cannot read the first user's `profiles` row (manual SQL/API test)
+- [x] `vitest run` passes all engine tests
+- [x] Editing profile updates targets on next calculation
 
 ## Test plan
 

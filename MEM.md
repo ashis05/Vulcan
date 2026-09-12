@@ -12,7 +12,7 @@ Continuing the project from anywhere. This file is the session log and current-s
 
 ## Current state
 
-- **Active branch:** `feat/onboarding` (Phase 1 — engine + wizard + Alembic built, uncommitted). `master` has Phase 0 merged.
+- **Active branch:** `feat/onboarding` (Phase 1 complete; commits `03af3e1`, `efd1bf6`; **not pushed — no git remote configured**). `master` has Phase 0 merged.
 - **Branches:** `master` (init + frontend scaffold + Phase 0/auth) · `frontend` (scaffold only) · `feat/auth` (merged into master) · `feat/onboarding` (Phase 1, WIP).
 - **Frontend** (`frontend/`): Expo SDK 57 · expo-router (new `js-tabs`) · React Native 0.86 · TypeScript · NativeWind v5 preview + Tailwind v4 · fonts (Space Grotesk/Inter) · DESIGN tokens in `src/theme/` + `src/global.css` (`@theme`).
 - **Routes:** `/` = **splash** (`src/app/index.tsx`, S1 ember ignite → wordmark → redirects `/welcome` or `/today`) · `(auth)/welcome|login|signup|forgot-password` · `(tabs)/today|nutrition|train|progress|profile`. `Stack.Protected` gates `(auth)` vs `(tabs)`; splash is always available as the anchor.
@@ -230,6 +230,6 @@ Continuing the project from anywhere. This file is the session log and current-s
 
 - [x] Session 7: Google sign-in works end-to-end (deep-link fallback + WebCrypto polyfill); **backend ES256 fix** (was rejecting valid tokens with 401 — `auth.py` now handles EC keys, 8/8 pytest); welcome is Google-only with real Google logo; app icon = splash ember mark confirmed; **floating dock tab bar + DumbbellIcon** (64px Train button).
 - [x] Session 8: Verify FastAPI shows `user_id` on device ✅; deep-link fallback diagnostic log added (confirm via Metro log on next Google sign-in); email auth routes deleted; Phase 0 "Done when" closed; `feat/auth` committed + merged into `master`.
-- [ ] Phase 1: engine + wizard + settings stub built on `feat/onboarding` (uncommitted); `0001_profiles` applied to the live DB and RLS verified. Remaining: device "Done when" gate (wizard → Reveal targets, profile + first weight persisted, edit recalculates).
+- [x] Phase 1 complete (engine + wizard + settings stub; `0001_profiles` applied, RLS verified, persistence confirmed on device). Committed on `feat/onboarding`; branch not pushed (no remote).
 - [ ] Backend: add `routers/ai.py` + `schemas.py` when Phase 4 starts.
 - [ ] Set the real Android bundle id in `app.json` (Phase 7; currently `com.anonymous.vulcan`).
