@@ -69,6 +69,31 @@ export function useLastPerformance(exerciseIds: string[]) {
   });
 }
 
+export function useWorkoutHistory() {
+  const { user } = useAuth();
+  return useQuery({
+    queryKey: ['workout-history', user?.id],
+    queryFn: api.fetchWorkoutHistory,
+    enabled: !!user,
+  });
+}
+
+export function useWorkoutDetail(id: string | undefined) {
+  return useQuery({
+    queryKey: ['workout', id],
+    queryFn: () => api.fetchWorkoutDetail(id as string),
+    enabled: !!id,
+  });
+}
+
+export function useExerciseStats(id: string | undefined) {
+  return useQuery({
+    queryKey: ['exercise-stats', id],
+    queryFn: () => api.fetchExerciseStats(id as string),
+    enabled: !!id,
+  });
+}
+
 /** Flush queued offline writes on mount and whenever connectivity returns. */
 export function useSyncManager() {
   const queryClient = useQueryClient();
@@ -78,6 +103,8 @@ export function useSyncManager() {
         .then((count) => {
           if (count > 0) {
             queryClient.invalidateQueries({ queryKey: ['last-performance'] });
+            queryClient.invalidateQueries({ queryKey: ['workout-history'] });
+            queryClient.invalidateQueries({ queryKey: ['exercise-stats'] });
           }
         })
         .catch(() => {});

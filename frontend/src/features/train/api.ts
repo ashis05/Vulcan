@@ -1,13 +1,18 @@
+import { estimated1RM } from '@/engine/strength';
 import { supabase } from '@/lib/supabase';
 
 import type {
   Equipment,
   Exercise,
+  ExerciseStats,
   MuscleGroup,
   Routine,
   RoutineDraftExercise,
   RoutineExercise,
   RoutineSource,
+  WorkoutDetail,
+  WorkoutExerciseGroup,
+  WorkoutHistoryItem,
 } from './types';
 
 type ExerciseRow = {
@@ -227,4 +232,178 @@ export async function fetchExerciseHistory(
     (map[row.exercise_id] ??= []).push({ weightKg: Number(row.weight_kg), reps: Number(row.reps) });
   }
   return map;
+}
+
+type HistorySetRow = {
+  weight_kg: number | null;
+  reps: number | null;
+  set_type: string;
+  is_pr: boolean;
+  exercise_id: string;
+};
+
+type HistoryRow = {
+  id: string;
+  routine_id: string | null;
+  started_at: string;
+  ended_at: string | null;
+  notes: string | null;
+  routines: { name: string } | { name: string }[] | null;
+  workout_sets: HistorySetRow[] | null;
+};
+
+type DetailSetRow = {
+  id: string;
+  exercise_id: string;
+  set_number: number;
+  set_type: string;
+  superset_group: string | null;
+  weight_kg: number | null;
+  reps: number | null;
+  rpe: number | null;
+  is_pr: boolean;
+  exercises: { name: string; primary_muscle: MuscleGroup } | { name: string; primary_muscle: MuscleGroup }[] | null;
+};
+
+function first<T>(value: T | T[] | null | undefined): T | null {
+  if (!value) return null;
+  return Array.isArray(value) ? value[0] ?? null : value;
+}
+
+function nameFromRoutine(row: HistoryRow): string {
+  return first(row.routines)?.name ?? 'Workout';
+}
+
+const HISTORY_SELECT = `id, routine_id, started_at, ended_at, notes, routines ( name ),
+  workout_sets ( weight_kg, reps, set_type, is_pr, exercise_id )`;
+
+function mapHistory(row: HistoryRow): WorkoutHistoryItem {
+  const sets = row.workout_sets ?? [];
+  const volume = sets.reduce((sum, s) => {
+    if (s.set_type === 'warmup') return sum;
+    return sum + (Number(s.weight_kg) || 0) * (Number(s.reps) || 0);
+  }, 0);
+  const durationSec = row.ended_at
+    ? Math.max(0, Math.round((new Date(row.ended_at).getTime() - new Date(row.started_at).getTime()) / 1000))
+    : 0;
+  return {
+    id: row.id,
+    name: nameFromRoutine(row),
+    startedAt: row.started_at,
+    durationSec,
+    volume: Math.round(volume),
+    setCount: sets.length,
+    prCount: sets.filter((s) => s.is_pr).length,
+    exerciseCount: new Set(sets.map((s) => s.exercise_id)).size,
+  };
+}
+
+export async function fetchWorkoutHistory(): Promise<WorkoutHistoryItem[]> {
+  const { data, error } = await supabase
+    .from('workouts')
+    .select(HISTORY_SELECT)
+    .order('started_at', { ascending: false })
+    .limit(100);
+  if (error) throw error;
+  return (data as unknown as HistoryRow[]).map(mapHistory);
+}
+
+export async function fetchWorkoutDetail(id: string): Promise<WorkoutDetail> {
+  const { data, error } = await supabase
+    .from('workouts')
+    .select(
+      `id, routine_id, started_at, ended_at, notes, routines ( name ),
+       workout_sets ( id, exercise_id, set_number, set_type, superset_group, weight_kg, reps, rpe, is_pr,
+         exercises ( name, primary_muscle ) )`,
+    )
+    .eq('id', id)
+    .single();
+  if (error) throw error;
+
+  const row = data as unknown as HistoryRow & { workout_sets: DetailSetRow[] | null };
+  const base = mapHistory(row);
+  const groups: WorkoutExerciseGroup[] = [];
+
+  for (const set of row.workout_sets ?? []) {
+    const exercise = first(set.exercises);
+    let group = groups.find((g) => g.exerciseId === set.exercise_id);
+    if (!group) {
+      group = {
+        exerciseId: set.exercise_id,
+        name: exercise?.name ?? 'Exercise',
+        primaryMuscle: exercise?.primary_muscle ?? 'core',
+        supersetGroup: set.superset_group,
+        sets: [],
+      };
+      groups.push(group);
+    }
+    group.sets.push({
+      id: set.id,
+      setNumber: set.set_number,
+      setType: set.set_type,
+      weightKg: set.weight_kg != null ? Number(set.weight_kg) : null,
+      reps: set.reps,
+      rpe: set.rpe != null ? Number(set.rpe) : null,
+      isPr: set.is_pr,
+    });
+  }
+  for (const group of groups) group.sets.sort((a, b) => a.setNumber - b.setNumber);
+
+  return { ...base, routineId: row.routine_id, notes: row.notes, exercises: groups };
+}
+
+type StatRow = {
+  set_number: number;
+  weight_kg: number | null;
+  reps: number | null;
+  rpe: number | null;
+  is_pr: boolean;
+  set_type: string;
+  created_at: string;
+  workouts: { started_at: string } | { started_at: string }[] | null;
+};
+
+export async function fetchExerciseStats(exerciseId: string): Promise<ExerciseStats> {
+  const { data, error } = await supabase
+    .from('workout_sets')
+    .select('set_number, weight_kg, reps, rpe, is_pr, set_type, created_at, workouts ( started_at )')
+    .eq('exercise_id', exerciseId)
+    .eq('completed', true)
+    .not('weight_kg', 'is', null)
+    .not('reps', 'is', null)
+    .order('created_at', { ascending: true });
+  if (error) throw error;
+
+  const rows = data as unknown as StatRow[];
+  const byDay = new Map<string, { e1rm: number; volume: number }>();
+  const prs: ExerciseStats['prs'] = [];
+  const valid: { date: string; weightKg: number; reps: number; rpe: number | null; setNumber: number; isPr: boolean; e1rm: number }[] = [];
+
+  for (const row of rows) {
+    const weightKg = Number(row.weight_kg);
+    const reps = row.reps ?? 0;
+    if (!Number.isFinite(weightKg) || reps <= 0) continue;
+    const iso = first(row.workouts)?.started_at ?? row.created_at;
+    const date = iso.slice(0, 10);
+    const e1rm = estimated1RM(weightKg, reps);
+    const entry = byDay.get(date) ?? { e1rm: 0, volume: 0 };
+    entry.e1rm = Math.max(entry.e1rm, e1rm);
+    if (row.set_type !== 'warmup') entry.volume += weightKg * reps;
+    byDay.set(date, entry);
+
+    if (row.is_pr) {
+      prs.push({ date, weightKg, reps, e1rm: Math.round(e1rm) });
+    }
+    valid.push({ date, weightKg, reps, rpe: row.rpe != null ? Number(row.rpe) : null, setNumber: row.set_number, isPr: row.is_pr, e1rm });
+  }
+
+  const days = [...byDay.entries()].sort(([a], [b]) => (a < b ? -1 : 1));
+  const topSets = [...valid].sort((a, b) => b.e1rm - a.e1rm).slice(0, 10);
+
+  return {
+    e1rmSeries: days.map(([date, v]) => ({ date, value: Math.round(v.e1rm) })),
+    volumeSeries: days.map(([date, v]) => ({ date, value: Math.round(v.volume) })),
+    prs: prs.reverse(),
+    topSets,
+  };
 }

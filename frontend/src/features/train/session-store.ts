@@ -5,7 +5,7 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 import type { SetType } from '@/engine/strength';
 import { uuidv4 } from '@/lib/id';
 
-import type { Exercise, Routine } from './types';
+import type { Exercise, Routine, WorkoutDetail } from './types';
 
 export const DEFAULT_REST_SECONDS = 120;
 export const DEFAULT_SET_COUNT = 3;
@@ -61,6 +61,33 @@ export function sessionExercisesFromRoutine(routine: Routine): SessionExercise[]
   return routine.exercises.map((re) =>
     makeSessionExercise(re.exercise, re.restSeconds ?? DEFAULT_REST_SECONDS, re.supersetGroup, re.targetSets ?? DEFAULT_SET_COUNT),
   );
+}
+
+/** Rebuild a repeatable session from a past workout, prefilled with its numbers. */
+export function sessionExercisesFromHistory(detail: WorkoutDetail): SessionExercise[] {
+  return detail.exercises.map((group) => ({
+    key: makeKey('ex'),
+    exercise: {
+      id: group.exerciseId,
+      userId: null,
+      name: group.name,
+      primaryMuscle: group.primaryMuscle,
+      secondaryMuscles: [],
+      equipment: 'other',
+      isCustom: false,
+    },
+    restSeconds: DEFAULT_REST_SECONDS,
+    supersetGroup: group.supersetGroup,
+    sets: group.sets.map((set, i) => ({
+      key: `hist_${group.exerciseId}_${i}`,
+      setNumber: i + 1,
+      type: 'normal' as SetType,
+      weightKg: set.weightKg != null ? String(set.weightKg) : '',
+      reps: set.reps != null ? String(set.reps) : '',
+      rpe: set.rpe != null ? String(set.rpe) : '',
+      completed: false,
+    })),
+  }));
 }
 
 interface StartInput {

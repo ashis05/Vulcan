@@ -55,6 +55,48 @@ export interface RoutineDraftExercise {
   supersetGroup: string | null;
 }
 
+export interface WorkoutHistoryItem {
+  id: string;
+  name: string;
+  startedAt: string;
+  durationSec: number;
+  volume: number;
+  setCount: number;
+  prCount: number;
+  exerciseCount: number;
+}
+
+export interface WorkoutSetDetail {
+  id: string;
+  setNumber: number;
+  setType: string;
+  weightKg: number | null;
+  reps: number | null;
+  rpe: number | null;
+  isPr: boolean;
+}
+
+export interface WorkoutExerciseGroup {
+  exerciseId: string;
+  name: string;
+  primaryMuscle: MuscleGroup;
+  supersetGroup: string | null;
+  sets: WorkoutSetDetail[];
+}
+
+export interface WorkoutDetail extends WorkoutHistoryItem {
+  routineId: string | null;
+  notes: string | null;
+  exercises: WorkoutExerciseGroup[];
+}
+
+export interface ExerciseStats {
+  e1rmSeries: { date: string; value: number }[];
+  volumeSeries: { date: string; value: number }[];
+  prs: { date: string; weightKg: number; reps: number; e1rm: number }[];
+  topSets: { date: string; weightKg: number; reps: number; rpe: number | null; setNumber: number; isPr: boolean }[];
+}
+
 export const MUSCLE_LABELS: Record<MuscleGroup, string> = {
   chest: 'Chest',
   back: 'Back',
