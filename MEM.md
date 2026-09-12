@@ -12,21 +12,36 @@ Continuing the project from anywhere. This file is the session log and current-s
 
 ## Current state
 
-- **Active branch:** `feat/onboarding` (Phase 1 complete; commits `03af3e1`, `efd1bf6`; **not pushed — no git remote configured**). `master` has Phase 0 merged.
-- **Branches:** `master` (init + frontend scaffold + Phase 0/auth) · `frontend` (scaffold only) · `feat/auth` (merged into master) · `feat/onboarding` (Phase 1, WIP).
+- **Active branch:** `feat/gym-tracker` (Phase 2, wave A done: training schema + strength engine, uncommitted). `master` = Phase 1 (`a3c5e0a`), pushed to `origin` (`github.com/ashis05/Vulcan`).
+- **Branches:** `master` (through Phase 1) · `feat/onboarding` (merged to master) · `feat/gym-tracker` (Phase 2, current) · `frontend`/`feat/auth` (historical).
 - **Frontend** (`frontend/`): Expo SDK 57 · expo-router (new `js-tabs`) · React Native 0.86 · TypeScript · NativeWind v5 preview + Tailwind v4 · fonts (Space Grotesk/Inter) · DESIGN tokens in `src/theme/` + `src/global.css` (`@theme`).
-- **Routes:** `/` = **splash** (`src/app/index.tsx`, S1 ember ignite → wordmark → redirects `/welcome` or `/today`) · `(auth)/welcome|login|signup|forgot-password` · `(tabs)/today|nutrition|train|progress|profile`. `Stack.Protected` gates `(auth)` vs `(tabs)`; splash is always available as the anchor.
+- **Routes:** `/` = **splash** (`src/app/index.tsx`, S1 ember ignite → wordmark → redirects `/welcome`, `/onboarding`, or `/today`) · `(auth)/welcome` · `(onboarding)` · `(tabs)/today|nutrition|train|progress|profile`. `Stack.Protected` gates `(auth)` / `(onboarding)` / `(tabs)`.
 - **Auth (Google-only UI):** welcome screen offers **Google sign-in only** (email button removed; `login`/`signup`/`forgot-password` route files still exist but unreachable — candidate for deletion). Google flow: PKCE (`src/lib/oauth.ts`, client `flowType:'pkce'`, redirect `vulcan://`), deep-link fallback via `Linking.addEventListener`, WebCrypto polyfill (`react-native-quick-crypto`) for SHA-256. Works end-to-end on device. Session persisted in SecureStore.
 - **Styling:** **No `className` anywhere** — all styles are explicit RN `StyleSheet` objects derived from DESIGN tokens (NativeWind v5 `react-native-css` runtime was unreliable for a subset of `--text-*` utilities on native; inline styles are proven to work). `src/components/ui/{Screen,Button,TextField,TabBar}.tsx` + all screens use tokens directly.
 - **Tab bar:** floating dock (rounded pill, 16px margins, elevated + shadow), center Train button raised with flame gradient, **DumbbellIcon** (64px button / 28px icon).
 - **Backend** (`backend/`): FastAPI skeleton — `GET /health` (public), `GET /health/protected` (JWT verified against Supabase JWKS). **Fixed ES256 support** (Supabase signs with EC P-256): `_key_for_kid` handles EC, decode accepts `["ES256","RS256"]`. Tests 8/8 passing.
-- **Migrations (switched to Alembic + SQLModel):** `backend/app/models.py` = schema source of truth (`profiles`, `body_metrics`); `backend/app/db.py` (engine, psycopg3 URL normalization); `backend/alembic/` with revision `0001_profiles` (table DDL from SQLModel metadata + raw SQL for RLS, `handle_new_user` trigger, and the cross-schema `auth.users` FK). `DATABASE_URL` set in `backend/.env`; **`0001_profiles` applied to the live DB and RLS verified**. Old `backend/migrations/*.sql` removed.
+- **Migrations (Alembic + SQLModel):** `backend/app/models.py` = schema source of truth; `backend/app/db.py` (engine, psycopg3 URL normalization); `backend/alembic/`. `DATABASE_URL` set in `backend/.env`; **`0001_profiles` + `0002_training` applied to the live DB and RLS verified**. `0002_training` adds `exercises` (71 seeded global lifts), `routines`, `routine_exercises`, `workouts`, `workout_sets` (owner RLS; global exercises auth-only read).
+- **Phase 2 wave A (done, uncommitted):** training schema + seed applied; `frontend/src/engine/strength.ts` (Epley e1RM, PR detection, volume, stall) with vitest tests (49 total passing).
 - **Frontend ↔ backend proof:** Today tab "Verify FastAPI (Phase 0 proof)" button calls `/health/protected` with the access token and shows the server-verified `user_id` — **pending device re-test after the ES256 backend fix** (was 401).
 - **Docs:** `README.md` (run backend/frontend/test-on-phone), `frontend/ANDROID-EMULATOR.md` (device/emulator setup).
 
 ---
 
 ## Session log
+
+### 2026-09-12 · Session 10 — Phase 2 kickoff: Phase 1 merged to master; wave A (training schema + strength engine)
+
+- Merged `feat/onboarding` → `master` (fast-forward) and pushed `master` + new `feat/gym-tracker` to `origin` (`github.com/ashis05/Vulcan`).
+- Phase 2 decisions locked: local-first + client-UUID + mutation queue · ~60 lifts seeded **plus user-created custom exercises** · `gifted-charts` · native rebuild OK · wave order A→E.
+- **Wave A done:**
+  - `0002_training` (`backend/alembic/versions/0002_training.py` + SQLModel tables): `exercises` (71 seeded global lifts across 10 muscle groups), `routines` (`source`, reserved `program_id` for Phase 5), `routine_exercises`, `workouts`, `workout_sets`. Owner RLS (4 policies each); global exercises readable only by authenticated users; partial unique indexes on exercise names; required indexes. **Applied to the live DB.**
+  - `frontend/src/engine/strength.ts`: Epley e1RM (single rep = weight), `detectPR` (weight / reps-at-weight / e1rm; first-ever set = PR; equal ≠ PR), `totalVolume` (excludes warmups), `detectStall`. Vitest added.
+- **Verification:** vitest 49/49 · `tsc --noEmit` clean · `expo lint` clean · pytest 8/8 · DB: `0002_training` head, 71 seed rows, RLS on all 5 tables, anon REST reads `[]`.
+- Corrected an RLS gap before finalising: global-exercise read now requires `auth.uid() is not null` (was readable by anon).
+
+**Next:** commit wave A → wave B (Train home S7, exercise picker S12, routine CRUD S8/S9).
+
+---
 
 ### 2026-09-12 · Session 9 — Phase 1 engine caps + Katch-McArdle; migration stack switched to Alembic + SQLModel
 
@@ -216,20 +231,21 @@ Continuing the project from anywhere. This file is the session log and current-s
 - **Data flow:** CRUD app ↔ Supabase directly (supabase-js, RLS). AI app → FastAPI → Gemini only. Secrets server-side only.
 - **State:** TanStack Query (server), Zustand (UI). `src/engine/` = pure functions (Phase 1+).
 - **Strict phase gates:** only current phase; "Done when" checklist = exit gate; never pre-build later phases.
-- **Google sign-in:** provider enabled in Supabase, but **wiring deferred** — button shows a notice. Email auth is the tested path. When wired: the app's OAuth `clientId` is the anon key (no Google Client ID in `.env`); Google creds go in the Supabase dashboard; device redirect will be the `vulcan://` scheme (not `localhost:3000`).
+- **Google sign-in:** works end-to-end (PKCE + deep-link fallback + WebCrypto polyfill). Email auth removed; welcome is Google-only.
 - **Email confirmation:** kept Supabase's default email-confirm flow; Resend/Google SMTP to be added later.
 
 ## Environment (no secrets)
 
 - Supabase project: `https://trjtcfnmqufrqxhwhrtk.supabase.co`
 - `frontend/.env`: `EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_ANON_KEY` (filled), `EXPO_PUBLIC_API_URL` (set to LAN IP for device testing).
-- `backend/.env`: `SUPABASE_URL` (filled), `ALLOWED_ORIGINS=*`.
+- `backend/.env`: `SUPABASE_URL` (filled), `DATABASE_URL` (Supabase Session pooler URI, for Alembic), `ALLOWED_ORIGINS=*`.
 - Android SDK: `C:\Users\Dell\AppData\Local\Android\Sdk`; `local.properties` written; env vars persisted.
 
 ## Open questions / next steps
 
 - [x] Session 7: Google sign-in works end-to-end (deep-link fallback + WebCrypto polyfill); **backend ES256 fix** (was rejecting valid tokens with 401 — `auth.py` now handles EC keys, 8/8 pytest); welcome is Google-only with real Google logo; app icon = splash ember mark confirmed; **floating dock tab bar + DumbbellIcon** (64px Train button).
 - [x] Session 8: Verify FastAPI shows `user_id` on device ✅; deep-link fallback diagnostic log added (confirm via Metro log on next Google sign-in); email auth routes deleted; Phase 0 "Done when" closed; `feat/auth` committed + merged into `master`.
-- [x] Phase 1 complete (engine + wizard + settings stub; `0001_profiles` applied, RLS verified, persistence confirmed on device). Committed on `feat/onboarding`; branch not pushed (no remote).
+- [x] Phase 1 complete (engine + wizard + settings stub; `0001_profiles` applied, RLS verified, persistence confirmed on device). Merged to `master` and pushed to `origin`.
+- [ ] Phase 2 (wave A done): training schema (`0002_training`, 71 lifts) + `strength.ts` applied/tested. Next: **wave B** — Train home (S7), exercise picker (S12), routine CRUD (S8/S9).
 - [ ] Backend: add `routers/ai.py` + `schemas.py` when Phase 4 starts.
 - [ ] Set the real Android bundle id in `app.json` (Phase 7; currently `com.anonymous.vulcan`).
