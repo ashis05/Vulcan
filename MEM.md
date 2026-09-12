@@ -21,13 +21,28 @@ Continuing the project from anywhere. This file is the session log and current-s
 - **Tab bar:** floating dock (rounded pill, 16px margins, elevated + shadow), center Train button raised with flame gradient, **DumbbellIcon** (64px button / 28px icon).
 - **Backend** (`backend/`): FastAPI skeleton — `GET /health` (public), `GET /health/protected` (JWT verified against Supabase JWKS). **Fixed ES256 support** (Supabase signs with EC P-256): `_key_for_kid` handles EC, decode accepts `["ES256","RS256"]`. Tests 8/8 passing.
 - **Migrations (Alembic + SQLModel):** `backend/app/models.py` = schema source of truth; `backend/app/db.py` (engine, psycopg3 URL normalization); `backend/alembic/`. `DATABASE_URL` set in `backend/.env`; **`0001_profiles` + `0002_training` applied to the live DB and RLS verified**. `0002_training` adds `exercises` (71 seeded global lifts), `routines`, `routine_exercises`, `workouts`, `workout_sets` (owner RLS; global exercises auth-only read).
-- **Phase 2 wave A (done, uncommitted):** training schema + seed applied; `frontend/src/engine/strength.ts` (Epley e1RM, PR detection, volume, stall) with vitest tests (49 total passing).
+- **Phase 2 wave A (done, committed+`548b817`/`73c8246`):** training schema + seed applied; `frontend/src/engine/strength.ts` (Epley e1RM, PR detection, volume, stall) with vitest tests.
+- **Phase 2 wave B (done, uncommitted):** Train data layer (`features/train/`), S7 Train home, S8 routine detail, S9 routine builder, S12 exercise picker + custom exercise, route guards, `/workout/active` scaffold. `tsc`/lint clean, vitest 49/49, web export OK.
 - **Frontend ↔ backend proof:** Today tab "Verify FastAPI (Phase 0 proof)" button calls `/health/protected` with the access token and shows the server-verified `user_id` — **pending device re-test after the ES256 backend fix** (was 401).
 - **Docs:** `README.md` (run backend/frontend/test-on-phone), `frontend/ANDROID-EMULATOR.md` (device/emulator setup).
 
 ---
 
 ## Session log
+
+### 2026-09-12 · Session 11 — Phase 2 wave B: routines, routine builder, exercise picker
+
+- **Train data layer** (`frontend/src/features/train/`): `types.ts` (Exercise/Routine/RoutineExercise + muscle/equipment labels + picker filters), `api.ts` (supabase queries: exercises, custom exercise, routines with nested `routine_exercises.exercises`, save/delete), `hooks.ts` (TanStack Query), `builder-store.ts` (Zustand draft + `toDraft` parser assigning superset groups).
+- **S7 Train home** (`app/(tabs)/train.tsx`): routines list, New routine, Start empty workout (→ `/workout/active` stub). History section is a placeholder until sessions exist (wave D/E).
+- **S8 Routine detail** (`app/routine/[id].tsx`): muscle chips, exercise list with targets, Edit, Start workout.
+- **S9 Routine builder** (`app/routine/builder.tsx`): create/edit, name, per-exercise Sets/Reps/RPE/Rest, superset toggle, up/down reorder, add exercise, delete. (Drag-reorder replaced with up/down for reliability; revisit if wanted.)
+- **S12 Exercise picker** (`app/exercise-picker.tsx`): search, muscle filter chips, multi-select, **create custom exercise** sheet (name + muscle + equipment), Done.
+- **Routes:** added `routine/_layout`, `workout/_layout`, `exercise-picker`, `workout/active` (scaffold); root `_layout` guards them under `isAuthed && onboarded`.
+- **Verification:** `tsc --noEmit` clean · `expo lint` clean · vitest 49/49 · `expo export --platform web` succeeds (typed routes regenerated). Device/runtime test pending.
+
+**Next:** commit wave B → wave C (S10 active session + rest timer + per-keystroke persistence).
+
+---
 
 ### 2026-09-12 · Session 10 — Phase 2 kickoff: Phase 1 merged to master; wave A (training schema + strength engine)
 
@@ -246,6 +261,6 @@ Continuing the project from anywhere. This file is the session log and current-s
 - [x] Session 7: Google sign-in works end-to-end (deep-link fallback + WebCrypto polyfill); **backend ES256 fix** (was rejecting valid tokens with 401 — `auth.py` now handles EC keys, 8/8 pytest); welcome is Google-only with real Google logo; app icon = splash ember mark confirmed; **floating dock tab bar + DumbbellIcon** (64px Train button).
 - [x] Session 8: Verify FastAPI shows `user_id` on device ✅; deep-link fallback diagnostic log added (confirm via Metro log on next Google sign-in); email auth routes deleted; Phase 0 "Done when" closed; `feat/auth` committed + merged into `master`.
 - [x] Phase 1 complete (engine + wizard + settings stub; `0001_profiles` applied, RLS verified, persistence confirmed on device). Merged to `master` and pushed to `origin`.
-- [ ] Phase 2 (wave A done): training schema (`0002_training`, 71 lifts) + `strength.ts` applied/tested. Next: **wave B** — Train home (S7), exercise picker (S12), routine CRUD (S8/S9).
+- [ ] Phase 2 (waves A+B done): training schema (`0002_training`, 71 lifts) + `strength.ts` + Train/routine/picker UI. Next: **wave C** — S10 active session + rest timer + per-keystroke persistence. Then D (finish/summary + PR + offline sync), E (history + exercise detail + charts).
 - [ ] Backend: add `routers/ai.py` + `schemas.py` when Phase 4 starts.
 - [ ] Set the real Android bundle id in `app.json` (Phase 7; currently `com.anonymous.vulcan`).
