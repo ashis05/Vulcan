@@ -26,12 +26,61 @@ Continuing the project from anywhere. This file is the session log and current-s
 - **Phase 2 wave C (done, committed `7551980`/`4046ca5`):** S10 active session, rest timer (notification + keep-awake), Zustand+AsyncStorage session persistence, prev-performance ghost, summary scaffold.
 - **Phase 2 wave D (done, committed `b026dda`/`b544131`):** finish flow → `workout-result.ts` (PR detection + payload), offline sync queue (`sync.ts` + NetInfo reconnect flush), full S11 summary with PR list + notes, offline banner. Native dep `@react-native-community/netinfo` added → rebuild needed.
 - **Phase 2 wave E (done, committed `f269bc0`):** S14 history, S15 past workout + Repeat, S13 exercise detail (gifted-charts), S7 history preview filled. **All Phase-2 code written; only the device pass remains.**
+- **Phase 2 improvements (uncommitted):** horizontal filter scroll; drag reorder (`react-native-reorderable-list`); `0003_exercise_media` — `media_url` + 1,084-exercise gym catalog with GIF thumbnails (S12/S8/S15/S10) and S13 hero.
+- **Phase 2 improvements round 2 (uncommitted):** Remove-set button; bodyweight exercises hide kg (BW, weight 0); `ActiveSessionBanner` resume entry on Today/Train.
+- **Phase 2 improvements round 3 (uncommitted):** filter chips no longer clipped; app icon regenerated from the simple SparkIcon + plain VULCAN text (`scripts/generate-icons.mjs`, `npm run icons`).
 - **Frontend ↔ backend proof:** Today tab "Verify FastAPI (Phase 0 proof)" button calls `/health/protected` with the access token and shows the server-verified `user_id` — **pending device re-test after the ES256 backend fix** (was 401).
 - **Docs:** `README.md` (run backend/frontend/test-on-phone), `frontend/ANDROID-EMULATOR.md` (device/emulator setup).
 
 ---
 
 ## Session log
+
+### 2026-09-12 · Session 18 — Fix: launcher icon + native splash were stale native assets
+
+- **Root cause:** the launcher icon and the pre-JS splash on device are **compiled into `android/`** at prebuild time. The old build still had the 8-point star icon and the decorative `wordmark.png` splash. Regenerating `assets/images/*.png` alone does nothing until a prebuild runs.
+- **Fix:** corrected the icon back to **Spark-only** (text belongs on the splash, not the icon); regenerated assets and ran `npx expo prebuild --clean --platform android` → `mipmap-*/ic_launcher*` and `drawable-*/splashscreen_logo.png` now hold the Spark. Recreated `android/local.properties` (prebuild --clean removed it; `ANDROID_HOME` is also set).
+- **Result:** launcher icon = ember Spark on `#0B0B0D`; native splash = Spark mark (the JS splash then animates the plain `VULCAN` text from `index.tsx`). No decorative wordmark anywhere.
+- **Verified:** native `splashscreen_logo.png` and `ic_launcher_foreground.webp` visually checked (Spark).
+
+**Next:** `npx expo run:android` (uninstall first if the launcher keeps the cached old icon).
+
+---
+
+### 2026-09-12 · Session 17 — Phase 2 improvements round 3: filter clipping, Spark app icon
+
+- **#7 Filter clipping:** exercise-picker muscle chips `ScrollView` now has an explicit height with vertically-centred content (no more cut-off at the bottom).
+- **#8/#9 App icon:** the old icon was the elaborate 8-point star; regenerated from the simple 4-point `SparkIcon` **plus the plain `VULCAN` wordmark** (Space Grotesk bold, like `index.tsx` — not the decorative `wordmark.png`). `icon.png` (dark bg + glow + text), `android-icon-foreground.png` (transparent, safe-zone), `splash-icon.png` (mark only), `favicon.png` (mark only). Added `frontend/scripts/generate-icons.mjs` + `npm run icons`; dev dep `@resvg/resvg-js` (sharp removed). `app.json` already points at these files.
+- **Verified:** regenerated icons visually checked · `tsc` clean · `expo lint` clean · vitest 53/53.
+- Note: `assets/images/wordmark.png` is unused by the app (kept for reference).
+
+**Next:** native rebuild (`npx expo run:android`) to see the new launcher icon + reorder lib, then the Phase-2 device pass.
+
+---
+
+### 2026-09-12 · Session 16 — Phase 2 improvements round 2: remove set, bodyweight handling, resume session
+
+- **#4 Add/remove set:** active-session exercise cards now show a **Remove set** button next to **Add set** (removes the last set; per-set long-press still deletes a specific one).
+- **#5 Bodyweight exercises:** when `exercise.equipment === 'bodyweight'` the kg input is replaced by a **BW** chip; new sets default weight `'0'`; `buildWorkoutResult` forces `weight_kg = 0` for bodyweight (so nothing is dropped) and PR/volume are reps-based.
+- **#6 Resume session:** new `useActiveSession()` (hydration-aware) + **`ActiveSessionBanner`** on **Today** and **Train** ("Resume workout · name · n/m sets") that re-enters `/workout/active`, which already resumes the persisted session. No more forced new session.
+- **Verification:** `tsc` clean · `expo lint` clean · vitest 53/53 · web export OK.
+
+**Next:** native rebuild + Phase-2 device pass.
+
+---
+
+### 2026-09-12 · Session 15 — Phase 2 improvements: horizontal filters, drag reorder, exercise media catalog
+
+- **#1 Filter scroll:** exercise picker muscle chips now in a horizontal `ScrollView`.
+- **#2 Drag reorder:** installed `react-native-reorderable-list`; builder uses a `ReorderableList` with a grip handle (long-press to drag); ▲▼ kept as fallback; `GestureHandlerRootView` added at the app root; builder store gained `reorder(from, to)`.
+- **#3 Exercise media + expanded catalog:** new Alembic **`0003_exercise_media`** adds `exercises.media_url` and expands the global library to **1,084 gym exercises** with tutorial GIFs from the MIT `mohamedatef90/exercise-library` (MIT, derived from ExerciseDB). Seed generated to `backend/app/data/exercises_seed.json`; the revision drops unreferenced old seed rows, updates referenced ones, inserts the rest. **Applied to the live DB** (1,089 globals; 1,084 with media).
+  - App: `Exercise.mediaUrl` flows through the API; `ExerciseThumb` (expo-image) shows thumbnails in S12 picker, S8 routine detail, S15 past workout, S10 active session, plus a hero GIF on S13.
+  - Phase docs renumbered: `0004_activity_nutrition`, `0005_ai`, `0006_programs`, `0007_physique`.
+- **Verification:** `tsc` clean · `expo lint` clean · vitest 53/53 · pytest 8/8 · web export OK · GIF CDN returns `image/gif`.
+
+**Next:** native rebuild (`npx expo run:android`) — reorder lib + expo-image usage — then the Phase-2 device pass. Thumbnails hotlink `raw.githubusercontent.com` (fine for beta; self-host/bundle before production).
+
+---
 
 ### 2026-09-12 · Session 14 — Phase 2 wave E: history, past workout + Repeat, exercise detail + charts
 
