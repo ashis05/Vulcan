@@ -20,14 +20,45 @@ Continuing the project from anywhere. This file is the session log and current-s
 - **Styling:** **No `className` anywhere** — all styles are explicit RN `StyleSheet` objects derived from DESIGN tokens (NativeWind v5 `react-native-css` runtime was unreliable for a subset of `--text-*` utilities on native; inline styles are proven to work). `src/components/ui/{Screen,Button,TextField,TabBar}.tsx` + all screens use tokens directly.
 - **Tab bar:** floating dock (rounded pill, 16px margins, elevated + shadow), center Train button raised with flame gradient, **DumbbellIcon** (64px button / 28px icon).
 - **Backend** (`backend/`): FastAPI skeleton — `GET /health` (public), `GET /health/protected` (JWT verified against Supabase JWKS). **Fixed ES256 support** (Supabase signs with EC P-256): `_key_for_kid` handles EC, decode accepts `["ES256","RS256"]`. Tests 8/8 passing.
-- **Migrations (Alembic + SQLModel):** `backend/app/models.py` = schema source of truth; `backend/app/db.py` (engine, psycopg3 URL normalization); `backend/alembic/`. `DATABASE_URL` set in `backend/.env`; **`0001_profiles` + `0002_training` + `0003_exercise_media` applied to the live DB and RLS verified**. `0002_training` adds `exercises`/`routines`/`routine_exercises`/`workouts`/`workout_sets`; `0003_exercise_media` adds `exercises.media_url` + expands the library to 1,084 gym exercises with GIFs.
-- **Phase 2 complete** (waves A–E + improvement rounds; committed through `6378601`): routines, offline-tolerant session logging (set types/RPE/supersets/bodyweight), rest timer, PR detection on finish, history + past-workout + Repeat, exercise-detail charts (gifted-charts), 1,084-lift catalog with GIF thumbnails + YouTube tutorial link, resume banner, Spark app icon. Device pass confirmed by user; **RPE field not data-verified** (its code path is identical to reps/weight, which are).
+- **Migrations (Alembic + SQLModel):** `backend/app/models.py` = schema source of truth; `backend/app/db.py` (engine, psycopg3 URL normalization); `backend/alembic/`. `DATABASE_URL` set in `backend/.env`; **`0001_profiles`, `0002_training`, `0003_exercise_media`, `0004_activity_nutrition`, `0004b_exercise_media_backfill` applied to the live DB and RLS verified**. `0002_training` = training tables; `0003_exercise_media` = `exercises.media_url` + 1,084-exercise catalog; `0004_activity_nutrition` = `daily_activity` + `meals`; `0004b` = GIF backfill for the 5 preserved seed rows.
+- **Phase 2 complete** (waves A–E + improvement rounds; committed through `6378601`): routines, offline-tolerant session logging (set types/RPE/supersets/bodyweight), rest timer, PR detection on finish, history + past-workout + Repeat, exercise-detail charts (gifted-charts), 1,084-lift catalog with GIF thumbnails + YouTube tutorial link, resume banner, Spark app icon. Device pass confirmed by user; **RPE field not data-verified** (its code path is identical to reps/weight).
+- **Phase 3 — Steps, Calorie Budget & Nutrition (in progress, `feat/steps-budget`; committed through `6fb4b17`):** 
+  - **Wave A done:** `0004_activity_nutrition` applied (`daily_activity`, `meals`; RLS owner-only); engine `trendAdjustment` (steps.ts) + `adaptiveTdee` (targets.ts), tests 61/61.
+  - **Wave B done:** `react-native-health-connect` + `expo-build-properties` (`minSdkVersion 26`), `READ_STEPS` permission, `features/today/` (health-connect wrapper, `daily_activity` sync, hooks, `ConnectStepsCard` on Today). Steps auto-sync on focus + every 60 s while on Today (no button). Follow-up fixes: `initialize()` before permission checks; **local-date** bucketing (was UTC); **Health Connect `aggregateGroupByPeriod`** (was summing raw records → double-counted sources); 7-day average = last **7 completed** days.
+  - **Native prebuilt; rebuild required** (`npx expo run:android`).
+  - **Continue from — remaining Phase 3 waves:** **C** Today dashboard S6 (calorie ring, macro bar, steps tile + weight tile/modal, streak/coach placeholders); **D** nutrition diary S16 + add meal S17 + meal detail S20 (+ meals data layer); **E** weight logging → `body_metrics` + trend card using `trendAdjustment`. Then run the Phase-3 "Done when" gate.
 - **Frontend ↔ backend proof:** Today tab "Verify FastAPI (Phase 0 proof)" button calls `/health/protected` with the access token and shows the server-verified `user_id` — **pending device re-test after the ES256 backend fix** (was 401).
 - **Docs:** `README.md` (run backend/frontend/test-on-phone), `frontend/ANDROID-EMULATOR.md` (device/emulator setup).
 
 ---
 
 ## Session log
+
+### 2026-09-15 · Session 21 — steps auto-sync, GIF ratio, media backfill
+
+- **Steps auto-sync:** `useAutoSyncSteps` (focus-aware `useFocusEffect`) syncs on entering Today and then every 60 s **while focused**; the manual "Sync steps" button was removed.
+- **Permission detection fix:** `hasStepsPermission`/`requestStepsPermission`/`readDailySteps` now call `initialize()` first — previously the card queried `getGrantedPermissions()` before the SDK was initialized, so it showed "Connect steps" on every launch even when already granted.
+- **Timezone fix:** steps were bucketed by **UTC** date (`toISOString()`), so just after local midnight the app showed the previous day's total as "today". Now `localDateString()` (phone-local yyyy-mm-dd) is used for step bucketing, the `daily_activity` range filter, and the "today" lookup.
+- **Step double-counting fix:** `readDailySteps` now uses Health Connect's `aggregateGroupByPeriod` (DAYS/1) instead of summing raw `readRecords` — the raw sum double-counted multiple sources (phone + watch/Google Fit), inflating the 7-day average.
+- **7-day average = last 7 completed days:** the card excludes today (`syncDailyActivity` now covers 8 days, today + the last 7 full days; the average is taken over the 7 days with data before today).
+- **GIF ratio (S13):** the exercise hero is now a full-width **square** (`aspectRatio: 1`) with `contentFit="contain"` — the whole 1:1 GIF shows, undistorted, no crop. List thumbnails stay small 1:1 squares.
+- **Media backfill (bug fix):** routines created before the catalog referenced the original seed rows; `0003_exercise_media` preserved referenced rows but 5 had names that didn't match the dataset (Cable Crossover, Incline Dumbbell Press, Overhead Triceps Extension, Pec Deck, Triceps Pushdown), so they had no media. New revision **`0004b_exercise_media_backfill`** maps them to the closest catalog GIFs — **all 1,089 globals now have media** (verified).
+- **Verified:** vitest 61/61 · `tsc` clean · `expo lint` clean.
+
+**Next:** wave C (Today dashboard S6).
+
+---
+
+### 2026-09-15 · Session 20 — Phase 3 waves A + B (schema/engine + Health Connect)
+
+- **Wave A:** new Alembic `0004_activity_nutrition` — `daily_activity` (steps/target_kcal/step_bonus_kcal, unique per user+date) + `meals` (macros, `source` manual|photo, `ai_raw` jsonb). RLS owner-only (4 policies each) + indexes; applied to the live DB. Engine: `trendAdjustment(weightsKg, goal)` in `steps.ts`; `adaptiveTdee(intakeKcal, weightsKg)` in `targets.ts`. Tests 61/61.
+- **Wave B:** `react-native-health-connect` (4.1.3) + its config plugin; `expo-build-properties` with `android.minSdkVersion 26`; `android.permission.health.READ_STEPS`. Added `features/today/health-connect.ts` (status/permission/read daily steps), `features/today/steps.ts` (idempotent `daily_activity` upsert with step bonus), `features/today/hooks.ts`, and `ConnectStepsCard` on Today. Connect once → `useAutoSyncSteps` syncs on focus and every 60 s **while the Today screen is focused** (no manual sync button).
+- **Native:** `npx expo prebuild --clean -p android` regenerated the manifest — verified `READ_STEPS`, the rationale intent-filter + `ViewPermissionUsageActivity` alias, and `minSdkVersion=26`. `android/local.properties` recreated.
+- **Verified:** vitest 61/61 · `tsc` clean · `expo lint` clean · web export OK.
+
+**Next:** rebuild + device test step sync → Phase 3 wave C (Today dashboard S6).
+
+---
 
 ### 2026-09-15 · Session 19 — Phase 2 closed; set-type discoverability fix
 
@@ -373,6 +404,7 @@ Caveats: drag-reorder → up/down; set-type → long-press (not swipe).
 - [x] Session 7: Google sign-in works end-to-end (deep-link fallback + WebCrypto polyfill); **backend ES256 fix** (was rejecting valid tokens with 401 — `auth.py` now handles EC keys, 8/8 pytest); welcome is Google-only with real Google logo; app icon = splash ember mark confirmed; **floating dock tab bar + DumbbellIcon** (64px Train button).
 - [x] Session 8: Verify FastAPI shows `user_id` on device ✅; deep-link fallback diagnostic log added (confirm via Metro log on next Google sign-in); email auth routes deleted; Phase 0 "Done when" closed; `feat/auth` committed + merged into `master`.
 - [x] Phase 1 complete (engine + wizard + settings stub; `0001_profiles` applied, RLS verified, persistence confirmed on device). Merged to `master` and pushed to `origin`.
-- [ ] Phase 2 (waves A–E done, code complete): schema + engine + Train/routine/picker + S10 session/timer/persistence + S11 summary/PR/offline sync + history/past-workout/exercise-detail/charts. **Remaining: native rebuild + device test (airplane sync, kill/resume, rest notification, set types, charts), then mark Phase 2 complete.**
+  - [x] Phase 2 complete: schema + engine + Train/routine/picker + S10 session/timer/persistence + S11 summary/PR/offline sync + history/past-workout/exercise-detail/charts + media catalog. Device pass confirmed; merged to `master`.
+  - [ ] Phase 3 in progress (`feat/steps-budget`): waves A+B done (schema/engine + Health Connect steps + `ConnectStepsCard`). **Next: wave C (Today dashboard S6) → D (nutrition diary/add/detail) → E (weight trend) → Phase-3 gate.**
 - [ ] Backend: add `routers/ai.py` + `schemas.py` when Phase 4 starts.
 - [ ] Set the real Android bundle id in `app.json` (Phase 7; currently `com.anonymous.vulcan`).
