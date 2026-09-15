@@ -197,6 +197,7 @@ export default function ActiveWorkoutScreen() {
             {doneSets} / {totalSets} sets
           </Text>
         </View>
+        <Text style={styles.hint}>Tap a set number for warmup / drop / failure · enter RPE per set.</Text>
 
         {exercises.map((item, index) => (
           <ExerciseCard
@@ -343,6 +344,7 @@ const styles = StyleSheet.create({
   headRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   workoutName: { color: colors.text.primary, fontFamily: fonts.display.bold, fontSize: typeScale.h3.size, flex: 1 },
   setCount: { color: colors.text.muted, fontSize: typeScale.caption.size, fontVariant: ['tabular-nums'] },
+  hint: { color: colors.text.muted, fontSize: typeScale.caption.size },
   addExercise: {
     height: 48,
     borderRadius: radius.pill,

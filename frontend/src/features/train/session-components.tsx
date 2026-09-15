@@ -79,7 +79,11 @@ function SetRow({
 
   return (
     <Animated.View style={[styles.setRow, { backgroundColor }]}>
-      <Pressable onLongPress={onOptions} delayLongPress={300} style={styles.setNumBtn}>
+      <Pressable
+        onPress={onOptions}
+        accessibilityLabel={`Set ${set.setNumber} type and options`}
+        style={styles.setNumBtn}
+      >
         <Text style={[styles.setNum, { color: set.completed ? colors.accent.ember400 : setTypeColor(set.type) }]}>
           {set.setNumber}
           {setTypeBadge(set.type) ? <Text style={styles.setTypeBadge}>{setTypeBadge(set.type)}</Text> : null}
