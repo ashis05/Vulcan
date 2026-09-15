@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   KCAL_FLOOR,
   MAX_PACE_DELTA_TDEE_PCT,
+  adaptiveTdee,
   clampPaceKgWk,
   computeTargets,
   maxPaceKgWk,
@@ -166,5 +167,21 @@ describe('Katch-McArdle path', () => {
     expect(computeTargets({ ...base, bodyfatPct: 0 }).bmr).toBe(1780);
     expect(computeTargets({ ...base, bodyfatPct: 120 }).bmr).toBe(1780);
     expect(computeTargets({ ...base, bodyfatPct: null }).bmr).toBe(1780);
+  });
+});
+
+describe('adaptiveTdee', () => {
+  it('infers maintenance above intake when losing weight', () => {
+    // avg intake 2500, lost 0.2 kg over 2 days → 2500 + (0.2 × 7700 ÷ 2)
+    expect(adaptiveTdee([2500, 2500, 2500], [80, 79.9, 79.8])).toBe(3270);
+  });
+
+  it('infers maintenance below intake when gaining weight', () => {
+    expect(adaptiveTdee([3000, 3000, 3000], [70, 70.1, 70.2])).toBe(2230);
+  });
+
+  it('returns null without enough data', () => {
+    expect(adaptiveTdee([2500, 2500], [80, 79.8])).toBeNull();
+    expect(adaptiveTdee([2500, 2500, 2500], [80])).toBeNull();
   });
 });

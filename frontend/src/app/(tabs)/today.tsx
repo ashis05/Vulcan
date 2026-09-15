@@ -5,6 +5,7 @@ import { Screen } from '@/components/ui/Screen';
 import { FlameIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
 import { ActiveSessionBanner } from '@/features/train/components';
+import { ConnectStepsCard } from '@/features/today/connect-steps-card';
 import { apiFetch } from '@/lib/api';
 import { supabase } from '@/lib/supabase';
 import { colors, fonts, typeScale } from '@/theme';
@@ -43,6 +44,9 @@ export default function TodayScreen() {
       </View>
       <View style={styles.bannerWrap}>
         <ActiveSessionBanner />
+      </View>
+      <View style={styles.bannerWrap}>
+        <ConnectStepsCard />
       </View>
       <View style={styles.empty}>
         <FlameIcon size={28} color="#FF6A00" />

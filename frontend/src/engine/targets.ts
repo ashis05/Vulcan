@@ -97,3 +97,17 @@ export function computeTargets(input: ComputeTargetsInput): Targets {
     fatG,
   };
 }
+
+/**
+ * Adaptive maintenance estimate from real data — Phase 3 accuracy upgrade.
+ * Energy balance: `intake − Δweight × 7700 / days` over a rolling window (losing
+ * weight → maintenance above intake). Self-corrects for metabolic adaptation and
+ * logging error. Returns null until there is enough data.
+ */
+export function adaptiveTdee(intakeKcal: number[], weightsKg: number[]): number | null {
+  if (intakeKcal.length < 3 || weightsKg.length < 2) return null;
+  const avgIntake = intakeKcal.reduce((sum, v) => sum + v, 0) / intakeKcal.length;
+  const days = weightsKg.length - 1;
+  const delta = weightsKg[weightsKg.length - 1] - weightsKg[0];
+  return Math.round(avgIntake - (delta * KCAL_PER_KG_BODYFAT) / days);
+}

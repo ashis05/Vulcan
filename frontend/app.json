@@ -16,7 +16,10 @@
         "foregroundImage": "./assets/images/android-icon-foreground.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.anonymous.vulcan"
+      "package": "com.anonymous.vulcan",
+      "permissions": [
+        "android.permission.health.READ_STEPS"
+      ]
     },
     "web": {
       "output": "single",
@@ -35,7 +38,16 @@
       ],
       "expo-secure-store",
       "react-native-quick-crypto",
-      "expo-notifications"
+      "expo-notifications",
+      "react-native-health-connect",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "minSdkVersion": 26
+          }
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,
