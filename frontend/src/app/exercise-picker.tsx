@@ -5,6 +5,7 @@ import {
   FlatList,
   Modal,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -111,11 +112,16 @@ export default function ExercisePickerScreen() {
         />
       </View>
 
-      <View style={styles.filters}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={styles.filtersScroll}
+        contentContainerStyle={styles.filters}
+      >
         {MUSCLE_FILTERS.map((f, i) => (
           <ChoiceChip key={f.label} label={f.label} selected={filterIndex === i} onPress={() => setFilterIndex(i)} />
         ))}
-      </View>
+      </ScrollView>
 
       {exercises.isPending ? (
         <ActivityIndicator color={colors.accent.ember500} style={styles.loading} />
@@ -221,11 +227,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.bg.elevated,
   },
   search: { flex: 1, color: colors.text.primary, fontSize: typeScale.body.size },
+  filtersScroll: { flexGrow: 0, height: 60 },
   filters: {
     flexDirection: 'row',
+    alignItems: 'center',
     gap: 6,
     paddingHorizontal: 16,
-    paddingVertical: 12,
   },
   loading: { marginTop: 32 },
   error: { color: colors.semantic.danger, fontSize: typeScale.label.size, padding: 16 },

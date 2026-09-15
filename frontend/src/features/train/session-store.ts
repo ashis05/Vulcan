@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
@@ -48,12 +49,13 @@ export function makeSet(setNumber: number): SessionSet {
 }
 
 function makeSessionExercise(exercise: Exercise, restSeconds: number, supersetGroup: string | null, setCount: number): SessionExercise {
+  const defaultWeight = exercise.equipment === 'bodyweight' ? '0' : '';
   return {
     key: makeKey('ex'),
     exercise,
     restSeconds,
     supersetGroup,
-    sets: Array.from({ length: Math.max(1, setCount) }, (_, i) => makeSet(i + 1)),
+    sets: Array.from({ length: Math.max(1, setCount) }, (_, i) => ({ ...makeSet(i + 1), weightKg: defaultWeight })),
   };
 }
 
@@ -75,6 +77,7 @@ export function sessionExercisesFromHistory(detail: WorkoutDetail): SessionExerc
       secondaryMuscles: [],
       equipment: 'other',
       isCustom: false,
+      mediaUrl: null,
     },
     restSeconds: DEFAULT_REST_SECONDS,
     supersetGroup: group.supersetGroup,
@@ -149,7 +152,15 @@ export const useSessionStore = create<SessionState>()(
       addSet: (exerciseKey) =>
         set((state) => ({
           exercises: state.exercises.map((e) =>
-            e.key === exerciseKey ? { ...e, sets: [...e.sets, makeSet(e.sets.length + 1)] } : e,
+            e.key === exerciseKey
+              ? {
+                  ...e,
+                  sets: [
+                    ...e.sets,
+                    { ...makeSet(e.sets.length + 1), weightKg: e.exercise.equipment === 'bodyweight' ? '0' : '' },
+                  ],
+                }
+              : e,
           ),
         })),
       removeSet: (exerciseKey, setKey) =>
@@ -199,3 +210,38 @@ export const useSessionStore = create<SessionState>()(
     },
   ),
 );
+
+export interface ActiveSessionInfo {
+  hydrated: boolean;
+  active: boolean;
+  routineName: string | null;
+  startedAt: number;
+  totalSets: number;
+  doneSets: number;
+}
+
+/** Whether a persisted in-progress session exists (for the resume banner). */
+export function useActiveSession(): ActiveSessionInfo {
+  const workoutId = useSessionStore((s) => s.workoutId);
+  const routineName = useSessionStore((s) => s.routineName);
+  const startedAt = useSessionStore((s) => s.startedAt);
+  const exercises = useSessionStore((s) => s.exercises);
+  const [hydrated, setHydrated] = useState(useSessionStore.persist.hasHydrated());
+
+  useEffect(() => {
+    const unsub = useSessionStore.persist.onFinishHydration(() => setHydrated(true));
+    return unsub;
+  }, []);
+
+  const totalSets = exercises.reduce((n, e) => n + e.sets.length, 0);
+  const doneSets = exercises.reduce((n, e) => n + e.sets.filter((s) => s.completed).length, 0);
+
+  return {
+    hydrated,
+    active: hydrated && workoutId != null && exercises.length > 0,
+    routineName,
+    startedAt,
+    totalSets,
+    doneSets,
+  };
+}

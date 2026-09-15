@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 import { Animated, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Circle, Svg } from 'react-native-svg';
 
-import { CheckIcon, MoreIcon, PlusIcon } from '@/components/icons';
+import { CheckIcon, CloseIcon, MoreIcon, PlusIcon } from '@/components/icons';
 import type { SetType } from '@/engine/strength';
 import { colors, fonts, radius, typeScale } from '@/theme';
 
 import type { SessionExercise, SessionSet } from './session-store';
+import { ExerciseThumb } from './components';
 import { MUSCLE_LABELS } from './types';
 
 function setTypeColor(type: SetType): string {
@@ -49,12 +50,14 @@ function SetField({
 function SetRow({
   set,
   prev,
+  bodyweight,
   onChange,
   onToggle,
   onOptions,
 }: {
   set: SessionSet;
   prev?: { weightKg: number; reps: number };
+  bodyweight?: boolean;
   onChange: (patch: Partial<Pick<SessionSet, 'weightKg' | 'reps' | 'rpe'>>) => void;
   onToggle: () => void;
   onOptions: () => void;
@@ -83,15 +86,24 @@ function SetRow({
         </Text>
       </Pressable>
       <Pressable
-        onPress={() => prev && onChange({ weightKg: String(prev.weightKg), reps: String(prev.reps) })}
+        onPress={() =>
+          prev &&
+          onChange(bodyweight ? { reps: String(prev.reps) } : { weightKg: String(prev.weightKg), reps: String(prev.reps) })
+        }
         disabled={!prev}
         style={styles.prevBtn}
       >
         <Text style={[styles.prevText, !prev && styles.prevEmpty]} numberOfLines={1}>
-          {prev ? `${prev.weightKg} × ${prev.reps}` : '—'}
+          {prev ? (bodyweight ? `${prev.reps} reps` : `${prev.weightKg} × ${prev.reps}`) : '—'}
         </Text>
       </Pressable>
-      <SetField value={set.weightKg} onChangeText={(v) => onChange({ weightKg: v })} placeholder="kg" width={54} />
+      {bodyweight ? (
+        <View style={styles.bwChip}>
+          <Text style={styles.bwText}>BW</Text>
+        </View>
+      ) : (
+        <SetField value={set.weightKg} onChangeText={(v) => onChange({ weightKg: v })} placeholder="kg" width={54} />
+      )}
       <SetField value={set.reps} onChangeText={(v) => onChange({ reps: v })} placeholder="reps" width={50} />
       <SetField value={set.rpe} onChangeText={(v) => onChange({ rpe: v })} placeholder="RPE" width={44} />
       <Pressable
@@ -111,6 +123,7 @@ export function ExerciseCard({
   item,
   prev,
   onAddSet,
+  onRemoveSet,
   onSetChange,
   onToggleSet,
   onSetOptions,
@@ -120,12 +133,14 @@ export function ExerciseCard({
   item: SessionExercise;
   prev?: { weightKg: number; reps: number };
   onAddSet: () => void;
+  onRemoveSet: () => void;
   onSetChange: (setKey: string, patch: Partial<Pick<SessionSet, 'weightKg' | 'reps' | 'rpe'>>) => void;
   onToggleSet: (set: SessionSet) => void;
   onSetOptions: (set: SessionSet) => void;
   onExerciseOptions: () => void;
 }) {
   const done = item.sets.length > 0 && item.sets.every((s) => s.completed);
+  const bodyweight = item.exercise.equipment === 'bodyweight';
   const kicker = `${index + 1} · ${MUSCLE_LABELS[item.exercise.primaryMuscle]}${
     item.supersetGroup ? ' · superset' : ''
   }`;
@@ -133,6 +148,7 @@ export function ExerciseCard({
   return (
     <View style={[styles.card, item.supersetGroup && styles.cardSuperset]}>
       <View style={styles.cardHead}>
+        <ExerciseThumb uri={item.exercise.mediaUrl} size={36} />
         <View style={styles.cardHeadText}>
           <Text style={styles.kicker}>{kicker}</Text>
           <Text style={styles.exName}>{item.exercise.name}</Text>
@@ -153,16 +169,27 @@ export function ExerciseCard({
           key={set.key}
           set={set}
           prev={prev}
+          bodyweight={bodyweight}
           onChange={(patch) => onSetChange(set.key, patch)}
           onToggle={() => onToggleSet(set)}
           onOptions={() => onSetOptions(set)}
         />
       ))}
 
-      <Pressable onPress={onAddSet} style={styles.addSet}>
-        <PlusIcon size={14} color={colors.text.secondary} />
-        <Text style={styles.addSetText}>Add set</Text>
-      </Pressable>
+      <View style={styles.setActions}>
+        <Pressable onPress={onAddSet} style={styles.addSet}>
+          <PlusIcon size={14} color={colors.text.secondary} />
+          <Text style={styles.addSetText}>Add set</Text>
+        </Pressable>
+        <Pressable
+          onPress={onRemoveSet}
+          disabled={item.sets.length <= 1}
+          style={[styles.addSet, item.sets.length <= 1 && styles.actionDisabled]}
+        >
+          <CloseIcon size={14} color={colors.text.secondary} />
+          <Text style={styles.addSetText}>Remove set</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
@@ -288,6 +315,19 @@ const styles = StyleSheet.create({
   checkLit: { backgroundColor: colors.accent.ember500, borderColor: colors.accent.ember500 },
   addSet: { flexDirection: 'row', alignItems: 'center', gap: 6, height: 36, paddingHorizontal: 4 },
   addSetText: { color: colors.text.secondary, fontSize: typeScale.label.size, fontWeight: '600' },
+  setActions: { flexDirection: 'row', alignItems: 'center', gap: 16, marginTop: 2 },
+  actionDisabled: { opacity: 0.25 },
+  bwChip: {
+    width: 54,
+    height: 40,
+    borderRadius: radius.sm,
+    backgroundColor: colors.bg.elevated,
+    borderWidth: 1,
+    borderColor: colors.border.hairline,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  bwText: { color: colors.text.secondary, fontSize: typeScale.caption.size, fontWeight: '700' },
   restBar: {
     flexDirection: 'row',
     alignItems: 'center',

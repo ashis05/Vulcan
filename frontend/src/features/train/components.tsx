@@ -1,14 +1,37 @@
 import type { ReactNode } from 'react';
+import { useRouter } from 'expo-router';
+import { Image } from 'expo-image';
 import { Pressable, StyleSheet, Text, View, type TextStyle } from 'react-native';
 
 import { CheckIcon, ChevronRightIcon } from '@/components/icons';
 import { colors, fonts, radius, typeScale } from '@/theme';
 
+import { useActiveSession } from './session-store';
 import type { Exercise, Routine } from './types';
 import { EQUIPMENT_LABELS, MUSCLE_LABELS } from './types';
 
 export function SectionLabel({ children, style }: { children: ReactNode; style?: TextStyle }) {
   return <Text style={[styles.sectionLabel, style]}>{children}</Text>;
+}
+
+/** Shown on Today/Train when an in-progress session is persisted. */
+export function ActiveSessionBanner() {
+  const router = useRouter();
+  const session = useActiveSession();
+  if (!session.active) return null;
+
+  return (
+    <Pressable onPress={() => router.push('/workout/active')} style={styles.resumeBanner}>
+      <View style={styles.resumeDot} />
+      <View style={styles.resumeText}>
+        <Text style={styles.resumeTitle}>Resume workout</Text>
+        <Text style={styles.resumeMeta}>
+          {session.routineName ?? 'Workout'} · {session.doneSets}/{session.totalSets} sets
+        </Text>
+      </View>
+      <Text style={styles.resumeCta}>Resume</Text>
+    </Pressable>
+  );
 }
 
 export function Tag({ label }: { label: string }) {
@@ -78,6 +101,14 @@ export function RoutineCard({ routine, onPress }: { routine: Routine; onPress: (
   );
 }
 
+export function ExerciseThumb({ uri, size = 44 }: { uri?: string | null; size?: number }) {
+  const base = { width: size, height: size, borderRadius: radius.sm, backgroundColor: colors.bg.elevated };
+  if (!uri) {
+    return <View style={[base, styles.thumbEmpty]} />;
+  }
+  return <Image source={{ uri }} style={base} contentFit="cover" transition={150} />;
+}
+
 export function PickerRow({
   exercise,
   selected,
@@ -89,12 +120,13 @@ export function PickerRow({
 }) {
   return (
     <Pressable onPress={onPress} style={styles.pickerRow} accessibilityState={{ selected }}>
+      <ExerciseThumb uri={exercise.mediaUrl} size={44} />
       <View style={styles.pickerText}>
         <Text style={styles.pickerName}>{exercise.name}</Text>
+        <Text style={styles.pickerMeta}>
+          {MUSCLE_LABELS[exercise.primaryMuscle]} · {EQUIPMENT_LABELS[exercise.equipment]}
+        </Text>
       </View>
-      <Text style={styles.pickerMeta}>
-        {MUSCLE_LABELS[exercise.primaryMuscle]} · {EQUIPMENT_LABELS[exercise.equipment]}
-      </Text>
       <View style={[styles.pickerCheck, selected && styles.pickerCheckOn]}>
         {selected ? <CheckIcon size={14} color={colors.text.onAccent} /> : null}
       </View>
@@ -128,6 +160,21 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
     textTransform: 'uppercase',
   },
+  resumeBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    padding: 14,
+    borderRadius: radius.md,
+    borderWidth: 1,
+    borderColor: colors.accent.ember500,
+    backgroundColor: colors.bg.card,
+  },
+  resumeDot: { width: 10, height: 10, borderRadius: 5, backgroundColor: colors.accent.ember500 },
+  resumeText: { flex: 1, gap: 2 },
+  resumeTitle: { color: colors.text.primary, fontSize: typeScale.body.size, fontWeight: '600' },
+  resumeMeta: { color: colors.text.muted, fontSize: typeScale.caption.size },
+  resumeCta: { color: colors.accent.ember500, fontSize: typeScale.label.size, fontWeight: '700' },
   tag: {
     borderRadius: radius.pill,
     borderWidth: 1,
@@ -175,6 +222,7 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.border.hairline,
   },
   pickerText: { flex: 1, minWidth: 0 },
+  thumbEmpty: { borderWidth: 1, borderColor: colors.border.hairline },
   pickerName: { color: colors.text.primary, fontSize: typeScale.body.size, fontFamily: fonts.body.medium },
   pickerMeta: { color: colors.text.secondary, fontSize: typeScale.caption.size },
   pickerCheck: {

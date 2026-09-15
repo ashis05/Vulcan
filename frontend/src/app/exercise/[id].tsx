@@ -1,7 +1,9 @@
 import { useMemo, useState, type ReactNode } from 'react';
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import { Image } from 'expo-image';
 import {
   ActivityIndicator,
+  Linking,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -12,6 +14,7 @@ import {
 import { BarChart, LineChart } from 'react-native-gifted-charts';
 
 import { ArrowLeftIcon, SparkIcon } from '@/components/icons';
+import { Button } from '@/components/ui/Button';
 import { Screen } from '@/components/ui/Screen';
 import { useExercises, useExerciseStats } from '@/features/train/hooks';
 import { EQUIPMENT_LABELS, MUSCLE_LABELS } from '@/features/train/types';
@@ -87,6 +90,22 @@ export default function ExerciseDetailScreen() {
               </View>
             ) : null}
           </View>
+
+          {exercise?.mediaUrl ? (
+            <Image source={{ uri: exercise.mediaUrl }} style={styles.hero} contentFit="contain" transition={150} />
+          ) : null}
+
+          {exercise ? (
+            <Button
+              label="Watch full tutorial"
+              variant="ghost"
+              onPress={() =>
+                Linking.openURL(
+                  `https://www.youtube.com/results?search_query=${encodeURIComponent(`${exercise.name} exercise form tutorial`)}`,
+                )
+              }
+            />
+          ) : null}
 
           <ChartCard
             label={mode === 'rm' ? 'e1RM' : 'Volume'}
@@ -242,6 +261,15 @@ const styles = StyleSheet.create({
   },
   chipText: { color: colors.text.secondary, fontSize: typeScale.caption.size, fontWeight: '600' },
   equipment: { color: colors.text.muted, fontSize: typeScale.caption.size },
+  hero: {
+    width: 240,
+    height: 240,
+    alignSelf: 'center',
+    borderRadius: radius.md,
+    backgroundColor: colors.bg.elevated,
+    borderWidth: 1,
+    borderColor: colors.border.hairline,
+  },
   card: {
     borderWidth: 1,
     borderColor: colors.border.hairline,

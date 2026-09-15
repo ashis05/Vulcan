@@ -23,6 +23,7 @@ type ExerciseRow = {
   secondary_muscles: MuscleGroup[] | null;
   equipment: Equipment;
   is_custom: boolean;
+  media_url: string | null;
 };
 
 type RoutineExerciseRow = {
@@ -47,7 +48,8 @@ type RoutineRow = {
   routine_exercises: RoutineExerciseRow[] | null;
 };
 
-const EXERCISE_COLUMNS = 'id, user_id, name, primary_muscle, secondary_muscles, equipment, is_custom';
+const EXERCISE_COLUMNS =
+  'id, user_id, name, primary_muscle, secondary_muscles, equipment, is_custom, media_url';
 
 const ROUTINE_SELECT = `id, name, source, day_label, sort_order, program_id,
   routine_exercises ( id, exercise_id, sort_order, target_sets, target_reps, target_rpe, superset_group, rest_seconds,
@@ -62,6 +64,7 @@ function mapExercise(row: ExerciseRow): Exercise {
     secondaryMuscles: row.secondary_muscles ?? [],
     equipment: row.equipment,
     isCustom: row.is_custom,
+    mediaUrl: row.media_url,
   };
 }
 
@@ -262,7 +265,10 @@ type DetailSetRow = {
   reps: number | null;
   rpe: number | null;
   is_pr: boolean;
-  exercises: { name: string; primary_muscle: MuscleGroup } | { name: string; primary_muscle: MuscleGroup }[] | null;
+  exercises:
+    | { name: string; primary_muscle: MuscleGroup; media_url: string | null }
+    | { name: string; primary_muscle: MuscleGroup; media_url: string | null }[]
+    | null;
 };
 
 function first<T>(value: T | T[] | null | undefined): T | null {
@@ -314,7 +320,7 @@ export async function fetchWorkoutDetail(id: string): Promise<WorkoutDetail> {
     .select(
       `id, routine_id, started_at, ended_at, notes, routines ( name ),
        workout_sets ( id, exercise_id, set_number, set_type, superset_group, weight_kg, reps, rpe, is_pr,
-         exercises ( name, primary_muscle ) )`,
+         exercises ( name, primary_muscle, media_url ) )`,
     )
     .eq('id', id)
     .single();
@@ -332,6 +338,7 @@ export async function fetchWorkoutDetail(id: string): Promise<WorkoutDetail> {
         exerciseId: set.exercise_id,
         name: exercise?.name ?? 'Exercise',
         primaryMuscle: exercise?.primary_muscle ?? 'core',
+        mediaUrl: exercise?.media_url ?? null,
         supersetGroup: set.superset_group,
         sets: [],
       };

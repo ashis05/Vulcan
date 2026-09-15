@@ -205,6 +205,10 @@ export default function ActiveWorkoutScreen() {
             item={item}
             prev={prevMap[item.exercise.id]}
             onAddSet={() => addSet(item.key)}
+            onRemoveSet={() => {
+              const last = item.sets[item.sets.length - 1];
+              if (last) removeSet(item.key, last.key);
+            }}
             onSetChange={(setKey, patch) => updateSet(item.key, setKey, patch)}
             onToggleSet={(set) => onToggleSet(item.key, item.restSeconds, set)}
             onSetOptions={(set) => setSetSheet({ exerciseKey: item.key, setKey: set.key })}

@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Screen } from '@/components/ui/Screen';
 import { FlameIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
+import { ActiveSessionBanner } from '@/features/train/components';
 import { apiFetch } from '@/lib/api';
 import { supabase } from '@/lib/supabase';
 import { colors, fonts, typeScale } from '@/theme';
@@ -39,6 +40,9 @@ export default function TodayScreen() {
       <View style={styles.header}>
         <Text style={styles.title}>Today</Text>
         <Text style={styles.subtitle}>Dashboard lands in Phase 3.</Text>
+      </View>
+      <View style={styles.bannerWrap}>
+        <ActiveSessionBanner />
       </View>
       <View style={styles.empty}>
         <FlameIcon size={28} color="#FF6A00" />
@@ -79,6 +83,7 @@ const styles = StyleSheet.create({
     gap: 8,
     opacity: 0.4,
   },
+  bannerWrap: { paddingHorizontal: 16, paddingTop: 12 },
   emptyText: { fontSize: typeScale.label.size, color: colors.text.secondary },
   footer: { gap: 12, paddingHorizontal: 16, paddingBottom: 32 },
   proofText: { fontSize: typeScale.label.size, color: colors.semantic.success },

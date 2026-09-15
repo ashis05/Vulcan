@@ -4,7 +4,7 @@ import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from
 import { AnvilIcon, PlusIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
 import { Screen } from '@/components/ui/Screen';
-import { EmptyState, RoutineCard, SectionLabel } from '@/features/train/components';
+import { ActiveSessionBanner, EmptyState, RoutineCard, SectionLabel } from '@/features/train/components';
 import { useRoutines, useWorkoutHistory } from '@/features/train/hooks';
 import { colors, fonts, typeScale } from '@/theme';
 
@@ -24,6 +24,8 @@ export default function TrainScreen() {
       </View>
 
       <ScrollView style={styles.body} contentContainerStyle={styles.bodyContent}>
+        <ActiveSessionBanner />
+
         <View style={styles.section}>
           <View style={styles.sectionHead}>
             <SectionLabel>My routines</SectionLabel>

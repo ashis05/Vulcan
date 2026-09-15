@@ -5,7 +5,7 @@ import { ArrowLeftIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Screen } from '@/components/ui/Screen';
-import { Tag } from '@/features/train/components';
+import { ExerciseThumb, Tag } from '@/features/train/components';
 import { useRoutine } from '@/features/train/hooks';
 import type { RoutineExercise } from '@/features/train/types';
 import { MUSCLE_LABELS } from '@/features/train/types';
@@ -67,6 +67,7 @@ export default function RoutineDetailScreen() {
                 key={item.id}
                 style={[styles.exItem, index === routine.data!.exercises.length - 1 && styles.last]}
               >
+                <ExerciseThumb uri={item.exercise.mediaUrl} size={40} />
                 <View style={styles.exText}>
                   <Text style={styles.exName}>{item.exercise.name}</Text>
                   <Text style={styles.exSub}>

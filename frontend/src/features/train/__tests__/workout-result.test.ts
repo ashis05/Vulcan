@@ -13,6 +13,7 @@ function makeExercise(id: string, name: string): Exercise {
     secondaryMuscles: [],
     equipment: 'barbell',
     isCustom: false,
+    mediaUrl: null,
   };
 }
 

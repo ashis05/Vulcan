@@ -78,9 +78,10 @@ export function buildWorkoutResult(input: BuildWorkoutResultInput): WorkoutResul
 
   for (const item of input.exercises) {
     const prior = [...(input.history[item.exercise.id] ?? [])];
+    const bodyweight = item.exercise.equipment === 'bodyweight';
 
     for (const set of item.sets) {
-      const weight = parseFloat(set.weightKg);
+      const weight = bodyweight ? 0 : parseFloat(set.weightKg);
       const reps = parseInt(set.reps, 10);
       const valid =
         set.completed && Number.isFinite(weight) && weight >= 0 && Number.isFinite(reps) && reps > 0;

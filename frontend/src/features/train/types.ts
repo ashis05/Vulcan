@@ -22,6 +22,7 @@ export interface Exercise {
   secondaryMuscles: MuscleGroup[];
   equipment: Equipment;
   isCustom: boolean;
+  mediaUrl: string | null;
 }
 
 export interface RoutineExercise {
@@ -80,6 +81,7 @@ export interface WorkoutExerciseGroup {
   exerciseId: string;
   name: string;
   primaryMuscle: MuscleGroup;
+  mediaUrl: string | null;
   supersetGroup: string | null;
   sets: WorkoutSetDetail[];
 }

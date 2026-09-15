@@ -46,6 +46,7 @@ interface BuilderState {
     patch: Partial<Pick<BuilderItem, 'targetSets' | 'targetReps' | 'targetRpe' | 'restSeconds'>>,
   ) => void;
   move: (key: string, delta: -1 | 1) => void;
+  reorder: (from: number, to: number) => void;
   toggleSuperset: (key: string) => void;
 }
 
@@ -85,6 +86,16 @@ export const useBuilderStore = create<BuilderState>((set) => ({
       if (index < 0 || target < 0 || target >= state.items.length) return state;
       const items = [...state.items];
       [items[index], items[target]] = [items[target], items[index]];
+      return { items };
+    }),
+  reorder: (from, to) =>
+    set((state) => {
+      if (from === to || from < 0 || to < 0 || from >= state.items.length || to >= state.items.length) {
+        return state;
+      }
+      const items = [...state.items];
+      const [moved] = items.splice(from, 1);
+      items.splice(to, 0, moved);
       return { items };
     }),
   toggleSuperset: (key) =>

@@ -4,6 +4,7 @@ import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from
 import { ArrowLeftIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
 import { Screen } from '@/components/ui/Screen';
+import { ExerciseThumb } from '@/features/train/components';
 import { useWorkoutDetail } from '@/features/train/hooks';
 import { sessionExercisesFromHistory, useSessionStore } from '@/features/train/session-store';
 import { MUSCLE_LABELS } from '@/features/train/types';
@@ -71,6 +72,7 @@ export default function PastWorkoutScreen() {
           {workout.data.exercises.map((group, index) => (
             <View key={group.exerciseId} style={[styles.card, group.supersetGroup && styles.cardSuperset]}>
               <View style={styles.cardHead}>
+                <ExerciseThumb uri={group.mediaUrl} size={40} />
                 <View style={styles.cardText}>
                   <Text style={styles.kicker}>
                     {index + 1} · {MUSCLE_LABELS[group.primaryMuscle]}
