@@ -200,6 +200,8 @@ class Exercise(SQLModel, table=True):
         default=False,
         sa_column=Column(Boolean, nullable=False, server_default=text("false")),
     )
+    # Tutorial GIF URL (global catalog). Null for exercises without media.
+    media_url: Optional[str] = Field(default=None, sa_column=Column(Text))
     created_at: datetime = Field(
         default_factory=datetime.utcnow,
         sa_column=Column(

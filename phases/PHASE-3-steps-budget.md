@@ -4,7 +4,7 @@
 
 **Depends on:** Phase 1 (engine, targets) and Phase 2 (Today shell exists).
 
-## DB changes — Alembic revision `0003_activity_nutrition` (`backend/alembic/versions/0003_activity_nutrition.py`)
+## DB changes — Alembic revision `0004_activity_nutrition` (`backend/alembic/versions/0004_activity_nutrition.py`)
 
 - `daily_activity` (user_id, activity_date, steps, target_kcal, step_bonus_kcal; unique per user+date).
 - `meals` (columns per PLAN.md §6; `photo_path` nullable, `source` manual|photo).
