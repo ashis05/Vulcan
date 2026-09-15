@@ -23,7 +23,7 @@ from sqlalchemy import (
     func,
     text,
 )
-from sqlalchemy.dialects.postgresql import ARRAY, UUID as PG_UUID
+from sqlalchemy.dialects.postgresql import ARRAY, JSONB, UUID as PG_UUID
 from sqlmodel import Field, SQLModel
 
 
@@ -398,6 +398,91 @@ class WorkoutSet(SQLModel, table=True):
         default=False,
         sa_column=Column(Boolean, nullable=False, server_default=text("false")),
     )
+    created_at: datetime = Field(
+        default_factory=datetime.utcnow,
+        sa_column=Column(
+            DateTime(timezone=True), nullable=False, server_default=func.now()
+        ),
+    )
+
+
+class DailyActivity(SQLModel, table=True):
+    """One row per user per day: Health Connect steps + the calorie budget they imply."""
+
+    __tablename__ = "daily_activity"
+    __table_args__ = (
+        CheckConstraint("steps >= 0", name="daily_activity_steps_check"),
+        UniqueConstraint("user_id", "activity_date", name="daily_activity_user_id_activity_date_key"),
+        Index("daily_activity_user_date_idx", "user_id", text("activity_date DESC")),
+        {"schema": "public"},
+    )
+
+    id: UUID = Field(
+        default_factory=uuid4,
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            primary_key=True,
+            server_default=func.gen_random_uuid(),
+        ),
+    )
+    user_id: UUID = Field(
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            ForeignKey("public.profiles.id", ondelete="CASCADE"),
+            nullable=False,
+        )
+    )
+    activity_date: date = Field(sa_column=Column(Date, nullable=False))
+    steps: int = Field(default=0, sa_column=Column(Integer, nullable=False, server_default=text("0")))
+    target_kcal: Optional[int] = Field(default=None, sa_column=Column(Integer))
+    step_bonus_kcal: Optional[int] = Field(default=None, sa_column=Column(Integer))
+    created_at: datetime = Field(
+        default_factory=datetime.utcnow,
+        sa_column=Column(
+            DateTime(timezone=True), nullable=False, server_default=func.now()
+        ),
+    )
+
+
+class Meal(SQLModel, table=True):
+    __tablename__ = "meals"
+    __table_args__ = (
+        CheckConstraint("source in ('manual', 'photo')", name="meals_source_check"),
+        CheckConstraint("calories >= 0", name="meals_calories_check"),
+        Index("meals_user_logged_idx", "user_id", text("logged_at DESC")),
+        {"schema": "public"},
+    )
+
+    id: UUID = Field(
+        default_factory=uuid4,
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            primary_key=True,
+            server_default=func.gen_random_uuid(),
+        ),
+    )
+    user_id: UUID = Field(
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            ForeignKey("public.profiles.id", ondelete="CASCADE"),
+            nullable=False,
+        )
+    )
+    logged_at: datetime = Field(
+        default_factory=datetime.utcnow,
+        sa_column=Column(DateTime(timezone=True), nullable=False, server_default=func.now()),
+    )
+    name: str = Field(sa_column=Column(Text, nullable=False))
+    photo_path: Optional[str] = Field(default=None, sa_column=Column(Text))
+    calories: int = Field(default=0, sa_column=Column(Integer, nullable=False, server_default=text("0")))
+    protein_g: float = Field(default=0, sa_column=Column(Numeric(6, 1), nullable=False, server_default=text("0")))
+    carbs_g: float = Field(default=0, sa_column=Column(Numeric(6, 1), nullable=False, server_default=text("0")))
+    fat_g: float = Field(default=0, sa_column=Column(Numeric(6, 1), nullable=False, server_default=text("0")))
+    source: str = Field(
+        default="manual",
+        sa_column=Column(Text, nullable=False, server_default=text("'manual'")),
+    )
+    ai_raw: Optional[dict] = Field(default=None, sa_column=Column(JSONB))
     created_at: datetime = Field(
         default_factory=datetime.utcnow,
         sa_column=Column(
