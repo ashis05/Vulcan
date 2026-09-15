@@ -32,13 +32,13 @@
 
 ## Done when
 
-- [ ] Full workout logged with device in airplane mode → appears in Supabase after reconnect, nothing lost
-- [ ] Session survives app kill mid-workout (state restored)
-- [ ] Supersets, dropsets, RPE, warmup sets all log and render correctly
-- [ ] Rest timer fires a notification with screen off
-- [ ] PRs detected and flagged on the summary screen (verify against engine tests)
-- [ ] Exercise detail charts render from real logged data
-- [ ] Strength engine tests pass
+- [x] Full workout logged with device in airplane mode → appears in Supabase after reconnect, nothing lost
+- [x] Session survives app kill mid-workout (state restored)
+- [x] Supersets, dropsets, RPE, warmup sets all log and render correctly
+- [x] Rest timer fires a notification with screen off
+- [x] PRs detected and flagged on the summary screen (verify against engine tests)
+- [x] Exercise detail charts render from real logged data
+- [x] Strength engine tests pass
 
 ## Test plan
 

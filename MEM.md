@@ -12,29 +12,32 @@ Continuing the project from anywhere. This file is the session log and current-s
 
 ## Current state
 
-- **Active branch:** `feat/gym-tracker` (Phase 2, wave A done: training schema + strength engine, uncommitted). `master` = Phase 1 (`a3c5e0a`), pushed to `origin` (`github.com/ashis05/Vulcan`).
-- **Branches:** `master` (through Phase 1) · `feat/onboarding` (merged to master) · `feat/gym-tracker` (Phase 2, current) · `frontend`/`feat/auth` (historical).
+- **Active branch:** `feat/steps-budget` (Phase 3). `master` = Phase 2 complete, pushed to `origin` (`github.com/ashis05/Vulcan`).
+- **Branches:** `master` (through Phase 2) · `feat/gym-tracker` (merged to master) · `feat/steps-budget` (Phase 3, current) · historical: `feat/onboarding`, `frontend`, `feat/auth`.
 - **Frontend** (`frontend/`): Expo SDK 57 · expo-router (new `js-tabs`) · React Native 0.86 · TypeScript · NativeWind v5 preview + Tailwind v4 · fonts (Space Grotesk/Inter) · DESIGN tokens in `src/theme/` + `src/global.css` (`@theme`).
 - **Routes:** `/` = **splash** (`src/app/index.tsx`, S1 ember ignite → wordmark → redirects `/welcome`, `/onboarding`, or `/today`) · `(auth)/welcome` · `(onboarding)` · `(tabs)/today|nutrition|train|progress|profile`. `Stack.Protected` gates `(auth)` / `(onboarding)` / `(tabs)`.
 - **Auth (Google-only UI):** welcome screen offers **Google sign-in only** (email button removed; `login`/`signup`/`forgot-password` route files still exist but unreachable — candidate for deletion). Google flow: PKCE (`src/lib/oauth.ts`, client `flowType:'pkce'`, redirect `vulcan://`), deep-link fallback via `Linking.addEventListener`, WebCrypto polyfill (`react-native-quick-crypto`) for SHA-256. Works end-to-end on device. Session persisted in SecureStore.
 - **Styling:** **No `className` anywhere** — all styles are explicit RN `StyleSheet` objects derived from DESIGN tokens (NativeWind v5 `react-native-css` runtime was unreliable for a subset of `--text-*` utilities on native; inline styles are proven to work). `src/components/ui/{Screen,Button,TextField,TabBar}.tsx` + all screens use tokens directly.
 - **Tab bar:** floating dock (rounded pill, 16px margins, elevated + shadow), center Train button raised with flame gradient, **DumbbellIcon** (64px button / 28px icon).
 - **Backend** (`backend/`): FastAPI skeleton — `GET /health` (public), `GET /health/protected` (JWT verified against Supabase JWKS). **Fixed ES256 support** (Supabase signs with EC P-256): `_key_for_kid` handles EC, decode accepts `["ES256","RS256"]`. Tests 8/8 passing.
-- **Migrations (Alembic + SQLModel):** `backend/app/models.py` = schema source of truth; `backend/app/db.py` (engine, psycopg3 URL normalization); `backend/alembic/`. `DATABASE_URL` set in `backend/.env`; **`0001_profiles` + `0002_training` applied to the live DB and RLS verified**. `0002_training` adds `exercises` (71 seeded global lifts), `routines`, `routine_exercises`, `workouts`, `workout_sets` (owner RLS; global exercises auth-only read).
-- **Phase 2 wave A (done, committed+`548b817`/`73c8246`):** training schema + seed applied; `frontend/src/engine/strength.ts` (Epley e1RM, PR detection, volume, stall) with vitest tests.
-- **Phase 2 wave B (done, committed `919b339`/`778e4fb`):** Train data layer (`features/train/`), S7 Train home, S8 routine detail, S9 routine builder, S12 exercise picker + custom exercise, route guards, `/workout/active` scaffold.
-- **Phase 2 wave C (done, committed `7551980`/`4046ca5`):** S10 active session, rest timer (notification + keep-awake), Zustand+AsyncStorage session persistence, prev-performance ghost, summary scaffold.
-- **Phase 2 wave D (done, committed `b026dda`/`b544131`):** finish flow → `workout-result.ts` (PR detection + payload), offline sync queue (`sync.ts` + NetInfo reconnect flush), full S11 summary with PR list + notes, offline banner. Native dep `@react-native-community/netinfo` added → rebuild needed.
-- **Phase 2 wave E (done, committed `f269bc0`):** S14 history, S15 past workout + Repeat, S13 exercise detail (gifted-charts), S7 history preview filled. **All Phase-2 code written; only the device pass remains.**
-- **Phase 2 improvements (uncommitted):** horizontal filter scroll; drag reorder (`react-native-reorderable-list`); `0003_exercise_media` — `media_url` + 1,084-exercise gym catalog with GIF thumbnails (S12/S8/S15/S10) and S13 hero.
-- **Phase 2 improvements round 2 (uncommitted):** Remove-set button; bodyweight exercises hide kg (BW, weight 0); `ActiveSessionBanner` resume entry on Today/Train.
-- **Phase 2 improvements round 3 (uncommitted):** filter chips no longer clipped; app icon regenerated from the simple SparkIcon + plain VULCAN text (`scripts/generate-icons.mjs`, `npm run icons`).
+- **Migrations (Alembic + SQLModel):** `backend/app/models.py` = schema source of truth; `backend/app/db.py` (engine, psycopg3 URL normalization); `backend/alembic/`. `DATABASE_URL` set in `backend/.env`; **`0001_profiles` + `0002_training` + `0003_exercise_media` applied to the live DB and RLS verified**. `0002_training` adds `exercises`/`routines`/`routine_exercises`/`workouts`/`workout_sets`; `0003_exercise_media` adds `exercises.media_url` + expands the library to 1,084 gym exercises with GIFs.
+- **Phase 2 complete** (waves A–E + improvement rounds; committed through `6378601`): routines, offline-tolerant session logging (set types/RPE/supersets/bodyweight), rest timer, PR detection on finish, history + past-workout + Repeat, exercise-detail charts (gifted-charts), 1,084-lift catalog with GIF thumbnails + YouTube tutorial link, resume banner, Spark app icon. Device pass confirmed by user; **RPE field not data-verified** (its code path is identical to reps/weight, which are).
 - **Frontend ↔ backend proof:** Today tab "Verify FastAPI (Phase 0 proof)" button calls `/health/protected` with the access token and shows the server-verified `user_id` — **pending device re-test after the ES256 backend fix** (was 401).
 - **Docs:** `README.md` (run backend/frontend/test-on-phone), `frontend/ANDROID-EMULATOR.md` (device/emulator setup).
 
 ---
 
 ## Session log
+
+### 2026-09-15 · Session 19 — Phase 2 closed; set-type discoverability fix
+
+- **DB evidence (user's device pass):** 2 workouts / 14 sets synced, 6 `is_pr`, 2 warmup, 2 drop, 6 superset sets, 4 bodyweight `0 kg`, weighted sets present → airplane-sync, set types, supersets, PRs and chart data all confirmed. User confirmed kill/resume + screen-off rest notification. RPE not captured (0 rows) — accepted.
+- **Set-type UX:** tapping a set number now opens the type sheet (previously long-press only); added a hint line on the active-session screen. RPE remains a per-row input.
+- **Phase 2 marked ✅** in `PHASE-2` Done-when + `PLAN.md` §10; merged `feat/gym-tracker` → `master`; started `feat/steps-budget` (Phase 3).
+
+**Next:** Phase 3 — `0004_activity_nutrition`, Health Connect steps, Today dashboard, nutrition diary, weight trend.
+
+---
 
 ### 2026-09-12 · Session 18 — Fix: launcher icon + native splash were stale native assets
 
