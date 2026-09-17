@@ -7,3 +7,4 @@ httpx
 sqlmodel
 alembic
 psycopg[binary]
+google-genai

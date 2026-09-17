@@ -497,3 +497,91 @@ class Meal(SQLModel, table=True):
             DateTime(timezone=True), nullable=False, server_default=func.now()
         ),
     )
+
+
+class AiUsage(SQLModel, table=True):
+    """Per-user, per-day, per-feature AI call counter (quota enforcement).
+
+    Users may read their own rows (UI meters); all writes go through the
+    service-role `increment_ai_usage` function.
+    """
+
+    __tablename__ = "ai_usage"
+    __table_args__ = (
+        CheckConstraint("count >= 0", name="ai_usage_count_check"),
+        UniqueConstraint(
+            "user_id", "usage_date", "feature", name="ai_usage_user_id_usage_date_feature_key"
+        ),
+        Index("ai_usage_user_date_idx", "user_id", text("usage_date DESC")),
+        {"schema": "public"},
+    )
+
+    id: UUID = Field(
+        default_factory=uuid4,
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            primary_key=True,
+            server_default=func.gen_random_uuid(),
+        ),
+    )
+    user_id: UUID = Field(
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            ForeignKey("public.profiles.id", ondelete="CASCADE"),
+            nullable=False,
+        )
+    )
+    usage_date: date = Field(sa_column=Column(Date, nullable=False))
+    feature: str = Field(sa_column=Column(Text, nullable=False))
+    count: int = Field(default=0, sa_column=Column(Integer, nullable=False, server_default=text("0")))
+    created_at: datetime = Field(
+        default_factory=datetime.utcnow,
+        sa_column=Column(
+            DateTime(timezone=True), nullable=False, server_default=func.now()
+        ),
+    )
+    updated_at: datetime = Field(
+        default_factory=datetime.utcnow,
+        sa_column=Column(
+            DateTime(timezone=True), nullable=False, server_default=func.now()
+        ),
+    )
+
+
+class AiCall(SQLModel, table=True):
+    """Cost/observability log for every AI call — service-role only (no user read)."""
+
+    __tablename__ = "ai_calls"
+    __table_args__ = (
+        Index("ai_calls_user_created_idx", "user_id", text("created_at DESC")),
+        {"schema": "public"},
+    )
+
+    id: UUID = Field(
+        default_factory=uuid4,
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            primary_key=True,
+            server_default=func.gen_random_uuid(),
+        ),
+    )
+    user_id: UUID = Field(
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            ForeignKey("public.profiles.id", ondelete="CASCADE"),
+            nullable=False,
+        )
+    )
+    feature: str = Field(sa_column=Column(Text, nullable=False))
+    model: str = Field(sa_column=Column(Text, nullable=False))
+    prompt_tokens: Optional[int] = Field(default=None, sa_column=Column(Integer))
+    output_tokens: Optional[int] = Field(default=None, sa_column=Column(Integer))
+    latency_ms: Optional[int] = Field(default=None, sa_column=Column(Integer))
+    status: str = Field(sa_column=Column(Text, nullable=False))
+    error: Optional[str] = Field(default=None, sa_column=Column(Text))
+    created_at: datetime = Field(
+        default_factory=datetime.utcnow,
+        sa_column=Column(
+            DateTime(timezone=True), nullable=False, server_default=func.now()
+        ),
+    )
