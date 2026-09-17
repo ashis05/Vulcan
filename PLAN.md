@@ -113,7 +113,7 @@ VULCAN/
 │  │  ├─ db.py             # SQLModel engine/session
 │  │  ├─ models.py         # SQLModel tables (schema source of truth)
 │  │  ├─ routers/          # ai.py, health.py
-│  │  ├─ services/         # gemini.py, program_context.py, supabase_admin.py
+│  │  ├─ services/         # gemini.py, ai_log.py, program_context.py, supabase_admin.py, prompts.py
 │  │  └─ schemas.py        # pydantic models (also used as Gemini response_schema)
 │  ├─ tests/
 │  └─ alembic/             # Alembic migrations (versions/0001_profiles.py, ...)
