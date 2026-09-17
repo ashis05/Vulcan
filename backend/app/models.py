@@ -149,12 +149,14 @@ MUSCLE_GROUPS = (
 EQUIPMENT_TYPES = ("barbell", "dumbbell", "machine", "cable", "bodyweight", "other")
 _SET_TYPES = ("warmup", "normal", "drop", "failure")
 MEAL_SLOTS = ("breakfast", "lunch", "dinner", "snacks")
+FOOD_SOURCES = ("indb", "off", "custom")
 
 # Reusable SQL fragments for the CHECK constraints below.
 _MUSCLE_IN = ", ".join(f"'{m}'" for m in MUSCLE_GROUPS)
 _EQUIPMENT_IN = ", ".join(f"'{e}'" for e in EQUIPMENT_TYPES)
 _SET_TYPES_IN = ", ".join(f"'{s}'" for s in _SET_TYPES)
 _MEAL_SLOTS_IN = ", ".join(f"'{s}'" for s in MEAL_SLOTS)
+_FOOD_SOURCES_IN = ", ".join(f"'{s}'" for s in FOOD_SOURCES)
 
 # Cross-schema / forward references which cannot be resolved from metadata are
 # added as raw SQL in the revision: `auth.users` (0001) and `programs` (Phase 5).
@@ -579,6 +581,73 @@ class AiCall(SQLModel, table=True):
     latency_ms: Optional[int] = Field(default=None, sa_column=Column(Integer))
     status: str = Field(sa_column=Column(Text, nullable=False))
     error: Optional[str] = Field(default=None, sa_column=Column(Text))
+    created_at: datetime = Field(
+        default_factory=datetime.utcnow,
+        sa_column=Column(
+            DateTime(timezone=True), nullable=False, server_default=func.now()
+        ),
+    )
+
+
+class Food(SQLModel, table=True):
+    """Global food/recipe catalog (user_id NULL) + owner-scoped custom foods.
+
+    Global rows are readable by any authenticated user and seeded from the
+    open-access Anuvaad INDB in revision `0007_food_catalog`; customs are
+    owner-only. Partial unique indexes and RLS are added as raw SQL in that
+    revision. Values are per the stored `serving_description`.
+    """
+
+    __tablename__ = "foods"
+    __table_args__ = (
+        CheckConstraint("kcal >= 0", name="foods_kcal_check"),
+        CheckConstraint(
+            "protein_g >= 0 and carbs_g >= 0 and fat_g >= 0", name="foods_macros_check"
+        ),
+        CheckConstraint(f"source in ({_FOOD_SOURCES_IN})", name="foods_source_check"),
+        {"schema": "public"},
+    )
+
+    id: UUID = Field(
+        default_factory=uuid4,
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            primary_key=True,
+            server_default=func.gen_random_uuid(),
+        ),
+    )
+    user_id: Optional[UUID] = Field(
+        default=None,
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            ForeignKey("public.profiles.id", ondelete="CASCADE"),
+            nullable=True,
+        ),
+    )
+    name: str = Field(sa_column=Column(Text, nullable=False))
+    brand: Optional[str] = Field(default=None, sa_column=Column(Text))
+    region: Optional[str] = Field(default=None, sa_column=Column(Text))
+    serving_description: str = Field(sa_column=Column(Text, nullable=False))
+    serving_grams: Optional[float] = Field(default=None, sa_column=Column(Numeric(7, 1)))
+    kcal: int = Field(default=0, sa_column=Column(Integer, nullable=False, server_default=text("0")))
+    protein_g: float = Field(
+        default=0, sa_column=Column(Numeric(6, 1), nullable=False, server_default=text("0"))
+    )
+    carbs_g: float = Field(
+        default=0, sa_column=Column(Numeric(6, 1), nullable=False, server_default=text("0"))
+    )
+    fat_g: float = Field(
+        default=0, sa_column=Column(Numeric(6, 1), nullable=False, server_default=text("0"))
+    )
+    source: str = Field(
+        default="custom",
+        sa_column=Column(Text, nullable=False, server_default=text("'custom'")),
+    )
+    barcode: Optional[str] = Field(default=None, sa_column=Column(Text))
+    is_custom: bool = Field(
+        default=False,
+        sa_column=Column(Boolean, nullable=False, server_default=text("false")),
+    )
     created_at: datetime = Field(
         default_factory=datetime.utcnow,
         sa_column=Column(
