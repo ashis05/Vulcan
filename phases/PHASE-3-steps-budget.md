@@ -22,12 +22,12 @@
 
 ## Done when
 
-- [ ] Real steps appear on Today (walk test with phone) and calorie target visibly increases with steps
-- [ ] Steps backfill works for the past 7 days on first permission grant
-- [ ] Manual meal logged → ring + macros update immediately (optimistic)
-- [ ] Weight logged → body_metrics row; trend arrow on the tile reflects it
-- [ ] Health Connect permission denial degrades gracefully (banner + manual steps entry)
-- [ ] `daily_activity` upsert is idempotent (re-sync never duplicates)
+- [x] Real steps appear on Today (walk test with phone) and calorie target visibly increases with steps
+- [x] Steps backfill works for the past 7 days on first permission grant
+- [x] Manual meal logged → ring + macros update immediately (optimistic)
+- [x] Weight logged → body_metrics row; trend arrow on the tile reflects it
+- [x] Health Connect permission denial degrades gracefully (banner + manual steps entry)
+- [x] `daily_activity` upsert is idempotent (re-sync never duplicates)
 
 ## Test plan
 

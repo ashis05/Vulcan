@@ -15,7 +15,7 @@
 4. When a phase is complete, update its status in the phase table below and check off its items.
 5. Make **minimal, modular** changes. Follow existing code style. Do not expand scope beyond the phase file.
 
-**Project status:** ✅ Phase 2 complete — full gym tracker (routines, offline-tolerant session logging, PRs, history, charts, media catalog). Next: `phases/PHASE-3-steps-budget.md`.
+**Project status:** ✅ Phase 3 complete — Health Connect steps, adaptive calorie budget, Today dashboard, nutrition diary (manual meals), weight trend. Next: `phases/PHASE-4-ai-food.md`.
 
 ---
 
@@ -135,7 +135,7 @@ All tables live in Supabase Postgres, created via **Alembic** migrations in `bac
 | `routine_exercises` | routine_id, exercise_id, sort_order, target_sets, target_reps (e.g. "8-12"), target_rpe?, superset_group?, rest_seconds? | |
 | `workouts` | id, user_id, routine_id?, started_at, ended_at?, notes | a live/finished session |
 | `workout_sets` | workout_id, exercise_id, set_number, set_type (warmup/normal/drop/failure), superset_group?, reps, weight_kg, rpe?, completed, is_pr | the core logging table |
-| `meals` | user_id, logged_at, name, photo_path?, calories, protein_g, carbs_g, fat_g, source (photo/manual), ai_raw jsonb? | |
+| `meals` | user_id, logged_at, name, meal_slot (breakfast/lunch/dinner/snacks), photo_path?, calories, protein_g, carbs_g, fat_g, source (photo/manual), ai_raw jsonb? | |
 | `progress_photos` | user_id, taken_on, photo_path, analysis jsonb? | analysis written by FastAPI |
 | `programs` | user_id, status (active/archived), goal_snapshot jsonb, payload jsonb, rationale text, created_at | one active at a time |
 | `daily_activity` | user_id, activity_date, steps, target_kcal, step_bonus_kcal | unique(user_id, activity_date) |
@@ -204,7 +204,7 @@ Lives in `frontend/src/engine/`. No I/O, no framework imports — deterministic 
 | 0 | `phases/PHASE-0-scaffold.md` | Expo + FastAPI + Supabase scaffold, auth end-to-end | ✅ |
 | 1 | `phases/PHASE-1-onboarding-engine.md` | Onboarding wizard + personalization engine (tested) | ✅ |
 | 2 | `phases/PHASE-2-gym-tracker.md` | Full workout logging core (offline-tolerant) | ✅ |
-| 3 | `phases/PHASE-3-steps-budget.md` | Health Connect steps, calorie budget, weight, manual meals | ⬜ |
+| 3 | `phases/PHASE-3-steps-budget.md` | Health Connect steps, calorie budget, weight, manual meals | ✅ |
 | 4 | `phases/PHASE-4-ai-food.md` | First AI route: food photo → macros, quota system | ⬜ |
 | 5 | `phases/PHASE-5-ai-programs.md` | AI program generation → editable routines | ⬜ |
 | 6 | `phases/PHASE-6-physique.md` | Physique check-ins, analysis, feedback loop into programs | ⬜ |

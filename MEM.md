@@ -22,17 +22,58 @@ Continuing the project from anywhere. This file is the session log and current-s
 - **Backend** (`backend/`): FastAPI skeleton — `GET /health` (public), `GET /health/protected` (JWT verified against Supabase JWKS). **Fixed ES256 support** (Supabase signs with EC P-256): `_key_for_kid` handles EC, decode accepts `["ES256","RS256"]`. Tests 8/8 passing.
 - **Migrations (Alembic + SQLModel):** `backend/app/models.py` = schema source of truth; `backend/app/db.py` (engine, psycopg3 URL normalization); `backend/alembic/`. `DATABASE_URL` set in `backend/.env`; **`0001_profiles`, `0002_training`, `0003_exercise_media`, `0004_activity_nutrition`, `0004b_exercise_media_backfill` applied to the live DB and RLS verified**. `0002_training` = training tables; `0003_exercise_media` = `exercises.media_url` + 1,084-exercise catalog; `0004_activity_nutrition` = `daily_activity` + `meals`; `0004b` = GIF backfill for the 5 preserved seed rows.
 - **Phase 2 complete** (waves A–E + improvement rounds; committed through `6378601`): routines, offline-tolerant session logging (set types/RPE/supersets/bodyweight), rest timer, PR detection on finish, history + past-workout + Repeat, exercise-detail charts (gifted-charts), 1,084-lift catalog with GIF thumbnails + YouTube tutorial link, resume banner, Spark app icon. Device pass confirmed by user; **RPE field not data-verified** (its code path is identical to reps/weight).
-- **Phase 3 — Steps, Calorie Budget & Nutrition (in progress, `feat/steps-budget`; committed through `6fb4b17`):** 
-  - **Wave A done:** `0004_activity_nutrition` applied (`daily_activity`, `meals`; RLS owner-only); engine `trendAdjustment` (steps.ts) + `adaptiveTdee` (targets.ts), tests 61/61.
-  - **Wave B done:** `react-native-health-connect` + `expo-build-properties` (`minSdkVersion 26`), `READ_STEPS` permission, `features/today/` (health-connect wrapper, `daily_activity` sync, hooks, `ConnectStepsCard` on Today). Steps auto-sync on focus + every 60 s while on Today (no button). Follow-up fixes: `initialize()` before permission checks; **local-date** bucketing (was UTC); **Health Connect `aggregateGroupByPeriod`** (was summing raw records → double-counted sources); 7-day average = last **7 completed** days.
-  - **Native prebuilt; rebuild required** (`npx expo run:android`).
-  - **Continue from — remaining Phase 3 waves:** **C** Today dashboard S6 (calorie ring, macro bar, steps tile + weight tile/modal, streak/coach placeholders); **D** nutrition diary S16 + add meal S17 + meal detail S20 (+ meals data layer); **E** weight logging → `body_metrics` + trend card using `trendAdjustment`. Then run the Phase-3 "Done when" gate.
-- **Frontend ↔ backend proof:** Today tab "Verify FastAPI (Phase 0 proof)" button calls `/health/protected` with the access token and shows the server-verified `user_id` — **pending device re-test after the ES256 backend fix** (was 401).
+- **Phase 3 — Steps, Calorie Budget & Nutrition — ✅ COMPLETE (`feat/steps-budget`).** Device pass confirmed by user. Highlights:
+  - `0004_activity_nutrition` (`daily_activity`, `meals`; RLS owner-only) + `0005_meal_slot` (both applied); engine `trendAdjustment`, `adaptiveTdee`, `tdeeOverride` target path.
+  - Health Connect steps (`react-native-health-connect`, `minSdkVersion 26`, `READ_STEPS`); auto-sync on focus + every 60 s; local-date bucketing; `aggregateGroupByPeriod` (no double-count); 7-day avg = last 7 completed days; new **steps history page** `/steps`.
+  - Today dashboard S6 (ring, macro bar, steps/weight tiles, streak, coach placeholder, trend card); nutrition diary S16 + add meal S17 + meal detail S20 (manual); weight logging → `body_metrics`; persisted ±100 kcal trend offset.
+  - Shared UI: `components/ui/{RingProgress,MacroBar,StatTile,CoachNote}`; `lib/dates.ts`.
+  - Code gate green: vitest 64/64 · `tsc` clean · `expo lint` clean · web export OK · pytest 8/8 · `alembic` head `0005_meal_slot`.
+- **Phase 4 (next):** `phases/PHASE-4-ai-food.md` — first AI route (`0006_ai`: `ai_usage`, `ai_calls`, `increment_ai_usage`, `food-photos` bucket) + **food catalog** (`0007_food_catalog`, source TBD at kickoff). User will trial meal logging with the AI system + the free Indian food datasets.
 - **Docs:** `README.md` (run backend/frontend/test-on-phone), `frontend/ANDROID-EMULATOR.md` (device/emulator setup).
 
 ---
 
 ## Session log
+
+### 2026-09-17 · Session 22c — Phase 3 CLOSED (device-verified) + committed
+
+- User confirmed the Phase-3 device pass: steps + target rise, backfill, permission-denial/manual entry, meal add/edit/delete, weight row + trend arrow, idempotent `daily_activity`.
+- Checked off `PHASE-3` "Done when"; `PLAN.md` §10 Phase 3 → ✅ and project status → Phase 3 complete.
+- Committed waves C–E + the UX fixes (backend `0005_meal_slot`, frontend dashboard/diary/steps/weight, splash lockup) and pushed `feat/steps-budget`.
+- **Next:** Phase 4 — user trials meal logging (AI + free Indian food datasets); build `0006_ai` + `0007_food_catalog`.
+
+---
+
+### 2026-09-17 · Session 22b — Phase 3 UX fixes + steps history page
+
+- **Today:** removed the "Verify FastAPI (Phase 0 proof)" button (and its state/imports). Steps tile is **read-only** — tapping now opens the new **steps history page** (`/steps`) instead of the manual-entry modal. The manual-entry modal remains reachable only from the `ConnectStepsBanner` degradation path (HC denied/unavailable).
+- **Ring overflow fix:** `RingProgress`'s centre overlay is now inset by the stroke width and constrained; the Today value font dropped from `display` (44) to 34 so `2,140` can't spill past the ring.
+- **Nutrition diary:** one consistent daily goal across the date strip — the base target (adaptive TDEE + confirmed offset); step bonuses are a Today-ring concern only, so the number no longer jumps between days.
+- **New S-steps page (`app/steps.tsx`, guarded route):** today total + kcal bonus, 7-day average, best day, a 14-day `BarChart` (gifted-charts), and a 30-day history list. Auto-syncs on focus with a 30-day backfill (`useSyncSteps`/`useAutoSyncSteps` now take a `days` arg).
+- **FAB:** nutrition add button is now **absolute bottom-right** (safe-area aware, above the floating dock); diary bottom scroll padding trimmed to clear it.
+- **Splash (`app/index.tsx`):** removed the background glow; the spark now ignites at centre, then slides to the **left of VULCAN** (slide distance measured via `onLayout` so it lands as the compact lockup on any font/device). Reduce-motion shows the final lockup immediately.
+- **Verified:** `tsc` clean · `expo lint` clean · vitest 64/64 · web export OK.
+- **Research (Phase 4, not built):** open Indian food datasets identified — **Anuvaad INDB** (1,014 recipes + 1,095 raw items, per-100g & per-serving, open-access, GitHub `lindsayjaacks/Indian-Nutrient-Databank-INDB-`); `prabhubng/indian-nutrition-data` (620+ foods); Kaggle "Indian Food Nutritional Values 2025" (250+/1,014 dishes from INDB); and **Open Food Facts** for **packaged/barcoded** items (ODbL open data, REST API `world.openfoodfacts.org/api/v2/product/{barcode}.json`, India subset via `countries_tags`, nightly dumps/parquet). See open questions.
+- **Phase docs:** added the food-catalog plan to `PHASE-4` (new `foods` reference table, source TBD at kickoff) and renumbered future revisions to avoid the `0005_meal_slot` collision: `0006_ai`, `0007_food_catalog`, `0008_programs`, `0009_physique`.
+
+**Next:** native rebuild + Phase-3 device pass → commit.
+
+---
+
+### 2026-09-17 · Session 22 — Phase 3 waves C–E: Today dashboard + nutrition + weight trend
+
+- **Schema (user-approved):** new Alembic **`0005_meal_slot`** adds `meals.meal_slot` (breakfast/lunch/dinner/snacks, default `snacks`, CHECK). Made idempotent because `0004` creates `meals` from live SQLModel metadata. **Applied to the live DB** and verified (`meal_slot` non-null, `meals_meal_slot_check`, RLS on, `alembic_version = 0005_meal_slot`). `models.py` + `PLAN.md` §6 updated.
+- **Shared UI:** `RingProgress` (SVG gradient ring), `MacroBar`/`MacroLegend`, `StatTile`, `CoachNote`; new icons `Plate/Trash/Camera/Pencil`.
+- **Engine:** `computeTargets` accepts an optional `tdeeOverride` (adaptive maintenance; goal delta/caps/floors still apply). New tests: adaptive override, invalid override fallback, pace cap off the adaptive maintenance. Vitest 64/64.
+- **Wave C — Today S6 (`(tabs)/today`):** live calorie ring (`remaining / live target`), macro bar + legend, steps tile (7-day mini bars) with manual-entry modal fallback, weight tile + log modal, streak flame (consecutive logged days), coach-note placeholder, trend-adjust card. `ConnectStepsCard` became `ConnectStepsBanner` (permission prompt + manual fallback). Adaptive TDEE is used once ≥10 aligned weight+intake days exist (21-day window).
+- **Wave D — nutrition:** `features/nutrition/{types,api,hooks,components}`; diary S16 (date strip, ring, macro bar, slot sections, delete, FAB), add-meal S17 (Quick add + Recent re-log; Scan food disabled → Phase 4), meal detail S20 (edit/delete). Optimistic create so the ring/macros update immediately. Routes `app/meal/{_layout,add,[id]}` guarded in the root stack (modal presentation).
+- **Wave E — weight/trend:** `features/today/weight.ts` (`body_metrics` upsert, invalidates profile so targets recalc); `target-offset.ts` (persisted ±100 kcal the user confirms); trend card only shows when the offset is still 0.
+- **Verified:** vitest 64/64 · `tsc --noEmit` clean · `expo lint` clean · web export OK · pytest 8/8 · migration applied. Not committed yet.
+- **Pending (device):** native rebuild (`npx expo run:android`) then walk test, permission-denial path, meal add/edit/delete, weight row + trend arrow, and the Phase-3 "Done when" gate.
+
+**Next:** native rebuild + Phase-3 device pass → mark Phase 3 complete, commit waves C–E.
+
+---
 
 ### 2026-09-15 · Session 21 — steps auto-sync, GIF ratio, media backfill
 
@@ -405,6 +446,7 @@ Caveats: drag-reorder → up/down; set-type → long-press (not swipe).
 - [x] Session 8: Verify FastAPI shows `user_id` on device ✅; deep-link fallback diagnostic log added (confirm via Metro log on next Google sign-in); email auth routes deleted; Phase 0 "Done when" closed; `feat/auth` committed + merged into `master`.
 - [x] Phase 1 complete (engine + wizard + settings stub; `0001_profiles` applied, RLS verified, persistence confirmed on device). Merged to `master` and pushed to `origin`.
   - [x] Phase 2 complete: schema + engine + Train/routine/picker + S10 session/timer/persistence + S11 summary/PR/offline sync + history/past-workout/exercise-detail/charts + media catalog. Device pass confirmed; merged to `master`.
-  - [ ] Phase 3 in progress (`feat/steps-budget`): waves A+B done (schema/engine + Health Connect steps + `ConnectStepsCard`). **Next: wave C (Today dashboard S6) → D (nutrition diary/add/detail) → E (weight trend) → Phase-3 gate.**
+  - [ ] Phase 3 in progress (`feat/steps-budget`): waves A–E code-complete (schema/engine, Health Connect steps, Today dashboard S6, nutrition S16/S17/S20, weight trend). `0005_meal_slot` applied. **Next: native rebuild (`npx expo run:android`) + device pass on the Phase-3 "Done when" gate, then commit waves C–E and mark Phase 3 complete.**
+- [ ] Phase 4 food catalog (planned in `phases/PHASE-4-ai-food.md` — `0007_food_catalog`, source TBD at kickoff): **recipes/dishes** → Anuvaad INDB (open-access, per-100g + per-serving, ~1,014 recipes) or `prabhubng/indian-nutrition-data` (620+ foods); **packaged/barcoded** → Open Food Facts (ODbL, barcode lookup + India filter). Decide bundle-a-seed vs on-demand API and confirm license/attribution before seeding.
 - [ ] Backend: add `routers/ai.py` + `schemas.py` when Phase 4 starts.
 - [ ] Set the real Android bundle id in `app.json` (Phase 7; currently `com.anonymous.vulcan`).
