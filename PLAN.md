@@ -136,6 +136,7 @@ All tables live in Supabase Postgres, created via **Alembic** migrations in `bac
 | `workouts` | id, user_id, routine_id?, started_at, ended_at?, notes | a live/finished session |
 | `workout_sets` | workout_id, exercise_id, set_number, set_type (warmup/normal/drop/failure), superset_group?, reps, weight_kg, rpe?, completed, is_pr | the core logging table |
 | `meals` | user_id, logged_at, name, meal_slot (breakfast/lunch/dinner/snacks), photo_path?, calories, protein_g, carbs_g, fat_g, source (photo/manual), ai_raw jsonb? | |
+| `foods` | id, user_id NULL (global) / set (custom), name, brand?, region?, serving_description, serving_grams?, kcal, protein_g, carbs_g, fat_g, source (indb/off/custom), barcode?, is_custom | global catalog readable by authed users; customs owner-only; seeded from Anuvaad INDB |
 | `progress_photos` | user_id, taken_on, photo_path, analysis jsonb? | analysis written by FastAPI |
 | `programs` | user_id, status (active/archived), goal_snapshot jsonb, payload jsonb, rationale text, created_at | one active at a time |
 | `daily_activity` | user_id, activity_date, steps, target_kcal, step_bonus_kcal | unique(user_id, activity_date) |
