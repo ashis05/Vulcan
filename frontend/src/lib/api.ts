@@ -4,6 +4,7 @@ export class ApiError extends Error {
   constructor(
     readonly status: number,
     message: string,
+    readonly detail?: unknown,
   ) {
     super(message);
     this.name = 'ApiError';
@@ -28,15 +29,17 @@ export async function apiFetch<T>(path: string, request: ApiRequest = {}): Promi
 
   if (!response.ok) {
     let message = `Request failed (${response.status})`;
+    let detail: unknown;
     try {
       const data = (await response.json()) as { detail?: unknown };
+      detail = data.detail;
       if (data.detail) {
         message = typeof data.detail === 'string' ? data.detail : JSON.stringify(data.detail);
       }
     } catch {
       // non-JSON error body — keep default message
     }
-    throw new ApiError(response.status, message);
+    throw new ApiError(response.status, message, detail);
   }
 
   return (await response.json()) as T;

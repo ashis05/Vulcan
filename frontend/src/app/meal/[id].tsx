@@ -5,46 +5,11 @@ import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, View
 import { Button } from '@/components/ui/Button';
 import { Screen } from '@/components/ui/Screen';
 import { TextField } from '@/components/ui/TextField';
-import { SlotPicker } from '@/features/nutrition/components';
+import { MacroEdit, SlotPicker } from '@/features/nutrition/components';
 import { useDeleteMeal, useMeal, useUpdateMeal } from '@/features/nutrition/hooks';
 import type { Meal, MealSlot } from '@/features/nutrition/types';
 import { formatClock } from '@/lib/dates';
-import { colors, fonts, radius, typeScale } from '@/theme';
-
-function MacroEdit({
-  label,
-  value,
-  step,
-  onChange,
-}: {
-  label: string;
-  value: number;
-  step: number;
-  onChange: (next: number) => void;
-}) {
-  return (
-    <View style={styles.macroEdit}>
-      <Pressable
-        onPress={() => onChange(Math.max(0, value - step))}
-        style={styles.macroBtn}
-        accessibilityLabel={`Decrease ${label}`}
-      >
-        <Text style={styles.macroSign}>−</Text>
-      </Pressable>
-      <View style={styles.macroVal}>
-        <Text style={styles.macroValue}>{Math.round(value)}</Text>
-        <Text style={styles.macroUnit}>{label}</Text>
-      </View>
-      <Pressable
-        onPress={() => onChange(value + step)}
-        style={styles.macroBtn}
-        accessibilityLabel={`Increase ${label}`}
-      >
-        <Text style={styles.macroSign}>+</Text>
-      </Pressable>
-    </View>
-  );
-}
+import { colors, typeScale } from '@/theme';
 
 function MealEditor({ meal }: { meal: Meal }) {
   const router = useRouter();
@@ -145,34 +110,4 @@ const styles = StyleSheet.create({
   field: { gap: 6 },
   fieldLabel: { color: colors.text.secondary, fontSize: typeScale.label.size, fontWeight: '500' },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
-  macroEdit: {
-    flexBasis: '47%',
-    flexGrow: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    borderWidth: 1,
-    borderColor: colors.border.hairline,
-    borderRadius: radius.lg,
-    backgroundColor: colors.bg.card,
-    padding: 8,
-  },
-  macroBtn: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.bg.overlay,
-  },
-  macroSign: { color: colors.text.secondary, fontSize: 18, lineHeight: 22 },
-  macroVal: { flex: 1, alignItems: 'center', gap: 2 },
-  macroValue: {
-    color: colors.text.primary,
-    fontFamily: fonts.display.bold,
-    fontSize: typeScale.h2.size,
-    lineHeight: typeScale.h2.lineHeight,
-    fontVariant: ['tabular-nums'],
-  },
-  macroUnit: { color: colors.text.muted, fontSize: typeScale.caption.size },
 });

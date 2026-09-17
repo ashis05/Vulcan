@@ -18,7 +18,8 @@
       "predictiveBackGestureEnabled": false,
       "package": "com.anonymous.vulcan",
       "permissions": [
-        "android.permission.health.READ_STEPS"
+        "android.permission.health.READ_STEPS",
+        "android.permission.CAMERA"
       ]
     },
     "web": {
@@ -40,6 +41,19 @@
       "react-native-quick-crypto",
       "expo-notifications",
       "react-native-health-connect",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "VULCAN uses the camera to scan your meals.",
+          "recordAudioAndroid": false
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "VULCAN needs access to your photos so you can log a meal from a picture."
+        }
+      ],
       [
         "expo-build-properties",
         {

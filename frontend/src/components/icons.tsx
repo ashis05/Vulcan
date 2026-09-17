@@ -136,6 +136,27 @@ export function PencilIcon({ size = 24, color = 'currentColor' }: IconProps) {
   );
 }
 
+export function GalleryIcon({ size = 24, color = 'currentColor' }: IconProps) {
+  return (
+    <Svg {...baseProps(size, color)}>
+      <Path d="M4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" />
+      <Circle cx="9" cy="9" r="2" />
+      <Path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21" />
+    </Svg>
+  );
+}
+
+export function FlipCameraIcon({ size = 24, color = 'currentColor' }: IconProps) {
+  return (
+    <Svg {...baseProps(size, color)}>
+      <Path d="M21 12a9 9 0 0 0-14.9-6.5L3 8" />
+      <Path d="M3 3v5h5" />
+      <Path d="M3 12a9 9 0 0 0 14.9 6.5L21 16" />
+      <Path d="M21 21v-5h-5" />
+    </Svg>
+  );
+}
+
 export function ChartIcon({ size = 24, color = 'currentColor' }: IconProps) {
   return (
     <Svg {...baseProps(size, color)}>

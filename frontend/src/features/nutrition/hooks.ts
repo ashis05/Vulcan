@@ -1,8 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { localDayFromIso } from '@/lib/dates';
+import { localDateString, localDayFromIso } from '@/lib/dates';
 import { useAuth } from '@/lib/use-auth';
 
+import { fetchFoodScansToday } from './ai';
 import * as api from './api';
 import type { Meal, MealInput } from './types';
 
@@ -33,6 +34,16 @@ export function useRecentMeals() {
   });
 }
 
+/** Food scans used today (owner-readable `ai_usage`). */
+export function useFoodScansToday() {
+  const { user } = useAuth();
+  return useQuery({
+    queryKey: ['ai-usage', 'food', user?.id, localDateString(new Date())],
+    queryFn: fetchFoodScansToday,
+    enabled: !!user,
+  });
+}
+
 export function useMeal(id: string | undefined) {
   return useQuery({
     queryKey: ['meal', id],
@@ -58,12 +69,12 @@ export function useCreateMeal() {
         loggedAt,
         name: input.name.trim(),
         mealSlot: input.mealSlot,
-        photoPath: null,
+        photoPath: input.photoPath ?? null,
         calories: Math.round(input.calories),
         proteinG: input.proteinG,
         carbsG: input.carbsG,
         fatG: input.fatG,
-        source: 'manual',
+        source: input.source ?? 'manual',
       };
       queryClient.setQueryData<Meal[]>(key, [...(previous ?? []), optimistic]);
       return { key, previous };

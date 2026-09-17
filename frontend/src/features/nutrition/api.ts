@@ -77,7 +77,9 @@ export async function createMeal(userId: string, input: MealInput): Promise<Meal
       protein_g: input.proteinG,
       carbs_g: input.carbsG,
       fat_g: input.fatG,
-      source: 'manual',
+      source: input.source ?? 'manual',
+      photo_path: input.photoPath ?? null,
+      ai_raw: input.aiRaw ?? null,
     })
     .select(MEAL_COLUMNS)
     .single();

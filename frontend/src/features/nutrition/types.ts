@@ -36,6 +36,10 @@ export interface MealInput {
   carbsG: number;
   fatG: number;
   loggedAt?: string;
+  /** Defaults to `manual`; photo meals set `photo` + photoPath/aiRaw. */
+  source?: MealSource;
+  photoPath?: string | null;
+  aiRaw?: unknown;
 }
 
 /** Best-guess diary section from the local time of day. */

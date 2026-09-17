@@ -1,6 +1,6 @@
 import { useMemo, useState, type ReactNode } from 'react';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { CameraIcon, ChevronRightIcon, PencilIcon, SearchIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
@@ -114,10 +114,9 @@ export default function AddMealScreen() {
         <AddOption
           icon={<CameraIcon size={22} color={colors.text.onAccent} />}
           title="Scan food"
-          subtitle="Photo → AI macros · arrives in Phase 4"
+          subtitle="Photo → AI macros · adjust before logging"
           primary
-          disabled
-          onPress={() => Alert.alert('Coming soon', 'Food photo analysis lands in Phase 4.')}
+          onPress={() => router.push({ pathname: '/meal/scan', params: { date } })}
         />
         <AddOption
           icon={<PencilIcon size={22} color={colors.accent.ember400} />}

@@ -86,6 +86,56 @@ export function SlotPicker({
   );
 }
 
+export function MacroEdit({
+  label,
+  value,
+  step,
+  onChange,
+}: {
+  label: string;
+  value: number;
+  step: number;
+  onChange: (next: number) => void;
+}) {
+  return (
+    <View style={styles.macroEdit}>
+      <Pressable
+        onPress={() => onChange(Math.max(0, value - step))}
+        style={styles.macroBtn}
+        accessibilityLabel={`Decrease ${label}`}
+      >
+        <Text style={styles.macroSign}>−</Text>
+      </Pressable>
+      <View style={styles.macroVal}>
+        <Text style={styles.macroValue}>{Math.round(value)}</Text>
+        <Text style={styles.macroUnit}>{label}</Text>
+      </View>
+      <Pressable
+        onPress={() => onChange(value + step)}
+        style={styles.macroBtn}
+        accessibilityLabel={`Increase ${label}`}
+      >
+        <Text style={styles.macroSign}>+</Text>
+      </Pressable>
+    </View>
+  );
+}
+
+const CONFIDENCE_STYLES = {
+  high: { color: colors.semantic.success, border: 'rgba(62,207,142,0.35)', bg: 'rgba(62,207,142,0.08)' },
+  medium: { color: colors.semantic.warning, border: 'rgba(255,176,32,0.35)', bg: 'rgba(255,176,32,0.08)' },
+  low: { color: colors.semantic.danger, border: 'rgba(244,80,47,0.35)', bg: 'rgba(244,80,47,0.08)' },
+} as const;
+
+export function ConfidenceChip({ confidence }: { confidence: 'low' | 'medium' | 'high' }) {
+  const tone = CONFIDENCE_STYLES[confidence];
+  return (
+    <View style={[styles.confidence, { borderColor: tone.border, backgroundColor: tone.bg }]}>
+      <Text style={[styles.confidenceText, { color: tone.color }]}>{confidence} AI estimate</Text>
+    </View>
+  );
+}
+
 export function MealCard({
   meal,
   onPress,
@@ -208,6 +258,48 @@ const styles = StyleSheet.create({
   },
   kcalUnit: { color: colors.text.muted, fontSize: typeScale.caption.size },
   deleteBtn: { width: 32, height: 44, alignItems: 'center', justifyContent: 'center' },
+  macroEdit: {
+    flexBasis: '47%',
+    flexGrow: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    borderWidth: 1,
+    borderColor: colors.border.hairline,
+    borderRadius: radius.lg,
+    backgroundColor: colors.bg.card,
+    padding: 8,
+  },
+  macroBtn: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.bg.overlay,
+  },
+  macroSign: { color: colors.text.secondary, fontSize: 18, lineHeight: 22 },
+  macroVal: { flex: 1, alignItems: 'center', gap: 2 },
+  macroValue: {
+    color: colors.text.primary,
+    fontFamily: fonts.display.bold,
+    fontSize: typeScale.h2.size,
+    lineHeight: typeScale.h2.lineHeight,
+    fontVariant: ['tabular-nums'],
+  },
+  macroUnit: { color: colors.text.muted, fontSize: typeScale.caption.size },
+  confidence: {
+    alignSelf: 'flex-start',
+    borderWidth: 1,
+    borderRadius: radius.pill,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+  },
+  confidenceText: {
+    fontSize: typeScale.caption.size,
+    fontWeight: '600',
+    textTransform: 'capitalize',
+  },
   fab: {
     position: 'absolute',
     right: 20,
