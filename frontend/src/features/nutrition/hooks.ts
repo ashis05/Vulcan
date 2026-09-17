@@ -5,6 +5,7 @@ import { useAuth } from '@/lib/use-auth';
 
 import { fetchFoodScansToday } from './ai';
 import * as api from './api';
+import { searchFoods } from './foods-api';
 import type { Meal, MealInput } from './types';
 
 export function useDayMeals(dateIso: string) {
@@ -31,6 +32,17 @@ export function useRecentMeals() {
     queryKey: ['meals', 'recent', user?.id],
     queryFn: () => api.fetchRecentMeals(),
     enabled: !!user,
+  });
+}
+
+/** Name search over the global food catalog (debounced by the caller). */
+export function useFoodSearch(query: string) {
+  const term = query.trim();
+  return useQuery({
+    queryKey: ['foods', 'search', term],
+    queryFn: () => searchFoods(term),
+    enabled: term.length >= 2,
+    staleTime: 60_000,
   });
 }
 

@@ -7,7 +7,8 @@ import { Button } from '@/components/ui/Button';
 import { Screen } from '@/components/ui/Screen';
 import { TextField } from '@/components/ui/TextField';
 import { SlotPicker } from '@/features/nutrition/components';
-import { useCreateMeal, useRecentMeals } from '@/features/nutrition/hooks';
+import type { FoodItem } from '@/features/nutrition/foods-api';
+import { useCreateMeal, useFoodSearch, useRecentMeals } from '@/features/nutrition/hooks';
 import { slotForTime, type MealSlot } from '@/features/nutrition/types';
 import { localDateString } from '@/lib/dates';
 import { colors, fonts, radius, typeScale } from '@/theme';
@@ -54,12 +55,28 @@ export default function AddMealScreen() {
 
   const [showQuick, setShowQuick] = useState(true);
   const [showRecent, setShowRecent] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+  const [query, setQuery] = useState('');
+  const [servingHint, setServingHint] = useState('');
   const [name, setName] = useState('');
   const [slot, setSlot] = useState<MealSlot>(slotForTime(new Date()));
   const [kcal, setKcal] = useState('');
   const [protein, setProtein] = useState('');
   const [carbs, setCarbs] = useState('');
   const [fat, setFat] = useState('');
+
+  const search = useFoodSearch(query);
+
+  const applyFood = (food: FoodItem) => {
+    setName(food.name);
+    setKcal(String(food.kcal));
+    setProtein(String(food.proteinG));
+    setCarbs(String(food.carbsG));
+    setFat(String(food.fatG));
+    setServingHint(food.servingDescription);
+    setShowSearch(false);
+    setShowQuick(true);
+  };
 
   const recents = useMemo(() => {
     const seen = new Set<string>();
@@ -119,17 +136,59 @@ export default function AddMealScreen() {
           onPress={() => router.push({ pathname: '/meal/scan', params: { date } })}
         />
         <AddOption
+          icon={<SearchIcon size={22} color={colors.accent.ember400} />}
+          title="Search foods"
+          subtitle="Indian recipes & dishes · autofill macros"
+          onPress={() => setShowSearch((v) => !v)}
+        />
+        <AddOption
           icon={<PencilIcon size={22} color={colors.accent.ember400} />}
           title="Quick add"
           subtitle="Manual kcal + macros"
           onPress={() => setShowQuick((v) => !v)}
         />
         <AddOption
-          icon={<SearchIcon size={22} color={colors.accent.ember400} />}
+          icon={<CameraIcon size={22} color={colors.accent.ember400} />}
           title="Recent meals"
           subtitle="Re-log something you've eaten"
           onPress={() => setShowRecent((v) => !v)}
         />
+
+        {showSearch ? (
+          <View style={styles.searchPanel}>
+            <TextField
+              label="Search foods"
+              placeholder="e.g. biryani, dal, roti, paneer"
+              value={query}
+              onChangeText={setQuery}
+              autoFocus
+            />
+            {search.data && search.data.length > 0 ? (
+              <View style={styles.results}>
+                {search.data.map((food) => (
+                  <Pressable
+                    key={food.id}
+                    onPress={() => applyFood(food)}
+                    style={({ pressed }) => [styles.resultItem, pressed && styles.pressed]}
+                  >
+                    <View style={styles.resultText}>
+                      <Text style={styles.resultName} numberOfLines={1}>
+                        {food.name}
+                      </Text>
+                      <Text style={styles.resultMeta} numberOfLines={1}>
+                        {food.servingDescription} · P {Math.round(food.proteinG)} · C{' '}
+                        {Math.round(food.carbsG)} · F {Math.round(food.fatG)}
+                      </Text>
+                    </View>
+                    <Text style={styles.resultKcal}>{food.kcal}</Text>
+                  </Pressable>
+                ))}
+              </View>
+            ) : query.trim().length >= 2 && !search.isFetching ? (
+              <Text style={styles.muted}>No matches — try another name or Quick add.</Text>
+            ) : null}
+          </View>
+        ) : null}
 
         {showQuick ? (
           <View style={styles.form}>
@@ -139,6 +198,7 @@ export default function AddMealScreen() {
               value={name}
               onChangeText={setName}
             />
+            {servingHint ? <Text style={styles.servingHint}>Per {servingHint}</Text> : null}
             <View style={styles.field}>
               <Text style={styles.fieldLabel}>Meal</Text>
               <SlotPicker value={slot} onChange={setSlot} />
@@ -259,6 +319,28 @@ const styles = StyleSheet.create({
   optionText: { flex: 1, gap: 2 },
   optionTitle: { color: colors.text.primary, fontSize: typeScale.body.size, fontWeight: '600' },
   optionSub: { color: colors.text.muted, fontSize: typeScale.caption.size },
+  searchPanel: { gap: 12, borderTopWidth: 1, borderTopColor: colors.border.hairline, paddingTop: 18 },
+  results: { gap: 8 },
+  resultItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    padding: 12,
+    borderWidth: 1,
+    borderColor: colors.border.hairline,
+    borderRadius: radius.lg,
+    backgroundColor: colors.bg.card,
+  },
+  resultText: { flex: 1, minWidth: 0, gap: 2 },
+  resultName: { color: colors.text.primary, fontSize: typeScale.body.size, fontWeight: '600' },
+  resultMeta: { color: colors.text.muted, fontSize: typeScale.caption.size },
+  resultKcal: {
+    color: colors.text.primary,
+    fontFamily: fonts.display.bold,
+    fontSize: typeScale.h3.size,
+    fontVariant: ['tabular-nums'],
+  },
+  servingHint: { color: colors.accent.ember500, fontSize: typeScale.caption.size, marginTop: -8 },
   form: {
     gap: 14,
     borderTopWidth: 1,
