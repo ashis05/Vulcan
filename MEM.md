@@ -28,7 +28,10 @@ Continuing the project from anywhere. This file is the session log and current-s
   - Today dashboard S6 (ring, macro bar, steps/weight tiles, streak, coach placeholder, trend card); nutrition diary S16 + add meal S17 + meal detail S20 (manual); weight logging → `body_metrics`; persisted ±100 kcal trend offset.
   - Shared UI: `components/ui/{RingProgress,MacroBar,StatTile,CoachNote}`; `lib/dates.ts`.
   - Code gate green: vitest 64/64 · `tsc` clean · `expo lint` clean · web export OK · pytest 8/8 · `alembic` head `0005_meal_slot`.
-- **Phase 4 — AI Food Logging (in progress, `feat/steps-budget`; wave A done, uncommitted).** Decisions: catalog = **Anuvaad INDB**, scan = **camera + gallery**, build order = **backend first**. Wave A = AI infra: `0006_ai` (applied — `ai_usage`, `ai_calls`, `increment_ai_usage` security-definer fn, private `food-photos` bucket + 4 owner storage policies), `core/quotas.py`, `schemas.py` (`FoodEstimate`), `services/{gemini,ai_log,supabase_admin,prompts}.py`, `routers/ai.py` (`POST /ai/analyze-food`). pytest 14/14 (Gemini/quota/storage mocked). **Needs `SUPABASE_SERVICE_ROLE_KEY` + `GEMINI_API_KEY` in `backend/.env`** (not set yet). Next: wave B = scan→confirm app flow; wave C = `0007_food_catalog` INDB seed + S17 search.
+- **Phase 4 — AI Food Logging (in progress, `feat/steps-budget`; wave A committed `0fb3803`+`9431d3f`, wave B done/uncommitted).** Decisions: catalog = **Anuvaad INDB**, scan = **camera + gallery**, build order = **backend first**.
+  - **Wave A:** `0006_ai` applied (`ai_usage`, `ai_calls`, `increment_ai_usage` security-definer fn, private `food-photos` bucket + 4 owner storage policies), `core/quotas.py`, `schemas.py`, `services/{gemini,ai_log,supabase_admin,prompts}.py`, `routers/ai.py` (`POST /ai/analyze-food`). pytest 14/14. `SUPABASE_SERVICE_ROLE_KEY` + `GEMINI_API_KEY` added to `backend/.env`.
+  - **Wave B:** `expo-camera` + `expo-image-picker` + `expo-image-manipulator` (+ app.json camera/photo permission plugins); `features/nutrition/{ai,photo}.ts` (analyze call, quota query, resize+upload to `food-photos/{uid}/`); S18 `app/meal/scan` (camera + gallery, busy/error/429 states); S19 `app/meal/confirm` (editable estimate, serving rescale, confidence chip, disclaimer, quota meter, slot, log → `source=photo` + `photo_path` + `ai_raw`); S17 "Scan food" wired; shared `MacroEdit`/`ConfidenceChip`. `lib/api.ts` now surfaces `ApiError.detail`. **Native rebuild required** (`npx expo run:android`).
+  - **Next:** wave C = `0007_food_catalog` INDB seed + S17 search/autofill; then Phase-4 device test.
 - **Docs:** `README.md` (run backend/frontend/test-on-phone), `frontend/ANDROID-EMULATOR.md` (device/emulator setup).
 
 ---
@@ -44,8 +47,10 @@ Continuing the project from anywhere. This file is the session log and current-s
   - `core/config.py` gained `SUPABASE_SERVICE_ROLE_KEY`, `GEMINI_API_KEY`, `GEMINI_MODEL`, quotas (all optional/defaulted so tests boot without secrets).
   - `schemas.py` (`FoodEstimate`, `AnalyzeFoodRequest`), `services/prompts.py` (versioned), `services/gemini.py` (structured output, lazy SDK import, retry-once, `GeminiRefusal`/`GeminiParseError`), `services/supabase_admin.py` (service-role photo download), `services/ai_log.py` (best-effort `ai_calls`), `routers/ai.py` (`POST /ai/analyze-food`: auth → path-ownership → quota → storage → Gemini → log → respond; 403/429/422/502 mapping).
   - `requirements.txt` + installed `google-genai`. `pytest` **14/14** (6 new; all AI dependencies mocked).
-- **Action needed from user:** add `SUPABASE_SERVICE_ROLE_KEY` and `GEMINI_API_KEY` to `backend/.env` to test the live route.
-- **Next:** wave B (scan→confirm S18/S19, wire S17) then wave C (`0007_food_catalog` INDB seed + S17 search).
+- **Live keys added:** `SUPABASE_SERVICE_ROLE_KEY` + `GEMINI_API_KEY` are now in `backend/.env` (presence verified; never printed). Wave A committed (`0fb3803`, docs `9431d3f`) and pushed.
+- **Wave B (scan→confirm), done/uncommitted:** installed `expo-camera`, `expo-image-picker`, `expo-image-manipulator` (+ `app.json` permission plugins/`CAMERA`); `features/nutrition/ai.ts` (`analyzeFoodPhoto`, `fetchFoodScansToday`, `FOOD_SCAN_LIMIT`) and `photo.ts` (resize ≤1600px → upload `food-photos/{uid}/{uuid}.jpg`); S18 `app/meal/scan` (camera + gallery, permission-denied fallback, busy overlay, 403/422/429/502 messages); S19 `app/meal/confirm` (editable name/serving/macros, `ConfidenceChip`, mandatory disclaimer, quota meter, slot, Retake/Log → `source=photo`, `photo_path`, `ai_raw`); S17 "Scan food" enabled; shared `MacroEdit`/`ConfidenceChip`; `ApiError` now carries `detail`.
+- **Verified:** `tsc` clean · `expo lint` clean · vitest 64/64 · web export OK. **Native rebuild required** for the camera/picker modules.
+- **Next:** wave C (`0007_food_catalog` INDB seed + S17 search/autofill) → device test of scan→analyze→confirm→log.
 
 ---
 
