@@ -148,11 +148,13 @@ MUSCLE_GROUPS = (
 )
 EQUIPMENT_TYPES = ("barbell", "dumbbell", "machine", "cable", "bodyweight", "other")
 _SET_TYPES = ("warmup", "normal", "drop", "failure")
+MEAL_SLOTS = ("breakfast", "lunch", "dinner", "snacks")
 
 # Reusable SQL fragments for the CHECK constraints below.
 _MUSCLE_IN = ", ".join(f"'{m}'" for m in MUSCLE_GROUPS)
 _EQUIPMENT_IN = ", ".join(f"'{e}'" for e in EQUIPMENT_TYPES)
 _SET_TYPES_IN = ", ".join(f"'{s}'" for s in _SET_TYPES)
+_MEAL_SLOTS_IN = ", ".join(f"'{s}'" for s in MEAL_SLOTS)
 
 # Cross-schema / forward references which cannot be resolved from metadata are
 # added as raw SQL in the revision: `auth.users` (0001) and `programs` (Phase 5).
@@ -448,6 +450,7 @@ class Meal(SQLModel, table=True):
     __tablename__ = "meals"
     __table_args__ = (
         CheckConstraint("source in ('manual', 'photo')", name="meals_source_check"),
+        CheckConstraint(f"meal_slot in ({_MEAL_SLOTS_IN})", name="meals_meal_slot_check"),
         CheckConstraint("calories >= 0", name="meals_calories_check"),
         Index("meals_user_logged_idx", "user_id", text("logged_at DESC")),
         {"schema": "public"},
@@ -473,6 +476,11 @@ class Meal(SQLModel, table=True):
         sa_column=Column(DateTime(timezone=True), nullable=False, server_default=func.now()),
     )
     name: str = Field(sa_column=Column(Text, nullable=False))
+    # Breakfast/lunch/dinner/snacks — drives the S16 diary sections.
+    meal_slot: str = Field(
+        default="snacks",
+        sa_column=Column(Text, nullable=False, server_default=text("'snacks'")),
+    )
     photo_path: Optional[str] = Field(default=None, sa_column=Column(Text))
     calories: int = Field(default=0, sa_column=Column(Integer, nullable=False, server_default=text("0")))
     protein_g: float = Field(default=0, sa_column=Column(Numeric(6, 1), nullable=False, server_default=text("0")))
