@@ -45,6 +45,34 @@ export async function syncDailyActivity(
   return rows.length;
 }
 
+/**
+ * Manual steps for a day — the graceful fallback when Health Connect is denied
+ * or unavailable. Idempotent on (user, date), same as the synced rows.
+ */
+export async function setManualSteps(
+  userId: string,
+  dateIso: string,
+  steps: number,
+  baseTargetKcal: number,
+  weightKg: number,
+): Promise<void> {
+  const normalized = Math.max(0, Math.round(steps));
+  const bonus = stepKcalBonus(normalized, weightKg);
+  const { error } = await supabase
+    .from('daily_activity')
+    .upsert(
+      {
+        user_id: userId,
+        activity_date: dateIso,
+        steps: normalized,
+        step_bonus_kcal: bonus,
+        target_kcal: baseTargetKcal + bonus,
+      },
+      { onConflict: 'user_id,activity_date' },
+    );
+  if (error) throw error;
+}
+
 export async function fetchDailyActivity(userId: string, days = 7): Promise<DailyActivityRow[]> {
   const start = new Date();
   start.setDate(start.getDate() - (days - 1));

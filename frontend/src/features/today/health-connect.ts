@@ -8,6 +8,8 @@ import {
   requestPermission,
 } from 'react-native-health-connect';
 
+import { localDateString } from '@/lib/dates';
+
 const STEPS_READ = { accessType: 'read', recordType: 'Steps' } as const;
 
 export type HealthConnectStatus = 'available' | 'update_required' | 'unavailable';
@@ -64,13 +66,7 @@ export interface DailySteps {
   steps: number;
 }
 
-/** Local calendar date (yyyy-mm-dd) — never use toISOString() for day buckets. */
-export function localDateString(date: Date): string {
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, '0');
-  const d = String(date.getDate()).padStart(2, '0');
-  return `${y}-${m}-${d}`;
-}
+export { localDateString } from '@/lib/dates';
 
 /**
  * Steps per local calendar day for the [start, end] window, using Health

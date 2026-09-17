@@ -100,6 +100,42 @@ export function AppleIcon({ size = 24, color = 'currentColor' }: IconProps) {
   );
 }
 
+export function PlateIcon({ size = 24, color = 'currentColor' }: IconProps) {
+  return (
+    <Svg {...baseProps(size, color)}>
+      <Path d="M3 9v6M6 8v8M6 12h12M18 8v8M21 9v6" />
+    </Svg>
+  );
+}
+
+export function TrashIcon({ size = 24, color = 'currentColor' }: IconProps) {
+  return (
+    <Svg {...baseProps(size, color)}>
+      <Path d="M3 6h18" />
+      <Path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+      <Path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+      <Path d="M10 11v6M14 11v6" />
+    </Svg>
+  );
+}
+
+export function CameraIcon({ size = 24, color = 'currentColor' }: IconProps) {
+  return (
+    <Svg {...baseProps(size, color)}>
+      <Path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+      <Circle cx="12" cy="13" r="4" />
+    </Svg>
+  );
+}
+
+export function PencilIcon({ size = 24, color = 'currentColor' }: IconProps) {
+  return (
+    <Svg {...baseProps(size, color)}>
+      <Path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+    </Svg>
+  );
+}
+
 export function ChartIcon({ size = 24, color = 'currentColor' }: IconProps) {
   return (
     <Svg {...baseProps(size, color)}>

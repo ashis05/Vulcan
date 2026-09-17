@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
-import { useEffect, useMemo, useState } from 'react';
-import { AccessibilityInfo, Animated, StyleSheet, View } from 'react-native';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { AccessibilityInfo, Animated, Easing, StyleSheet, View, type LayoutChangeEvent } from 'react-native';
 
 import { Screen } from '@/components/ui/Screen';
 import { SparkIcon } from '@/components/icons';
@@ -8,9 +8,12 @@ import { useAuth } from '@/lib/use-auth';
 import { useProfile } from '@/lib/use-profile';
 import { colors, fonts, motion } from '@/theme';
 
-const IGNITE_MS = 720;
-const WORD_DELAY = 280;
-const ROUTE_DELAY = 1250;
+const SPARK_SIZE = 40;
+const GAP = 12;
+const SPARK_MS = 520;
+const WORD_DELAY = 360;
+const WORD_MS = 460;
+const ROUTE_DELAY = 1350;
 const ROUTE_DELAY_REDUCED = 450;
 
 export default function SplashScreen() {
@@ -18,47 +21,77 @@ export default function SplashScreen() {
   const { session, isLoading } = useAuth();
   const profileQuery = useProfile();
   const [reduceMotion, setReduceMotion] = useState(false);
+  const [ready, setReady] = useState(false);
+  const wordWidth = useRef(0);
 
-  const scale = useMemo(() => new Animated.Value(0.4), []);
-  const markOpacity = useMemo(() => new Animated.Value(0), []);
-  const glowOpacity = useMemo(() => new Animated.Value(0), []);
+  const sparkScale = useMemo(() => new Animated.Value(0.5), []);
+  const sparkOpacity = useMemo(() => new Animated.Value(0), []);
+  const sparkY = useMemo(() => new Animated.Value(12), []);
+  const rowX = useMemo(() => new Animated.Value(0), []);
   const wordOpacity = useMemo(() => new Animated.Value(0), []);
-  const wordY = useMemo(() => new Animated.Value(10), []);
+  const wordX = useMemo(() => new Animated.Value(14), []);
 
   useEffect(() => {
-    AccessibilityInfo.isReduceMotionEnabled().then((enabled) => {
-      setReduceMotion(enabled);
-      if (enabled) {
-        scale.setValue(1);
-        markOpacity.setValue(1);
-        glowOpacity.setValue(1);
-        wordOpacity.setValue(1);
-        wordY.setValue(0);
-      }
-    });
-  }, [scale, markOpacity, glowOpacity, wordOpacity, wordY]);
+    AccessibilityInfo.isReduceMotionEnabled().then(setReduceMotion);
+  }, []);
 
+  // Reduce-motion users get the final lockup immediately.
   useEffect(() => {
-    if (reduceMotion) return;
+    if (!reduceMotion) return;
+    sparkScale.setValue(1);
+    sparkOpacity.setValue(1);
+    sparkY.setValue(0);
+    rowX.setValue(0);
+    wordOpacity.setValue(1);
+    wordX.setValue(0);
+  }, [reduceMotion, sparkScale, sparkOpacity, sparkY, rowX, wordOpacity, wordX]);
 
-    Animated.parallel([
-      Animated.spring(scale, { toValue: 1, damping: motion.spring.damping, stiffness: motion.spring.stiffness, useNativeDriver: true }),
-      Animated.timing(markOpacity, { toValue: 1, duration: 200, useNativeDriver: true }),
-      Animated.timing(glowOpacity, {
-        toValue: 1,
-        duration: IGNITE_MS,
-        useNativeDriver: true,
-      }),
-    ]).start();
+  // Ignite the spark at centre, then slide it to the left of the word. The
+  // distance is measured so the spark lands exactly beside VULCAN.
+  useEffect(() => {
+    if (reduceMotion || !ready) return;
+    rowX.setValue((wordWidth.current + GAP) / 2);
 
     Animated.sequence([
+      Animated.parallel([
+        Animated.spring(sparkScale, {
+          toValue: 1,
+          damping: motion.spring.damping,
+          stiffness: motion.spring.stiffness,
+          useNativeDriver: true,
+        }),
+        Animated.timing(sparkOpacity, { toValue: 1, duration: 220, useNativeDriver: true }),
+        Animated.timing(sparkY, {
+          toValue: 0,
+          duration: SPARK_MS,
+          easing: Easing.out(Easing.cubic),
+          useNativeDriver: true,
+        }),
+      ]),
       Animated.delay(WORD_DELAY),
       Animated.parallel([
-        Animated.timing(wordOpacity, { toValue: 1, duration: 400, useNativeDriver: true }),
-        Animated.spring(wordY, { toValue: 0, damping: motion.spring.damping, stiffness: motion.spring.stiffness, useNativeDriver: true }),
+        Animated.timing(rowX, {
+          toValue: 0,
+          duration: WORD_MS,
+          easing: Easing.out(Easing.cubic),
+          useNativeDriver: true,
+        }),
+        Animated.timing(wordOpacity, { toValue: 1, duration: 300, useNativeDriver: true }),
+        Animated.timing(wordX, {
+          toValue: 0,
+          duration: WORD_MS,
+          easing: Easing.out(Easing.cubic),
+          useNativeDriver: true,
+        }),
       ]),
     ]).start();
-  }, [reduceMotion, scale, markOpacity, glowOpacity, wordOpacity, wordY]);
+  }, [reduceMotion, ready, rowX, sparkScale, sparkOpacity, sparkY, wordOpacity, wordX]);
+
+  const onWordLayout = (event: LayoutChangeEvent) => {
+    if (ready) return;
+    wordWidth.current = event.nativeEvent.layout.width;
+    setReady(true);
+  };
 
   useEffect(() => {
     if (isLoading || (session && profileQuery.isPending)) return;
@@ -77,34 +110,22 @@ export default function SplashScreen() {
   return (
     <Screen>
       <View style={styles.center}>
-        <View style={styles.stack}>
-          <View style={styles.markWrap}>
-            <Animated.View
-              style={[
-                styles.glow,
-                {
-                  backgroundColor: colors.glow,
-                  opacity: glowOpacity,
-                  transform: [{ scale }],
-                },
-              ]}
-            />
-            <Animated.View style={{ opacity: markOpacity, transform: [{ scale }] }}>
-              <SparkIcon size={100} color={colors.accent.ember500} filled />
-            </Animated.View>
-          </View>
+        <Animated.View style={[styles.row, { transform: [{ translateX: rowX }] }]}>
+          <Animated.View
+            style={{
+              opacity: sparkOpacity,
+              transform: [{ translateY: sparkY }, { scale: sparkScale }],
+            }}
+          >
+            <SparkIcon size={SPARK_SIZE} color={colors.accent.ember500} filled />
+          </Animated.View>
           <Animated.Text
-            style={[
-              styles.word,
-              {
-                opacity: wordOpacity,
-                transform: [{ translateY: wordY }],
-              },
-            ]}
+            onLayout={onWordLayout}
+            style={[styles.word, { opacity: wordOpacity, transform: [{ translateX: wordX }] }]}
           >
             VULCAN
           </Animated.Text>
-        </View>
+        </Animated.View>
       </View>
     </Screen>
   );
@@ -112,9 +133,7 @@ export default function SplashScreen() {
 
 const styles = StyleSheet.create({
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  stack: { alignItems: 'center', gap: 22 },
-  markWrap: { alignItems: 'center', justifyContent: 'center' },
-  glow: { position: 'absolute', width: 150, height: 150, borderRadius: 75 },
+  row: { flexDirection: 'row', alignItems: 'center', gap: GAP },
   word: {
     fontFamily: fonts.display.bold,
     fontSize: 34,

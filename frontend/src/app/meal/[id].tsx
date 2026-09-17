@@ -1,0 +1,178 @@
+import { useState } from 'react';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+
+import { Button } from '@/components/ui/Button';
+import { Screen } from '@/components/ui/Screen';
+import { TextField } from '@/components/ui/TextField';
+import { SlotPicker } from '@/features/nutrition/components';
+import { useDeleteMeal, useMeal, useUpdateMeal } from '@/features/nutrition/hooks';
+import type { Meal, MealSlot } from '@/features/nutrition/types';
+import { formatClock } from '@/lib/dates';
+import { colors, fonts, radius, typeScale } from '@/theme';
+
+function MacroEdit({
+  label,
+  value,
+  step,
+  onChange,
+}: {
+  label: string;
+  value: number;
+  step: number;
+  onChange: (next: number) => void;
+}) {
+  return (
+    <View style={styles.macroEdit}>
+      <Pressable
+        onPress={() => onChange(Math.max(0, value - step))}
+        style={styles.macroBtn}
+        accessibilityLabel={`Decrease ${label}`}
+      >
+        <Text style={styles.macroSign}>−</Text>
+      </Pressable>
+      <View style={styles.macroVal}>
+        <Text style={styles.macroValue}>{Math.round(value)}</Text>
+        <Text style={styles.macroUnit}>{label}</Text>
+      </View>
+      <Pressable
+        onPress={() => onChange(value + step)}
+        style={styles.macroBtn}
+        accessibilityLabel={`Increase ${label}`}
+      >
+        <Text style={styles.macroSign}>+</Text>
+      </Pressable>
+    </View>
+  );
+}
+
+function MealEditor({ meal }: { meal: Meal }) {
+  const router = useRouter();
+  const updateMeal = useUpdateMeal(meal.id);
+  const deleteMeal = useDeleteMeal();
+
+  const [name, setName] = useState(meal.name);
+  const [slot, setSlot] = useState<MealSlot>(meal.mealSlot);
+  const [kcal, setKcal] = useState(meal.calories);
+  const [protein, setProtein] = useState(meal.proteinG);
+  const [carbs, setCarbs] = useState(meal.carbsG);
+  const [fat, setFat] = useState(meal.fatG);
+
+  const save = () => {
+    updateMeal.mutate(
+      { name, mealSlot: slot, calories: kcal, proteinG: protein, carbsG: carbs, fatG: fat },
+      { onSuccess: () => router.back() },
+    );
+  };
+
+  const confirmDelete = () => {
+    Alert.alert('Delete meal?', 'This removes it from the diary.', [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: () => deleteMeal.mutate(meal.id, { onSuccess: () => router.back() }),
+      },
+    ]);
+  };
+
+  return (
+    <ScrollView style={styles.body} contentContainerStyle={styles.content}>
+      <TextField label="Name" value={name} onChangeText={setName} />
+
+      <View style={styles.field}>
+        <Text style={styles.fieldLabel}>Meal</Text>
+        <SlotPicker value={slot} onChange={setSlot} />
+      </View>
+
+      <View style={styles.grid}>
+        <MacroEdit label="kcal" value={kcal} step={10} onChange={setKcal} />
+        <MacroEdit label="protein g" value={protein} step={1} onChange={setProtein} />
+        <MacroEdit label="carbs g" value={carbs} step={1} onChange={setCarbs} />
+        <MacroEdit label="fat g" value={fat} step={1} onChange={setFat} />
+      </View>
+
+      <Button
+        label={updateMeal.isPending ? 'Saving…' : 'Save changes'}
+        onPress={save}
+        disabled={updateMeal.isPending}
+      />
+      <Button label="Delete meal" variant="destructive" onPress={confirmDelete} />
+    </ScrollView>
+  );
+}
+
+export default function MealDetailScreen() {
+  const router = useRouter();
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const meal = useMeal(id);
+
+  return (
+    <Screen>
+      <View style={styles.nav}>
+        <Pressable onPress={() => router.back()} style={styles.back} hitSlop={8}>
+          <Text style={styles.backLabel}>Diary</Text>
+        </Pressable>
+        {meal.data ? <Text style={styles.time}>Logged {formatClock(meal.data.loggedAt)}</Text> : null}
+      </View>
+
+      {meal.isPending ? (
+        <ActivityIndicator color={colors.accent.ember500} style={styles.loading} />
+      ) : meal.isError || !meal.data ? (
+        <Text style={styles.error}>Could not load this meal.</Text>
+      ) : (
+        <MealEditor meal={meal.data} />
+      )}
+    </Screen>
+  );
+}
+
+const styles = StyleSheet.create({
+  nav: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingTop: 12,
+  },
+  back: { height: 44, justifyContent: 'center' },
+  backLabel: { color: colors.text.secondary, fontSize: typeScale.label.size, fontWeight: '600' },
+  time: { color: colors.text.muted, fontSize: typeScale.caption.size },
+  loading: { marginTop: 48 },
+  error: { color: colors.semantic.danger, fontSize: typeScale.label.size, padding: 16 },
+  body: { flex: 1 },
+  content: { padding: 16, gap: 18, paddingBottom: 40 },
+  field: { gap: 6 },
+  fieldLabel: { color: colors.text.secondary, fontSize: typeScale.label.size, fontWeight: '500' },
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
+  macroEdit: {
+    flexBasis: '47%',
+    flexGrow: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    borderWidth: 1,
+    borderColor: colors.border.hairline,
+    borderRadius: radius.lg,
+    backgroundColor: colors.bg.card,
+    padding: 8,
+  },
+  macroBtn: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.bg.overlay,
+  },
+  macroSign: { color: colors.text.secondary, fontSize: 18, lineHeight: 22 },
+  macroVal: { flex: 1, alignItems: 'center', gap: 2 },
+  macroValue: {
+    color: colors.text.primary,
+    fontFamily: fonts.display.bold,
+    fontSize: typeScale.h2.size,
+    lineHeight: typeScale.h2.lineHeight,
+    fontVariant: ['tabular-nums'],
+  },
+  macroUnit: { color: colors.text.muted, fontSize: typeScale.caption.size },
+});
