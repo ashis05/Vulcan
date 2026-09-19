@@ -16,7 +16,7 @@ Stack-specific rules for the backend: the Python FastAPI AI proxy **and** the Su
 1. **Auth:** verify `Authorization: Bearer <supabase access_token>` against the Supabase JWKS (`core/auth.py`, PyJWT, audience `authenticated`). Expose as a FastAPI dependency returning `user_id`. Garbage/missing tokens → 401.
 2. **Quota:** `core/quotas.py` calls the `increment_ai_usage` SQL function with the per-feature limit. Denied → HTTP 429 with `resets_at`.
 3. **Storage/fetch:** read photos / query performance data with the **service-role key only** (`supabase_admin.py`). Never return the key or signed URLs exposing other users' data.
-4. **Gemini:** `google-genai`, model `gemini-2.5-flash`, **structured output** (`response_mime_type="application/json"` + the Pydantic schema). Wrap with **one retry**; log tokens + latency into `ai_calls`. Prompts live in `services/prompts.py`, versioned.
+4. **Gemini:** `google-genai`, model `gemini-3.1-flash-lite` (configurable via `GEMINI_MODEL`), **structured output** (`response_mime_type="application/json"` + the Pydantic schema). Wrap with **one retry**; log tokens + latency into `ai_calls`. Prompts live in `services/prompts.py`, versioned.
 5. **Log & respond:** every call logs to `ai_calls` (tokens, latency, status). Return clean, typed responses.
 
 ### FastAPI conventions
@@ -43,3 +43,4 @@ Stack-specific rules for the backend: the Python FastAPI AI proxy **and** the Su
 - After a migration, verify with actual SQL/API calls: anonymous read fails, cross-user read fails, owner can read/write. Confirm storage policies the same way. State the evidence, don't assume.
 - RLS audit is a Phase 7 gate; keep every table clean from Phase 1 onward.
 - Before finishing work: run `pytest`, typecheck, and lint.
+

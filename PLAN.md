@@ -24,7 +24,7 @@
 | # | Pillar | Summary |
 |---|--------|---------|
 | 1 | **Gym tracker** | Exercises, routines, live session logging (sets/reps/weight/RPE/supersets/dropsets), rest timer, PRs, history, 1RM + volume charts. Offline-tolerant. |
-| 2 | **AI workout programs** | Gemini 2.5 Flash generates full programs from the user's profile + actual performance history; materialized as editable routines. |
+| 2 | **AI workout programs** | Gemini Flash-Lite generates full programs from the user's profile + actual performance history; materialized as editable routines. |
 | 3 | **AI food logging** | Photo → Gemini estimates calories/macros → user confirms/edits → logged against daily targets. |
 | 4 | **Physique analysis** | Progress check-in photos → Gemini identifies strong/weak areas → focus areas feed into the next program. |
 | 5 | **Steps & calorie budget** | Health Connect steps refine the daily calorie target; weight trend auto-adjusts cut/bulk budgets. |
@@ -43,7 +43,7 @@ Plus a **personalization engine** (deterministic, unit-tested pure functions) th
 | Backend (AI proxy) | **FastAPI (Python)** — user's own backend, holds the Gemini key server-side |
 | Auth / DB / Storage | **Supabase** hosted free tier: Postgres + RLS, Auth (email + Google), private Storage buckets |
 | App ↔ data | App talks **directly to Supabase** (supabase-js, RLS-secured) for all CRUD; talks to **FastAPI only for AI** |
-| AI model | **Gemini 2.5 Flash** via AI Studio API key, free tier + per-user quotas, upgrade to pay-as-you-go later |
+| AI model | **Gemini Flash-Lite** via AI Studio API key, free tier + per-user quotas, upgrade to pay-as-you-go later |
 | Steps | **Health Connect (Android)** via `react-native-health-connect` |
 | Logging depth | Advanced: RPE, supersets/dropsets, set types, auto 1RM (Epley), PR detection, stall/deload |
 | Hosting (later) | Oracle Cloud Always Free VPS (Docker). Note: Ampere ARM64 — build matching Docker image |
@@ -80,7 +80,7 @@ Plus a **personalization engine** (deterministic, unit-tested pure functions) th
 │                          │  └────────┬─────────────────┘
 │                          │           │
 │                          │  ┌────────▼────────┐
-│                          │  │  Gemini 2.5 Flash│
+│                          │  │  Gemini Flash-Lite│
 │                          │  └─────────────────┘
 └──────────────────────────┘
 ```
@@ -149,7 +149,7 @@ Storage buckets (both **private**): `food-photos`, `progress-photos`. Storage RL
 
 ## 7. AI system
 
-**Model:** `gemini-2.5-flash` via the `google-genai` Python SDK. All calls use **structured output** (`response_mime_type="application/json"` + a Pydantic-derived `response_schema`) so parsing never breaks. Every call is quota-checked, timed, token-logged, and wrapped in retry-once + graceful error.
+**Model:** `gemini-3.1-flash-lite` via the `google-genai` Python SDK (configurable with `GEMINI_MODEL`; Flash-Lite is the reliable free-tier vision model). All calls use **structured output** (`response_mime_type="application/json"` + a Pydantic-derived `response_schema`) so parsing never breaks. Every call is quota-checked, timed, token-logged, and wrapped in retry-once + graceful error.
 
 ### Endpoints (all require `Authorization: Bearer <supabase access_token>`, verified via Supabase JWKS)
 
@@ -245,7 +245,7 @@ Auth on the API: verify the Supabase access token against `https://<project>.sup
 | Service | Free tier (verify current limits) | Fits? |
 |---|---|---|
 | Supabase | 500MB DB · 1GB storage · 50k MAU · pauses after ~7d inactivity | ✅ compress photos |
-| Gemini 2.5 Flash (AI Studio) | ~10 RPM / ~250 req/day | ✅ with quotas (5 food scans + weekly gens ≈ 40 users/day comfortable) |
+| Gemini Flash-Lite (AI Studio) | ~10 RPM / ~250 req/day | ✅ with quotas (5 food scans + weekly gens ≈ 40 users/day comfortable) |
 | Oracle Always Free | ARM64 VM (up to 4 OCPU / 24GB) or 2× AMD micro | ✅ runs FastAPI + Docker easily |
 | Expo EAS | limited free builds/month | ✅ local `expo run:android` for daily dev |
 
@@ -264,3 +264,4 @@ Upgrade path when quotas bite: enable billing on the same AI Studio key — zero
 | Health Connect store approval | Play health-data declaration handled in Phase 7; works on sideloaded builds immediately |
 | Health/AI advice liability | In-app disclaimers (onboarding, food confirm, physique analysis); "guidance, not medical advice" |
 | Supabase free-tier pause | Regular usage keeps it active; dashboard check during dev |
+

@@ -39,6 +39,33 @@ Continuing the project from anywhere. This file is the session log and current-s
 
 ## Session log
 
+### 2026-09-18 · Session 25 — Phase 4 fixes round 2: per-100g catalog, default-closed add, prompt v2
+
+- **Food amounts by gram (not bowl/plate):** new Alembic **`0008_food_per_gram`** (applied) refreshes the global INDB rows to **per-100 g** macros (`serving_description = "100 g"`); `scripts/build_foods_seed.py` now reads the per-100 g columns; all **1,014** rows verified. S17 search shows **"per 100 g"** and Quick add has an **Amount (g)** field that scales kcal/P/C/F (`foods` values remain per-100 g; no schema change).
+- **Add-food page:** nothing open by default (Quick add no longer auto-expands; Scan/Search/Quick/Recent all collapsed until tapped).
+- **AI prompt v2 (`food-v2`)** — the apple → "Chicken and vegetable stir-fry" misidentification prompted a stricter prompt: identify the literal single food ("apple → Apple"), never invent ingredients/dishes, lower confidence + note uncertainty instead of guessing. Validated live against an apple photo (correct: "Apple", high confidence). Prompt lives in `services/prompts.py`; user prompt in `services/gemini.py` now says "Identify the food in this photo…".
+- **Model resilience:** a `GEMINI_MODEL` of `gemini-3.8-flash-lite` (does **not** exist) caused a 404 → 502. `gemini.analyze_food_image` now falls back to **`gemini-3.1-flash-lite`** on model-not-found (and logs the model actually used). Valid names documented in `.env.example`: `gemini-3.1-flash-lite` (default), `gemini-3.5-flash-lite`, `gemini-flash-lite-latest`, `gemini-3.8-flash`. New tests → pytest 24/24.
+- **ROOT CAUSE of wrong food (apple → "Grilled chicken with rice"):** food photos were stored in `food-photos` with `mimetype: text/plain` (the RN `Blob` upload carried no type, and supabase-js stored `text/plain`), so `download_food_photo` forwarded `text/plain` to Gemini — it tokenized the image bytes as **text** (100k–307k prompt tokens!) and hallucinated a dish. Fix: (a) backend infers the image mime from the file extension when Storage's content-type isn't `image/*` (`supabase_admin._image_mime`, unit-tested); (b) frontend uploads an **`ArrayBuffer`** with `contentType: 'image/jpeg'` so Storage records it correctly. Re-ran the exact stored apple object → **"Apple", 95 kcal, 1,247 tokens** (was 307,432). `GEMINI_MODEL=gemini-3.5-flash-lite` works.
+- **Add-food back button:** top-left back (arrow + "Back") on S17.
+- **Verified:** `tsc` clean · `expo lint` clean · vitest 64/64 · pytest 27/27 · web export OK.
+- **Note:** model is `gemini-3.1-flash-lite` (weakest vision tier) — if misidentification persists on device, try `GEMINI_MODEL=gemini-3.5-flash-lite` or `gemini-3.8-flash` (bad names now auto-fallback).
+
+**Next:** device test of scan→confirm (prompt v2), gram-based search/autofill, burn ring; then close Phase 4.
+
+---
+
+### 2026-09-18 · Session 24 — Phase 4 fixes: model, burn/eaten rings, packaged-food search
+
+- **502 on `/ai/analyze-food` root cause:** Gemini returned `404 ... models/gemini-2.5-flash is no longer available to new users`. Default model changed to **`gemini-3.1-flash-lite`** (configurable via `GEMINI_MODEL`); validated text + **vision** + structured `FoodEstimate` output live. Gemini retries bumped to 3 with backoff (free tier returns transient 503 "high demand"). Docs (`PLAN` §7, `PHASE-4`, `backend/AGENTS`, `.env.example`) updated.
+- **Today ring = burnt, Nutrition ring = eaten (user request):** Today hero now shows **calories burned** (step-based `stepBonusKcal`) against a 10k-step burn goal (`stepKcalBonus(10000, weight)`), with a `steps · goal` caption; the old "remaining" hero is gone. Nutrition card relabelled **"Calories eaten"** (center = consumed / target).
+- **Packaged/barcoded products in search:** new backend `GET /foods/search` (auth, no quota) merges local `foods` (INDB + customs) with **Open Food Facts** packaged products (Search-a-licious index + v2 product detail for nutrition; ODbL attribution in `services/openfoodfacts.py`; degrades gracefully if OFF is down). New `routers/foods.py`, `FoodSearchResult` schema, `tests/test_foods_search.py`. S17 search now calls FastAPI (`foods-api.ts`), shows the **kcal** unit, and discovers packaged items (e.g. "lays", "sting").
+  - Caveat: OFF has gaps for Indian packaged goods — e.g. many "Lays" SKUs return with 0 kcal (no nutrition recorded); the row still appears and is editable. Curating/seeding a packaged subset is a Phase-4 follow-up if needed.
+- **Verified:** `tsc` clean · `expo lint` clean · vitest 64/64 · pytest **22/22** · web export OK. Live OFF + Gemini calls spot-checked from the backend.
+
+**Next:** device test (rebuild for camera) — scan→analyze (now on flash-lite), food search incl. packaged, burn ring; then close Phase 4.
+
+---
+
 ### 2026-09-17 · Session 23 — Phase 4 kickoff: wave A (AI infrastructure)
 
 - **Kickoff decisions (user):** food catalog source = **Anuvaad INDB**; scan input = **camera + gallery** (`expo-camera` + `expo-image-picker`); build order = **backend first**.
@@ -52,7 +79,8 @@ Continuing the project from anywhere. This file is the session log and current-s
 - **Wave B (scan→confirm) committed `d5f9949` (+ docs `4c1a1f3`), pushed:** installed `expo-camera`, `expo-image-picker`, `expo-image-manipulator` (+ `app.json` permission plugins/`CAMERA`); `features/nutrition/ai.ts` (`analyzeFoodPhoto`, `fetchFoodScansToday`, `FOOD_SCAN_LIMIT`) and `photo.ts` (resize ≤1600px → upload `food-photos/{uid}/{uuid}.jpg`); S18 `app/meal/scan` (camera + gallery, permission-denied fallback, busy overlay, 403/422/429/502 messages); S19 `app/meal/confirm` (editable name/serving/macros, `ConfidenceChip`, mandatory disclaimer, quota meter, slot, Retake/Log → `source=photo`, `photo_path`, `ai_raw`); S17 "Scan food" enabled; shared `MacroEdit`/`ConfidenceChip`; `ApiError` now carries `detail`.
 - **Wave C (food catalog), done/uncommitted:** `0007_food_catalog` **applied** — `foods` table (global/custom; RLS: globals readable by authed users, customs owner-only; partial unique indexes) seeded with **1,014 Anuvaad INDB recipes** (`scripts/build_foods_seed.py` → `app/data/foods_seed.json`, per-serving macros, source=`indb`). S17 **Search foods** autofills Quick add via `features/nutrition/foods-api.ts` + `useFoodSearch`. `pytest` 17/17 · `tsc`/lint clean · vitest 64/64 · web export OK.
 - **Verified:** `tsc` clean · `expo lint` clean · vitest 64/64 · pytest 17/17 · web export OK. **Native rebuild required** for the camera/picker modules.
-- **Next:** device test of scan→analyze→confirm→log + food search; then close Phase 4.
+  - **Session 24 fixes:** AI model → `gemini-3.1-flash-lite` (2.5-flash retired); Today ring = **burnt** (steps) / Nutrition ring = **eaten**; food search now proxied via FastAPI and includes **Open Food Facts packaged products**.
+  - **Next:** device test of scan→analyze→confirm→log + food search (incl. packaged) + burn ring; then close Phase 4.
 
 ---
 
@@ -470,4 +498,4 @@ Caveats: drag-reorder → up/down; set-type → long-press (not swipe).
   - [ ] Phase 3 in progress (`feat/steps-budget`): waves A–E code-complete (schema/engine, Health Connect steps, Today dashboard S6, nutrition S16/S17/S20, weight trend). `0005_meal_slot` applied. **Next: native rebuild (`npx expo run:android`) + device pass on the Phase-3 "Done when" gate, then commit waves C–E and mark Phase 3 complete.**
 - [ ] Phase 4 food catalog (planned in `phases/PHASE-4-ai-food.md` — `0007_food_catalog`, source TBD at kickoff): **recipes/dishes** → Anuvaad INDB (open-access, per-100g + per-serving, ~1,014 recipes) or `prabhubng/indian-nutrition-data` (620+ foods); **packaged/barcoded** → Open Food Facts (ODbL, barcode lookup + India filter). Decide bundle-a-seed vs on-demand API and confirm license/attribution before seeding.
 - [ ] Backend: add `routers/ai.py` + `schemas.py` when Phase 4 starts.
-- [ ] Set the real Android bundle id in `app.json` (Phase 7; currently `com.anonymous.vulcan`).
+- [x] Real app id set from `ashiswadhwani.in`: `android.package` + `ios.bundleIdentifier` = **`in.ashiswadhwani.vulcan`**; native project regenerated (`expo prebuild --clean -p android`), minSdk 26 + READ_STEPS/CAMERA verified.

@@ -4,7 +4,7 @@
 
 **Depends on:** Phase 4 (AI infra). Phase 5 benefits from it but isn't a hard prerequisite.
 
-## DB changes — Alembic revision `0009_physique` (`backend/alembic/versions/0009_physique.py`)
+## DB changes — Alembic revision `0010_physique` (`backend/alembic/versions/0010_physique.py`)
 
 - `progress_photos` (per PLAN.md §6; `analysis jsonb` written by the API).
 - Storage: private bucket `progress-photos` + owner-scoped storage RLS (same pattern as `food-photos`).
@@ -39,3 +39,4 @@
 
 - Privacy is the product here: photos never leave the user's private bucket except server-side to Gemini; say so in the UI copy.
 - `Disclaimer` copy: "AI-generated training guidance, not medical advice."
+
