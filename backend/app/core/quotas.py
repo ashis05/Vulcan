@@ -1,10 +1,16 @@
-"""AI quota enforcement — a single call into the atomic `increment_ai_usage` SQL function."""
+"""AI quota enforcement — a single call into the atomic `increment_ai_usage` SQL function.
+
+The quota day (and reset) follows Gemini's free-tier boundary: midnight Pacific.
+"""
 
 from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 
 from sqlalchemy import text
 
 from app.db import create_db_engine
+
+PACIFIC = ZoneInfo("America/Los_Angeles")
 
 
 def increment_usage(user_id: str, feature: str, limit: int) -> bool:
@@ -19,7 +25,7 @@ def increment_usage(user_id: str, feature: str, limit: int) -> bool:
 
 
 def quota_resets_at(now: datetime | None = None) -> str:
-    """ISO timestamp of the next UTC midnight (when daily quotas reset)."""
-    current = now or datetime.now(timezone.utc)
+    """ISO (UTC) timestamp of the next midnight Pacific — when quotas reset."""
+    current = (now or datetime.now(timezone.utc)).astimezone(PACIFIC)
     midnight = (current + timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
-    return midnight.isoformat()
+    return midnight.astimezone(timezone.utc).isoformat()

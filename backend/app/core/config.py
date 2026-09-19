@@ -12,7 +12,8 @@ class Settings(BaseSettings):
     # Phase 4+ AI layer. Server-side secrets — never returned or logged.
     supabase_service_role_key: str | None = None
     gemini_api_key: str | None = None
-    gemini_model: str = "gemini-2.5-flash"
+    # Flash-Lite is the reliable free-tier vision model; override with GEMINI_MODEL.
+    gemini_model: str = "gemini-3.1-flash-lite"
 
     # Per-feature free-tier quotas (PLAN.md §7).
     quota_food_per_day: int = 5

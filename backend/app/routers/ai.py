@@ -49,6 +49,22 @@ async def analyze_food(
         latency = int((time.monotonic() - started) * 1000)
         ai_log.log_call(user_id, FOOD_FEATURE, "refused", latency_ms=latency, error=str(exc))
         raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, REFUSAL_MESSAGE) from exc
+    except gemini.GeminiRateLimited as exc:
+        latency = int((time.monotonic() - started) * 1000)
+        ai_log.log_call(user_id, FOOD_FEATURE, "error", latency_ms=latency, error=str(exc))
+        raise HTTPException(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            detail={"error": "rate_limited", "resets_at": quotas.quota_resets_at()},
+            headers={"Retry-After": "60"},
+        ) from exc
+    except gemini.GeminiUnavailable as exc:
+        latency = int((time.monotonic() - started) * 1000)
+        ai_log.log_call(user_id, FOOD_FEATURE, "error", latency_ms=latency, error=str(exc))
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail={"error": "ai_busy", "resets_at": quotas.quota_resets_at()},
+            headers={"Retry-After": "15"},
+        ) from exc
     except HTTPException:
         raise
     except Exception as exc:  # noqa: BLE001 — Gemini/parse/network all degrade the same way
@@ -63,6 +79,7 @@ async def analyze_food(
         user_id,
         FOOD_FEATURE,
         "ok",
+        model=analysis.model,
         prompt_tokens=analysis.prompt_tokens,
         output_tokens=analysis.output_tokens,
         latency_ms=latency,

@@ -19,6 +19,7 @@ def log_call(
     feature: str,
     status: str,
     *,
+    model: str | None = None,
     prompt_tokens: int | None = None,
     output_tokens: int | None = None,
     latency_ms: int | None = None,
@@ -39,7 +40,7 @@ def log_call(
                 {
                     "user_id": user_id,
                     "feature": feature,
-                    "model": settings.gemini_model,
+                    "model": model or settings.gemini_model,
                     "prompt_tokens": prompt_tokens,
                     "output_tokens": output_tokens,
                     "latency_ms": latency_ms,
