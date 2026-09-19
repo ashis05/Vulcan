@@ -18,6 +18,19 @@ class AnalyzeFoodRequest(BaseModel):
     hint: str | None = Field(default=None, description="Optional user note (e.g. 'grilled, no oil').")
 
 
+class FoodSearchResult(BaseModel):
+    """One row in the food catalog / packaged-product search response."""
+
+    id: str
+    name: str
+    serving_description: str
+    kcal: int
+    protein_g: float
+    carbs_g: float
+    fat_g: float
+    source: str
+
+
 class FoodEstimate(BaseModel):
     """Gemini's structured estimate for one food photo. The user always confirms/edits."""
 
