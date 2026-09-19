@@ -1,6 +1,4 @@
-import { supabase } from '@/lib/supabase';
-
-const FOOD_COLUMNS = 'id, name, serving_description, kcal, protein_g, carbs_g, fat_g, source';
+import { apiFetch } from '@/lib/api';
 
 export type FoodSource = 'indb' | 'off' | 'custom';
 
@@ -39,16 +37,20 @@ function mapFood(row: FoodRow): FoodItem {
   };
 }
 
-/** Name search over the global catalog + the user's own custom foods (RLS-scoped). */
-export async function searchFoods(query: string, limit = 12): Promise<FoodItem[]> {
+/**
+ * Search the food catalog through FastAPI: local `foods` (INDB + customs) plus
+ * Open Food Facts packaged products. The app never calls OFF directly.
+ */
+export async function searchFoods(
+  token: string,
+  query: string,
+  limit = 12,
+): Promise<FoodItem[]> {
   const term = query.trim();
   if (term.length < 2) return [];
-  const { data, error } = await supabase
-    .from('foods')
-    .select(FOOD_COLUMNS)
-    .ilike('name', `%${term}%`)
-    .order('name', { ascending: true })
-    .limit(limit);
-  if (error) throw error;
-  return (data as FoodRow[]).map(mapFood);
+  const rows = await apiFetch<FoodRow[]>(
+    `/foods/search?q=${encodeURIComponent(term)}&limit=${limit}`,
+    { token },
+  );
+  return rows.map(mapFood);
 }

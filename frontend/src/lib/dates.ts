@@ -13,6 +13,19 @@ export function localDayFromIso(iso: string): string {
   return localDateString(new Date(iso));
 }
 
+/**
+ * Calendar date (yyyy-mm-dd) in Pacific time. The AI quota day follows Gemini's
+ * free-tier reset (midnight Pacific), not the device's local date.
+ */
+export function pacificDateString(date: Date = new Date()): string {
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'America/Los_Angeles',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(date);
+}
+
 export function addDays(date: Date, days: number): Date {
   const next = new Date(date);
   next.setDate(next.getDate() + days);

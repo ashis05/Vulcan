@@ -14,10 +14,13 @@ export async function uploadMealPhoto(userId: string, uri: string): Promise<stri
   });
 
   const response = await fetch(resized.uri);
-  const blob = await response.blob();
+  // Upload raw bytes (not a Blob) so Supabase applies our contentType — a
+  // Blob's empty/incorrect type gets stored as `text/plain`, which then makes
+  // Gemini treat the image as text.
+  const bytes = await response.arrayBuffer();
 
   const path = `${userId}/${uuidv4()}.jpg`;
-  const { error } = await supabase.storage.from(BUCKET).upload(path, blob, {
+  const { error } = await supabase.storage.from(BUCKET).upload(path, bytes, {
     contentType: 'image/jpeg',
     upsert: false,
   });

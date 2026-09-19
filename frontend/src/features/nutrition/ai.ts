@@ -1,5 +1,5 @@
 import { apiFetch } from '@/lib/api';
-import { localDateString } from '@/lib/dates';
+import { pacificDateString } from '@/lib/dates';
 import { supabase } from '@/lib/supabase';
 
 export type FoodConfidence = 'low' | 'medium' | 'high';
@@ -37,7 +37,7 @@ export async function fetchFoodScansToday(): Promise<number> {
     .from('ai_usage')
     .select('count')
     .eq('feature', 'food')
-    .eq('usage_date', localDateString(new Date()))
+    .eq('usage_date', pacificDateString())
     .maybeSingle();
   if (error) throw error;
   return Number((data as { count: number } | null)?.count ?? 0);

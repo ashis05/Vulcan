@@ -3,6 +3,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { localDateString, localDayFromIso } from '@/lib/dates';
 import { useAuth } from '@/lib/use-auth';
 
+import { supabase } from '@/lib/supabase';
+
 import { fetchFoodScansToday } from './ai';
 import * as api from './api';
 import { searchFoods } from './foods-api';
@@ -35,13 +37,18 @@ export function useRecentMeals() {
   });
 }
 
-/** Name search over the global food catalog (debounced by the caller). */
+/** Name search over the global food catalog + packaged products (via FastAPI). */
 export function useFoodSearch(query: string) {
+  const { user } = useAuth();
   const term = query.trim();
   return useQuery({
     queryKey: ['foods', 'search', term],
-    queryFn: () => searchFoods(term),
-    enabled: term.length >= 2,
+    queryFn: async () => {
+      const { data } = await supabase.auth.getSession();
+      const token = data.session?.access_token;
+      return token ? searchFoods(token, term) : [];
+    },
+    enabled: !!user && term.length >= 2,
     staleTime: 60_000,
   });
 }

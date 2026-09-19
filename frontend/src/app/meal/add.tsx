@@ -2,7 +2,7 @@ import { useMemo, useState, type ReactNode } from 'react';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { CameraIcon, ChevronRightIcon, PencilIcon, SearchIcon } from '@/components/icons';
+import { ArrowLeftIcon, CameraIcon, ChevronRightIcon, PencilIcon, SearchIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
 import { Screen } from '@/components/ui/Screen';
 import { TextField } from '@/components/ui/TextField';
@@ -53,11 +53,12 @@ export default function AddMealScreen() {
   const createMeal = useCreateMeal();
   const recent = useRecentMeals();
 
-  const [showQuick, setShowQuick] = useState(true);
+  const [showQuick, setShowQuick] = useState(false);
   const [showRecent, setShowRecent] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [query, setQuery] = useState('');
-  const [servingHint, setServingHint] = useState('');
+  const [per100, setPer100] = useState<FoodItem | null>(null);
+  const [grams, setGrams] = useState('');
   const [name, setName] = useState('');
   const [slot, setSlot] = useState<MealSlot>(slotForTime(new Date()));
   const [kcal, setKcal] = useState('');
@@ -67,15 +68,27 @@ export default function AddMealScreen() {
 
   const search = useFoodSearch(query);
 
+  // Catalog values are per 100 g; scale them to the gram amount entered.
+  const applyGrams = (food: FoodItem, text: string) => {
+    const factor = (Number(text) || 0) / 100;
+    setKcal(String(Math.round(food.kcal * factor)));
+    setProtein(String(Math.round(food.proteinG * factor * 10) / 10));
+    setCarbs(String(Math.round(food.carbsG * factor * 10) / 10));
+    setFat(String(Math.round(food.fatG * factor * 10) / 10));
+  };
+
   const applyFood = (food: FoodItem) => {
+    setPer100(food);
+    setGrams('100');
     setName(food.name);
-    setKcal(String(food.kcal));
-    setProtein(String(food.proteinG));
-    setCarbs(String(food.carbsG));
-    setFat(String(food.fatG));
-    setServingHint(food.servingDescription);
+    applyGrams(food, '100');
     setShowSearch(false);
     setShowQuick(true);
+  };
+
+  const onGramsChange = (text: string) => {
+    setGrams(text);
+    if (per100) applyGrams(per100, text);
   };
 
   const recents = useMemo(() => {
@@ -122,7 +135,8 @@ export default function AddMealScreen() {
     <Screen>
       <View style={styles.nav}>
         <Pressable onPress={() => router.back()} style={styles.back} hitSlop={8}>
-          <Text style={styles.backLabel}>Diary</Text>
+          <ArrowLeftIcon size={18} color={colors.text.primary} />
+          <Text style={styles.backLabel}>Back</Text>
         </Pressable>
         <Text style={styles.navTitle}>Add to {date === localDateString(new Date()) ? 'today' : 'day'}</Text>
       </View>
@@ -176,11 +190,14 @@ export default function AddMealScreen() {
                         {food.name}
                       </Text>
                       <Text style={styles.resultMeta} numberOfLines={1}>
-                        {food.servingDescription} · P {Math.round(food.proteinG)} · C{' '}
+                        per {food.servingDescription} · P {Math.round(food.proteinG)} · C{' '}
                         {Math.round(food.carbsG)} · F {Math.round(food.fatG)}
                       </Text>
                     </View>
-                    <Text style={styles.resultKcal}>{food.kcal}</Text>
+                    <View style={styles.resultKcalWrap}>
+                      <Text style={styles.resultKcal}>{food.kcal > 0 ? food.kcal : '—'}</Text>
+                      <Text style={styles.resultKcalUnit}>kcal</Text>
+                    </View>
                   </Pressable>
                 ))}
               </View>
@@ -198,7 +215,16 @@ export default function AddMealScreen() {
               value={name}
               onChangeText={setName}
             />
-            {servingHint ? <Text style={styles.servingHint}>Per {servingHint}</Text> : null}
+            {per100 ? (
+              <TextField
+                label="Amount (g)"
+                placeholder="100"
+                keyboardType="number-pad"
+                value={grams}
+                onChangeText={onGramsChange}
+                hint="Macros are per 100 g and scale with the amount."
+              />
+            ) : null}
             <View style={styles.field}>
               <Text style={styles.fieldLabel}>Meal</Text>
               <SlotPicker value={slot} onChange={setSlot} />
@@ -290,7 +316,7 @@ export default function AddMealScreen() {
 
 const styles = StyleSheet.create({
   nav: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 16, paddingTop: 12 },
-  back: { height: 44, justifyContent: 'center' },
+  back: { flexDirection: 'row', alignItems: 'center', gap: 6, height: 44 },
   backLabel: { color: colors.text.secondary, fontSize: typeScale.label.size, fontWeight: '600' },
   navTitle: { color: colors.text.primary, fontFamily: fonts.display.bold, fontSize: typeScale.h2.size },
   body: { flex: 1 },
@@ -334,13 +360,14 @@ const styles = StyleSheet.create({
   resultText: { flex: 1, minWidth: 0, gap: 2 },
   resultName: { color: colors.text.primary, fontSize: typeScale.body.size, fontWeight: '600' },
   resultMeta: { color: colors.text.muted, fontSize: typeScale.caption.size },
+  resultKcalWrap: { alignItems: 'flex-end', gap: 1 },
   resultKcal: {
     color: colors.text.primary,
     fontFamily: fonts.display.bold,
     fontSize: typeScale.h3.size,
     fontVariant: ['tabular-nums'],
   },
-  servingHint: { color: colors.accent.ember500, fontSize: typeScale.caption.size, marginTop: -8 },
+  resultKcalUnit: { color: colors.text.muted, fontSize: typeScale.caption.size },
   form: {
     gap: 14,
     borderTopWidth: 1,

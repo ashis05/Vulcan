@@ -130,7 +130,7 @@ function ConfirmForm({
           <View style={[styles.quotaFill, { width: `${usedPct * 100}%` }]} />
         </View>
         <Text style={styles.quotaFoot}>
-          {remaining} scan{remaining === 1 ? '' : 's'} left · resets at midnight
+          {remaining} scan{remaining === 1 ? '' : 's'} left · resets at midnight PT
         </Text>
       </View>
 

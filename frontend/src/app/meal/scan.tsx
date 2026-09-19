@@ -45,8 +45,13 @@ export default function ScanScreen() {
         },
       });
     } catch (e) {
-      if (e instanceof ApiError && e.status === 429) {
-        setError('You’ve used all your food scans today. The forge cools at midnight.');
+      const code = e instanceof ApiError ? (e.detail as { error?: string } | undefined)?.error : undefined;
+      if (e instanceof ApiError && e.status === 429 && code === 'rate_limited') {
+        setError('The AI is busy right now — please try again in a minute.');
+      } else if (e instanceof ApiError && e.status === 429) {
+        setError('You’ve used all your food scans today. They reset at midnight PT.');
+      } else if (e instanceof ApiError && e.status === 503) {
+        setError('The AI service is busy — try again shortly.');
       } else if (e instanceof ApiError && e.status === 422) {
         setError('Couldn’t read that photo — try better light and a top-down shot.');
       } else if (e instanceof ApiError && e.status === 502) {
@@ -160,7 +165,7 @@ export default function ScanScreen() {
           </Pressable>
         </View>
         <Text style={styles.footCaption}>
-          Up to {FOOD_SCAN_LIMIT} scans a day · the forge cools at midnight
+          Up to {FOOD_SCAN_LIMIT} scans a day · resets at midnight PT
         </Text>
       </View>
     </Screen>
