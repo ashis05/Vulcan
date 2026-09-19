@@ -2,6 +2,8 @@ import { useMemo, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import { stepKcalBonus } from '@/engine/steps';
+
 import { MacroBar, MacroLegend } from '@/components/ui/MacroBar';
 import { CoachNote } from '@/components/ui/CoachNote';
 import { OfflineBanner } from '@/components/ui/OfflineBanner';
@@ -74,9 +76,10 @@ export default function TodayScreen() {
   const delta = weightDelta(weightEntries);
   const weightUnit = profile?.weightUnit ?? 'kg';
 
-  const targetKcal = targets?.targetKcal ?? 0;
-  const remaining = Math.max(0, Math.round(targetKcal - consumed.kcal));
-  const progress = targetKcal > 0 ? consumed.kcal / targetKcal : 0;
+  // Today is a burn ring: calories burned from activity (steps) today.
+  const burned = Math.round(targets?.stepBonusKcal ?? 0);
+  const burnGoal = latestWeight > 0 ? stepKcalBonus(10000, latestWeight) : 500;
+  const progress = burnGoal > 0 ? Math.min(1, burned / burnGoal) : 0;
   const macroTargets = {
     protein: targets?.proteinG ?? 0,
     carbs: targets?.carbsG ?? 0,
@@ -104,37 +107,37 @@ export default function TodayScreen() {
 
         <View style={styles.hero}>
           <View style={styles.heroTop}>
-            <Text style={styles.heroLabel}>Calories</Text>
+            <Text style={styles.heroLabel}>Burned</Text>
             <View style={styles.badge}>
-              <Text style={styles.badgeText}>{remaining.toLocaleString()}</Text>
-              <Text style={styles.badgeCaption}>left</Text>
+              <Text style={styles.badgeText}>{burned.toLocaleString()}</Text>
+              <Text style={styles.badgeCaption}>kcal</Text>
             </View>
           </View>
           <View style={styles.ringWrap}>
             {isPending ? (
-              <Text style={styles.muted}>Computing targets…</Text>
+              <Text style={styles.muted}>Reading your steps…</Text>
             ) : targets ? (
               <RingProgress size={176} progress={progress}>
                 <Text style={styles.ringValue} numberOfLines={1}>
-                  {remaining.toLocaleString()}
+                  {burned.toLocaleString()}
                 </Text>
                 <Text style={styles.ringCaption} numberOfLines={1}>
-                  kcal remaining
+                  kcal burnt today
                 </Text>
               </RingProgress>
             ) : (
               <Text style={styles.muted}>Finish onboarding to see your targets.</Text>
             )}
           </View>
+          <Text style={styles.burnGoal}>
+            {todaySteps.toLocaleString()} steps · {burnGoal} kcal goal (10k steps)
+          </Text>
           <View style={styles.macroBar}>
             <MacroBar consumed={consumed} targets={macroTargets} />
           </View>
           <View style={styles.macroLegend}>
             <MacroLegend consumed={consumed} targets={macroTargets} />
           </View>
-          {targets && targets.stepBonusKcal > 0 ? (
-            <Text style={styles.muted}>+{targets.stepBonusKcal} kcal from steps today</Text>
-          ) : null}
         </View>
 
         <ConnectStepsBanner onManualEntry={() => setStepsOpen(true)} />
@@ -246,6 +249,7 @@ const styles = StyleSheet.create({
     fontVariant: ['tabular-nums'],
   },
   ringCaption: { color: colors.text.secondary, fontSize: typeScale.caption.size, marginTop: 4 },
+  burnGoal: { color: colors.text.muted, fontSize: typeScale.caption.size, textAlign: 'center', marginTop: 10 },
   macroBar: { marginTop: 16 },
   macroLegend: { marginTop: 10 },
   grid: { flexDirection: 'row', gap: 12 },

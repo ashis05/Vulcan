@@ -50,7 +50,7 @@ export default function NutritionScreen() {
 
         <View style={styles.card}>
           <View style={styles.cardTop}>
-            <Text style={styles.cardLabel}>Calories</Text>
+            <Text style={styles.cardLabel}>Calories eaten</Text>
             <Text style={styles.pct}>{Math.round(progress * 100)}%</Text>
           </View>
           <View style={styles.ringWrap}>
