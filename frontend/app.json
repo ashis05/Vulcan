@@ -8,7 +8,9 @@
     "scheme": "vulcan",
     "userInterfaceStyle": "dark",
     "ios": {
-      "icon": "./assets/images/icon.png"
+      "icon": "./assets/images/icon.png",
+      "bundleIdentifier": "in.ashiswadhwani.vulcan",
+      "supportsTablet": false
     },
     "android": {
       "adaptiveIcon": {
@@ -16,7 +18,7 @@
         "foregroundImage": "./assets/images/android-icon-foreground.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.anonymous.vulcan",
+      "package": "in.ashiswadhwani.vulcan",
       "permissions": [
         "android.permission.health.READ_STEPS",
         "android.permission.CAMERA"
