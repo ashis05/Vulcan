@@ -7,12 +7,26 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from app.core import quotas
 from app.core.auth import get_current_user
 from app.core.config import settings
-from app.schemas import AnalyzeFoodRequest, FoodEstimate
-from app.services import ai_log, gemini, supabase_admin
+from app.schemas import (
+    ActiveProgram,
+    AnalyzeFoodRequest,
+    FoodEstimate,
+    GenerateProgramRequest,
+    ProgramPayload,
+)
+from app.services import (
+    ai_log,
+    gemini,
+    program_context,
+    program_materialize,
+    prompts,
+    supabase_admin,
+)
 
 router = APIRouter(prefix="/ai", tags=["ai"])
 
 FOOD_FEATURE = "food"
+PROGRAM_FEATURE = "program"
 REFUSAL_MESSAGE = (
     "Couldn't read that photo. Try better lighting, less clutter, and a top-down shot."
 )
@@ -85,3 +99,99 @@ async def analyze_food(
         latency_ms=latency,
     )
     return analysis.estimate
+
+
+@router.post("/generate-program", response_model=ProgramPayload)
+async def generate_program(
+    payload: GenerateProgramRequest,
+    user_id: str = Depends(get_current_user),
+) -> ProgramPayload:
+    window_days = settings.quota_program_per_days
+    allowed, last_used = quotas.check_once_per_days(user_id, PROGRAM_FEATURE, window_days)
+    if not allowed:
+        raise HTTPException(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            detail={
+                "error": "quota_exceeded",
+                "feature": PROGRAM_FEATURE,
+                "resets_at": quotas.window_resets_at(last_used or quotas.pacific_today(), window_days),
+            },
+            headers={"Retry-After": "86400"},
+        )
+
+    started = time.monotonic()
+    try:
+        context = program_context.build_program_context(user_id)
+        focus_areas = payload.focus_areas or program_context.latest_focus_areas(user_id)
+        generation = await gemini.generate_program(
+            context, focus_areas=focus_areas, notes=payload.notes
+        )
+        program_materialize.save_program(
+            user_id,
+            generation.program.model_dump(),
+            goal_snapshot=context.get("profile"),
+            rationale=generation.program.rationale,
+            prompt_version=prompts.PROGRAM_PROMPT_VERSION,
+        )
+    except gemini.GeminiRefusal as exc:
+        latency = int((time.monotonic() - started) * 1000)
+        ai_log.log_call(user_id, PROGRAM_FEATURE, "refused", latency_ms=latency, error=str(exc))
+        raise HTTPException(
+            status.HTTP_422_UNPROCESSABLE_CONTENT,
+            "Couldn't generate a program. Please retry.",
+        ) from exc
+    except gemini.GeminiRateLimited as exc:
+        latency = int((time.monotonic() - started) * 1000)
+        ai_log.log_call(user_id, PROGRAM_FEATURE, "error", latency_ms=latency, error=str(exc))
+        raise HTTPException(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            detail={"error": "rate_limited", "resets_at": quotas.quota_resets_at()},
+            headers={"Retry-After": "60"},
+        ) from exc
+    except gemini.GeminiUnavailable as exc:
+        latency = int((time.monotonic() - started) * 1000)
+        ai_log.log_call(user_id, PROGRAM_FEATURE, "error", latency_ms=latency, error=str(exc))
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail={"error": "ai_busy", "resets_at": quotas.quota_resets_at()},
+            headers={"Retry-After": "15"},
+        ) from exc
+    except HTTPException:
+        raise
+    except Exception as exc:  # noqa: BLE001 — Gemini/parse/DB all degrade the same way
+        latency = int((time.monotonic() - started) * 1000)
+        ai_log.log_call(user_id, PROGRAM_FEATURE, "error", latency_ms=latency, error=str(exc))
+        raise HTTPException(
+            status.HTTP_502_BAD_GATEWAY, "The program generation failed. Please retry."
+        ) from exc
+
+    quotas.record_use(user_id, PROGRAM_FEATURE)
+    latency = int((time.monotonic() - started) * 1000)
+    ai_log.log_call(
+        user_id,
+        PROGRAM_FEATURE,
+        "ok",
+        model=generation.model,
+        prompt_tokens=generation.prompt_tokens,
+        output_tokens=generation.output_tokens,
+        latency_ms=latency,
+    )
+    return generation.program
+
+
+@router.get("/program/active", response_model=ActiveProgram)
+async def active_program(user_id: str = Depends(get_current_user)) -> ActiveProgram:
+    record = program_materialize.get_active_program(user_id)
+    if record is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"error": "no_active_program"},
+        )
+    return ActiveProgram(
+        id=record["id"],
+        status=record["status"],
+        rationale=record.get("rationale"),
+        prompt_version=record.get("prompt_version"),
+        created_at=record["created_at"],
+        program=ProgramPayload.model_validate(record["payload"]),
+    )

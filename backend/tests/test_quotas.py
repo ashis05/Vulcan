@@ -1,6 +1,6 @@
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 
-from app.core.quotas import quota_resets_at
+from app.core.quotas import quota_resets_at, window_resets_at
 
 
 def test_resets_at_next_pacific_midnight_summer():
@@ -13,3 +13,9 @@ def test_resets_at_next_pacific_midnight_winter():
     # 2026-12-15 05:00 UTC = 2026-12-14 21:00 PST → next midnight = 2026-12-15 08:00 UTC
     now = datetime(2026, 12, 15, 5, 0, tzinfo=timezone.utc)
     assert quota_resets_at(now) == "2026-12-15T08:00:00+00:00"
+
+
+def test_window_resets_seven_days_after_last_use():
+    # 2026-09-25 + 7 days = 2026-10-02 00:00 PDT = 07:00 UTC
+    assert window_resets_at(date(2026, 9, 25), 7) == "2026-10-02T07:00:00+00:00"
+

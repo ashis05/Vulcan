@@ -1,15 +1,19 @@
 """Gemini access — structured output only, one retry, typed result.
 
 The `google-genai` SDK is imported lazily so the API and its unit tests do not
-require it on import. Callers mock `analyze_food_image` in tests.
+require it on import. Callers mock `analyze_food_image` / `generate_program`.
 """
 
 import asyncio
+import json
 from dataclasses import dataclass
+from typing import TypeVar
+
+from pydantic import BaseModel
 
 from app.core.config import settings
-from app.schemas import FoodEstimate
-from app.services.prompts import FOOD_SYSTEM_INSTRUCTION
+from app.schemas import FoodEstimate, ProgramPayload
+from app.services.prompts import FOOD_SYSTEM_INSTRUCTION, PROGRAM_SYSTEM_INSTRUCTION
 
 
 class GeminiError(Exception):
@@ -35,6 +39,8 @@ class GeminiUnavailable(GeminiError):
 # Known-good free-tier vision model — used if GEMINI_MODEL is wrong/retired.
 FALLBACK_MODEL = "gemini-3.1-flash-lite"
 
+ModelT = TypeVar("ModelT", bound=BaseModel)
+
 
 def _status_code(exc: Exception) -> int | None:
     code = getattr(exc, "code", None) or getattr(exc, "status_code", None)
@@ -47,14 +53,6 @@ def _status_code(exc: Exception) -> int | None:
 def _is_model_not_found(exc: Exception) -> bool:
     message = str(exc).lower()
     return "not_found" in message or "not found" in message or "no longer available" in message
-
-
-@dataclass
-class FoodAnalysis:
-    estimate: FoodEstimate
-    prompt_tokens: int | None
-    output_tokens: int | None
-    model: str = settings.gemini_model
 
 
 def _build_client():
@@ -80,18 +78,27 @@ async def _generate(client, model: str, image_bytes: bytes, mime_type: str, prom
     )
 
 
-async def analyze_food_image(
-    image_bytes: bytes,
-    mime_type: str,
-    hint: str | None = None,
-) -> FoodAnalysis:
-    """Structured food estimate from a photo. Retries once on transient failure."""
-    client = _build_client()
-    prompt = "Identify the food in this photo and estimate its nutrition for the portion shown."
-    if hint:
-        prompt += f" User note: {hint}"
+async def _generate_program_text(client, model: str, prompt: str):
+    from google.genai import types
 
-    # Try the configured model, then the known-good fallback if it's invalid.
+    return await client.aio.models.generate_content(
+        model=model,
+        contents=[prompt],
+        config=types.GenerateContentConfig(
+            system_instruction=PROGRAM_SYSTEM_INSTRUCTION,
+            response_mime_type="application/json",
+            response_schema=ProgramPayload,
+            temperature=0.4,
+        ),
+    )
+
+
+async def _invoke_models(make_call):
+    """Run `make_call(model)` against the configured model then the fallback.
+
+    Retries transient failures (up to 3 attempts per model), skips a bad model
+    name, and surfaces rate-limit / unavailable conditions as typed errors.
+    """
     models = [settings.gemini_model]
     if settings.gemini_model != FALLBACK_MODEL:
         models.append(FALLBACK_MODEL)
@@ -103,7 +110,7 @@ async def analyze_food_image(
         # The free tier can return transient 503 "high demand" — retry with backoff.
         for attempt in range(3):
             try:
-                response = await _generate(client, model, image_bytes, mime_type, prompt)
+                response = await make_call(model)
                 break
             except Exception as exc:  # noqa: BLE001 — retry, then surface
                 last_error = exc
@@ -121,28 +128,102 @@ async def analyze_food_image(
         if last_error is not None and _status_code(last_error) == 503:
             raise GeminiUnavailable(str(last_error))
         raise GeminiError(str(last_error) if last_error else "Gemini call failed.")
+    return response, used_model
 
-    estimate = getattr(response, "parsed", None)
-    if estimate is None:
+
+def _parse_model(response, model_cls: type[ModelT]) -> ModelT:
+    parsed = getattr(response, "parsed", None)
+    if parsed is None:
         text = getattr(response, "text", None)
         if not text:
-            raise GeminiRefusal("The model did not return an estimate.")
+            raise GeminiRefusal("The model did not return a result.")
         try:
-            estimate = FoodEstimate.model_validate_json(text)
+            parsed = model_cls.model_validate_json(text)
         except Exception as exc:  # noqa: BLE001
             raise GeminiParseError(f"Unparseable response: {exc}") from exc
-
-    if not isinstance(estimate, FoodEstimate):
+    if not isinstance(parsed, model_cls):
         # `parsed` may be a dict depending on the SDK version.
         try:
-            estimate = FoodEstimate.model_validate(estimate)
+            parsed = model_cls.model_validate(parsed)
         except Exception as exc:  # noqa: BLE001
             raise GeminiParseError(str(exc)) from exc
+    return parsed
 
+
+def _tokens(response) -> tuple[int | None, int | None]:
     usage = getattr(response, "usage_metadata", None)
+    return (
+        getattr(usage, "prompt_token_count", None),
+        getattr(usage, "candidates_token_count", None),
+    )
+
+
+@dataclass
+class FoodAnalysis:
+    estimate: FoodEstimate
+    prompt_tokens: int | None
+    output_tokens: int | None
+    model: str = settings.gemini_model
+
+
+@dataclass
+class ProgramGeneration:
+    program: ProgramPayload
+    prompt_tokens: int | None
+    output_tokens: int | None
+    model: str = settings.gemini_model
+
+
+async def analyze_food_image(
+    image_bytes: bytes,
+    mime_type: str,
+    hint: str | None = None,
+) -> FoodAnalysis:
+    """Structured food estimate from a photo. Retries once on transient failure."""
+    client = _build_client()
+    prompt = "Identify the food in this photo and estimate its nutrition for the portion shown."
+    if hint:
+        prompt += f" User note: {hint}"
+
+    async def _call(model: str):
+        return await _generate(client, model, image_bytes, mime_type, prompt)
+
+    response, used_model = await _invoke_models(_call)
+    estimate = _parse_model(response, FoodEstimate)
+    prompt_tokens, output_tokens = _tokens(response)
     return FoodAnalysis(
         estimate=estimate,
-        prompt_tokens=getattr(usage, "prompt_token_count", None),
-        output_tokens=getattr(usage, "candidates_token_count", None),
+        prompt_tokens=prompt_tokens,
+        output_tokens=output_tokens,
+        model=used_model,
+    )
+
+
+async def generate_program(
+    context: dict,
+    *,
+    focus_areas: list[str] | None = None,
+    notes: str | None = None,
+) -> ProgramGeneration:
+    """Structured training program from the context digest. Retries on transient failure."""
+    client = _build_client()
+    parts = ["Design a training program from this JSON context."]
+    parts.append("Context: " + json.dumps(context, separators=(",", ":")))
+    if focus_areas:
+        parts.append("Emphasize these focus areas: " + ", ".join(focus_areas))
+    if notes:
+        parts.append("User guidance: " + notes)
+    prompt = "\n".join(parts)
+
+    async def _call(model: str):
+        return await _generate_program_text(client, model, prompt)
+
+    response, used_model = await _invoke_models(_call)
+    program = _parse_model(response, ProgramPayload)
+    prompt_tokens, output_tokens = _tokens(response)
+    return ProgramGeneration(
+        program=program,
+        prompt_tokens=prompt_tokens,
+        output_tokens=output_tokens,
         model=used_model,
     )

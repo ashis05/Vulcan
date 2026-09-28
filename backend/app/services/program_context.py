@@ -228,3 +228,30 @@ def _fetch_set_history(user_id: str, weeks: int = WINDOW_WEEKS) -> list[dict[str
 def build_program_context(user_id: str) -> dict[str, Any]:
     """Fetch the user's profile + recent training and return the context digest."""
     return summarize_context(_fetch_profile(user_id), _fetch_set_history(user_id))
+
+
+def latest_focus_areas(user_id: str) -> list[str]:
+    """Focus areas from the latest physique analysis (Phase 6), or [] if none.
+
+    `progress_photos` doesn't exist until Phase 6 — degrade gracefully.
+    """
+    try:
+        engine = create_db_engine()
+        with engine.connect() as conn:
+            row = conn.execute(
+                text(
+                    """
+                    select analysis from public.progress_photos
+                    where user_id = cast(:u as uuid) and analysis is not null
+                    order by taken_on desc
+                    limit 1
+                    """
+                ),
+                {"u": user_id},
+            ).first()
+    except Exception:  # noqa: BLE001 — table absent until Phase 6
+        return []
+    if not row or not row[0]:
+        return []
+    analysis = row[0]
+    return [str(area) for area in (analysis.get("focus_areas") or [])]
