@@ -150,6 +150,7 @@ EQUIPMENT_TYPES = ("barbell", "dumbbell", "machine", "cable", "bodyweight", "oth
 _SET_TYPES = ("warmup", "normal", "drop", "failure")
 MEAL_SLOTS = ("breakfast", "lunch", "dinner", "snacks")
 FOOD_SOURCES = ("indb", "off", "custom")
+PROGRAM_STATUSES = ("active", "archived")
 
 # Reusable SQL fragments for the CHECK constraints below.
 _MUSCLE_IN = ", ".join(f"'{m}'" for m in MUSCLE_GROUPS)
@@ -157,6 +158,7 @@ _EQUIPMENT_IN = ", ".join(f"'{e}'" for e in EQUIPMENT_TYPES)
 _SET_TYPES_IN = ", ".join(f"'{s}'" for s in _SET_TYPES)
 _MEAL_SLOTS_IN = ", ".join(f"'{s}'" for s in MEAL_SLOTS)
 _FOOD_SOURCES_IN = ", ".join(f"'{s}'" for s in FOOD_SOURCES)
+_PROGRAM_STATUSES_IN = ", ".join(f"'{s}'" for s in PROGRAM_STATUSES)
 
 # Cross-schema / forward references which cannot be resolved from metadata are
 # added as raw SQL in the revision: `auth.users` (0001) and `programs` (Phase 5).
@@ -653,4 +655,57 @@ class Food(SQLModel, table=True):
         sa_column=Column(
             DateTime(timezone=True), nullable=False, server_default=func.now()
         ),
+    )
+
+
+class Program(SQLModel, table=True):
+    """An AI-generated training program (Phase 5).
+
+    Exactly one `active` program per user — enforced by the partial unique index
+    `programs_one_active_key` added in revision `0009_programs`. The full Gemini
+    output is kept in `payload`; `goal_snapshot` records the inputs it was built
+    from. Materialized routines link back via `routines.program_id` (FK added in
+    the same revision as raw SQL).
+    """
+
+    __tablename__ = "programs"
+    __table_args__ = (
+        CheckConstraint(f"status in ({_PROGRAM_STATUSES_IN})", name="programs_status_check"),
+        Index("programs_user_idx", "user_id", text("created_at DESC")),
+        {"schema": "public"},
+    )
+
+    id: UUID = Field(
+        default_factory=uuid4,
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            primary_key=True,
+            server_default=func.gen_random_uuid(),
+        ),
+    )
+    user_id: UUID = Field(
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            ForeignKey("public.profiles.id", ondelete="CASCADE"),
+            nullable=False,
+        )
+    )
+    status: str = Field(
+        default="active",
+        sa_column=Column(Text, nullable=False, server_default=text("'active'")),
+    )
+    # Inputs the program was generated from (profile + context digest).
+    goal_snapshot: Optional[dict] = Field(default=None, sa_column=Column(JSONB))
+    # Full structured Gemini output (name, weeks, rationale, ...).
+    payload: Optional[dict] = Field(default=None, sa_column=Column(JSONB))
+    rationale: Optional[str] = Field(default=None, sa_column=Column(Text))
+    prompt_version: Optional[str] = Field(default=None, sa_column=Column(Text))
+    created_at: datetime = Field(
+        default_factory=datetime.utcnow,
+        sa_column=Column(
+            DateTime(timezone=True), nullable=False, server_default=func.now()
+        ),
+    )
+    archived_at: Optional[datetime] = Field(
+        default=None, sa_column=Column(DateTime(timezone=True))
     )
