@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/Button';
 import { Screen } from '@/components/ui/Screen';
 import { ActiveSessionBanner, EmptyState, RoutineCard, SectionLabel } from '@/features/train/components';
 import { useRoutines, useWorkoutHistory } from '@/features/train/hooks';
+import { ProgramBanner } from '@/features/programs/components';
+import { useActiveProgram } from '@/features/programs/hooks';
 import { colors, fonts, typeScale } from '@/theme';
 
 const weekday = (iso: string) => new Intl.DateTimeFormat(undefined, { weekday: 'short' }).format(new Date(iso));
@@ -15,6 +17,7 @@ export default function TrainScreen() {
   const router = useRouter();
   const routines = useRoutines();
   const history = useWorkoutHistory();
+  const program = useActiveProgram();
   const recent = (history.data ?? []).slice(0, 5);
 
   return (
@@ -25,6 +28,14 @@ export default function TrainScreen() {
 
       <ScrollView style={styles.body} contentContainerStyle={styles.bodyContent}>
         <ActiveSessionBanner />
+
+        {program.data ? (
+          <ProgramBanner
+            name={program.data.program.name}
+            dayLabel={program.data.program.weeks[0]?.sessions[0]?.day_label}
+            onPress={() => router.push('/program/review')}
+          />
+        ) : null}
 
         <View style={styles.section}>
           <View style={styles.sectionHead}>

@@ -1,5 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { SparkIcon } from '@/components/icons';
 import { colors, fonts, radius, typeScale } from '@/theme';
 
 import { PROGRAM_WINDOW_DAYS, type ProgramExercise, type ProgramSession } from './types';
@@ -97,7 +98,63 @@ export function DayCard({ session }: { session: ProgramSession }) {
   );
 }
 
+export function ProgramBanner({
+  name,
+  dayLabel,
+  onPress,
+}: {
+  name: string;
+  dayLabel?: string;
+  onPress: () => void;
+}) {
+  return (
+    <Pressable onPress={onPress} style={({ pressed }) => [styles.banner, pressed && styles.pressed]}>
+      <View style={styles.bannerBadge}>
+        <SparkIcon size={14} color={colors.accent.ember500} filled />
+      </View>
+      <View style={styles.bannerText}>
+        <Text style={styles.bannerLabel}>Active AI program</Text>
+        <Text style={styles.bannerName} numberOfLines={1}>
+          {name}
+        </Text>
+        {dayLabel ? <Text style={styles.bannerMeta}>{dayLabel}</Text> : null}
+      </View>
+      <Text style={styles.bannerCta}>Review</Text>
+    </Pressable>
+  );
+}
+
 const styles = StyleSheet.create({
+  banner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    padding: 14,
+    borderRadius: radius.md,
+    borderWidth: 1,
+    borderColor: colors.accent.ember500,
+    backgroundColor: colors.bg.card,
+  },
+  pressed: { opacity: 0.7 },
+  bannerBadge: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255,106,0,0.12)',
+  },
+  bannerText: { flex: 1, minWidth: 0, gap: 2 },
+  bannerLabel: {
+    color: colors.accent.ember500,
+    fontSize: typeScale.caption.size,
+    fontWeight: '700',
+    letterSpacing: 0.5,
+    textTransform: 'uppercase',
+  },
+  bannerName: { color: colors.text.primary, fontSize: typeScale.body.size, fontWeight: '600' },
+  bannerMeta: { color: colors.text.muted, fontSize: typeScale.caption.size },
+  bannerCta: { color: colors.accent.ember500, fontSize: typeScale.label.size, fontWeight: '700' },
   quota: { gap: 6 },
   quotaTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   quotaLabel: { color: colors.text.secondary, fontSize: typeScale.label.size, fontWeight: '600' },
