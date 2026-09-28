@@ -40,12 +40,33 @@ Continuing the project from anywhere. This file is the session log and current-s
   - **Frontend:** `features/programs/` (types, api, hooks, components incl. `ProgramBanner`/`WeekTabs`/`DayCard`/`ProgramQuotaMeter`); `app/program/{_layout,generate,review}.tsx` (S25 forge overlay + quota meter; S26 week tabs/day cards/rationale/Regenerate/Apply + editable name); program banner + rationale on Train/S8/Today; routes guarded.
   - **Verified:** `pytest` **50/50** · `vitest` 64/64 · `tsc`/`expo lint` clean · web export OK · migration `alembic current = 0009_programs` with RLS/index/FK confirmed · live DB smoke: materialization created routines+sets+custom for an unmatched name, regeneration left exactly one active (old archived), auth 401 unauthenticated, `check_once_per_days` returns allow with no prior use.
   - **Note:** constraint adherence (days/week, equipment, injuries) is prompt-enforced, not yet verified across 3 real profiles on device.
-- **Phase 6 — Physique Analysis & Check-ins (NEXT, code not started).** `phases/PHASE-6-physique.md`: `0010_physique` (`progress_photos` + private `progress-photos` bucket), `POST /ai/analyze-physique` (quota 1/7 d, refusal → 422 without consuming quota), S22 check-in + S24 analysis, progress grid/compare slider, focus areas → next program (already wired via `latest_focus_areas`).
-- **Docs:** `README.md` (run backend/frontend/test-on-phone), `frontend/ANDROID-EMULATOR.md` (device/emulator setup).
+- **Phase 6 — Physique Analysis & Check-ins — PARTIAL (essentials done early, `feat/ai-programs`; commit `5975971`).** Pulled forward to make Phase-5 generation **physique-driven**.
+  - **`0010_physique` applied** to the live DB: `progress_photos` (owner RLS, 4 policies, `pose` check) + private `progress-photos` bucket with 4 owner storage policies. Repo head = `0010_physique`.
+  - **Backend:** `schemas.py` `PhysiqueAnalysis` + `AnalyzePhysiqueRequest`; `services/prompts.py` `PHYSIQUE_SYSTEM_INSTRUCTION` (`physique-v1`); `gemini.analyze_physique_images` (multi-image structured output on the shared retry/fallback path); `supabase_admin.download_progress_photo` (generic bucket download via `_download`); `routers/ai.py` **`POST /ai/analyze-physique`** (auth → 7-day window quota → fetch photos → Gemini → log; refusal → **422 without consuming quota**). `PHYSIQUE_BUCKET` + `progress-photos` wired.
+  - **Physique → program loop:** `program_context.build_program_context` now adds a `physique` block (summary/strong/focus/recommendations) and `latest_physique_summary()`; `PROGRAM_SYSTEM_INSTRUCTION` prioritizes `physique.focus_areas`; `gemini.generate_program` passes the user's typed request as "honor unless it conflicts with hard constraints".
+  - **Frontend:** `features/progress/` (types, api incl. `createSignedUrl`, photo upload to `progress-photos`, hooks); Progress tab is now real (check-in grid, latest-analysis card, empty state); **S22-lite** `app/progress/checkin.tsx` (camera/gallery + pose + privacy caption); **S24** `app/progress/analysis.tsx` (summary, strong/focus chips, posture, recommendations, Analyze → 422/429 states, "Forge a program from this"); routes added to root stack.
+  - **Forge button (was missing):** Train tab now has a primary **"Forge a program"** button → `/program/generate`. Forge screen shows a "From your physique check-in" card and **prefills the focus field** with the latest analysis focus areas (editable).
+  - **Verified:** `pytest` **55/55** (+`test_physique.py`) · vitest 64/64 · `tsc` clean · `expo lint` clean · web export OK · live: `/ai/analyze-physique` present + auth 401 unauth; live DB check confirmed `progress_photos` analysis `focus_areas` flow into program context (`latest_physique_summary`) then cleaned up.
+  - **Still TODO for full Phase 6:** photo **compare slider (S23)**, 4-week check-in **reminder** notification, progress **grid by month**, `progress_photos` RLS/storage **cross-user test**, real **physique Gemini call on device** (not yet run live), and Phase-6 "Done when" checklist.
+- **Open issue (unresolved):** Metro **"Unable to resolve ./photo"** from `features/progress/hooks.ts` when bundling for Android. The file exists on disk (committed) and `@/lib/id` resolves — likely a stale Metro cache. **Not yet fixed.** Next session: `npx expo start -c` (clear cache); if it persists, investigate the progress feature dir / config plugin. Nothing else in Phase 5/6 blocks on it (all gates green).
+- **Docs:** `README.md` (run backend/frontend/test-on-phone + manual emulator boot), `frontend/ANDROID-EMULATOR.md` (device/emulator setup).
 
 ---
 
 ## Session log
+
+### 2026-09-29 · Session 29 — Physique-driven generation + Train forge button (Phase 6 pulled forward)
+
+- **Trigger:** user asked for generation based on **physique photos (current condition) + a specific request**, and a visible **Forge button** ("can't test shit").
+- **Added the Forge entry point** (Train tab): primary **"Forge a program"** button above "Start empty workout" → `/program/generate`.
+- **Built the physique essentials early (Phase 6 core):** `0010_physique` **applied** (`progress_photos` owner RLS + private `progress-photos` bucket with 4 owner storage policies); `PhysiqueAnalysis`/`AnalyzePhysiqueRequest` schemas; `PHYSIQUE_SYSTEM_INSTRUCTION` (`physique-v1`) — no bodyfat/medical claims, lower confidence on poor photos; multi-image `gemini.analyze_physique_images`; generic `supabase_admin._download` + `download_progress_photo`; **`POST /ai/analyze-physique`** (auth → 7-day window quota → fetch → Gemini → log; refusal 422 **without** consuming quota).
+- **Wired physique → program:** `program_context` adds a `physique` block + `latest_physique_summary()`; program prompt prioritizes `focus_areas`; user request passed as "honor unless it conflicts with hard constraints". Frontend: real Progress tab, check-in (camera/gallery + pose + privacy), analysis screen, forge shows the check-in summary card + **prefills focus** (editable).
+- **Gates:** `pytest` **55/55** · vitest 64/64 · `tsc` clean · `expo lint` clean · web export OK · live route 401 unauth · live DB confirmed focus_areas flow into context (smoke row removed).
+- **Committed `5975971`.**
+- **BLOCKER for next session:** Android bundling failed with `Unable to resolve "./photo" from "src/features/progress/hooks.ts"` — file exists on disk + committed; **likely stale Metro cache**. Try `npx expo start -c` first. User paused here ("will start this later on").
+- **Next:** fix the Metro resolution (cache clear), then on-device: check-in → analyze (real Gemini) → forge (focus prefilled) → review → apply → train. Then finish full Phase 6 (compare slider S23, 4-week reminder, month grid, cross-user storage test).
+
+---
 
 ### 2026-09-28 · Session 28 — Phase 5 waves A–E: AI program generation (complete)
 
