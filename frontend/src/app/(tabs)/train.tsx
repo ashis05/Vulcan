@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { AnvilIcon, PlusIcon } from '@/components/icons';
+import { AnvilIcon, PlusIcon, SparkIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
 import { Screen } from '@/components/ui/Screen';
 import { ActiveSessionBanner, EmptyState, RoutineCard, SectionLabel } from '@/features/train/components';
@@ -120,7 +120,16 @@ export default function TrainScreen() {
       </ScrollView>
 
       <View style={styles.footer}>
-        <Button label="Start empty workout" onPress={() => router.push('/workout/active')} />
+        <Button
+          label="Forge a program"
+          leading={<SparkIcon size={18} color={colors.text.onAccent} filled />}
+          onPress={() => router.push('/program/generate')}
+        />
+        <Button
+          label="Start empty workout"
+          variant="secondary"
+          onPress={() => router.push('/workout/active')}
+        />
       </View>
     </Screen>
   );
@@ -166,5 +175,5 @@ const styles = StyleSheet.create({
   histSets: { color: colors.text.muted, fontSize: typeScale.caption.size },
   loading: { paddingVertical: 24 },
   error: { color: colors.semantic.danger, fontSize: typeScale.label.size },
-  footer: { paddingHorizontal: 16, paddingBottom: 12 },
+  footer: { paddingHorizontal: 16, paddingBottom: 12, gap: 10 },
 });

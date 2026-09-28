@@ -709,3 +709,50 @@ class Program(SQLModel, table=True):
     archived_at: Optional[datetime] = Field(
         default=None, sa_column=Column(DateTime(timezone=True))
     )
+
+
+class ProgressPhoto(SQLModel, table=True):
+    """A physique check-in photo (Phase 6). Photos live in the private
+    `progress-photos` bucket; `analysis` is written server-side by the AI route.
+    """
+
+    __tablename__ = "progress_photos"
+    __table_args__ = (
+        CheckConstraint(
+            "pose in ('front', 'side', 'back')", name="progress_photos_pose_check"
+        ),
+        Index("progress_photos_user_taken_idx", "user_id", text("taken_on DESC")),
+        {"schema": "public"},
+    )
+
+    id: UUID = Field(
+        default_factory=uuid4,
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            primary_key=True,
+            server_default=func.gen_random_uuid(),
+        ),
+    )
+    user_id: UUID = Field(
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            ForeignKey("public.profiles.id", ondelete="CASCADE"),
+            nullable=False,
+        )
+    )
+    taken_on: date = Field(
+        sa_column=Column(Date, nullable=False, server_default=func.current_date())
+    )
+    pose: str = Field(
+        default="front",
+        sa_column=Column(Text, nullable=False, server_default=text("'front'")),
+    )
+    photo_path: str = Field(sa_column=Column(Text, nullable=False))
+    # Structured physique analysis (summary, strong/focus areas, ...).
+    analysis: Optional[dict] = Field(default=None, sa_column=Column(JSONB))
+    created_at: datetime = Field(
+        default_factory=datetime.utcnow,
+        sa_column=Column(
+            DateTime(timezone=True), nullable=False, server_default=func.now()
+        ),
+    )

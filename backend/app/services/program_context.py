@@ -225,23 +225,23 @@ def _fetch_set_history(user_id: str, weeks: int = WINDOW_WEEKS) -> list[dict[str
     return [dict(row._mapping) for row in rows]
 
 
-def build_program_context(user_id: str) -> dict[str, Any]:
-    """Fetch the user's profile + recent training and return the context digest."""
-    return summarize_context(_fetch_profile(user_id), _fetch_set_history(user_id))
-
-
 def latest_focus_areas(user_id: str) -> list[str]:
     """Focus areas from the latest physique analysis (Phase 6), or [] if none.
 
     `progress_photos` doesn't exist until Phase 6 — degrade gracefully.
     """
+    return latest_physique_summary(user_id).get("focus_areas") or []
+
+
+def latest_physique_summary(user_id: str) -> dict[str, Any]:
+    """The latest physique analysis digest, or {} if none (Phase 6 absent)."""
     try:
         engine = create_db_engine()
         with engine.connect() as conn:
             row = conn.execute(
                 text(
                     """
-                    select analysis from public.progress_photos
+                    select analysis, taken_on from public.progress_photos
                     where user_id = cast(:u as uuid) and analysis is not null
                     order by taken_on desc
                     limit 1
@@ -250,8 +250,23 @@ def latest_focus_areas(user_id: str) -> list[str]:
                 {"u": user_id},
             ).first()
     except Exception:  # noqa: BLE001 — table absent until Phase 6
-        return []
+        return {}
     if not row or not row[0]:
-        return []
+        return {}
     analysis = row[0]
-    return [str(area) for area in (analysis.get("focus_areas") or [])]
+    return {
+        "taken_on": str(row[1]),
+        "summary": analysis.get("summary"),
+        "strong_areas": analysis.get("strong_areas") or [],
+        "focus_areas": analysis.get("focus_areas") or [],
+        "recommendations": analysis.get("recommendations") or [],
+    }
+
+
+def build_program_context(user_id: str) -> dict[str, Any]:
+    """Fetch the user's profile + recent training + latest physique assessment."""
+    context = summarize_context(_fetch_profile(user_id), _fetch_set_history(user_id))
+    physique = latest_physique_summary(user_id)
+    if physique:
+        context["physique"] = physique
+    return context

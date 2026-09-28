@@ -19,6 +19,7 @@ import { TextField } from '@/components/ui/TextField';
 import { ProgramQuotaMeter } from '@/features/programs/components';
 import { useGenerateProgram, useLastForgedDate } from '@/features/programs/hooks';
 import { PROGRAM_WINDOW_DAYS } from '@/features/programs/types';
+import { useProgressPhotos } from '@/features/progress/hooks';
 import { ApiError } from '@/lib/api';
 import { pacificDateString } from '@/lib/dates';
 import { useProfile } from '@/lib/use-profile';
@@ -109,9 +110,15 @@ export default function GenerateProgramScreen() {
   const router = useRouter();
   const profile = useProfile();
   const lastForged = useLastForgedDate();
+  const photos = useProgressPhotos();
   const generate = useGenerateProgram();
   const [focus, setFocus] = useState('');
   const [error, setError] = useState<string | null>(null);
+
+  const latestAnalysis = (photos.data ?? []).find((p) => p.analysis)?.analysis ?? null;
+  const physiqueFocus = latestAnalysis?.focus_areas ?? [];
+  // The physique analysis (Phase 6) seeds the focus field until the user edits it.
+  const focusText = focus || physiqueFocus.join(', ');
 
   const today = pacificDateString();
   const elapsedUsed = (() => {
@@ -127,8 +134,8 @@ export default function GenerateProgramScreen() {
     setError(null);
     generate.mutate(
       {
-        notes: focus.trim() ? focus.trim() : undefined,
-        focusAreas: [],
+        notes: focusText.trim() ? focusText.trim() : undefined,
+        focusAreas: physiqueFocus,
       },
       {
         onSuccess: () => router.replace('/program/review'),
@@ -200,12 +207,25 @@ export default function GenerateProgramScreen() {
           </View>
         </Card>
 
+        {latestAnalysis ? (
+          <Card style={styles.physiqueCard}>
+            <View style={styles.physiqueHead}>
+              <SparkIcon size={13} color={colors.accent.ember500} filled />
+              <Text style={styles.physiqueLabel}>From your physique check-in</Text>
+            </View>
+            <Text style={styles.physiqueBody} numberOfLines={3}>
+              {latestAnalysis.summary}
+            </Text>
+          </Card>
+        ) : null}
+
         <TextField
-          label="Focus (optional)"
-          value={focus}
+          label="Training request (optional)"
+          value={focusText}
           onChangeText={setFocus}
-          placeholder="e.g. chest definition, more back volume"
-          hint="Attached to the program rationale."
+          placeholder="e.g. focus on chest, more back volume, 4 short sessions"
+          hint="Your physique focus areas are prefilled — edit anything you want changed."
+          multiline
         />
 
         <ProgramQuotaMeter lastForged={lastForged.data ?? null} today={today} />
@@ -298,6 +318,20 @@ const styles = StyleSheet.create({
     fontVariant: ['tabular-nums'],
   },
   snapText: { flex: 1, color: colors.text.secondary, fontSize: typeScale.body.size },
+  physiqueCard: { borderLeftWidth: 3, borderLeftColor: colors.accent.ember500, gap: 6 },
+  physiqueHead: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  physiqueLabel: {
+    color: colors.accent.ember500,
+    fontSize: typeScale.caption.size,
+    fontWeight: '700',
+    letterSpacing: 0.5,
+    textTransform: 'uppercase',
+  },
+  physiqueBody: {
+    color: colors.text.secondary,
+    fontSize: typeScale.body.size,
+    lineHeight: typeScale.body.lineHeight,
+  },
   error: { color: colors.semantic.danger, fontSize: typeScale.label.size },
   disclaimer: { color: colors.text.muted, fontSize: typeScale.caption.size, lineHeight: 16 },
   overlay: {

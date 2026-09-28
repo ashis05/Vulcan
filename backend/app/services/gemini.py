@@ -12,8 +12,12 @@ from typing import TypeVar
 from pydantic import BaseModel
 
 from app.core.config import settings
-from app.schemas import FoodEstimate, ProgramPayload
-from app.services.prompts import FOOD_SYSTEM_INSTRUCTION, PROGRAM_SYSTEM_INSTRUCTION
+from app.schemas import FoodEstimate, PhysiqueAnalysis, ProgramPayload
+from app.services.prompts import (
+    FOOD_SYSTEM_INSTRUCTION,
+    PHYSIQUE_SYSTEM_INSTRUCTION,
+    PROGRAM_SYSTEM_INSTRUCTION,
+)
 
 
 class GeminiError(Exception):
@@ -89,6 +93,23 @@ async def _generate_program_text(client, model: str, prompt: str):
             response_mime_type="application/json",
             response_schema=ProgramPayload,
             temperature=0.4,
+        ),
+    )
+
+
+async def _generate_physique_images(client, model: str, images: list[tuple[bytes, str]], prompt: str):
+    from google.genai import types
+
+    parts = [types.Part.from_bytes(data=image, mime_type=mime) for image, mime in images]
+    parts.append(prompt)
+    return await client.aio.models.generate_content(
+        model=model,
+        contents=parts,
+        config=types.GenerateContentConfig(
+            system_instruction=PHYSIQUE_SYSTEM_INSTRUCTION,
+            response_mime_type="application/json",
+            response_schema=PhysiqueAnalysis,
+            temperature=0.2,
         ),
     )
 
@@ -174,6 +195,14 @@ class ProgramGeneration:
     model: str = settings.gemini_model
 
 
+@dataclass
+class PhysiqueResult:
+    analysis: PhysiqueAnalysis
+    prompt_tokens: int | None
+    output_tokens: int | None
+    model: str = settings.gemini_model
+
+
 async def analyze_food_image(
     image_bytes: bytes,
     mime_type: str,
@@ -212,7 +241,7 @@ async def generate_program(
     if focus_areas:
         parts.append("Emphasize these focus areas: " + ", ".join(focus_areas))
     if notes:
-        parts.append("User guidance: " + notes)
+        parts.append("User request (honor unless it conflicts with the hard constraints): " + notes)
     prompt = "\n".join(parts)
 
     async def _call(model: str):
@@ -223,6 +252,36 @@ async def generate_program(
     prompt_tokens, output_tokens = _tokens(response)
     return ProgramGeneration(
         program=program,
+        prompt_tokens=prompt_tokens,
+        output_tokens=output_tokens,
+        model=used_model,
+    )
+
+
+async def analyze_physique_images(
+    images: list[tuple[bytes, str]],
+    *,
+    poses: list[str] | None = None,
+    compare_note: str | None = None,
+) -> PhysiqueResult:
+    """Structured physique analysis from one or more photos. Retries on transient failure."""
+    client = _build_client()
+    label = ", ".join(poses) if poses else "front/side"
+    prompt = (
+        f"Assess the physique in these {len(images)} progress photo(s) ({label} views). "
+        "Identify well-developed and under-developed areas and any posture notes."
+    )
+    if compare_note:
+        prompt += f" {compare_note}"
+
+    async def _call(model: str):
+        return await _generate_physique_images(client, model, images, prompt)
+
+    response, used_model = await _invoke_models(_call)
+    analysis = _parse_model(response, PhysiqueAnalysis)
+    prompt_tokens, output_tokens = _tokens(response)
+    return PhysiqueResult(
+        analysis=analysis,
         prompt_tokens=prompt_tokens,
         output_tokens=output_tokens,
         model=used_model,

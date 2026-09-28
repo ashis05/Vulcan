@@ -113,3 +113,39 @@ class ActiveProgram(BaseModel):
     prompt_version: str | None = None
     created_at: str
     program: ProgramPayload
+
+
+class PhysiqueAnalysis(BaseModel):
+    """Gemini's structured physique assessment (guidance, not medical advice)."""
+
+    summary: str = Field(description="2–4 sentence overall assessment of training-relevant development.")
+    strong_areas: list[str] = Field(
+        default_factory=list, description="Muscle groups that look well-developed."
+    )
+    focus_areas: list[str] = Field(
+        default_factory=list, description="Muscle groups with room to grow, phrased for programming."
+    )
+    posture_notes: str = Field(default="", description="Observable posture / balance notes, non-medical.")
+    recommendations: list[str] = Field(
+        default_factory=list, description="Concrete training recommendations."
+    )
+    confidence: Literal["low", "medium", "high"] = Field(
+        default="medium", description="Honest confidence given photo quality and poses."
+    )
+    disclaimer: str = Field(
+        default="AI-generated training guidance, not medical advice.",
+        description="Always present.",
+    )
+
+
+class AnalyzePhysiqueRequest(BaseModel):
+    """Request body for `POST /ai/analyze-physique`."""
+
+    photo_paths: list[str] = Field(
+        min_length=1,
+        max_length=6,
+        description="Storage object paths in the private `progress-photos` bucket (`{user_id}/...`).",
+    )
+    compare_to: str | None = Field(
+        default=None, description="Optional earlier photo path to assess progress against."
+    )

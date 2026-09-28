@@ -10,8 +10,10 @@ from app.core.config import settings
 from app.schemas import (
     ActiveProgram,
     AnalyzeFoodRequest,
+    AnalyzePhysiqueRequest,
     FoodEstimate,
     GenerateProgramRequest,
+    PhysiqueAnalysis,
     ProgramPayload,
 )
 from app.services import (
@@ -27,8 +29,13 @@ router = APIRouter(prefix="/ai", tags=["ai"])
 
 FOOD_FEATURE = "food"
 PROGRAM_FEATURE = "program"
+PHYSIQUE_FEATURE = "physique"
 REFUSAL_MESSAGE = (
     "Couldn't read that photo. Try better lighting, less clutter, and a top-down shot."
+)
+PHYSIQUE_REFUSAL_MESSAGE = (
+    "Couldn't read those photos. Try even lighting, a plain background, and a clear full-body or "
+    "torso framing."
 )
 
 
@@ -195,3 +202,86 @@ async def active_program(user_id: str = Depends(get_current_user)) -> ActiveProg
         created_at=record["created_at"],
         program=ProgramPayload.model_validate(record["payload"]),
     )
+
+
+@router.post("/analyze-physique", response_model=PhysiqueAnalysis)
+async def analyze_physique(
+    payload: AnalyzePhysiqueRequest,
+    user_id: str = Depends(get_current_user),
+) -> PhysiqueAnalysis:
+    # Every object path must live under the caller's own folder.
+    paths = list(payload.photo_paths)
+    if payload.compare_to:
+        paths.append(payload.compare_to)
+    for path in paths:
+        if not path.startswith(f"{user_id}/"):
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Photo path does not belong to this user.",
+            )
+
+    window_days = settings.quota_physique_per_days
+    allowed, last_used = quotas.check_once_per_days(user_id, PHYSIQUE_FEATURE, window_days)
+    if not allowed:
+        raise HTTPException(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            detail={
+                "error": "quota_exceeded",
+                "feature": PHYSIQUE_FEATURE,
+                "resets_at": quotas.window_resets_at(last_used or quotas.pacific_today(), window_days),
+            },
+            headers={"Retry-After": "86400"},
+        )
+
+    started = time.monotonic()
+    try:
+        images = [await supabase_admin.download_progress_photo(path) for path in payload.photo_paths]
+        compare_note = None
+        if payload.compare_to:
+            compare = await supabase_admin.download_progress_photo(payload.compare_to)
+            images.append(compare)
+            compare_note = "The last photo is from an earlier check-in — note visible progress."
+        result = await gemini.analyze_physique_images(images, compare_note=compare_note)
+    except gemini.GeminiRefusal as exc:
+        latency = int((time.monotonic() - started) * 1000)
+        ai_log.log_call(user_id, PHYSIQUE_FEATURE, "refused", latency_ms=latency, error=str(exc))
+        raise HTTPException(
+            status.HTTP_422_UNPROCESSABLE_CONTENT, PHYSIQUE_REFUSAL_MESSAGE
+        ) from exc
+    except gemini.GeminiRateLimited as exc:
+        latency = int((time.monotonic() - started) * 1000)
+        ai_log.log_call(user_id, PHYSIQUE_FEATURE, "error", latency_ms=latency, error=str(exc))
+        raise HTTPException(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            detail={"error": "rate_limited", "resets_at": quotas.quota_resets_at()},
+            headers={"Retry-After": "60"},
+        ) from exc
+    except gemini.GeminiUnavailable as exc:
+        latency = int((time.monotonic() - started) * 1000)
+        ai_log.log_call(user_id, PHYSIQUE_FEATURE, "error", latency_ms=latency, error=str(exc))
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail={"error": "ai_busy", "resets_at": quotas.quota_resets_at()},
+            headers={"Retry-After": "15"},
+        ) from exc
+    except HTTPException:
+        raise
+    except Exception as exc:  # noqa: BLE001 — Gemini/parse/storage all degrade the same way
+        latency = int((time.monotonic() - started) * 1000)
+        ai_log.log_call(user_id, PHYSIQUE_FEATURE, "error", latency_ms=latency, error=str(exc))
+        raise HTTPException(
+            status.HTTP_502_BAD_GATEWAY, "The analysis failed. Please retry."
+        ) from exc
+
+    quotas.record_use(user_id, PHYSIQUE_FEATURE)
+    latency = int((time.monotonic() - started) * 1000)
+    ai_log.log_call(
+        user_id,
+        PHYSIQUE_FEATURE,
+        "ok",
+        model=result.model,
+        prompt_tokens=result.prompt_tokens,
+        output_tokens=result.output_tokens,
+        latency_ms=latency,
+    )
+    return result.analysis

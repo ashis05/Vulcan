@@ -74,6 +74,7 @@ function RootNavigator() {
           <Stack.Screen name="steps" />
           <Stack.Screen name="meal" />
           <Stack.Screen name="program" />
+          <Stack.Screen name="progress" />
         </Stack.Protected>
       </Stack>
     </>
