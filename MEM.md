@@ -12,15 +12,15 @@ Continuing the project from anywhere. This file is the session log and current-s
 
 ## Current state
 
-- **Active branch:** `feat/steps-budget` (Phase 3). `master` = Phase 2 complete, pushed to `origin` (`github.com/ashis05/Vulcan`).
-- **Branches:** `master` (through Phase 2) · `feat/gym-tracker` (merged to master) · `feat/steps-budget` (Phase 3, current) · historical: `feat/onboarding`, `frontend`, `feat/auth`.
+- **Active branch:** `feat/steps-budget` (Phases 3–4). `master` = Phase 2 complete, pushed to `origin` (`github.com/ashis05/Vulcan`).
+- **Branches:** `master` (through Phase 2) · `feat/gym-tracker` (merged to master) · `feat/steps-budget` (Phases 3–4, current) · historical: `feat/onboarding`, `frontend`, `feat/auth`.
 - **Frontend** (`frontend/`): Expo SDK 57 · expo-router (new `js-tabs`) · React Native 0.86 · TypeScript · NativeWind v5 preview + Tailwind v4 · fonts (Space Grotesk/Inter) · DESIGN tokens in `src/theme/` + `src/global.css` (`@theme`).
 - **Routes:** `/` = **splash** (`src/app/index.tsx`, S1 ember ignite → wordmark → redirects `/welcome`, `/onboarding`, or `/today`) · `(auth)/welcome` · `(onboarding)` · `(tabs)/today|nutrition|train|progress|profile`. `Stack.Protected` gates `(auth)` / `(onboarding)` / `(tabs)`.
 - **Auth (Google-only UI):** welcome screen offers **Google sign-in only** (email button removed; `login`/`signup`/`forgot-password` route files still exist but unreachable — candidate for deletion). Google flow: PKCE (`src/lib/oauth.ts`, client `flowType:'pkce'`, redirect `vulcan://`), deep-link fallback via `Linking.addEventListener`, WebCrypto polyfill (`react-native-quick-crypto`) for SHA-256. Works end-to-end on device. Session persisted in SecureStore.
 - **Styling:** **No `className` anywhere** — all styles are explicit RN `StyleSheet` objects derived from DESIGN tokens (NativeWind v5 `react-native-css` runtime was unreliable for a subset of `--text-*` utilities on native; inline styles are proven to work). `src/components/ui/{Screen,Button,TextField,TabBar}.tsx` + all screens use tokens directly.
 - **Tab bar:** floating dock (rounded pill, 16px margins, elevated + shadow), center Train button raised with flame gradient, **DumbbellIcon** (64px button / 28px icon).
 - **Backend** (`backend/`): FastAPI skeleton — `GET /health` (public), `GET /health/protected` (JWT verified against Supabase JWKS). **Fixed ES256 support** (Supabase signs with EC P-256): `_key_for_kid` handles EC, decode accepts `["ES256","RS256"]`. Tests 8/8 passing.
-- **Migrations (Alembic + SQLModel):** `backend/app/models.py` = schema source of truth; `backend/app/db.py` (engine, psycopg3 URL normalization); `backend/alembic/`. `DATABASE_URL` set in `backend/.env`; **`0001_profiles`, `0002_training`, `0003_exercise_media`, `0004_activity_nutrition`, `0004b_exercise_media_backfill` applied to the live DB and RLS verified**. `0002_training` = training tables; `0003_exercise_media` = `exercises.media_url` + 1,084-exercise catalog; `0004_activity_nutrition` = `daily_activity` + `meals`; `0004b` = GIF backfill for the 5 preserved seed rows.
+- **Migrations (Alembic + SQLModel):** `backend/app/models.py` = schema source of truth; `backend/app/db.py` (engine, psycopg3 URL normalization); `backend/alembic/`. `DATABASE_URL` set in `backend/.env`; **`0001_profiles` → `0008b_ai_quota_timezone` applied to the live DB and RLS verified** (repo head = `0008b_ai_quota_timezone`). `0002_training` = training tables; `0003_exercise_media` = `exercises.media_url` + 1,084-exercise catalog; `0004_activity_nutrition` = `daily_activity` + `meals`; `0004b` = GIF backfill; `0005_meal_slot`; `0006_ai` = `ai_usage`/`ai_calls`/`increment_ai_usage` + `food-photos` bucket; `0007_food_catalog` = `foods` (1,014 INDB); `0008_food_per_gram`; `0008b_ai_quota_timezone` = Pacific quota day.
 - **Phase 2 complete** (waves A–E + improvement rounds; committed through `6378601`): routines, offline-tolerant session logging (set types/RPE/supersets/bodyweight), rest timer, PR detection on finish, history + past-workout + Repeat, exercise-detail charts (gifted-charts), 1,084-lift catalog with GIF thumbnails + YouTube tutorial link, resume banner, Spark app icon. Device pass confirmed by user; **RPE field not data-verified** (its code path is identical to reps/weight).
 - **Phase 3 — Steps, Calorie Budget & Nutrition — ✅ COMPLETE (`feat/steps-budget`).** Device pass confirmed by user. Highlights:
   - `0004_activity_nutrition` (`daily_activity`, `meals`; RLS owner-only) + `0005_meal_slot` (both applied); engine `trendAdjustment`, `adaptiveTdee`, `tdeeOverride` target path.
@@ -28,16 +28,38 @@ Continuing the project from anywhere. This file is the session log and current-s
   - Today dashboard S6 (ring, macro bar, steps/weight tiles, streak, coach placeholder, trend card); nutrition diary S16 + add meal S17 + meal detail S20 (manual); weight logging → `body_metrics`; persisted ±100 kcal trend offset.
   - Shared UI: `components/ui/{RingProgress,MacroBar,StatTile,CoachNote}`; `lib/dates.ts`.
   - Code gate green: vitest 64/64 · `tsc` clean · `expo lint` clean · web export OK · pytest 8/8 · `alembic` head `0005_meal_slot`.
-- **Phase 4 — AI Food Logging (in progress, `feat/steps-budget`; wave A committed `0fb3803`+`9431d3f`, wave B done/uncommitted).** Decisions: catalog = **Anuvaad INDB**, scan = **camera + gallery**, build order = **backend first**.
-  - **Wave A:** `0006_ai` applied (`ai_usage`, `ai_calls`, `increment_ai_usage` security-definer fn, private `food-photos` bucket + 4 owner storage policies), `core/quotas.py`, `schemas.py`, `services/{gemini,ai_log,supabase_admin,prompts}.py`, `routers/ai.py` (`POST /ai/analyze-food`). pytest 14/14. `SUPABASE_SERVICE_ROLE_KEY` + `GEMINI_API_KEY` added to `backend/.env`.
-  - **Wave B:** `expo-camera` + `expo-image-picker` + `expo-image-manipulator` (+ app.json camera/photo permission plugins); `features/nutrition/{ai,photo}.ts` (analyze call, quota query, resize+upload to `food-photos/{uid}/`); S18 `app/meal/scan` (camera + gallery, busy/error/429 states); S19 `app/meal/confirm` (editable estimate, serving rescale, confidence chip, disclaimer, quota meter, slot, log → `source=photo` + `photo_path` + `ai_raw`); S17 "Scan food" wired; shared `MacroEdit`/`ConfidenceChip`. `lib/api.ts` now surfaces `ApiError.detail`. **Native rebuild required** (`npx expo run:android`).
-  - **Wave C (uncommitted):** `0007_food_catalog` (applied) — new `foods` table (global/custom, RLS read = global for authed + owner customs; partial unique indexes on lower(name)) seeded with **1,014 Anuvaad INDB recipes** (per-serving macros via `scripts/build_foods_seed.py` → `app/data/foods_seed.json`; attribution in the migration docstring). S17 now has a **Search foods** option (Supabase `ilike` over the catalog) that autofills name + kcal/P/C/F into Quick add. `PLAN.md §6` + `backend/tests/test_foods_seed.py` (17/17 pytest) updated.
-  - **Next:** Phase-4 device test (rebuild for camera) then close the phase.
+- **Phase 4 — AI Food Logging — ✅ COMPLETE (device-verified 2026-09-28, `feat/steps-budget`; commits `0fb3803` → `d36ad74`).** Decisions: catalog = **Anuvaad INDB**, scan = **camera + gallery**, build order = **backend first**.
+  - **Wave A** (committed `0fb3803`, docs `9431d3f`): `0006_ai` applied (`ai_usage`, `ai_calls`, `increment_ai_usage` security-definer fn, private `food-photos` bucket + 4 owner storage policies), `core/quotas.py`, `schemas.py`, `services/{gemini,ai_log,supabase_admin,prompts}.py`, `routers/ai.py` (`POST /ai/analyze-food`). `SUPABASE_SERVICE_ROLE_KEY` + `GEMINI_API_KEY` in `backend/.env`.
+  - **Wave B** (committed `d5f9949`, docs `4c1a1f3`): `expo-camera` + `expo-image-picker` + `expo-image-manipulator` (+ app.json camera/photo plugins); `features/nutrition/{ai,photo}.ts` (analyze call, quota query, resize+upload to `food-photos/{uid}/`); S18 `app/meal/scan` (camera + gallery, busy/error/429 states); S19 `app/meal/confirm` (editable estimate, serving rescale, confidence chip, disclaimer, quota meter, slot, log → `source=photo` + `photo_path` + `ai_raw`); S17 "Scan food" wired; shared `MacroEdit`/`ConfidenceChip`.
+  - **Wave C** (committed `2b78635`/`3fa354d`, docs `cab3347`): `0007_food_catalog` — new `foods` table (global/custom; RLS: globals readable by authed users, customs owner-only) seeded with **1,014 Anuvaad INDB recipes** (`scripts/build_foods_seed.py` → `app/data/foods_seed.json`). S17 **Search foods** autofill.
+  - **Fixes** (committed `9a8a2cf` → `d36ad74`): image-mime fix (RN uploaded `text/plain` → Gemini tokenized bytes as text and hallucinated; now uploads `ArrayBuffer` + `contentType: image/jpeg`, backend infers mime from extension); Gemini model default `gemini-3.1-flash-lite` + fallback on model-not-found; `0008_food_per_gram` (INDB rows per 100 g + Amount (g) scaling); `0008b_ai_quota_timezone` (quota day = Pacific midnight); `GET /foods/search` merges INDB + **Open Food Facts** packaged products (ODbL); Today ring = burnt / Nutrition ring = eaten; real app id `in.ashiswadhwani.vulcan`.
+  - **Verified:** device pass confirmed by user 2026-09-28; `tsc` clean · `expo lint` clean · vitest 64/64 · pytest 31/31 · web export OK. `PHASE-4` "Done when" checked; `PLAN.md` §10 Phase 4 ✅.
+- **Phase 5 — AI Program Generation (NEXT, code not started).** `phases/PHASE-5-ai-programs.md` now has a **5-wave plan**: A schema `0009_programs` + `program_context.py`; B `POST /ai/generate-program` + materialization (+ `GET /ai/program/active`); C S25 generate + S26 review; D Train/Today integration; E verification/close. Reuses Phase-4 AI infra (auth → quota → Gemini structured output → log). Head migration to create: `0009_programs`.
 - **Docs:** `README.md` (run backend/frontend/test-on-phone), `frontend/ANDROID-EMULATOR.md` (device/emulator setup).
 
 ---
 
 ## Session log
+
+### 2026-09-28 · Session 27 — Phase 4 closed (device-verified); Phase 5 wave plan
+
+- **Phase 4 device pass confirmed by the user** ("all is working"): scan→analyze→confirm→log, 6th-scan 429, catalog/gram search, burn/eaten rings. Backend `pytest` **31/31**; frontend gates already green (`tsc`/lint/vitest 64/web export).
+- **Phase 4 formally closed:** checked off `PHASE-4` "Done when"; `PLAN.md` §10 Phase 4 → ✅ and project status → Phase 4 complete. No unresolved Phase-4 code.
+- **Ops notes (not code):**
+  - Supabase project `trjtcfnmqufrqxhwhrtk` had **auto-paused** (free tier, ~9 days idle) → every `/auth/v1/*` route returned 502, surfacing as `{"message":"Bad Gateway"}` on Google sign-in. User restored it from the dashboard.
+  - AVD `Medium_Phone_API_36.0` had a **corrupt quick-boot snapshot** (`emulator-5554 offline`); fixed by cold booting (`-no-snapshot-load`). Added a **"Boot the Android emulator manually"** section to `README.md` (incl. the `fastboot.forceColdBoot=yes` permanent fix).
+- **Phase 5 planned:** added a **5-wave build order** to `phases/PHASE-5-ai-programs.md` — A schema `0009_programs` + `program_context.py`; B `POST /ai/generate-program` + materialization (+ `GET /ai/program/active`); C S25 generate + S26 review; D Train/Today integration; E verification/close. Reuses the Phase-4 AI pipeline.
+- **Next:** start **Phase 5 Wave A** (`0009_programs` migration + `program_context.py`), wave-by-wave.
+
+---
+
+### 2026-09-27 · Session 26 — Phase 4 status audit; ready for the device pass
+
+- Confirmed **Phase 4 is code-complete and committed** on `feat/steps-budget` (head `d36ad74`, working tree clean; migrations `0001`→`0008b`). Corrected the stale "Current state" section above (it still reported wave B/C as uncommitted and the branch as Phase 3).
+- No unresolved Phase-4 code. Remaining to close the phase = the device pass + the PHASE-4 "Done when" manual checks.
+- **Next:** run the device checklist (rebuild for camera → scan/confirm/log, gram search, burn ring, 6th-scan 429, `ai_calls`/`ai_usage`, storage privacy); then check off `PHASE-4`, set `PLAN.md` §10 Phase 4 ✅ + project status, and commit.
+
+---
 
 ### 2026-09-18 · Session 25 — Phase 4 fixes round 2: per-100g catalog, default-closed add, prompt v2
 

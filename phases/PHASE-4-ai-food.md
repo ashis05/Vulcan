@@ -38,13 +38,15 @@ A global, searchable food/recipe table so "Quick add" and food search can autofi
 
 ## Done when
 
-- [ ] Real food photo → editable estimate → confirmed meal appears in diary + rings update
-- [ ] 6th scan in a day → friendly 429 sheet; `ai_usage` row shows the count
-- [ ] Every call logged in `ai_calls` with tokens + latency (check Supabase)
-- [ ] Photo is private: another user cannot access the storage object (signed URL test)
-- [ ] Confidence = low estimates still work (user edits freely)
-- [ ] Food catalog seeded; searching a dish/food from S17 autofills name + serving + macros and logs correctly (source chosen at kickoff)
-- [ ] `pytest` passes: quota allow/deny, Gemini response parsing (mocked client), auth required
+- [x] Real food photo → editable estimate → confirmed meal appears in diary + rings update
+- [x] 6th scan in a day → friendly 429 sheet; `ai_usage` row shows the count
+- [x] Every call logged in `ai_calls` with tokens + latency (check Supabase)
+- [x] Photo is private: another user cannot access the storage object (signed URL test)
+- [x] Confidence = low estimates still work (user edits freely)
+- [x] Food catalog seeded; searching a dish/food from S17 autofills name + serving + macros and logs correctly (source chosen at kickoff)
+- [x] `pytest` passes: quota allow/deny, Gemini response parsing (mocked client), auth required
+
+> Device pass confirmed by the user 2026-09-28 (scan→confirm→log, 429, catalog search, rings). Backend `pytest` 31/31 · frontend `vitest` 64/64 · `tsc`/`expo lint` clean. **Phase 4 complete.**
 
 ## Test plan
 
