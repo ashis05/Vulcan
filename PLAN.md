@@ -15,7 +15,7 @@
 4. When a phase is complete, update its status in the phase table below and check off its items.
 5. Make **minimal, modular** changes. Follow existing code style. Do not expand scope beyond the phase file.
 
-**Project status:** ✅ Phase 4 complete — AI food logging (photo → macros), quota system, AI infra (Gemini + `ai_calls`), Anuvaad INDB catalog + Open Food Facts packaged search. Next: `phases/PHASE-5-ai-programs.md`.
+**Project status:** ✅ Phase 5 complete — AI program generation (profile + training history → Gemini → materialized editable routines), one-active invariant, program quota. Next: `phases/PHASE-6-physique.md`.
 
 ---
 
@@ -207,7 +207,7 @@ Lives in `frontend/src/engine/`. No I/O, no framework imports — deterministic 
 | 2 | `phases/PHASE-2-gym-tracker.md` | Full workout logging core (offline-tolerant) | ✅ |
 | 3 | `phases/PHASE-3-steps-budget.md` | Health Connect steps, calorie budget, weight, manual meals | ✅ |
 | 4 | `phases/PHASE-4-ai-food.md` | First AI route: food photo → macros, quota system | ✅ |
-| 5 | `phases/PHASE-5-ai-programs.md` | AI program generation → editable routines | ⬜ |
+| 5 | `phases/PHASE-5-ai-programs.md` | AI program generation → editable routines | ✅ |
 | 6 | `phases/PHASE-6-physique.md` | Physique check-ins, analysis, feedback loop into programs | ⬜ |
 | 7 | `phases/PHASE-7-launch.md` | Hardening, deploy API to Oracle, Play Store internal release | ⬜ |
 

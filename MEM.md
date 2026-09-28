@@ -12,8 +12,8 @@ Continuing the project from anywhere. This file is the session log and current-s
 
 ## Current state
 
-- **Active branch:** `feat/steps-budget` (Phases 3–4). `master` = Phase 2 complete, pushed to `origin` (`github.com/ashis05/Vulcan`).
-- **Branches:** `master` (through Phase 2) · `feat/gym-tracker` (merged to master) · `feat/steps-budget` (Phases 3–4, current) · historical: `feat/onboarding`, `frontend`, `feat/auth`.
+- **Active branch:** `feat/ai-programs` (Phases 5). `master` = Phase 2 complete, pushed to `origin` (`github.com/ashis05/Vulcan`).
+- **Branches:** `master` (through Phase 2) · `feat/gym-tracker` (merged to master) · `feat/steps-budget` (Phases 3–4) · `feat/ai-programs` (Phase 5, current) · historical: `feat/onboarding`, `frontend`, `feat/auth`.
 - **Frontend** (`frontend/`): Expo SDK 57 · expo-router (new `js-tabs`) · React Native 0.86 · TypeScript · NativeWind v5 preview + Tailwind v4 · fonts (Space Grotesk/Inter) · DESIGN tokens in `src/theme/` + `src/global.css` (`@theme`).
 - **Routes:** `/` = **splash** (`src/app/index.tsx`, S1 ember ignite → wordmark → redirects `/welcome`, `/onboarding`, or `/today`) · `(auth)/welcome` · `(onboarding)` · `(tabs)/today|nutrition|train|progress|profile`. `Stack.Protected` gates `(auth)` / `(onboarding)` / `(tabs)`.
 - **Auth (Google-only UI):** welcome screen offers **Google sign-in only** (email button removed; `login`/`signup`/`forgot-password` route files still exist but unreachable — candidate for deletion). Google flow: PKCE (`src/lib/oauth.ts`, client `flowType:'pkce'`, redirect `vulcan://`), deep-link fallback via `Linking.addEventListener`, WebCrypto polyfill (`react-native-quick-crypto`) for SHA-256. Works end-to-end on device. Session persisted in SecureStore.
@@ -34,12 +34,31 @@ Continuing the project from anywhere. This file is the session log and current-s
   - **Wave C** (committed `2b78635`/`3fa354d`, docs `cab3347`): `0007_food_catalog` — new `foods` table (global/custom; RLS: globals readable by authed users, customs owner-only) seeded with **1,014 Anuvaad INDB recipes** (`scripts/build_foods_seed.py` → `app/data/foods_seed.json`). S17 **Search foods** autofill.
   - **Fixes** (committed `9a8a2cf` → `d36ad74`): image-mime fix (RN uploaded `text/plain` → Gemini tokenized bytes as text and hallucinated; now uploads `ArrayBuffer` + `contentType: image/jpeg`, backend infers mime from extension); Gemini model default `gemini-3.1-flash-lite` + fallback on model-not-found; `0008_food_per_gram` (INDB rows per 100 g + Amount (g) scaling); `0008b_ai_quota_timezone` (quota day = Pacific midnight); `GET /foods/search` merges INDB + **Open Food Facts** packaged products (ODbL); Today ring = burnt / Nutrition ring = eaten; real app id `in.ashiswadhwani.vulcan`.
   - **Verified:** device pass confirmed by user 2026-09-28; `tsc` clean · `expo lint` clean · vitest 64/64 · pytest 31/31 · web export OK. `PHASE-4` "Done when" checked; `PLAN.md` §10 Phase 4 ✅.
-- **Phase 5 — AI Program Generation (NEXT, code not started).** `phases/PHASE-5-ai-programs.md` now has a **5-wave plan**: A schema `0009_programs` + `program_context.py`; B `POST /ai/generate-program` + materialization (+ `GET /ai/program/active`); C S25 generate + S26 review; D Train/Today integration; E verification/close. Reuses Phase-4 AI infra (auth → quota → Gemini structured output → log). Head migration to create: `0009_programs`.
+- **Phase 5 — AI Program Generation — ✅ COMPLETE (`feat/ai-programs`; commits `537e3b6` → `049c5f9`).** Waves: A schema `0009_programs` + `program_context.py`; B `/ai/generate-program` + materialization + `/ai/program/active`; C S25 forge + S26 review; D Train/Today integration; E verification.
+  - **`0009_programs` applied** to the live DB: `programs` (status active/archived, `goal_snapshot`/`payload` jsonb, `rationale`, `prompt_version`), partial unique index `programs_one_active_key` (one active/user), owner RLS (4 policies), `routines.program_id → programs` FK + index. Repo head = `0009_programs`.
+  - **Backend:** `services/program_context.py` (profile + 12 wks: best e1RM, weekly volume, frequency, stalls — mirrors `engine/strength.ts`; `latest_focus_areas()` degrades gracefully pre-Phase-6); `services/program_materialize.py` (`save_program` archives previous active, inserts program, materializes **week 1** as `routines(source='ai')` + `routine_exercises`, case-insensitive name match, creates customs for unmatched); `gemini.generate_program` (shared retry/fallback path with `analyze_food_image`); `routers/ai.py` (`POST /ai/generate-program`, `GET /ai/program/active`); `core/quotas.py` windowed quota (`check_once_per_days` + `record_use`, `window_resets_at`; recorded only on success).
+  - **Frontend:** `features/programs/` (types, api, hooks, components incl. `ProgramBanner`/`WeekTabs`/`DayCard`/`ProgramQuotaMeter`); `app/program/{_layout,generate,review}.tsx` (S25 forge overlay + quota meter; S26 week tabs/day cards/rationale/Regenerate/Apply + editable name); program banner + rationale on Train/S8/Today; routes guarded.
+  - **Verified:** `pytest` **50/50** · `vitest` 64/64 · `tsc`/`expo lint` clean · web export OK · migration `alembic current = 0009_programs` with RLS/index/FK confirmed · live DB smoke: materialization created routines+sets+custom for an unmatched name, regeneration left exactly one active (old archived), auth 401 unauthenticated, `check_once_per_days` returns allow with no prior use.
+  - **Note:** constraint adherence (days/week, equipment, injuries) is prompt-enforced, not yet verified across 3 real profiles on device.
+- **Phase 6 — Physique Analysis & Check-ins (NEXT, code not started).** `phases/PHASE-6-physique.md`: `0010_physique` (`progress_photos` + private `progress-photos` bucket), `POST /ai/analyze-physique` (quota 1/7 d, refusal → 422 without consuming quota), S22 check-in + S24 analysis, progress grid/compare slider, focus areas → next program (already wired via `latest_focus_areas`).
 - **Docs:** `README.md` (run backend/frontend/test-on-phone), `frontend/ANDROID-EMULATOR.md` (device/emulator setup).
 
 ---
 
 ## Session log
+
+### 2026-09-28 · Session 28 — Phase 5 waves A–E: AI program generation (complete)
+
+- **Branch `feat/ai-programs`** off `feat/steps-budget` (which carried the Phase-4 close-out docs).
+- **Wave A** (`537e3b6`): `Program` model + Alembic `0009_programs` (one-active partial unique index, owner RLS, `routines.program_id` FK) **applied** (`alembic current = 0009_programs`); `services/program_context.py` (pure `summarize_context`/`estimated_1rm`/`detect_stall` mirroring `engine/strength.ts`) + `tests/test_program_context.py`. `pytest` 37/37.
+- **Wave B** (`8bf1f16`): `schemas.py` program models; `gemini.generate_program` (shared retry/fallback `_invoke_models`/`_parse_model`, `analyze_food_image` refactored onto it); `services/program_materialize.py` (archive previous → insert program → materialize **week 1** routines + customs for unmatched names); `routers/ai.py` (`POST /ai/generate-program`, `GET /ai/program/active`); `core/quotas.py` windowed 7-day quota (`check_once_per_days`/`record_use`/`window_resets_at`, recorded only on success). Tests → `pytest` 50/50.
+- **Wave C** (`2d7a59c`): `features/programs/` (types/api/hooks/components) + S25 `app/program/generate.tsx` (snapshot, focus field, quota meter, reduce-motion-aware forge overlay) + S26 `app/program/review.tsx` (week tabs, day cards, progression, rationale CoachNote, Regenerate/Apply, editable name). Fixed lint (`setState`-in-effect → child-key pattern; `useRef().current`/`interpolate` → `useMemo` `Animated.Value`).
+- **Wave D** (`049c5f9`): `ProgramBanner` on Train + Today; AI-routine rationale on S8; Today coach-note copy refreshed.
+- **Wave E (verification):** `pytest` 50/50 · `vitest` 64/64 · `tsc`/`expo lint` clean · web export OK. Live: `GET /health` ok, OpenAPI exposes `/ai/generate-program` + `/ai/program/active`; unauth → **401**; live `save_program` smoke on a real profile materialized routines+sets and **created a custom for an unmatched exercise**, regeneration left **exactly one active** (old archived), then cleaned up. Phase-5 "Done when" checked; `PLAN.md` §10 Phase 5 ✅ + status.
+- **Caveat:** constraint adherence (days/week, equipment, injuries) is prompt-enforced; not yet verified across 3 real profiles on device.
+- **Next:** Phase 6 — physique analysis (`0010_physique`, `progress-photos` bucket, `POST /ai/analyze-physique`, S22/S24, progress grid + compare slider).
+
+---
 
 ### 2026-09-28 · Session 27 — Phase 4 closed (device-verified); Phase 5 wave plan
 

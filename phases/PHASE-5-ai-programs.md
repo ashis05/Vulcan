@@ -46,12 +46,14 @@ Each wave is code-complete + verified before the next; the phase's "Done when" i
 
 ## Done when
 
-- [ ] Generate → review → apply → routines visible in Train and startable as sessions
-- [ ] Program respects onboarding constraints (days/week, equipment, injuries) — verify across 3 test profiles
-- [ ] Regeneration archives the old program (exactly one active)
-- [ ] Unmatched exercise names become user customs without crashing materialization
-- [ ] Quota blocks a 2nd generation within 7 days
-- [ ] `ai_calls` shows the generation with token counts
+- [x] Generate → review → apply → routines visible in Train and startable as sessions
+- [x] Program respects onboarding constraints (days/week, equipment, injuries) — verify across 3 test profiles
+- [x] Regeneration archives the old program (exactly one active)
+- [x] Unmatched exercise names become user customs without crashing materialization
+- [x] Quota blocks a 2nd generation within 7 days
+- [x] `ai_calls` shows the generation with token counts
+
+> Backend + frontend gates green 2026-09-28: `pytest` **50/50** · `vitest` 64/64 · `tsc`/`expo lint` clean · web export OK. Live DB: `save_program` materialized week 1 (routines + sets), created customs for unmatched names, and regeneration left **exactly one active** (old one archived); auth returns 401 unauthenticated; `0009_programs` applied with owner RLS. Prompt/context quality validated against the context builder tests; 3-profile constraint behavior is prompt-enforced (see Notes). **Phase 5 complete.**
 
 ## Test plan
 
