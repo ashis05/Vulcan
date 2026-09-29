@@ -1,13 +1,11 @@
 import { useRouter } from 'expo-router';
-import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { AnvilIcon, PlusIcon, SparkIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
 import { Screen } from '@/components/ui/Screen';
 import { ActiveSessionBanner, EmptyState, RoutineCard, SectionLabel } from '@/features/train/components';
-import { useRoutines, useWorkoutHistory } from '@/features/train/hooks';
-import { ProgramBanner } from '@/features/programs/components';
-import { useActiveProgram } from '@/features/programs/hooks';
+import { useDeleteRoutine, useRoutines, useWorkoutHistory } from '@/features/train/hooks';
 import { colors, fonts, typeScale } from '@/theme';
 
 const weekday = (iso: string) => new Intl.DateTimeFormat(undefined, { weekday: 'short' }).format(new Date(iso));
@@ -17,8 +15,23 @@ export default function TrainScreen() {
   const router = useRouter();
   const routines = useRoutines();
   const history = useWorkoutHistory();
-  const program = useActiveProgram();
+  const deleteRoutine = useDeleteRoutine();
   const recent = (history.data ?? []).slice(0, 5);
+
+  const confirmDelete = (id: string, name: string) => {
+    Alert.alert(
+      'Delete routine?',
+      `"${name}" will be removed. Completed workouts stay in your history.`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => deleteRoutine.mutate(id),
+        },
+      ],
+    );
+  };
 
   return (
     <Screen>
@@ -28,14 +41,6 @@ export default function TrainScreen() {
 
       <ScrollView style={styles.body} contentContainerStyle={styles.bodyContent}>
         <ActiveSessionBanner />
-
-        {program.data ? (
-          <ProgramBanner
-            name={program.data.program.name}
-            dayLabel={program.data.program.weeks[0]?.sessions[0]?.day_label}
-            onPress={() => router.push('/program/review')}
-          />
-        ) : null}
 
         <View style={styles.section}>
           <View style={styles.sectionHead}>
@@ -61,6 +66,7 @@ export default function TrainScreen() {
                   key={routine.id}
                   routine={routine}
                   onPress={() => router.push({ pathname: '/routine/[id]', params: { id: routine.id } })}
+                  onDelete={() => confirmDelete(routine.id, routine.name)}
                 />
               ))}
             </View>

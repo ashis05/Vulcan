@@ -11,8 +11,6 @@ import { RingProgress } from '@/components/ui/RingProgress';
 import { Screen } from '@/components/ui/Screen';
 import { StatTile } from '@/components/ui/StatTile';
 import { ActiveSessionBanner } from '@/features/train/components';
-import { ProgramBanner } from '@/features/programs/components';
-import { useActiveProgram } from '@/features/programs/hooks';
 import { useDayMeals, useMealsRange } from '@/features/nutrition/hooks';
 import { currentStreak, mealTotals } from '@/features/nutrition/types';
 import { ConnectStepsBanner } from '@/features/today/connect-steps-banner';
@@ -45,7 +43,6 @@ export default function TodayScreen() {
   const meals = useDayMeals(today);
   const activity = useDailyActivity(8);
   const weights = useWeights(8);
-  const program = useActiveProgram();
   const granted = useHasStepsPermission();
   useAutoSyncSteps(granted.data === true);
 
@@ -107,14 +104,6 @@ export default function TodayScreen() {
         </View>
 
         <ActiveSessionBanner />
-
-        {program.data ? (
-          <ProgramBanner
-            name={program.data.program.name}
-            dayLabel={program.data.program.weeks[0]?.sessions[0]?.day_label}
-            onPress={() => router.push('/program/review')}
-          />
-        ) : null}
 
         <View style={styles.hero}>
           <View style={styles.heroTop}>

@@ -3,7 +3,7 @@ import { useRouter } from 'expo-router';
 import { Image } from 'expo-image';
 import { Pressable, StyleSheet, Text, View, type TextStyle } from 'react-native';
 
-import { CheckIcon, ChevronRightIcon } from '@/components/icons';
+import { CheckIcon, ChevronRightIcon, TrashIcon } from '@/components/icons';
 import { colors, fonts, radius, typeScale } from '@/theme';
 
 import { useActiveSession } from './session-store';
@@ -73,7 +73,15 @@ function summarizeMuscles(routine: Routine): string {
   return seen.join(' · ');
 }
 
-export function RoutineCard({ routine, onPress }: { routine: Routine; onPress: () => void }) {
+export function RoutineCard({
+  routine,
+  onPress,
+  onDelete,
+}: {
+  routine: Routine;
+  onPress: () => void;
+  onDelete?: () => void;
+}) {
   const preview = routine.exercises.slice(0, 3).map((e) => e.exercise.name);
   const summary = summarizeMuscles(routine);
   const meta = [summary, `${routine.exercises.length} exercises`].filter(Boolean).join(' · ');
@@ -88,6 +96,17 @@ export function RoutineCard({ routine, onPress }: { routine: Routine; onPress: (
           <Text style={styles.routineName}>{routine.name}</Text>
           <Text style={styles.routineSub}>{meta}</Text>
         </View>
+        {onDelete ? (
+          <Pressable
+            onPress={onDelete}
+            style={styles.deleteBtn}
+            hitSlop={8}
+            accessibilityRole="button"
+            accessibilityLabel={`Delete ${routine.name}`}
+          >
+            <TrashIcon size={17} color={colors.text.muted} />
+          </Pressable>
+        ) : null}
         <ChevronRightIcon size={18} color={colors.text.muted} />
       </View>
       {preview.length > 0 ? (
@@ -212,6 +231,13 @@ const styles = StyleSheet.create({
   routineText: { flex: 1, gap: 4 },
   routineName: { color: colors.text.primary, fontSize: typeScale.body.size, fontWeight: '600' },
   routineSub: { color: colors.text.muted, fontSize: typeScale.caption.size },
+  deleteBtn: {
+    width: 44,
+    height: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: radius.sm,
+  },
   tagRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
   pickerRow: {
     flexDirection: 'row',
