@@ -28,7 +28,7 @@
 - [x] Focus areas from the latest analysis appear in the next generated program's context *(verified live Session 29: `latest_physique_summary()` / `program_context` reads `focus_areas`; forge prefills focus from latest analysis)*
 - [x] Refusal path tested (provocative/low-quality image) → friendly tips, no crash, **quota not consumed** *(`pytest` `test_physique.py`: refusal → 422, `record_use` not called)*
 - [ ] Photos inaccessible to other users (storage RLS test) *(migration `0010_physique` applied with 4 owner storage policies; cross-user test not yet run)*
-- [ ] Compare slider works between any two check-ins *(S23 not built; `compare_to` accepted by the API)*
+- [x] Compare slider works between any two check-ins *(S23 `app/progress/compare.tsx`: auto first-vs-latest per pose, draggable wipe slider; entry from Progress tab needs ≥2 check-ins of a pose; `vitest` `compare.test.ts` covers pair selection)*
 - [x] 4-week check-in reminder *(opt-in local notification, `features/progress/reminder.ts`; toggle on the Progress tab; `vitest` `reminder.test.ts` covers schedule/reschedule/deny/cancel)*
 
 ## Test plan
