@@ -9,13 +9,19 @@ from zoneinfo import ZoneInfo
 
 from sqlalchemy import text
 
+from app.core.config import settings
 from app.db import create_db_engine
 
 PACIFIC = ZoneInfo("America/Los_Angeles")
 
+# Sentinel for a disabled quota: high enough that no real usage reaches it.
+UNLIMITED = 2_147_483_647
+
 
 def increment_usage(user_id: str, feature: str, limit: int) -> bool:
     """Increment the user's daily counter for `feature`. False → quota exhausted."""
+    if not settings.quota_enabled:
+        limit = UNLIMITED
     engine = create_db_engine()
     with engine.begin() as conn:
         allowed = conn.execute(
@@ -42,6 +48,8 @@ def check_once_per_days(user_id: str, feature: str, days: int) -> tuple[bool, da
     Read-only — recording happens via `record_use` so a failed generation doesn't
     consume the window. Returns (allowed, last_used_date).
     """
+    if not settings.quota_enabled:
+        return True, None
     engine = create_db_engine()
     today = pacific_today()
     with engine.connect() as conn:
@@ -64,8 +72,8 @@ def record_use(user_id: str, feature: str) -> None:
     engine = create_db_engine()
     with engine.begin() as conn:
         conn.execute(
-            text("select public.increment_ai_usage(cast(:u as uuid), :f, 2147483647)"),
-            {"u": user_id, "f": feature},
+        text("select public.increment_ai_usage(cast(:u as uuid), :f, :limit)"),
+        {"u": user_id, "f": feature, "limit": UNLIMITED},
         )
 
 
