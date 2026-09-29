@@ -1,13 +1,21 @@
 import { useState } from 'react';
 import { useRouter } from 'expo-router';
-import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Switch,
+  Text,
+  View,
+} from 'react-native';
 import { Image } from 'expo-image';
 
 import { CameraIcon, PlusIcon, SparkIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
 import { CoachNote } from '@/components/ui/CoachNote';
 import { Screen } from '@/components/ui/Screen';
-import { useProgressPhotos } from '@/features/progress/hooks';
+import { useCheckInReminder, useProgressPhotos } from '@/features/progress/hooks';
 import { createSignedUrl } from '@/features/progress/api';
 import { POSE_LABELS, type ProgressPhoto } from '@/features/progress/types';
 import { useQuery } from '@tanstack/react-query';
@@ -38,6 +46,7 @@ function PhotoThumb({ photo, onPress }: { photo: ProgressPhoto; onPress: () => v
 export default function ProgressScreen() {
   const router = useRouter();
   const photos = useProgressPhotos();
+  const reminder = useCheckInReminder();
   const list = photos.data ?? [];
   const latestWithAnalysis = list.find((p) => p.analysis);
   const [showAll, setShowAll] = useState(false);
@@ -96,6 +105,22 @@ export default function ProgressScreen() {
                   }
                 />
               ))}
+            </View>
+
+            <View style={styles.reminderRow}>
+              <View style={styles.reminderText}>
+                <Text style={styles.reminderTitle}>Monthly check-in reminder</Text>
+                <Text style={styles.reminderSub}>
+                  A gentle nudge every 4 weeks to take new photos.
+                </Text>
+              </View>
+              <Switch
+                value={reminder.enabled}
+                disabled={reminder.isLoading || reminder.toggle.isPending}
+                onValueChange={(next) => reminder.toggle.mutate(next)}
+                trackColor={{ false: colors.bg.overlay, true: colors.accent.ember500 }}
+                thumbColor={colors.text.primary}
+              />
             </View>
 
             <Button
@@ -169,4 +194,17 @@ const styles = StyleSheet.create({
   },
   thumbPose: { color: colors.text.primary, fontSize: typeScale.caption.size, fontWeight: '600' },
   thumbDate: { color: colors.text.muted, fontSize: typeScale.caption.size },
+  reminderRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: colors.border.hairline,
+    borderRadius: radius.md,
+    backgroundColor: colors.bg.card,
+  },
+  reminderText: { flex: 1, gap: 2 },
+  reminderTitle: { color: colors.text.primary, fontSize: typeScale.body.size, fontWeight: '600' },
+  reminderSub: { color: colors.text.muted, fontSize: typeScale.caption.size },
 });

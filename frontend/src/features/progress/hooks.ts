@@ -5,6 +5,11 @@ import { useAuth } from '@/lib/use-auth';
 
 import * as api from './api';
 import { uploadProgressPhoto } from './photo';
+import {
+  cancelCheckInReminder,
+  isReminderEnabled,
+  scheduleCheckInReminder,
+} from './reminder';
 import type { PhotoPose, PhysiqueAnalysis } from './types';
 
 async function accessToken(): Promise<string> {
@@ -41,8 +46,7 @@ export function useDeleteProgressPhoto() {
   });
 }
 
-/** Analyze one or more stored photos, persisting the analysis onto the check-in row. */
-export function useAnalyzePhysique() {
+/** Analyze one or more stored photos, persisting the analysis onto the check-in row. */export function useAnalyzePhysique() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({
@@ -63,4 +67,23 @@ export function useAnalyzePhysique() {
       queryClient.invalidateQueries({ queryKey: ['program'] });
     },
   });
+}
+
+/** The 4-week check-in reminder opt-in (local notification, skippable). */
+export function useCheckInReminder() {
+  const queryClient = useQueryClient();
+  const enabled = useQuery({ queryKey: ['check-in-reminder'], queryFn: isReminderEnabled });
+
+  const toggle = useMutation({
+    mutationFn: async (next: boolean): Promise<boolean> => {
+      if (!next) {
+        await cancelCheckInReminder();
+        return false;
+      }
+      return scheduleCheckInReminder();
+    },
+    onSuccess: (value) => queryClient.setQueryData(['check-in-reminder'], value),
+  });
+
+  return { enabled: enabled.data ?? false, isLoading: enabled.isPending, toggle };
 }
