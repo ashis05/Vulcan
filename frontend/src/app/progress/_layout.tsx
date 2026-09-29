@@ -12,6 +12,7 @@ export default function ProgressLayout() {
     >
       <Stack.Screen name="checkin" options={{ presentation: 'modal' }} />
       <Stack.Screen name="analysis" />
+      <Stack.Screen name="compare" />
     </Stack>
   );
 }

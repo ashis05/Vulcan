@@ -11,12 +11,13 @@ import {
 } from 'react-native';
 import { Image } from 'expo-image';
 
-import { CameraIcon, PlusIcon, SparkIcon } from '@/components/icons';
+import { CameraIcon, ChartIcon, PlusIcon, SparkIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
 import { CoachNote } from '@/components/ui/CoachNote';
 import { Screen } from '@/components/ui/Screen';
 import { useCheckInReminder, useProgressPhotos } from '@/features/progress/hooks';
 import { createSignedUrl } from '@/features/progress/api';
+import { pickComparePair, posesWithPhotos } from '@/features/progress/compare';
 import { POSE_LABELS, type ProgressPhoto } from '@/features/progress/types';
 import { useQuery } from '@tanstack/react-query';
 import { colors, fonts, radius, typeScale } from '@/theme';
@@ -49,6 +50,7 @@ export default function ProgressScreen() {
   const reminder = useCheckInReminder();
   const list = photos.data ?? [];
   const latestWithAnalysis = list.find((p) => p.analysis);
+  const canCompare = posesWithPhotos(list).some((pose) => pickComparePair(list, pose));
   const [showAll, setShowAll] = useState(false);
   const visible = showAll ? list : list.slice(0, 6);
 
@@ -106,6 +108,15 @@ export default function ProgressScreen() {
                 />
               ))}
             </View>
+
+            {canCompare ? (
+              <Button
+                label="Compare first vs latest"
+                variant="secondary"
+                leading={<ChartIcon size={18} color={colors.accent.ember500} />}
+                onPress={() => router.push('/progress/compare')}
+              />
+            ) : null}
 
             <View style={styles.reminderRow}>
               <View style={styles.reminderText}>
