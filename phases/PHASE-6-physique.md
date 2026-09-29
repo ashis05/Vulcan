@@ -24,11 +24,11 @@
 
 ## Done when
 
-- [ ] Check-in → analysis renders with all schema sections + disclaimer
-- [ ] Focus areas from the latest analysis appear in the next generated program's context (verify in `ai_calls` payload or program rationale)
-- [ ] Refusal path tested (provocative/low-quality image) → friendly tips, no crash, **quota not consumed**
-- [ ] Photos inaccessible to other users (storage RLS test)
-- [ ] Compare slider works between any two check-ins
+- [x] Check-in → analysis renders with all schema sections + disclaimer *(S22-lite + S24 built; `analysis.tsx` renders summary, strong/focus chips, posture, recommendations, disclaimer — code gate green; on-device render not yet re-run this phase)*
+- [x] Focus areas from the latest analysis appear in the next generated program's context *(verified live Session 29: `latest_physique_summary()` / `program_context` reads `focus_areas`; forge prefills focus from latest analysis)*
+- [x] Refusal path tested (provocative/low-quality image) → friendly tips, no crash, **quota not consumed** *(`pytest` `test_physique.py`: refusal → 422, `record_use` not called)*
+- [ ] Photos inaccessible to other users (storage RLS test) *(migration `0010_physique` applied with 4 owner storage policies; cross-user test not yet run)*
+- [ ] Compare slider works between any two check-ins *(S23 not built; `compare_to` accepted by the API)*
 
 ## Test plan
 

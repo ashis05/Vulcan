@@ -48,12 +48,25 @@ Continuing the project from anywhere. This file is the session log and current-s
   - **Forge button (was missing):** Train tab now has a primary **"Forge a program"** button → `/program/generate`. Forge screen shows a "From your physique check-in" card and **prefills the focus field** with the latest analysis focus areas (editable).
   - **Verified:** `pytest` **55/55** (+`test_physique.py`) · vitest 64/64 · `tsc` clean · `expo lint` clean · web export OK · live: `/ai/analyze-physique` present + auth 401 unauth; live DB check confirmed `progress_photos` analysis `focus_areas` flow into program context (`latest_physique_summary`) then cleaned up.
   - **Still TODO for full Phase 6:** photo **compare slider (S23)**, 4-week check-in **reminder** notification, progress **grid by month**, `progress_photos` RLS/storage **cross-user test**, real **physique Gemini call on device** (not yet run live), and Phase-6 "Done when" checklist.
-- **Open issue (unresolved):** Metro **"Unable to resolve ./photo"** from `features/progress/hooks.ts` when bundling for Android. The file exists on disk (committed) and `@/lib/id` resolves — likely a stale Metro cache. **Not yet fixed.** Next session: `npx expo start -c` (clear cache); if it persists, investigate the progress feature dir / config plugin. Nothing else in Phase 5/6 blocks on it (all gates green).
+- **Open issue (unresolved):** Metro **"Unable to resolve ./photo"** from `features/progress/hooks.ts` when bundling for Android (reported Session 29). File exists on disk + committed; `@/lib/id` resolves. **Not re-verified Session 30** (the app was running from a bundle that already contained the progress feature, so resolution appears fine at runtime). If it recurs: `npx expo start -c`. Nothing in Phase 5/6 blocks on it (all gates green).
+- **Phase 6 code status (Session 30):** essentials built early (Session 29) + polish this session. **All code gates green** (pytest 57/57 · vitest 64/64 · tsc/lint clean). Still open for full Phase 6: compare slider (S23), 4-week check-in reminder, progress grid by month, and the manual device + storage RLS checks in the PHASE-6 "Done when" list. See Session 30 log.
 - **Docs:** `README.md` (run backend/frontend/test-on-phone + manual emulator boot), `frontend/ANDROID-EMULATOR.md` (device/emulator setup).
 
 ---
 
 ## Session log
+
+### 2026-09-30 · Session 30 — UI polish, routine delete, quota toggle, program-delete diagnostics
+
+- **Routine delete (Train page):** added a small trash affordance to `RoutineCard` (`features/train/components.tsx`, optional `onDelete` prop, 44px target) wired on the Train tab with a confirm `Alert`. Deletes via the existing `useDeleteRoutine`. **History preserved** — `workouts.routine_id` is `ON DELETE SET NULL`, so past workouts/sets stay; confirm copy says so.
+- **Forge button + banner:** removed the raised floating Train tab; `TabBar.tsx` now renders Train as a normal tab (icon + label, ember tint on focus). Removed the **"Active AI program" banner** from Train and Today (deleted the now-unused `ProgramBanner` + styles). Applied program now shows on the **Forge page** as a new `ActiveProgramCard` (name, days/week, tap → review).
+- **Quota toggle (dev):** new `QUOTA_ENABLED` (default `true`) on the backend; `false` disables all three AI quotas (food/program/physique) — `quotas.py` short-circuits with an `UNLIMITED` sentinel; counters still record. Frontend mirror `EXPO_PUBLIC_AI_QUOTA_ENABLED` (via `AI_QUOTA_ENABLED` in `features/nutrition/ai.ts`) hides the food-scan meter and the program forge gate. `.env.example` (both) documented; `backend/.env` set `QUOTA_ENABLED=false`, `frontend/.env` set `EXPO_PUBLIC_AI_QUOTA_ENABLED=false` (both gitignored). Tests +2 → **pytest 57/57**.
+- **`/ai/program/active` 404 diagnosis:** the route is registered in OpenAPI and an authenticated call with a real user token returned **200**; the 404 body is the expected `{"error":"no_active_program"}` (no active program row), which the app maps to `null` (no banner). Verified by minting a session via the Supabase admin API and calling the live endpoint; DB inspected (0 programs at the time), generated + materialized a smoke program via the real pipeline (4 routines, 13 customs), then cleaned it up. Conclusion: backend + route are fine; a visible POST failure was most likely the long-running uvicorn serving stale code (restart required) or a stale Metro bundle.
+- **Env caveat:** Expo inlines `EXPO_PUBLIC_*` at Metro startup and caches it — adding/changing a var requires **`npx expo start -c`**. Confirmed the running bundle's HMR env block was missing the new var. Backend `.env` changes need a uvicorn restart.
+- **Docs:** PHASE-6 + PLAN updated for status; MEM current-state refreshed.
+- **Next:** restart dev servers (`npx expo start -c` + uvicorn) so the new env vars take effect; then the Phase-6 manual device pass (check-in → analyze → forge focus prefill) and the remaining Phase-6 items (compare slider S23, 4-week reminder, month grid, cross-user storage RLS test).
+
+---
 
 ### 2026-09-29 · Session 29 — Physique-driven generation + Train forge button (Phase 6 pulled forward)
 

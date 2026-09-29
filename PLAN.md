@@ -15,7 +15,7 @@
 4. When a phase is complete, update its status in the phase table below and check off its items.
 5. Make **minimal, modular** changes. Follow existing code style. Do not expand scope beyond the phase file.
 
-**Project status:** ✅ Phase 5 complete — AI program generation (profile + training history → Gemini → materialized editable routines), one-active invariant, program quota. Next: `phases/PHASE-6-physique.md`.
+**Project status:** Phase 6 in progress — physique analysis essentials + feedback loop into programs are built (code gates green); remaining: compare slider (S23), 4-week reminder, month grid, and the manual device/RLS checks in `phases/PHASE-6-physique.md`.
 
 ---
 
