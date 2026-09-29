@@ -16,10 +16,11 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Screen } from '@/components/ui/Screen';
 import { TextField } from '@/components/ui/TextField';
-import { ProgramQuotaMeter } from '@/features/programs/components';
-import { useGenerateProgram, useLastForgedDate } from '@/features/programs/hooks';
+import { ActiveProgramCard, ProgramQuotaMeter } from '@/features/programs/components';
+import { useActiveProgram, useGenerateProgram, useLastForgedDate } from '@/features/programs/hooks';
 import { PROGRAM_WINDOW_DAYS } from '@/features/programs/types';
 import { useProgressPhotos } from '@/features/progress/hooks';
+import { AI_QUOTA_ENABLED } from '@/features/nutrition/ai';
 import { ApiError } from '@/lib/api';
 import { pacificDateString } from '@/lib/dates';
 import { useProfile } from '@/lib/use-profile';
@@ -110,6 +111,7 @@ export default function GenerateProgramScreen() {
   const router = useRouter();
   const profile = useProfile();
   const lastForged = useLastForgedDate();
+  const active = useActiveProgram();
   const photos = useProgressPhotos();
   const generate = useGenerateProgram();
   const [focus, setFocus] = useState('');
@@ -122,6 +124,7 @@ export default function GenerateProgramScreen() {
 
   const today = pacificDateString();
   const elapsedUsed = (() => {
+    if (!AI_QUOTA_ENABLED) return false;
     const last = lastForged.data;
     if (!last) return false;
     const days = Math.round(
@@ -167,6 +170,14 @@ export default function GenerateProgramScreen() {
       </View>
 
       <ScrollView style={styles.body} contentContainerStyle={styles.content}>
+        {active.data ? (
+          <ActiveProgramCard
+            name={active.data.program.name}
+            dayCount={active.data.program.weeks[0]?.sessions.length ?? 0}
+            onPress={() => router.push('/program/review')}
+          />
+        ) : null}
+
         <Card>
           <View style={styles.introHead}>
             <Text style={styles.introTitle}>Forge a program</Text>
@@ -228,7 +239,9 @@ export default function GenerateProgramScreen() {
           multiline
         />
 
-        <ProgramQuotaMeter lastForged={lastForged.data ?? null} today={today} />
+        {AI_QUOTA_ENABLED ? (
+          <ProgramQuotaMeter lastForged={lastForged.data ?? null} today={today} />
+        ) : null}
 
         {error ? <Text style={styles.error}>{error}</Text> : null}
 

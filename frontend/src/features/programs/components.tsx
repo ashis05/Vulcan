@@ -98,63 +98,56 @@ export function DayCard({ session }: { session: ProgramSession }) {
   );
 }
 
-export function ProgramBanner({
+export function ActiveProgramCard({
   name,
-  dayLabel,
+  dayCount,
   onPress,
 }: {
   name: string;
-  dayLabel?: string;
+  dayCount: number;
   onPress: () => void;
 }) {
   return (
-    <Pressable onPress={onPress} style={({ pressed }) => [styles.banner, pressed && styles.pressed]}>
-      <View style={styles.bannerBadge}>
+    <Pressable onPress={onPress} style={({ pressed }) => [styles.activeCard, pressed && styles.pressed]}>
+      <View style={styles.activeHead}>
         <SparkIcon size={14} color={colors.accent.ember500} filled />
+        <Text style={styles.activeLabel}>Active program</Text>
+        <Text style={styles.activeCta}>Review</Text>
       </View>
-      <View style={styles.bannerText}>
-        <Text style={styles.bannerLabel}>Active AI program</Text>
-        <Text style={styles.bannerName} numberOfLines={1}>
-          {name}
-        </Text>
-        {dayLabel ? <Text style={styles.bannerMeta}>{dayLabel}</Text> : null}
-      </View>
-      <Text style={styles.bannerCta}>Review</Text>
+      <Text style={styles.activeName} numberOfLines={1}>
+        {name}
+      </Text>
+      <Text style={styles.activeMeta}>
+        {dayCount} day{dayCount === 1 ? '' : 's'} / week · tap to review or forge a new one
+      </Text>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  banner: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    padding: 14,
-    borderRadius: radius.md,
+  activeCard: {
     borderWidth: 1,
-    borderColor: colors.accent.ember500,
+    borderColor: colors.border.hairline,
+    borderLeftWidth: 3,
+    borderLeftColor: colors.accent.ember500,
+    borderRadius: radius.md,
     backgroundColor: colors.bg.card,
+    padding: 16,
+    gap: 6,
   },
   pressed: { opacity: 0.7 },
-  bannerBadge: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(255,106,0,0.12)',
-  },
-  bannerText: { flex: 1, minWidth: 0, gap: 2 },
-  bannerLabel: {
+  activeHead: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  activeLabel: {
+    flex: 1,
     color: colors.accent.ember500,
     fontSize: typeScale.caption.size,
     fontWeight: '700',
     letterSpacing: 0.5,
     textTransform: 'uppercase',
   },
-  bannerName: { color: colors.text.primary, fontSize: typeScale.body.size, fontWeight: '600' },
-  bannerMeta: { color: colors.text.muted, fontSize: typeScale.caption.size },
-  bannerCta: { color: colors.accent.ember500, fontSize: typeScale.label.size, fontWeight: '700' },
+  activeCta: { color: colors.accent.ember500, fontSize: typeScale.label.size, fontWeight: '700' },
+  activeName: { color: colors.text.primary, fontSize: typeScale.h2.size, fontWeight: '700' },
+  activeMeta: { color: colors.text.muted, fontSize: typeScale.caption.size },
   quota: { gap: 6 },
   quotaTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   quotaLabel: { color: colors.text.secondary, fontSize: typeScale.label.size, fontWeight: '600' },

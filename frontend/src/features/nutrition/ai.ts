@@ -4,7 +4,12 @@ import { supabase } from '@/lib/supabase';
 
 export type FoodConfidence = 'low' | 'medium' | 'high';
 
-/** Must match `QUOTA_FOOD_PER_DAY` on the backend (PLAN.md §7). */
+/**
+ * Must match `QUOTA_FOOD_PER_DAY` on the backend (PLAN.md §7).
+ * Set `EXPO_PUBLIC_AI_QUOTA_ENABLED=false` to hide quota meters and gates
+ * (must mirror the backend `QUOTA_ENABLED`).
+ */
+export const AI_QUOTA_ENABLED = process.env.EXPO_PUBLIC_AI_QUOTA_ENABLED !== 'false';
 export const FOOD_SCAN_LIMIT = 5;
 
 export interface FoodEstimate {

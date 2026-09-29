@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/Button';
 import { Screen } from '@/components/ui/Screen';
 import { TextField } from '@/components/ui/TextField';
 import { ConfidenceChip, MacroEdit, SlotPicker } from '@/features/nutrition/components';
-import { FOOD_SCAN_LIMIT, type FoodEstimate } from '@/features/nutrition/ai';
+import { AI_QUOTA_ENABLED, FOOD_SCAN_LIMIT, type FoodEstimate } from '@/features/nutrition/ai';
 import { useCreateMeal, useFoodScansToday } from '@/features/nutrition/hooks';
 import { slotForTime, type MealSlot } from '@/features/nutrition/types';
 import { localDateString } from '@/lib/dates';
@@ -119,20 +119,22 @@ function ConfirmForm({
         <SlotPicker value={slot} onChange={setSlot} />
       </View>
 
-      <View style={styles.quota}>
-        <View style={styles.quotaTop}>
-          <Text style={styles.quotaLabel}>Food scans today</Text>
-          <Text style={styles.quotaCount}>
-            {scansToday} of {FOOD_SCAN_LIMIT}
+      {AI_QUOTA_ENABLED ? (
+        <View style={styles.quota}>
+          <View style={styles.quotaTop}>
+            <Text style={styles.quotaLabel}>Food scans today</Text>
+            <Text style={styles.quotaCount}>
+              {scansToday} of {FOOD_SCAN_LIMIT}
+            </Text>
+          </View>
+          <View style={styles.quotaTrack}>
+            <View style={[styles.quotaFill, { width: `${usedPct * 100}%` }]} />
+          </View>
+          <Text style={styles.quotaFoot}>
+            {remaining} scan{remaining === 1 ? '' : 's'} left · resets at midnight PT
           </Text>
         </View>
-        <View style={styles.quotaTrack}>
-          <View style={[styles.quotaFill, { width: `${usedPct * 100}%` }]} />
-        </View>
-        <Text style={styles.quotaFoot}>
-          {remaining} scan{remaining === 1 ? '' : 's'} left · resets at midnight PT
-        </Text>
-      </View>
+      ) : null}
 
       <View style={styles.actions}>
         <Pressable onPress={() => router.back()} style={styles.retake}>
