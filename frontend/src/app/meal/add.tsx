@@ -1,6 +1,15 @@
 import { useMemo, useState, type ReactNode } from 'react';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 
 import { ArrowLeftIcon, CameraIcon, ChevronRightIcon, PencilIcon, SearchIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
@@ -84,6 +93,12 @@ export default function AddMealScreen() {
     applyGrams(food, '100');
     setShowSearch(false);
     setShowQuick(true);
+    Keyboard.dismiss();
+  };
+
+  const closeSearch = () => {
+    setShowSearch(false);
+    Keyboard.dismiss();
   };
 
   const onGramsChange = (text: string) => {
@@ -131,6 +146,8 @@ export default function AddMealScreen() {
     });
   };
 
+  const searching = query.trim().length >= 2;
+
   return (
     <Screen>
       <View style={styles.nav}>
@@ -141,175 +158,205 @@ export default function AddMealScreen() {
         <Text style={styles.navTitle}>Add to {date === localDateString(new Date()) ? 'today' : 'day'}</Text>
       </View>
 
-      <ScrollView style={styles.body} contentContainerStyle={styles.content}>
-        <AddOption
-          icon={<CameraIcon size={22} color={colors.text.onAccent} />}
-          title="Scan food"
-          subtitle="Photo → AI macros · adjust before logging"
-          primary
-          onPress={() => router.push({ pathname: '/meal/scan', params: { date } })}
-        />
-        <AddOption
-          icon={<SearchIcon size={22} color={colors.accent.ember400} />}
-          title="Search foods"
-          subtitle="Indian recipes & dishes · autofill macros"
-          onPress={() => setShowSearch((v) => !v)}
-        />
-        <AddOption
-          icon={<PencilIcon size={22} color={colors.accent.ember400} />}
-          title="Quick add"
-          subtitle="Manual kcal + macros"
-          onPress={() => setShowQuick((v) => !v)}
-        />
-        <AddOption
-          icon={<CameraIcon size={22} color={colors.accent.ember400} />}
-          title="Recent meals"
-          subtitle="Re-log something you've eaten"
-          onPress={() => setShowRecent((v) => !v)}
-        />
-
-        {showSearch ? (
-          <View style={styles.searchPanel}>
-            <TextField
-              label="Search foods"
-              placeholder="e.g. biryani, dal, roti, paneer"
-              value={query}
-              onChangeText={setQuery}
-              autoFocus
-            />
-            {search.data && search.data.length > 0 ? (
-              <View style={styles.results}>
-                {search.data.map((food) => (
-                  <Pressable
-                    key={food.id}
-                    onPress={() => applyFood(food)}
-                    style={({ pressed }) => [styles.resultItem, pressed && styles.pressed]}
-                  >
-                    <View style={styles.resultText}>
-                      <Text style={styles.resultName} numberOfLines={1}>
-                        {food.name}
-                      </Text>
-                      <Text style={styles.resultMeta} numberOfLines={1}>
-                        per {food.servingDescription} · P {Math.round(food.proteinG)} · C{' '}
-                        {Math.round(food.carbsG)} · F {Math.round(food.fatG)}
-                      </Text>
-                    </View>
-                    <View style={styles.resultKcalWrap}>
-                      <Text style={styles.resultKcal}>{food.kcal > 0 ? food.kcal : '—'}</Text>
-                      <Text style={styles.resultKcalUnit}>kcal</Text>
-                    </View>
-                  </Pressable>
-                ))}
-              </View>
-            ) : query.trim().length >= 2 && !search.isFetching ? (
-              <Text style={styles.muted}>No matches — try another name or Quick add.</Text>
-            ) : null}
-          </View>
-        ) : null}
-
-        {showQuick ? (
-          <View style={styles.form}>
-            <TextField
-              label="Name"
-              placeholder="e.g. Protein shake"
-              value={name}
-              onChangeText={setName}
-            />
-            {per100 ? (
-              <TextField
-                label="Amount (g)"
-                placeholder="100"
-                keyboardType="number-pad"
-                value={grams}
-                onChangeText={onGramsChange}
-                hint="Macros are per 100 g and scale with the amount."
+      <KeyboardAvoidingView
+        style={styles.body}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
+        <ScrollView
+          style={styles.body}
+          contentContainerStyle={styles.content}
+          keyboardShouldPersistTaps="handled"
+        >
+          {!showSearch ? (
+            <>
+              <AddOption
+                icon={<CameraIcon size={22} color={colors.text.onAccent} />}
+                title="Scan food"
+                subtitle="Photo → AI macros · adjust before logging"
+                primary
+                onPress={() => router.push({ pathname: '/meal/scan', params: { date } })}
               />
-            ) : null}
-            <View style={styles.field}>
-              <Text style={styles.fieldLabel}>Meal</Text>
-              <SlotPicker value={slot} onChange={setSlot} />
-            </View>
-            <View style={styles.inlineGrid}>
-              <View style={styles.half}>
-                <TextField
-                  label="kcal"
-                  placeholder="0"
-                  keyboardType="number-pad"
-                  value={kcal}
-                  onChangeText={setKcal}
-                />
-              </View>
-              <View style={styles.half}>
-                <TextField
-                  label="protein g"
-                  placeholder="0"
-                  keyboardType="numeric"
-                  value={protein}
-                  onChangeText={setProtein}
-                />
-              </View>
-              <View style={styles.half}>
-                <TextField
-                  label="carbs g"
-                  placeholder="0"
-                  keyboardType="numeric"
-                  value={carbs}
-                  onChangeText={setCarbs}
-                />
-              </View>
-              <View style={styles.half}>
-                <TextField
-                  label="fat g"
-                  placeholder="0"
-                  keyboardType="numeric"
-                  value={fat}
-                  onChangeText={setFat}
-                />
-              </View>
-            </View>
-            <Button
-              label={createMeal.isPending ? 'Logging…' : 'Log meal'}
-              onPress={submitQuick}
-              disabled={createMeal.isPending || !name.trim()}
-            />
-          </View>
-        ) : null}
+              <AddOption
+                icon={<SearchIcon size={22} color={colors.accent.ember400} />}
+                title="Search foods"
+                subtitle="Indian recipes & dishes · autofill macros"
+                onPress={() => setShowSearch(true)}
+              />
+              <AddOption
+                icon={<PencilIcon size={22} color={colors.accent.ember400} />}
+                title="Quick add"
+                subtitle="Manual kcal + macros"
+                onPress={() => setShowQuick((v) => !v)}
+              />
+              <AddOption
+                icon={<CameraIcon size={22} color={colors.accent.ember400} />}
+                title="Recent meals"
+                subtitle="Re-log something you've eaten"
+                onPress={() => setShowRecent((v) => !v)}
+              />
+            </>
+          ) : null}
 
-        {showRecent ? (
-          <View style={styles.recentList}>
-            <Text style={styles.sectionLabel}>Recent</Text>
-            {recents.length === 0 ? (
-              <Text style={styles.muted}>No meals logged yet.</Text>
-            ) : (
-              recents.map((meal) => (
-                <Pressable
-                  key={meal.id}
-                  onPress={() =>
-                    log({
-                      name: meal.name,
-                      mealSlot: slot,
-                      calories: meal.calories,
-                      proteinG: meal.proteinG,
-                      carbsG: meal.carbsG,
-                      fatG: meal.fatG,
-                    })
-                  }
-                  style={({ pressed }) => [styles.recentItem, pressed && styles.pressed]}
-                >
-                  <View style={styles.recentText}>
-                    <Text style={styles.recentName}>{meal.name}</Text>
-                    <Text style={styles.recentMeta}>
-                      P {Math.round(meal.proteinG)}g · C {Math.round(meal.carbsG)}g · F{' '}
-                      {Math.round(meal.fatG)}g
-                    </Text>
-                  </View>
-                  <Text style={styles.recentKcal}>{meal.calories.toLocaleString()}</Text>
+          {showSearch ? (
+            <View style={styles.searchPanel}>
+              <View style={styles.panelHead}>
+                <Text style={styles.sectionLabel}>Search foods</Text>
+                <Pressable onPress={closeSearch} hitSlop={8} style={styles.closeBtn}>
+                  <Text style={styles.closeLabel}>Close</Text>
                 </Pressable>
-              ))
-            )}
-          </View>
-        ) : null}
-      </ScrollView>
+              </View>
+              <TextField
+                label="Search foods"
+                placeholder="e.g. biryani, dal, roti, paneer"
+                value={query}
+                onChangeText={setQuery}
+                autoFocus
+                returnKeyType="search"
+              />
+              {searching ? (
+                search.isError ? (
+                  <Text style={styles.errorText}>
+                    Couldn&apos;t search right now — check your connection and try again.
+                  </Text>
+                ) : search.data && search.data.length > 0 ? (
+                  <View style={styles.results}>
+                    {search.data.map((food) => (
+                      <Pressable
+                        key={food.id}
+                        onPress={() => applyFood(food)}
+                        style={({ pressed }) => [styles.resultItem, pressed && styles.pressed]}
+                      >
+                        <View style={styles.resultText}>
+                          <Text style={styles.resultName} numberOfLines={1}>
+                            {food.name}
+                          </Text>
+                          <Text style={styles.resultMeta} numberOfLines={1}>
+                            per {food.servingDescription} · P {Math.round(food.proteinG)} · C{' '}
+                            {Math.round(food.carbsG)} · F {Math.round(food.fatG)}
+                          </Text>
+                        </View>
+                        <View style={styles.resultKcalWrap}>
+                          <Text style={styles.resultKcal}>{food.kcal > 0 ? food.kcal : '—'}</Text>
+                          <Text style={styles.resultKcalUnit}>kcal</Text>
+                        </View>
+                      </Pressable>
+                    ))}
+                  </View>
+                ) : search.isFetching || search.data === undefined ? (
+                  <Text style={styles.muted}>Searching…</Text>
+                ) : (
+                  <Text style={styles.muted}>No matches — try another name or Quick add.</Text>
+                )
+              ) : (
+                <Text style={styles.muted}>Type at least 2 letters to search.</Text>
+              )}
+            </View>
+          ) : null}
+
+          {showQuick ? (
+            <View style={styles.form}>
+              <TextField
+                label="Name"
+                placeholder="e.g. Protein shake"
+                value={name}
+                onChangeText={setName}
+              />
+              {per100 ? (
+                <TextField
+                  label="Amount (g)"
+                  placeholder="100"
+                  keyboardType="number-pad"
+                  value={grams}
+                  onChangeText={onGramsChange}
+                  hint="Macros are per 100 g and scale with the amount."
+                />
+              ) : null}
+              <View style={styles.field}>
+                <Text style={styles.fieldLabel}>Meal</Text>
+                <SlotPicker value={slot} onChange={setSlot} />
+              </View>
+              <View style={styles.inlineGrid}>
+                <View style={styles.half}>
+                  <TextField
+                    label="kcal"
+                    placeholder="0"
+                    keyboardType="number-pad"
+                    value={kcal}
+                    onChangeText={setKcal}
+                  />
+                </View>
+                <View style={styles.half}>
+                  <TextField
+                    label="protein g"
+                    placeholder="0"
+                    keyboardType="numeric"
+                    value={protein}
+                    onChangeText={setProtein}
+                  />
+                </View>
+                <View style={styles.half}>
+                  <TextField
+                    label="carbs g"
+                    placeholder="0"
+                    keyboardType="numeric"
+                    value={carbs}
+                    onChangeText={setCarbs}
+                  />
+                </View>
+                <View style={styles.half}>
+                  <TextField
+                    label="fat g"
+                    placeholder="0"
+                    keyboardType="numeric"
+                    value={fat}
+                    onChangeText={setFat}
+                  />
+                </View>
+              </View>
+              <Button
+                label={createMeal.isPending ? 'Logging…' : 'Log meal'}
+                onPress={submitQuick}
+                disabled={createMeal.isPending || !name.trim()}
+              />
+            </View>
+          ) : null}
+
+          {showRecent ? (
+            <View style={styles.recentList}>
+              <Text style={styles.sectionLabel}>Recent</Text>
+              {recents.length === 0 ? (
+                <Text style={styles.muted}>No meals logged yet.</Text>
+              ) : (
+                recents.map((meal) => (
+                  <Pressable
+                    key={meal.id}
+                    onPress={() =>
+                      log({
+                        name: meal.name,
+                        mealSlot: slot,
+                        calories: meal.calories,
+                        proteinG: meal.proteinG,
+                        carbsG: meal.carbsG,
+                        fatG: meal.fatG,
+                      })
+                    }
+                    style={({ pressed }) => [styles.recentItem, pressed && styles.pressed]}
+                  >
+                    <View style={styles.recentText}>
+                      <Text style={styles.recentName}>{meal.name}</Text>
+                      <Text style={styles.recentMeta}>
+                        P {Math.round(meal.proteinG)}g · C {Math.round(meal.carbsG)}g · F{' '}
+                        {Math.round(meal.fatG)}g
+                      </Text>
+                    </View>
+                    <Text style={styles.recentKcal}>{meal.calories.toLocaleString()}</Text>
+                  </Pressable>
+                ))
+              )}
+            </View>
+          ) : null}
+        </ScrollView>
+      </KeyboardAvoidingView>
     </Screen>
   );
 }
@@ -346,6 +393,9 @@ const styles = StyleSheet.create({
   optionTitle: { color: colors.text.primary, fontSize: typeScale.body.size, fontWeight: '600' },
   optionSub: { color: colors.text.muted, fontSize: typeScale.caption.size },
   searchPanel: { gap: 12, borderTopWidth: 1, borderTopColor: colors.border.hairline, paddingTop: 18 },
+  panelHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  closeBtn: { height: 32, justifyContent: 'center' },
+  closeLabel: { color: colors.accent.ember400, fontSize: typeScale.label.size, fontWeight: '600' },
   results: { gap: 8 },
   resultItem: {
     flexDirection: 'row',
@@ -406,4 +456,5 @@ const styles = StyleSheet.create({
     fontVariant: ['tabular-nums'],
   },
   muted: { color: colors.text.muted, fontSize: typeScale.caption.size },
+  errorText: { color: colors.semantic.danger, fontSize: typeScale.caption.size },
 });

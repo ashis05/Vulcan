@@ -42,6 +42,18 @@ def _auth():
     app.dependency_overrides[get_current_user] = lambda: USER_ID
 
 
+def test_local_match_is_token_and_case_insensitive():
+    match = foods._build_local_match("  Chicken   Biryani ")
+    assert match is not None
+    conditions, params = match
+    assert conditions == "lower(name) like :p0 and lower(name) like :p1"
+    assert params == {"p0": "%chicken%", "p1": "%biryani%"}
+
+
+def test_local_match_ignores_empty_query():
+    assert foods._build_local_match("   ") is None
+
+
 def test_search_requires_auth():
     assert client.get("/foods/search", params={"q": "lays"}).status_code == 401
 

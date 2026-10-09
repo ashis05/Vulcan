@@ -59,13 +59,26 @@ Continuing the project from anywhere. This file is the session log and current-s
 
 ## Session log
 
+### 2026-10-09 · Session 35 — Food search: multi-word matching + keyboard/UX fixes
+
+- **Reported (device):** food search often shows "no results", and the keyboard covers the results so you can't scroll.
+- **Diagnosis:** the backend *does* return results (INDB 1,014 recipes + Open Food Facts) — but in the add-meal screen the search field sits below the 4 option rows, so results rendered **under the keyboard** (native modal doesn't resize on SDK 57 edge-to-edge), and the UI showed "No matches" even when the request **errored** (OFF is intermittent). Local matching also required the exact phrase ("chicken biryani" ≠ "Biryani, chicken").
+- **Backend (`app/routers/foods.py`):** local search now **token-AND** matches via new pure `_build_local_match()` (+2 tests in `tests/test_foods_search.py`). `pytest` **59/59**.
+- **Frontend:** `app/meal/add.tsx` — `KeyboardAvoidingView` + `keyboardShouldPersistTaps="handled"`, **hide the 4 option rows while searching** (field + results at the top, Close button), explicit **loading** + **error** states; `features/nutrition/hooks.ts` — 300 ms debounce via new `lib/use-debounced-value.ts` + `keepPreviousData` + `retry: 1`; `app.json` — `android.softwareKeyboardLayoutMode: "resize"`. Gates: `tsc`/`expo lint` clean · `vitest` **73/73**.
+- **Branch `feat/food-search-ux`** → PR → merged to `master`. Backend needs a **Deploy Backend** run; app needs a **new EAS build** (native `app.json` change).
+
+---
+
 ### 2026-10-09 · Session 34 — Deploy stack + CI/CD committed; PR to master
 
 - **Committed the previously-untracked deploy work on `feat/ai-programs`:** `05aa3e1` "chore(deploy): add AWS/Cloudflare deploy stack, Docker, and CI/CD workflows" (`.github/workflows/{ci,deploy-backend,build-frontend}.yml`, `backend/Dockerfile`, `backend/.dockerignore`, `backend/deploy/docker-compose.yml`, `deployment/` incl. `terraform/`, `frontend/eas.json`, `frontend/app.json` EAS link) and `2fea92a` "docs: deployment runbook (Windows cmd) + Phase 7 status updates". Deleted a stray `deployment/output` scratch file (not committed).
 - **Pushed** `feat/ai-programs` → `origin` (`99f2cee..2fea92a`). PR to **`master`** (base master ← head feat/ai-programs) **not yet opened** — `gh` CLI is installed but not authenticated; open via the GitHub compare page.
 - **Pipelines (all manual/`workflow_dispatch`):** `deploy-backend.yml` (rsync+rebuild on EC2, **master-only**), `build-frontend.yml` (EAS Android, any branch), `ci.yml` (PR checks). Secrets needed: `SSH_HOST`, `SSH_USER`, `SSH_PRIVATE_KEY`, `EXPO_TOKEN`.
 - **Deploy reality check:** EC2 is provisioned in `vulcan-prod` (EIP `13.207.208.81`, instance `i-03bba417028764c37`); `api` + `cf-tunnel` containers built and started; fixed `~/vulcan/cloudflared` perms (were root-owned → `cf-tunnel` couldn't read `config.yml`). `/health` over the tunnel not yet confirmed. EAS `production`/`preview` build produced.
-- **Next:** merge PR to `master`, add the 4 GitHub secrets, run **Deploy Backend** from master and **Build Frontend (EAS)**, confirm `https://api-vulcan.ashiswadhwani.in/health`.
+- **Done later in Session 34:** opened + **merged PR #1 → `master`** (merge commit `c2eecbf`; clean fast-forward ancestor, no conflicts). `gh` authenticated as `ashis05`.
+- **GitHub secrets set:** `SSH_HOST=13.207.208.81`, `SSH_USER=ubuntu`, `SSH_PRIVATE_KEY` (from `~/.ssh/vulcan_deploy`). **`EXPO_TOKEN` still missing** (frontend build blocked until added).
+- **Backend deploy run:** first run failed (`open ~/vulcan/backend/.env: permission denied` — `.env` was `root:root 0600`). Fixed via `sudo chown -R ubuntu:ubuntu /home/ubuntu/vulcan` over SSH. **Re-run green** (rsync + rebuild + health check) → **`https://api-vulcan.ashiswadhwani.in/health` = `{"status":"ok"}` (HTTP 200)**.
+- **Next:** add `EXPO_TOKEN`, run **Build Frontend (EAS)** (`preview`), install on device; then Phase-6 device pass + storage RLS checks.
 
 ---
 

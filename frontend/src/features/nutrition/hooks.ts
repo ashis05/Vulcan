@@ -1,7 +1,8 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { localDateString, localDayFromIso } from '@/lib/dates';
 import { useAuth } from '@/lib/use-auth';
+import { useDebouncedValue } from '@/lib/use-debounced-value';
 
 import { supabase } from '@/lib/supabase';
 
@@ -40,7 +41,7 @@ export function useRecentMeals() {
 /** Name search over the global food catalog + packaged products (via FastAPI). */
 export function useFoodSearch(query: string) {
   const { user } = useAuth();
-  const term = query.trim();
+  const term = useDebouncedValue(query.trim(), 300);
   return useQuery({
     queryKey: ['foods', 'search', term],
     queryFn: async () => {
@@ -49,7 +50,10 @@ export function useFoodSearch(query: string) {
       return token ? searchFoods(token, term) : [];
     },
     enabled: !!user && term.length >= 2,
+    // Keep the previous results on screen while the next term loads (no flicker).
+    placeholderData: keepPreviousData,
     staleTime: 60_000,
+    retry: 1,
   });
 }
 
