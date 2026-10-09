@@ -59,6 +59,16 @@ Continuing the project from anywhere. This file is the session log and current-s
 
 ## Session log
 
+### 2026-10-09 · Session 35 — Food search: multi-word matching + keyboard/UX fixes
+
+- **Reported (device):** food search often shows "no results", and the keyboard covers the results so you can't scroll.
+- **Diagnosis:** the backend *does* return results (INDB 1,014 recipes + Open Food Facts) — but in the add-meal screen the search field sits below the 4 option rows, so results rendered **under the keyboard** (native modal doesn't resize on SDK 57 edge-to-edge), and the UI showed "No matches" even when the request **errored** (OFF is intermittent). Local matching also required the exact phrase ("chicken biryani" ≠ "Biryani, chicken").
+- **Backend (`app/routers/foods.py`):** local search now **token-AND** matches via new pure `_build_local_match()` (+2 tests in `tests/test_foods_search.py`). `pytest` **59/59**.
+- **Frontend:** `app/meal/add.tsx` — `KeyboardAvoidingView` + `keyboardShouldPersistTaps="handled"`, **hide the 4 option rows while searching** (field + results at the top, Close button), explicit **loading** + **error** states; `features/nutrition/hooks.ts` — 300 ms debounce via new `lib/use-debounced-value.ts` + `keepPreviousData` + `retry: 1`; `app.json` — `android.softwareKeyboardLayoutMode: "resize"`. Gates: `tsc`/`expo lint` clean · `vitest` **73/73**.
+- **Branch `feat/food-search-ux`** → PR → merged to `master`. Backend needs a **Deploy Backend** run; app needs a **new EAS build** (native `app.json` change).
+
+---
+
 ### 2026-10-09 · Session 34 — Deploy stack + CI/CD committed; PR to master
 
 - **Committed the previously-untracked deploy work on `feat/ai-programs`:** `05aa3e1` "chore(deploy): add AWS/Cloudflare deploy stack, Docker, and CI/CD workflows" (`.github/workflows/{ci,deploy-backend,build-frontend}.yml`, `backend/Dockerfile`, `backend/.dockerignore`, `backend/deploy/docker-compose.yml`, `deployment/` incl. `terraform/`, `frontend/eas.json`, `frontend/app.json` EAS link) and `2fea92a` "docs: deployment runbook (Windows cmd) + Phase 7 status updates". Deleted a stray `deployment/output` scratch file (not committed).
