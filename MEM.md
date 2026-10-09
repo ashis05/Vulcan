@@ -65,7 +65,10 @@ Continuing the project from anywhere. This file is the session log and current-s
 - **Pushed** `feat/ai-programs` → `origin` (`99f2cee..2fea92a`). PR to **`master`** (base master ← head feat/ai-programs) **not yet opened** — `gh` CLI is installed but not authenticated; open via the GitHub compare page.
 - **Pipelines (all manual/`workflow_dispatch`):** `deploy-backend.yml` (rsync+rebuild on EC2, **master-only**), `build-frontend.yml` (EAS Android, any branch), `ci.yml` (PR checks). Secrets needed: `SSH_HOST`, `SSH_USER`, `SSH_PRIVATE_KEY`, `EXPO_TOKEN`.
 - **Deploy reality check:** EC2 is provisioned in `vulcan-prod` (EIP `13.207.208.81`, instance `i-03bba417028764c37`); `api` + `cf-tunnel` containers built and started; fixed `~/vulcan/cloudflared` perms (were root-owned → `cf-tunnel` couldn't read `config.yml`). `/health` over the tunnel not yet confirmed. EAS `production`/`preview` build produced.
-- **Next:** merge PR to `master`, add the 4 GitHub secrets, run **Deploy Backend** from master and **Build Frontend (EAS)**, confirm `https://api-vulcan.ashiswadhwani.in/health`.
+- **Done later in Session 34:** opened + **merged PR #1 → `master`** (merge commit `c2eecbf`; clean fast-forward ancestor, no conflicts). `gh` authenticated as `ashis05`.
+- **GitHub secrets set:** `SSH_HOST=13.207.208.81`, `SSH_USER=ubuntu`, `SSH_PRIVATE_KEY` (from `~/.ssh/vulcan_deploy`). **`EXPO_TOKEN` still missing** (frontend build blocked until added).
+- **Backend deploy run:** first run failed (`open ~/vulcan/backend/.env: permission denied` — `.env` was `root:root 0600`). Fixed via `sudo chown -R ubuntu:ubuntu /home/ubuntu/vulcan` over SSH. **Re-run green** (rsync + rebuild + health check) → **`https://api-vulcan.ashiswadhwani.in/health` = `{"status":"ok"}` (HTTP 200)**.
+- **Next:** add `EXPO_TOKEN`, run **Build Frontend (EAS)** (`preview`), install on device; then Phase-6 device pass + storage RLS checks.
 
 ---
 
