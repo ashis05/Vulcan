@@ -59,6 +59,16 @@ Continuing the project from anywhere. This file is the session log and current-s
 
 ## Session log
 
+### 2026-10-09 · Session 34 — Deploy stack + CI/CD committed; PR to master
+
+- **Committed the previously-untracked deploy work on `feat/ai-programs`:** `05aa3e1` "chore(deploy): add AWS/Cloudflare deploy stack, Docker, and CI/CD workflows" (`.github/workflows/{ci,deploy-backend,build-frontend}.yml`, `backend/Dockerfile`, `backend/.dockerignore`, `backend/deploy/docker-compose.yml`, `deployment/` incl. `terraform/`, `frontend/eas.json`, `frontend/app.json` EAS link) and `2fea92a` "docs: deployment runbook (Windows cmd) + Phase 7 status updates". Deleted a stray `deployment/output` scratch file (not committed).
+- **Pushed** `feat/ai-programs` → `origin` (`99f2cee..2fea92a`). PR to **`master`** (base master ← head feat/ai-programs) **not yet opened** — `gh` CLI is installed but not authenticated; open via the GitHub compare page.
+- **Pipelines (all manual/`workflow_dispatch`):** `deploy-backend.yml` (rsync+rebuild on EC2, **master-only**), `build-frontend.yml` (EAS Android, any branch), `ci.yml` (PR checks). Secrets needed: `SSH_HOST`, `SSH_USER`, `SSH_PRIVATE_KEY`, `EXPO_TOKEN`.
+- **Deploy reality check:** EC2 is provisioned in `vulcan-prod` (EIP `13.207.208.81`, instance `i-03bba417028764c37`); `api` + `cf-tunnel` containers built and started; fixed `~/vulcan/cloudflared` perms (were root-owned → `cf-tunnel` couldn't read `config.yml`). `/health` over the tunnel not yet confirmed. EAS `production`/`preview` build produced.
+- **Next:** merge PR to `master`, add the 4 GitHub secrets, run **Deploy Backend** from master and **Build Frontend (EAS)**, confirm `https://api-vulcan.ashiswadhwani.in/health`.
+
+---
+
 ### 2026-10-08 · Session 33 — AWS account fix + end-to-end deploy runbook
 
 - **Trigger:** `terraform apply` failed with `InvalidKey.Format` (the `terraform.tfvars` still held the placeholder `AAAA...REPLACE_ME...`).
