@@ -193,6 +193,23 @@ With the app installed, backend running, and `EXPO_PUBLIC_API_URL` pointing at t
 
 ---
 
+## 7. Deployment
+
+The API runs in Docker on a single AWS EC2 instance (provisioned with Terraform), exposed
+through an outbound-only Cloudflare Tunnel (no open ports, no certs); the Android app is built
+with EAS and shipped on an internal track. Full runbook:
+[`deployment/README.md`](deployment/README.md).
+
+- `deployment/terraform/` — Terraform: VPC, EC2, Elastic IP
+- `deployment/01-aws-ec2.md` — provision the instance with Terraform
+- `deployment/02-cloudflare-tunnel.md` — tunnel + `api-vulcan.ashiswadhwani.in`
+- `deployment/03-backend-deploy.md` — server `.env`, compose, rsync/CI deploy
+- `deployment/04-frontend-eas.md` — EAS project, env vars, build
+- `deployment/05-github-actions.md` — CI checks + manual deploy workflows
+- `deployment/06-troubleshooting.md` — common failures
+
+---
+
 ## Troubleshooting
 
 - **`No module named 'app'`** when starting uvicorn → you're not in `backend/`. `cd backend` first.

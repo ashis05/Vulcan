@@ -46,7 +46,7 @@ Plus a **personalization engine** (deterministic, unit-tested pure functions) th
 | AI model | **Gemini Flash-Lite** via AI Studio API key, free tier + per-user quotas, upgrade to pay-as-you-go later |
 | Steps | **Health Connect (Android)** via `react-native-health-connect` |
 | Logging depth | Advanced: RPE, supersets/dropsets, set types, auto 1RM (Epley), PR detection, stall/deload |
-| Hosting (later) | Oracle Cloud Always Free VPS (Docker). Note: Ampere ARM64 — build matching Docker image |
+| Hosting | **AWS EC2** (Docker), provisioned with **Terraform** (`deployment/terraform/`), published via outbound-only Cloudflare Tunnel. Default `t4g.micro` (ARM64) — build the image on the instance |
 | Audience | Public product — therefore: no secrets in the app, quotas mandatory, disclaimers mandatory |
 
 ---
@@ -209,7 +209,7 @@ Lives in `frontend/src/engine/`. No I/O, no framework imports — deterministic 
 | 4 | `phases/PHASE-4-ai-food.md` | First AI route: food photo → macros, quota system | ✅ |
 | 5 | `phases/PHASE-5-ai-programs.md` | AI program generation → editable routines | ✅ |
 | 6 | `phases/PHASE-6-physique.md` | Physique check-ins, analysis, feedback loop into programs | ⬜ |
-| 7 | `phases/PHASE-7-launch.md` | Hardening, deploy API to Oracle, Play Store internal release | ⬜ |
+| 7 | `phases/PHASE-7-launch.md` | Hardening, deploy API to AWS EC2, Play Store internal release | ⬜ |
 
 Phases are sequential — each depends on the previous. Do not start Phase N+1 until Phase N's "Done when" checklist passes.
 
@@ -240,13 +240,13 @@ Auth on the API: verify the Supabase access token against `https://<project>.sup
 
 ---
 
-## 12. Cost plan (beta = $0)
+## 12. Cost plan (~$9/mo on AWS)
 
-| Service | Free tier (verify current limits) | Fits? |
+| Service | Tier / limit | Fits? |
 |---|---|---|
 | Supabase | 500MB DB · 1GB storage · 50k MAU · pauses after ~7d inactivity | ✅ compress photos |
 | Gemini Flash-Lite (AI Studio) | ~10 RPM / ~250 req/day | ✅ with quotas (5 food scans + weekly gens ≈ 40 users/day comfortable) |
-| Oracle Always Free | ARM64 VM (up to 4 OCPU / 24GB) or 2× AMD micro | ✅ runs FastAPI + Docker easily |
+| AWS EC2 + EIP + EBS | `t4g.micro` (2 vCPU burstable / 1 GB ARM) + 16 GB gp3 + public IPv4, Amazon Linux/Ubuntu | ~$9/mo runs FastAPI + Docker (see `deployment/terraform/`) |
 | Expo EAS | limited free builds/month | ✅ local `expo run:android` for daily dev |
 
 Upgrade path when quotas bite: enable billing on the same AI Studio key — zero code change.
