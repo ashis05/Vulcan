@@ -21,7 +21,8 @@
       "package": "in.ashiswadhwani.vulcan",
       "permissions": [
         "android.permission.health.READ_STEPS",
-        "android.permission.CAMERA"
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
       ]
     },
     "web": {
@@ -68,6 +69,13 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "fffc16e5-a1c2-4ce7-b4fe-751e102a1faa"
+      }
+    },
+    "owner": "ashis05"
   }
 }
