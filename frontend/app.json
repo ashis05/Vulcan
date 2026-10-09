@@ -19,6 +19,7 @@
       },
       "predictiveBackGestureEnabled": false,
       "package": "in.ashiswadhwani.vulcan",
+      "softwareKeyboardLayoutMode": "resize",
       "permissions": [
         "android.permission.health.READ_STEPS",
         "android.permission.CAMERA",
