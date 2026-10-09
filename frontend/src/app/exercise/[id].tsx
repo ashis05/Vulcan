@@ -262,9 +262,8 @@ const styles = StyleSheet.create({
   chipText: { color: colors.text.secondary, fontSize: typeScale.caption.size, fontWeight: '600' },
   equipment: { color: colors.text.muted, fontSize: typeScale.caption.size },
   hero: {
-    width: 240,
-    height: 240,
-    alignSelf: 'center',
+    width: '100%',
+    aspectRatio: 1,
     borderRadius: radius.md,
     backgroundColor: colors.bg.elevated,
     borderWidth: 1,

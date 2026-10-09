@@ -23,7 +23,7 @@ from sqlalchemy import (
     func,
     text,
 )
-from sqlalchemy.dialects.postgresql import ARRAY, UUID as PG_UUID
+from sqlalchemy.dialects.postgresql import ARRAY, JSONB, UUID as PG_UUID
 from sqlmodel import Field, SQLModel
 
 
@@ -148,11 +148,17 @@ MUSCLE_GROUPS = (
 )
 EQUIPMENT_TYPES = ("barbell", "dumbbell", "machine", "cable", "bodyweight", "other")
 _SET_TYPES = ("warmup", "normal", "drop", "failure")
+MEAL_SLOTS = ("breakfast", "lunch", "dinner", "snacks")
+FOOD_SOURCES = ("indb", "off", "custom")
+PROGRAM_STATUSES = ("active", "archived")
 
 # Reusable SQL fragments for the CHECK constraints below.
 _MUSCLE_IN = ", ".join(f"'{m}'" for m in MUSCLE_GROUPS)
 _EQUIPMENT_IN = ", ".join(f"'{e}'" for e in EQUIPMENT_TYPES)
 _SET_TYPES_IN = ", ".join(f"'{s}'" for s in _SET_TYPES)
+_MEAL_SLOTS_IN = ", ".join(f"'{s}'" for s in MEAL_SLOTS)
+_FOOD_SOURCES_IN = ", ".join(f"'{s}'" for s in FOOD_SOURCES)
+_PROGRAM_STATUSES_IN = ", ".join(f"'{s}'" for s in PROGRAM_STATUSES)
 
 # Cross-schema / forward references which cannot be resolved from metadata are
 # added as raw SQL in the revision: `auth.users` (0001) and `programs` (Phase 5).
@@ -398,6 +404,352 @@ class WorkoutSet(SQLModel, table=True):
         default=False,
         sa_column=Column(Boolean, nullable=False, server_default=text("false")),
     )
+    created_at: datetime = Field(
+        default_factory=datetime.utcnow,
+        sa_column=Column(
+            DateTime(timezone=True), nullable=False, server_default=func.now()
+        ),
+    )
+
+
+class DailyActivity(SQLModel, table=True):
+    """One row per user per day: Health Connect steps + the calorie budget they imply."""
+
+    __tablename__ = "daily_activity"
+    __table_args__ = (
+        CheckConstraint("steps >= 0", name="daily_activity_steps_check"),
+        UniqueConstraint("user_id", "activity_date", name="daily_activity_user_id_activity_date_key"),
+        Index("daily_activity_user_date_idx", "user_id", text("activity_date DESC")),
+        {"schema": "public"},
+    )
+
+    id: UUID = Field(
+        default_factory=uuid4,
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            primary_key=True,
+            server_default=func.gen_random_uuid(),
+        ),
+    )
+    user_id: UUID = Field(
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            ForeignKey("public.profiles.id", ondelete="CASCADE"),
+            nullable=False,
+        )
+    )
+    activity_date: date = Field(sa_column=Column(Date, nullable=False))
+    steps: int = Field(default=0, sa_column=Column(Integer, nullable=False, server_default=text("0")))
+    target_kcal: Optional[int] = Field(default=None, sa_column=Column(Integer))
+    step_bonus_kcal: Optional[int] = Field(default=None, sa_column=Column(Integer))
+    created_at: datetime = Field(
+        default_factory=datetime.utcnow,
+        sa_column=Column(
+            DateTime(timezone=True), nullable=False, server_default=func.now()
+        ),
+    )
+
+
+class Meal(SQLModel, table=True):
+    __tablename__ = "meals"
+    __table_args__ = (
+        CheckConstraint("source in ('manual', 'photo')", name="meals_source_check"),
+        CheckConstraint(f"meal_slot in ({_MEAL_SLOTS_IN})", name="meals_meal_slot_check"),
+        CheckConstraint("calories >= 0", name="meals_calories_check"),
+        Index("meals_user_logged_idx", "user_id", text("logged_at DESC")),
+        {"schema": "public"},
+    )
+
+    id: UUID = Field(
+        default_factory=uuid4,
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            primary_key=True,
+            server_default=func.gen_random_uuid(),
+        ),
+    )
+    user_id: UUID = Field(
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            ForeignKey("public.profiles.id", ondelete="CASCADE"),
+            nullable=False,
+        )
+    )
+    logged_at: datetime = Field(
+        default_factory=datetime.utcnow,
+        sa_column=Column(DateTime(timezone=True), nullable=False, server_default=func.now()),
+    )
+    name: str = Field(sa_column=Column(Text, nullable=False))
+    # Breakfast/lunch/dinner/snacks — drives the S16 diary sections.
+    meal_slot: str = Field(
+        default="snacks",
+        sa_column=Column(Text, nullable=False, server_default=text("'snacks'")),
+    )
+    photo_path: Optional[str] = Field(default=None, sa_column=Column(Text))
+    calories: int = Field(default=0, sa_column=Column(Integer, nullable=False, server_default=text("0")))
+    protein_g: float = Field(default=0, sa_column=Column(Numeric(6, 1), nullable=False, server_default=text("0")))
+    carbs_g: float = Field(default=0, sa_column=Column(Numeric(6, 1), nullable=False, server_default=text("0")))
+    fat_g: float = Field(default=0, sa_column=Column(Numeric(6, 1), nullable=False, server_default=text("0")))
+    source: str = Field(
+        default="manual",
+        sa_column=Column(Text, nullable=False, server_default=text("'manual'")),
+    )
+    ai_raw: Optional[dict] = Field(default=None, sa_column=Column(JSONB))
+    created_at: datetime = Field(
+        default_factory=datetime.utcnow,
+        sa_column=Column(
+            DateTime(timezone=True), nullable=False, server_default=func.now()
+        ),
+    )
+
+
+class AiUsage(SQLModel, table=True):
+    """Per-user, per-day, per-feature AI call counter (quota enforcement).
+
+    Users may read their own rows (UI meters); all writes go through the
+    service-role `increment_ai_usage` function.
+    """
+
+    __tablename__ = "ai_usage"
+    __table_args__ = (
+        CheckConstraint("count >= 0", name="ai_usage_count_check"),
+        UniqueConstraint(
+            "user_id", "usage_date", "feature", name="ai_usage_user_id_usage_date_feature_key"
+        ),
+        Index("ai_usage_user_date_idx", "user_id", text("usage_date DESC")),
+        {"schema": "public"},
+    )
+
+    id: UUID = Field(
+        default_factory=uuid4,
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            primary_key=True,
+            server_default=func.gen_random_uuid(),
+        ),
+    )
+    user_id: UUID = Field(
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            ForeignKey("public.profiles.id", ondelete="CASCADE"),
+            nullable=False,
+        )
+    )
+    usage_date: date = Field(sa_column=Column(Date, nullable=False))
+    feature: str = Field(sa_column=Column(Text, nullable=False))
+    count: int = Field(default=0, sa_column=Column(Integer, nullable=False, server_default=text("0")))
+    created_at: datetime = Field(
+        default_factory=datetime.utcnow,
+        sa_column=Column(
+            DateTime(timezone=True), nullable=False, server_default=func.now()
+        ),
+    )
+    updated_at: datetime = Field(
+        default_factory=datetime.utcnow,
+        sa_column=Column(
+            DateTime(timezone=True), nullable=False, server_default=func.now()
+        ),
+    )
+
+
+class AiCall(SQLModel, table=True):
+    """Cost/observability log for every AI call — service-role only (no user read)."""
+
+    __tablename__ = "ai_calls"
+    __table_args__ = (
+        Index("ai_calls_user_created_idx", "user_id", text("created_at DESC")),
+        {"schema": "public"},
+    )
+
+    id: UUID = Field(
+        default_factory=uuid4,
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            primary_key=True,
+            server_default=func.gen_random_uuid(),
+        ),
+    )
+    user_id: UUID = Field(
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            ForeignKey("public.profiles.id", ondelete="CASCADE"),
+            nullable=False,
+        )
+    )
+    feature: str = Field(sa_column=Column(Text, nullable=False))
+    model: str = Field(sa_column=Column(Text, nullable=False))
+    prompt_tokens: Optional[int] = Field(default=None, sa_column=Column(Integer))
+    output_tokens: Optional[int] = Field(default=None, sa_column=Column(Integer))
+    latency_ms: Optional[int] = Field(default=None, sa_column=Column(Integer))
+    status: str = Field(sa_column=Column(Text, nullable=False))
+    error: Optional[str] = Field(default=None, sa_column=Column(Text))
+    created_at: datetime = Field(
+        default_factory=datetime.utcnow,
+        sa_column=Column(
+            DateTime(timezone=True), nullable=False, server_default=func.now()
+        ),
+    )
+
+
+class Food(SQLModel, table=True):
+    """Global food/recipe catalog (user_id NULL) + owner-scoped custom foods.
+
+    Global rows are readable by any authenticated user and seeded from the
+    open-access Anuvaad INDB in revision `0007_food_catalog`; customs are
+    owner-only. Partial unique indexes and RLS are added as raw SQL in that
+    revision. Values are per the stored `serving_description`.
+    """
+
+    __tablename__ = "foods"
+    __table_args__ = (
+        CheckConstraint("kcal >= 0", name="foods_kcal_check"),
+        CheckConstraint(
+            "protein_g >= 0 and carbs_g >= 0 and fat_g >= 0", name="foods_macros_check"
+        ),
+        CheckConstraint(f"source in ({_FOOD_SOURCES_IN})", name="foods_source_check"),
+        {"schema": "public"},
+    )
+
+    id: UUID = Field(
+        default_factory=uuid4,
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            primary_key=True,
+            server_default=func.gen_random_uuid(),
+        ),
+    )
+    user_id: Optional[UUID] = Field(
+        default=None,
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            ForeignKey("public.profiles.id", ondelete="CASCADE"),
+            nullable=True,
+        ),
+    )
+    name: str = Field(sa_column=Column(Text, nullable=False))
+    brand: Optional[str] = Field(default=None, sa_column=Column(Text))
+    region: Optional[str] = Field(default=None, sa_column=Column(Text))
+    serving_description: str = Field(sa_column=Column(Text, nullable=False))
+    serving_grams: Optional[float] = Field(default=None, sa_column=Column(Numeric(7, 1)))
+    kcal: int = Field(default=0, sa_column=Column(Integer, nullable=False, server_default=text("0")))
+    protein_g: float = Field(
+        default=0, sa_column=Column(Numeric(6, 1), nullable=False, server_default=text("0"))
+    )
+    carbs_g: float = Field(
+        default=0, sa_column=Column(Numeric(6, 1), nullable=False, server_default=text("0"))
+    )
+    fat_g: float = Field(
+        default=0, sa_column=Column(Numeric(6, 1), nullable=False, server_default=text("0"))
+    )
+    source: str = Field(
+        default="custom",
+        sa_column=Column(Text, nullable=False, server_default=text("'custom'")),
+    )
+    barcode: Optional[str] = Field(default=None, sa_column=Column(Text))
+    is_custom: bool = Field(
+        default=False,
+        sa_column=Column(Boolean, nullable=False, server_default=text("false")),
+    )
+    created_at: datetime = Field(
+        default_factory=datetime.utcnow,
+        sa_column=Column(
+            DateTime(timezone=True), nullable=False, server_default=func.now()
+        ),
+    )
+
+
+class Program(SQLModel, table=True):
+    """An AI-generated training program (Phase 5).
+
+    Exactly one `active` program per user — enforced by the partial unique index
+    `programs_one_active_key` added in revision `0009_programs`. The full Gemini
+    output is kept in `payload`; `goal_snapshot` records the inputs it was built
+    from. Materialized routines link back via `routines.program_id` (FK added in
+    the same revision as raw SQL).
+    """
+
+    __tablename__ = "programs"
+    __table_args__ = (
+        CheckConstraint(f"status in ({_PROGRAM_STATUSES_IN})", name="programs_status_check"),
+        Index("programs_user_idx", "user_id", text("created_at DESC")),
+        {"schema": "public"},
+    )
+
+    id: UUID = Field(
+        default_factory=uuid4,
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            primary_key=True,
+            server_default=func.gen_random_uuid(),
+        ),
+    )
+    user_id: UUID = Field(
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            ForeignKey("public.profiles.id", ondelete="CASCADE"),
+            nullable=False,
+        )
+    )
+    status: str = Field(
+        default="active",
+        sa_column=Column(Text, nullable=False, server_default=text("'active'")),
+    )
+    # Inputs the program was generated from (profile + context digest).
+    goal_snapshot: Optional[dict] = Field(default=None, sa_column=Column(JSONB))
+    # Full structured Gemini output (name, weeks, rationale, ...).
+    payload: Optional[dict] = Field(default=None, sa_column=Column(JSONB))
+    rationale: Optional[str] = Field(default=None, sa_column=Column(Text))
+    prompt_version: Optional[str] = Field(default=None, sa_column=Column(Text))
+    created_at: datetime = Field(
+        default_factory=datetime.utcnow,
+        sa_column=Column(
+            DateTime(timezone=True), nullable=False, server_default=func.now()
+        ),
+    )
+    archived_at: Optional[datetime] = Field(
+        default=None, sa_column=Column(DateTime(timezone=True))
+    )
+
+
+class ProgressPhoto(SQLModel, table=True):
+    """A physique check-in photo (Phase 6). Photos live in the private
+    `progress-photos` bucket; `analysis` is written server-side by the AI route.
+    """
+
+    __tablename__ = "progress_photos"
+    __table_args__ = (
+        CheckConstraint(
+            "pose in ('front', 'side', 'back')", name="progress_photos_pose_check"
+        ),
+        Index("progress_photos_user_taken_idx", "user_id", text("taken_on DESC")),
+        {"schema": "public"},
+    )
+
+    id: UUID = Field(
+        default_factory=uuid4,
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            primary_key=True,
+            server_default=func.gen_random_uuid(),
+        ),
+    )
+    user_id: UUID = Field(
+        sa_column=Column(
+            PG_UUID(as_uuid=True),
+            ForeignKey("public.profiles.id", ondelete="CASCADE"),
+            nullable=False,
+        )
+    )
+    taken_on: date = Field(
+        sa_column=Column(Date, nullable=False, server_default=func.current_date())
+    )
+    pose: str = Field(
+        default="front",
+        sa_column=Column(Text, nullable=False, server_default=text("'front'")),
+    )
+    photo_path: str = Field(sa_column=Column(Text, nullable=False))
+    # Structured physique analysis (summary, strong/focus areas, ...).
+    analysis: Optional[dict] = Field(default=None, sa_column=Column(JSONB))
     created_at: datetime = Field(
         default_factory=datetime.utcnow,
         sa_column=Column(

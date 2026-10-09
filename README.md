@@ -141,6 +141,28 @@ then press `a`. Rebuild with `npx expo run:android` after adding/updating any na
 
 > Emulator notes: the emulator reaches your machine's `localhost` via `10.0.2.2` (set `EXPO_PUBLIC_API_URL=http://10.0.2.2:8000`); a physical phone needs your LAN IP. Detailed setup + troubleshooting: [`frontend/ANDROID-EMULATOR.md`](frontend/ANDROID-EMULATOR.md).
 
+### Boot the Android emulator manually
+
+`emulator` is normally **not on `PATH`** — call it through `$ANDROID_HOME`:
+
+```powershell
+# list the AVDs you have
+& "$env:ANDROID_HOME\emulator\emulator.exe" -list-avds
+
+# boot one (use the name printed above, e.g. Medium_Phone_API_36.0)
+& "$env:ANDROID_HOME\emulator\emulator.exe" -avd Medium_Phone_API_36.0
+```
+
+Wait for the Android home screen, then confirm it's attached — `adb devices` should show `emulator-5554  device`. If it instead shows `emulator-5554  offline` and never boots, the quick-boot snapshot is corrupt; **cold boot** past it:
+
+```powershell
+& "$env:ANDROID_HOME\emulator\emulator.exe" -avd Medium_Phone_API_36.0 -no-snapshot-load
+```
+
+To skip quick-boot permanently, set `fastboot.forceColdBoot=yes` and `fastboot.forceFastBoot=no` in `%USERPROFILE%\.android\avd\<AVD>.avd\config.ini`.
+
+> `npx expo run:android` / `npx expo start` + `a` launch this same `emulator.exe`; booting it manually first just lets you control cold-boot and see errors.
+
 ---
 
 ## 5. Test on the phone (Phase 0 — auth end-to-end)
@@ -168,6 +190,23 @@ With the app installed, backend running, and `EXPO_PUBLIC_API_URL` pointing at t
 | Backend tests | `cd backend; .\.venv\Scripts\python -m pytest` |
 | Supabase creds check | `cd frontend; node scripts/check-supabase.mjs` |
 | Start backend | see §3 |
+
+---
+
+## 7. Deployment
+
+The API runs in Docker on a single AWS EC2 instance (provisioned with Terraform), exposed
+through an outbound-only Cloudflare Tunnel (no open ports, no certs); the Android app is built
+with EAS and shipped on an internal track. Full runbook:
+[`deployment/README.md`](deployment/README.md).
+
+- `deployment/terraform/` — Terraform: VPC, EC2, Elastic IP
+- `deployment/01-aws-ec2.md` — provision the instance with Terraform
+- `deployment/02-cloudflare-tunnel.md` — tunnel + `api-vulcan.ashiswadhwani.in`
+- `deployment/03-backend-deploy.md` — server `.env`, compose, rsync/CI deploy
+- `deployment/04-frontend-eas.md` — EAS project, env vars, build
+- `deployment/05-github-actions.md` — CI checks + manual deploy workflows
+- `deployment/06-troubleshooting.md` — common failures
 
 ---
 

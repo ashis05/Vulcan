@@ -1,0 +1,59 @@
+name: Deploy Backend
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-backend
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: rsync + rebuild on EC2
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enforce master
+        run: |
+          if [ "${GITHUB_REF}" != "refs/heads/master" ]; then
+            echo "::error::Backend deploys must be dispatched from the master branch (got ${GITHUB_REF})."
+            exit 1
+          fi
+
+      - uses: actions/checkout@v4
+
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Ensure remote directory exists
+        run: |
+          ssh -i ~/.ssh/deploy_key "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
+            'mkdir -p ~/vulcan/backend'
+
+      - name: Rsync backend source to VM
+        run: |
+          rsync -az --delete \
+            --exclude '.venv/' \
+            --exclude '__pycache__/' \
+            --exclude '.pytest_cache/' \
+            --exclude '.env' \
+            --exclude 'tests/' \
+            --exclude 'scripts/' \
+            -e "ssh -i ~/.ssh/deploy_key" \
+            backend/ "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/vulcan/backend/"
+
+      - name: Rebuild and restart containers
+        run: |
+          ssh -i ~/.ssh/deploy_key "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
+            'cd ~/vulcan/backend && docker compose --env-file .env -f deploy/docker-compose.yml up -d --build && docker image prune -f'
+
+      - name: Health check
+        run: |
+          ssh -i ~/.ssh/deploy_key "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
+            'sleep 5 && docker compose --env-file ~/vulcan/backend/.env -f ~/vulcan/backend/deploy/docker-compose.yml ps'

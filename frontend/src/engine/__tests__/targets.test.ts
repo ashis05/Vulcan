@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   KCAL_FLOOR,
   MAX_PACE_DELTA_TDEE_PCT,
+  adaptiveTdee,
   clampPaceKgWk,
   computeTargets,
   maxPaceKgWk,
@@ -166,5 +167,42 @@ describe('Katch-McArdle path', () => {
     expect(computeTargets({ ...base, bodyfatPct: 0 }).bmr).toBe(1780);
     expect(computeTargets({ ...base, bodyfatPct: 120 }).bmr).toBe(1780);
     expect(computeTargets({ ...base, bodyfatPct: null }).bmr).toBe(1780);
+  });
+});
+
+describe('tdeeOverride (adaptive maintenance)', () => {
+  it('uses the supplied maintenance instead of Mifflin × activity', () => {
+    const t = computeTargets({ ...base, tdeeOverride: 3000 });
+    expect(t.tdee).toBe(3000);
+    expect(t.paceDeltaKcal).toBe(-550);
+    expect(t.targetKcal).toBe(2450);
+  });
+
+  it('ignores invalid overrides and falls back to the equation', () => {
+    expect(computeTargets({ ...base, tdeeOverride: 0 }).tdee).toBe(2759);
+    expect(computeTargets({ ...base, tdeeOverride: null }).tdee).toBe(2759);
+    expect(computeTargets({ ...base, tdeeOverride: -100 }).tdee).toBe(2759);
+  });
+
+  it('still caps the pace delta at ±25% of the adaptive maintenance', () => {
+    const t = computeTargets({ ...base, paceKgWk: -1, tdeeOverride: 2200 });
+    const cap = Math.round(2200 * MAX_PACE_DELTA_TDEE_PCT);
+    expect(t.targetKcal).toBe(2200 - cap);
+  });
+});
+
+describe('adaptiveTdee', () => {
+  it('infers maintenance above intake when losing weight', () => {
+    // avg intake 2500, lost 0.2 kg over 2 days → 2500 + (0.2 × 7700 ÷ 2)
+    expect(adaptiveTdee([2500, 2500, 2500], [80, 79.9, 79.8])).toBe(3270);
+  });
+
+  it('infers maintenance below intake when gaining weight', () => {
+    expect(adaptiveTdee([3000, 3000, 3000], [70, 70.1, 70.2])).toBe(2230);
+  });
+
+  it('returns null without enough data', () => {
+    expect(adaptiveTdee([2500, 2500], [80, 79.8])).toBeNull();
+    expect(adaptiveTdee([2500, 2500, 2500], [80])).toBeNull();
   });
 });

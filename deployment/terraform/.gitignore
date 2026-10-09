@@ -1,0 +1,20 @@
+# Terraform state and scratch — never commit.
+.terraform/
+*.tfstate
+*.tfstate.*
+
+crash.log
+crash.*.log
+
+# Local variables may hold your SSH public key; keep the example only.
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+
+# CLI/override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc

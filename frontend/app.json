@@ -8,7 +8,9 @@
     "scheme": "vulcan",
     "userInterfaceStyle": "dark",
     "ios": {
-      "icon": "./assets/images/icon.png"
+      "icon": "./assets/images/icon.png",
+      "bundleIdentifier": "in.ashiswadhwani.vulcan",
+      "supportsTablet": false
     },
     "android": {
       "adaptiveIcon": {
@@ -16,7 +18,12 @@
         "foregroundImage": "./assets/images/android-icon-foreground.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.anonymous.vulcan"
+      "package": "in.ashiswadhwani.vulcan",
+      "permissions": [
+        "android.permission.health.READ_STEPS",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "output": "single",
@@ -35,11 +42,40 @@
       ],
       "expo-secure-store",
       "react-native-quick-crypto",
-      "expo-notifications"
+      "expo-notifications",
+      "react-native-health-connect",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "VULCAN uses the camera to scan your meals.",
+          "recordAudioAndroid": false
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "VULCAN needs access to your photos so you can log a meal from a picture."
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "minSdkVersion": 26
+          }
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "fffc16e5-a1c2-4ce7-b4fe-751e102a1faa"
+      }
+    },
+    "owner": "ashis05"
   }
 }

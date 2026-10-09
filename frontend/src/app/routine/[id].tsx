@@ -4,9 +4,11 @@ import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from
 import { ArrowLeftIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import { CoachNote } from '@/components/ui/CoachNote';
 import { Screen } from '@/components/ui/Screen';
 import { ExerciseThumb, Tag } from '@/features/train/components';
 import { useRoutine } from '@/features/train/hooks';
+import { useActiveProgram } from '@/features/programs/hooks';
 import type { RoutineExercise } from '@/features/train/types';
 import { MUSCLE_LABELS } from '@/features/train/types';
 import { colors, fonts, typeScale } from '@/theme';
@@ -24,10 +26,12 @@ export default function RoutineDetailScreen() {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
   const routine = useRoutine(id);
+  const program = useActiveProgram();
 
   const muscles = routine.data
     ? Array.from(new Set(routine.data.exercises.map((e) => e.exercise.primaryMuscle)))
     : [];
+  const isAiRoutine = !!routine.data?.programId && !!program.data;
 
   return (
     <Screen>
@@ -79,6 +83,14 @@ export default function RoutineDetailScreen() {
               </View>
             ))}
           </Card>
+
+          {isAiRoutine && program.data ? (
+            <CoachNote
+              title="Why this split"
+              body={program.data.program.rationale}
+              foot="AI-generated training guidance, not medical advice"
+            />
+          ) : null}
 
           <Button
             label="Start workout"

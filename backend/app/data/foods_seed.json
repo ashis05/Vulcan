@@ -1,0 +1,9128 @@
+[
+{
+"name": "Afghani chicken",
+"serving_description": "100 g",
+"kcal": 152,
+"protein_g": 15.7,
+"carbs_g": 1.9,
+"fat_g": 9.1,
+"source": "indb"
+},
+{
+"name": "Al yakhani",
+"serving_description": "100 g",
+"kcal": 148,
+"protein_g": 2.9,
+"carbs_g": 4.6,
+"fat_g": 13.1,
+"source": "indb"
+},
+{
+"name": "Almond biscuit (Badam ke biscuit)",
+"serving_description": "100 g",
+"kcal": 408,
+"protein_g": 6.2,
+"carbs_g": 52.1,
+"fat_g": 19.7,
+"source": "indb"
+},
+{
+"name": "Almond cardamom cake (Badam elaichi cake)",
+"serving_description": "100 g",
+"kcal": 356,
+"protein_g": 7.2,
+"carbs_g": 34.5,
+"fat_g": 21.4,
+"source": "indb"
+},
+{
+"name": "Almond soup (Badam ka soup)",
+"serving_description": "100 g",
+"kcal": 79,
+"protein_g": 10.1,
+"carbs_g": 3.7,
+"fat_g": 13.8,
+"source": "indb"
+},
+{
+"name": "Amaranth ladoo (Rajgira ladoo)",
+"serving_description": "100 g",
+"kcal": 454,
+"protein_g": 10.1,
+"carbs_g": 51.3,
+"fat_g": 22.7,
+"source": "indb"
+},
+{
+"name": "American frosting",
+"serving_description": "100 g",
+"kcal": 258,
+"protein_g": 1.1,
+"carbs_g": 67.5,
+"fat_g": 0.0,
+"source": "indb"
+},
+{
+"name": "Appam",
+"serving_description": "100 g",
+"kcal": 268,
+"protein_g": 3.1,
+"carbs_g": 13.3,
+"fat_g": 22.6,
+"source": "indb"
+},
+{
+"name": "Apple and honey sorbet (Seb aur shehad ka sharbat)",
+"serving_description": "100 g",
+"kcal": 121,
+"protein_g": 0.2,
+"carbs_g": 30.7,
+"fat_g": 0.3,
+"source": "indb"
+},
+{
+"name": "Apple banana pie",
+"serving_description": "100 g",
+"kcal": 244,
+"protein_g": 3.1,
+"carbs_g": 32.1,
+"fat_g": 11.4,
+"source": "indb"
+},
+{
+"name": "Apple cake (Seb ka cake)",
+"serving_description": "100 g",
+"kcal": 290,
+"protein_g": 4.9,
+"carbs_g": 39.5,
+"fat_g": 12.9,
+"source": "indb"
+},
+{
+"name": "Apple cinnamon pie",
+"serving_description": "100 g",
+"kcal": 259,
+"protein_g": 3.4,
+"carbs_g": 33.7,
+"fat_g": 12.2,
+"source": "indb"
+},
+{
+"name": "Apple crumb pudding",
+"serving_description": "100 g",
+"kcal": 221,
+"protein_g": 1.5,
+"carbs_g": 35.2,
+"fat_g": 8.9,
+"source": "indb"
+},
+{
+"name": "Apple jam (Seb ka murabba)",
+"serving_description": "100 g",
+"kcal": 189,
+"protein_g": 0.1,
+"carbs_g": 48.6,
+"fat_g": 0.3,
+"source": "indb"
+},
+{
+"name": "Apple jelly (Seb ki jelly)",
+"serving_description": "100 g",
+"kcal": 152,
+"protein_g": 0.1,
+"carbs_g": 39.4,
+"fat_g": 0.2,
+"source": "indb"
+},
+{
+"name": "Apple kheer (Seb ki kheer)",
+"serving_description": "100 g",
+"kcal": 81,
+"protein_g": 2.1,
+"carbs_g": 11.3,
+"fat_g": 3.2,
+"source": "indb"
+},
+{
+"name": "Apple mousse",
+"serving_description": "100 g",
+"kcal": 107,
+"protein_g": 4.2,
+"carbs_g": 12.8,
+"fat_g": 4.3,
+"source": "indb"
+},
+{
+"name": "Apple oats chia seed smoothie",
+"serving_description": "100 g",
+"kcal": 86,
+"protein_g": 3.5,
+"carbs_g": 13.1,
+"fat_g": 2.5,
+"source": "indb"
+},
+{
+"name": "Apple sago payasam (Seb aur sabudana ki kheer)",
+"serving_description": "100 g",
+"kcal": 137,
+"protein_g": 3.1,
+"carbs_g": 14.4,
+"fat_g": 7.7,
+"source": "indb"
+},
+{
+"name": "Apple snowballs",
+"serving_description": "100 g",
+"kcal": 102,
+"protein_g": 0.9,
+"carbs_g": 24.6,
+"fat_g": 0.3,
+"source": "indb"
+},
+{
+"name": "Apricot fool",
+"serving_description": "100 g",
+"kcal": 241,
+"protein_g": 1.5,
+"carbs_g": 33.6,
+"fat_g": 11.3,
+"source": "indb"
+},
+{
+"name": "Arhar with spinach (Arhar dal aur palak)",
+"serving_description": "100 g",
+"kcal": 53,
+"protein_g": 2.1,
+"carbs_g": 4.8,
+"fat_g": 2.8,
+"source": "indb"
+},
+{
+"name": "Assorted pastry",
+"serving_description": "100 g",
+"kcal": 231,
+"protein_g": 6.8,
+"carbs_g": 32.0,
+"fat_g": 8.9,
+"source": "indb"
+},
+{
+"name": "Atta dal burfi",
+"serving_description": "100 g",
+"kcal": 299,
+"protein_g": 6.7,
+"carbs_g": 40.6,
+"fat_g": 12.5,
+"source": "indb"
+},
+{
+"name": "Avial",
+"serving_description": "100 g",
+"kcal": 125,
+"protein_g": 2.5,
+"carbs_g": 8.5,
+"fat_g": 8.9,
+"source": "indb"
+},
+{
+"name": "Bacon and mushroom pancake",
+"serving_description": "100 g",
+"kcal": 158,
+"protein_g": 6.8,
+"carbs_g": 8.5,
+"fat_g": 10.6,
+"source": "indb"
+},
+{
+"name": "Baked brinjal in tomato sauce",
+"serving_description": "100 g",
+"kcal": 39,
+"protein_g": 1.6,
+"carbs_g": 4.1,
+"fat_g": 1.6,
+"source": "indb"
+},
+{
+"name": "Baked custard",
+"serving_description": "100 g",
+"kcal": 107,
+"protein_g": 5.4,
+"carbs_g": 9.5,
+"fat_g": 5.3,
+"source": "indb"
+},
+{
+"name": "Baked egg",
+"serving_description": "100 g",
+"kcal": 219,
+"protein_g": 11.9,
+"carbs_g": 15.4,
+"fat_g": 12.7,
+"source": "indb"
+},
+{
+"name": "Baked eggs in tomato sauce",
+"serving_description": "100 g",
+"kcal": 80,
+"protein_g": 4.9,
+"carbs_g": 3.8,
+"fat_g": 5.2,
+"source": "indb"
+},
+{
+"name": "Baked fish with cheese sauce",
+"serving_description": "100 g",
+"kcal": 114,
+"protein_g": 8.6,
+"carbs_g": 4.1,
+"fat_g": 7.0,
+"source": "indb"
+},
+{
+"name": "Baked potato soup",
+"serving_description": "100 g",
+"kcal": 147,
+"protein_g": 5.7,
+"carbs_g": 5.9,
+"fat_g": 11.2,
+"source": "indb"
+},
+{
+"name": "Baked potato with skin",
+"serving_description": "100 g",
+"kcal": 136,
+"protein_g": 3.4,
+"carbs_g": 11.1,
+"fat_g": 8.5,
+"source": "indb"
+},
+{
+"name": "Baked stuffed fish",
+"serving_description": "100 g",
+"kcal": 122,
+"protein_g": 16.1,
+"carbs_g": 2.1,
+"fat_g": 5.4,
+"source": "indb"
+},
+{
+"name": "Baked vegetables",
+"serving_description": "100 g",
+"kcal": 89,
+"protein_g": 3.7,
+"carbs_g": 8.4,
+"fat_g": 4.4,
+"source": "indb"
+},
+{
+"name": "Baked vegetables with spinach",
+"serving_description": "100 g",
+"kcal": 78,
+"protein_g": 3.2,
+"carbs_g": 6.9,
+"fat_g": 4.0,
+"source": "indb"
+},
+{
+"name": "Banana appam",
+"serving_description": "100 g",
+"kcal": 470,
+"protein_g": 1.2,
+"carbs_g": 20.1,
+"fat_g": 42.5,
+"source": "indb"
+},
+{
+"name": "Banana cake (Kele ka cake)",
+"serving_description": "100 g",
+"kcal": 390,
+"protein_g": 5.8,
+"carbs_g": 40.0,
+"fat_g": 23.3,
+"source": "indb"
+},
+{
+"name": "Banana chips (Kele ke chips)",
+"serving_description": "100 g",
+"kcal": 666,
+"protein_g": 0.4,
+"carbs_g": 7.3,
+"fat_g": 70.5,
+"source": "indb"
+},
+{
+"name": "Banana groundnut paste/puree",
+"serving_description": "100 g",
+"kcal": 213,
+"protein_g": 4.3,
+"carbs_g": 36.2,
+"fat_g": 5.5,
+"source": "indb"
+},
+{
+"name": "Banana milkshake (Kele milkshake)",
+"serving_description": "100 g",
+"kcal": 65,
+"protein_g": 1.8,
+"carbs_g": 9.1,
+"fat_g": 2.4,
+"source": "indb"
+},
+{
+"name": "Banana milkshake with ice cream (Kele ka milkshake ice cream ke saath)",
+"serving_description": "100 g",
+"kcal": 76,
+"protein_g": 2.0,
+"carbs_g": 11.2,
+"fat_g": 2.8,
+"source": "indb"
+},
+{
+"name": "Banana raita (Kele ka raita)",
+"serving_description": "100 g",
+"kcal": 89,
+"protein_g": 4.1,
+"carbs_g": 13.5,
+"fat_g": 2.1,
+"source": "indb"
+},
+{
+"name": "Barbeque sauce",
+"serving_description": "100 g",
+"kcal": 122,
+"protein_g": 1.0,
+"carbs_g": 20.5,
+"fat_g": 4.5,
+"source": "indb"
+},
+{
+"name": "Bathua bhujia",
+"serving_description": "100 g",
+"kcal": 91,
+"protein_g": 2.3,
+"carbs_g": 3.6,
+"fat_g": 7.3,
+"source": "indb"
+},
+{
+"name": "Bathua poori",
+"serving_description": "100 g",
+"kcal": 599,
+"protein_g": 2.4,
+"carbs_g": 13.9,
+"fat_g": 59.1,
+"source": "indb"
+},
+{
+"name": "Bathua raita",
+"serving_description": "100 g",
+"kcal": 54,
+"protein_g": 4.1,
+"carbs_g": 5.3,
+"fat_g": 1.8,
+"source": "indb"
+},
+{
+"name": "Beans and macaroni",
+"serving_description": "100 g",
+"kcal": 136,
+"protein_g": 4.6,
+"carbs_g": 14.2,
+"fat_g": 7.0,
+"source": "indb"
+},
+{
+"name": "Beans foogath",
+"serving_description": "100 g",
+"kcal": 105,
+"protein_g": 2.0,
+"carbs_g": 3.3,
+"fat_g": 9.2,
+"source": "indb"
+},
+{
+"name": "Beans with coconut (Nariyal aur sem/phali; Beans thoran)",
+"serving_description": "100 g",
+"kcal": 132,
+"protein_g": 2.6,
+"carbs_g": 4.4,
+"fat_g": 11.4,
+"source": "indb"
+},
+{
+"name": "Beetroot and egg salad (Chukandar aur ande ka salad)",
+"serving_description": "100 g",
+"kcal": 85,
+"protein_g": 3.4,
+"carbs_g": 3.4,
+"fat_g": 6.5,
+"source": "indb"
+},
+{
+"name": "Beetroot poori (Chukandar ki poori)",
+"serving_description": "100 g",
+"kcal": 528,
+"protein_g": 1.9,
+"carbs_g": 12.3,
+"fat_g": 52.2,
+"source": "indb"
+},
+{
+"name": "Bengal 5 Spice Blend (Panch Phoran)",
+"serving_description": "100 g",
+"kcal": 290,
+"protein_g": 18.3,
+"carbs_g": 20.0,
+"fat_g": 22.2,
+"source": "indb"
+},
+{
+"name": "Bengal fish curry (Bengali machli curry)",
+"serving_description": "100 g",
+"kcal": 109,
+"protein_g": 7.3,
+"carbs_g": 4.4,
+"fat_g": 7.0,
+"source": "indb"
+},
+{
+"name": "Besan and spinach parantha/paratha (Besan aur palak ka parantha/paratha)",
+"serving_description": "100 g",
+"kcal": 216,
+"protein_g": 5.5,
+"carbs_g": 21.4,
+"fat_g": 12.1,
+"source": "indb"
+},
+{
+"name": "Besan bathua chilla/cheela",
+"serving_description": "100 g",
+"kcal": 374,
+"protein_g": 11.5,
+"carbs_g": 40.6,
+"fat_g": 18.6,
+"source": "indb"
+},
+{
+"name": "Besan gatte curry",
+"serving_description": "100 g",
+"kcal": 189,
+"protein_g": 7.8,
+"carbs_g": 16.3,
+"fat_g": 10.7,
+"source": "indb"
+},
+{
+"name": "Besan kadhi with pakodies",
+"serving_description": "100 g",
+"kcal": 403,
+"protein_g": 1.6,
+"carbs_g": 3.6,
+"fat_g": 42.6,
+"source": "indb"
+},
+{
+"name": "Bhatura",
+"serving_description": "100 g",
+"kcal": 793,
+"protein_g": 1.6,
+"carbs_g": 10.7,
+"fat_g": 82.6,
+"source": "indb"
+},
+{
+"name": "Bhel puri",
+"serving_description": "100 g",
+"kcal": 510,
+"protein_g": 3.5,
+"carbs_g": 16.5,
+"fat_g": 47.9,
+"source": "indb"
+},
+{
+"name": "Black channa curry/Bengal gram curry (Kale chane ki curry)",
+"serving_description": "100 g",
+"kcal": 141,
+"protein_g": 5.7,
+"carbs_g": 14.1,
+"fat_g": 6.6,
+"source": "indb"
+},
+{
+"name": "Black channa pulao/ Bengal gram pulao (Kale chane ka pulao)",
+"serving_description": "100 g",
+"kcal": 126,
+"protein_g": 3.4,
+"carbs_g": 21.6,
+"fat_g": 2.6,
+"source": "indb"
+},
+{
+"name": "Black forest gateau",
+"serving_description": "100 g",
+"kcal": 218,
+"protein_g": 5.9,
+"carbs_g": 30.6,
+"fat_g": 8.6,
+"source": "indb"
+},
+{
+"name": "Black forest pastry",
+"serving_description": "100 g",
+"kcal": 234,
+"protein_g": 6.1,
+"carbs_g": 34.5,
+"fat_g": 8.5,
+"source": "indb"
+},
+{
+"name": "Black rice kheer (Chak-hao kheer)",
+"serving_description": "100 g",
+"kcal": 148,
+"protein_g": 4.4,
+"carbs_g": 22.9,
+"fat_g": 4.9,
+"source": "indb"
+},
+{
+"name": "Boiled egg (Ubla anda)",
+"serving_description": "100 g",
+"kcal": 45,
+"protein_g": 4.4,
+"carbs_g": 0.1,
+"fat_g": 3.0,
+"source": "indb"
+},
+{
+"name": "Boiled rice (Uble chawal)",
+"serving_description": "100 g",
+"kcal": 117,
+"protein_g": 2.6,
+"carbs_g": 25.7,
+"fat_g": 0.2,
+"source": "indb"
+},
+{
+"name": "Boondi raita",
+"serving_description": "100 g",
+"kcal": 688,
+"protein_g": 2.2,
+"carbs_g": 4.0,
+"fat_g": 73.8,
+"source": "indb"
+},
+{
+"name": "Boti kebab",
+"serving_description": "100 g",
+"kcal": 133,
+"protein_g": 9.2,
+"carbs_g": 3.1,
+"fat_g": 9.3,
+"source": "indb"
+},
+{
+"name": "Bottle gourd burfi (Ghiya/Lauki burfi)",
+"serving_description": "100 g",
+"kcal": 276,
+"protein_g": 5.9,
+"carbs_g": 24.5,
+"fat_g": 17.7,
+"source": "indb"
+},
+{
+"name": "Bottle gourd kheer (Ghiya/Lauki kheer)",
+"serving_description": "100 g",
+"kcal": 84,
+"protein_g": 2.7,
+"carbs_g": 10.0,
+"fat_g": 3.9,
+"source": "indb"
+},
+{
+"name": "Bottle gourd raita (Ghiya/Lauki ka raita)",
+"serving_description": "100 g",
+"kcal": 56,
+"protein_g": 4.0,
+"carbs_g": 5.8,
+"fat_g": 2.1,
+"source": "indb"
+},
+{
+"name": "Bottle gourd soup (Ghiya/Lauki soup)",
+"serving_description": "100 g",
+"kcal": 23,
+"protein_g": 0.5,
+"carbs_g": 1.2,
+"fat_g": 1.8,
+"source": "indb"
+},
+{
+"name": "Bread and butter pudding",
+"serving_description": "100 g",
+"kcal": 168,
+"protein_g": 5.6,
+"carbs_g": 19.6,
+"fat_g": 7.9,
+"source": "indb"
+},
+{
+"name": "Bread pakora/pakoda",
+"serving_description": "100 g",
+"kcal": 711,
+"protein_g": 2.6,
+"carbs_g": 8.9,
+"fat_g": 74.2,
+"source": "indb"
+},
+{
+"name": "Bread roll",
+"serving_description": "100 g",
+"kcal": 435,
+"protein_g": 2.9,
+"carbs_g": 16.1,
+"fat_g": 40.2,
+"source": "indb"
+},
+{
+"name": "Bread sauce",
+"serving_description": "100 g",
+"kcal": 111,
+"protein_g": 3.5,
+"carbs_g": 8.7,
+"fat_g": 7.1,
+"source": "indb"
+},
+{
+"name": "Bread upma",
+"serving_description": "100 g",
+"kcal": 130,
+"protein_g": 2.8,
+"carbs_g": 12.6,
+"fat_g": 7.7,
+"source": "indb"
+},
+{
+"name": "Brinjal bhartha (Baingan ka bhartha)",
+"serving_description": "100 g",
+"kcal": 65,
+"protein_g": 1.4,
+"carbs_g": 4.4,
+"fat_g": 4.5,
+"source": "indb"
+},
+{
+"name": "Brinjal pickle (Baingan ka achaar)",
+"serving_description": "100 g",
+"kcal": 139,
+"protein_g": 2.2,
+"carbs_g": 4.2,
+"fat_g": 13.0,
+"source": "indb"
+},
+{
+"name": "Broccoli chicken ala king",
+"serving_description": "100 g",
+"kcal": 120,
+"protein_g": 8.0,
+"carbs_g": 5.3,
+"fat_g": 7.6,
+"source": "indb"
+},
+{
+"name": "Broccoli delight",
+"serving_description": "100 g",
+"kcal": 41,
+"protein_g": 2.5,
+"carbs_g": 2.3,
+"fat_g": 2.5,
+"source": "indb"
+},
+{
+"name": "Brown sauce",
+"serving_description": "100 g",
+"kcal": 109,
+"protein_g": 11.9,
+"carbs_g": 5.4,
+"fat_g": 23.7,
+"source": "indb"
+},
+{
+"name": "Brown stock",
+"serving_description": "100 g",
+"kcal": 21,
+"protein_g": 1.9,
+"carbs_g": 0.3,
+"fat_g": 1.4,
+"source": "indb"
+},
+{
+"name": "Buckwheat pancake (Khura)",
+"serving_description": "100 g",
+"kcal": 263,
+"protein_g": 2.9,
+"carbs_g": 27.3,
+"fat_g": 16.4,
+"source": "indb"
+},
+{
+"name": "Butter chicken",
+"serving_description": "100 g",
+"kcal": 137,
+"protein_g": 10.9,
+"carbs_g": 3.7,
+"fat_g": 8.7,
+"source": "indb"
+},
+{
+"name": "Butter icing",
+"serving_description": "100 g",
+"kcal": 501,
+"protein_g": 0.2,
+"carbs_g": 71.6,
+"fat_g": 25.4,
+"source": "indb"
+},
+{
+"name": "Butterfly biscuit",
+"serving_description": "100 g",
+"kcal": 341,
+"protein_g": 10.0,
+"carbs_g": 25.3,
+"fat_g": 22.1,
+"source": "indb"
+},
+{
+"name": "Buttermilk biscuit",
+"serving_description": "100 g",
+"kcal": 323,
+"protein_g": 5.8,
+"carbs_g": 34.9,
+"fat_g": 17.5,
+"source": "indb"
+},
+{
+"name": "Cabbage and peas (Pattagobhi aur matar)",
+"serving_description": "100 g",
+"kcal": 64,
+"protein_g": 3.2,
+"carbs_g": 6.2,
+"fat_g": 2.6,
+"source": "indb"
+},
+{
+"name": "Cabbage kheer (Pattagobhi ki kheer)",
+"serving_description": "100 g",
+"kcal": 84,
+"protein_g": 2.9,
+"carbs_g": 9.7,
+"fat_g": 3.8,
+"source": "indb"
+},
+{
+"name": "Cabbage kofta curry (Pattagobhi kofta curry)",
+"serving_description": "100 g",
+"kcal": 640,
+"protein_g": 1.0,
+"carbs_g": 2.9,
+"fat_g": 69.4,
+"source": "indb"
+},
+{
+"name": "Cabbage manchurian (Pattagobhi manchurian)",
+"serving_description": "100 g",
+"kcal": 224,
+"protein_g": 0.6,
+"carbs_g": 4.8,
+"fat_g": 22.5,
+"source": "indb"
+},
+{
+"name": "Cabbage raita (Pattagobhi raita)",
+"serving_description": "100 g",
+"kcal": 85,
+"protein_g": 3.2,
+"carbs_g": 5.2,
+"fat_g": 5.8,
+"source": "indb"
+},
+{
+"name": "Cabbage rolls (curry) ((Pattagobhi rolls)(curry))",
+"serving_description": "100 g",
+"kcal": 125,
+"protein_g": 5.8,
+"carbs_g": 7.0,
+"fat_g": 8.2,
+"source": "indb"
+},
+{
+"name": "Cabbage rolls (dry) ((Pattagobhi rolls) (dry))",
+"serving_description": "100 g",
+"kcal": 142,
+"protein_g": 8.2,
+"carbs_g": 6.1,
+"fat_g": 9.4,
+"source": "indb"
+},
+{
+"name": "Cajun chicken",
+"serving_description": "100 g",
+"kcal": 185,
+"protein_g": 12.7,
+"carbs_g": 1.9,
+"fat_g": 14.0,
+"source": "indb"
+},
+{
+"name": "Canjee",
+"serving_description": "100 g",
+"kcal": 7,
+"protein_g": 0.2,
+"carbs_g": 0.4,
+"fat_g": 0.4,
+"source": "indb"
+},
+{
+"name": "Caramel custard (baked)",
+"serving_description": "100 g",
+"kcal": 123,
+"protein_g": 5.1,
+"carbs_g": 15.0,
+"fat_g": 5.0,
+"source": "indb"
+},
+{
+"name": "Caramel custard (steamed)",
+"serving_description": "100 g",
+"kcal": 122,
+"protein_g": 5.0,
+"carbs_g": 15.0,
+"fat_g": 4.9,
+"source": "indb"
+},
+{
+"name": "Caramel ice cream",
+"serving_description": "100 g",
+"kcal": 174,
+"protein_g": 4.3,
+"carbs_g": 14.8,
+"fat_g": 11.2,
+"source": "indb"
+},
+{
+"name": "Cardamom cookies (Elaichi cookies)",
+"serving_description": "100 g",
+"kcal": 400,
+"protein_g": 5.1,
+"carbs_g": 54.0,
+"fat_g": 19.1,
+"source": "indb"
+},
+{
+"name": "Carrot and cabbage with coconut (Nariyal ke saath pattagobhi aur gajar)",
+"serving_description": "100 g",
+"kcal": 107,
+"protein_g": 1.8,
+"carbs_g": 5.0,
+"fat_g": 8.6,
+"source": "indb"
+},
+{
+"name": "Carrot and fenugreek leaves (Gajar methi)",
+"serving_description": "100 g",
+"kcal": 62,
+"protein_g": 2.1,
+"carbs_g": 4.2,
+"fat_g": 3.8,
+"source": "indb"
+},
+{
+"name": "Carrot and spinach raita (Gajar aur palak ka raita)",
+"serving_description": "100 g",
+"kcal": 57,
+"protein_g": 4.0,
+"carbs_g": 5.8,
+"fat_g": 2.0,
+"source": "indb"
+},
+{
+"name": "Carrot apple sandwich (Gajar aur seb ka sandwich)",
+"serving_description": "100 g",
+"kcal": 214,
+"protein_g": 5.3,
+"carbs_g": 29.0,
+"fat_g": 9.1,
+"source": "indb"
+},
+{
+"name": "Carrot cake (Gajar ka cake)",
+"serving_description": "100 g",
+"kcal": 256,
+"protein_g": 5.6,
+"carbs_g": 36.0,
+"fat_g": 10.3,
+"source": "indb"
+},
+{
+"name": "Carrot halwa (Gajar ka halwa)",
+"serving_description": "100 g",
+"kcal": 173,
+"protein_g": 3.1,
+"carbs_g": 18.5,
+"fat_g": 9.7,
+"source": "indb"
+},
+{
+"name": "Carrot kheer (Gajar ki kheer)",
+"serving_description": "100 g",
+"kcal": 85,
+"protein_g": 2.8,
+"carbs_g": 10.1,
+"fat_g": 3.9,
+"source": "indb"
+},
+{
+"name": "Carrot murabba (Gajar ka murabba)",
+"serving_description": "100 g",
+"kcal": 175,
+"protein_g": 0.3,
+"carbs_g": 45.6,
+"fat_g": 0.2,
+"source": "indb"
+},
+{
+"name": "Carrot raita (Gajar ka raita)",
+"serving_description": "100 g",
+"kcal": 65,
+"protein_g": 4.1,
+"carbs_g": 7.2,
+"fat_g": 2.2,
+"source": "indb"
+},
+{
+"name": "Cashewnut burfi (Kaju burfi/Kaju katli)",
+"serving_description": "100 g",
+"kcal": 422,
+"protein_g": 5.5,
+"carbs_g": 37.9,
+"fat_g": 28.5,
+"source": "indb"
+},
+{
+"name": "Cauliflower au gratin",
+"serving_description": "100 g",
+"kcal": 146,
+"protein_g": 4.5,
+"carbs_g": 9.1,
+"fat_g": 10.2,
+"source": "indb"
+},
+{
+"name": "Cauliflower basket",
+"serving_description": "100 g",
+"kcal": 91,
+"protein_g": 5.2,
+"carbs_g": 4.0,
+"fat_g": 5.9,
+"source": "indb"
+},
+{
+"name": "Cauliflower canjee (Phoolgobhi ki canjee)",
+"serving_description": "100 g",
+"kcal": 7,
+"protein_g": 0.4,
+"carbs_g": 0.3,
+"fat_g": 0.4,
+"source": "indb"
+},
+{
+"name": "Cauliflower kheer (Phoolgobhi ki kheer)",
+"serving_description": "100 g",
+"kcal": 82,
+"protein_g": 3.0,
+"carbs_g": 8.8,
+"fat_g": 4.0,
+"source": "indb"
+},
+{
+"name": "Cauliflower kofta curry (Phoolgobhi kofta curry)",
+"serving_description": "100 g",
+"kcal": 641,
+"protein_g": 1.0,
+"carbs_g": 2.6,
+"fat_g": 69.6,
+"source": "indb"
+},
+{
+"name": "Cauliflower musallam (Phoolgobhi musallam)",
+"serving_description": "100 g",
+"kcal": 59,
+"protein_g": 1.9,
+"carbs_g": 4.5,
+"fat_g": 3.5,
+"source": "indb"
+},
+{
+"name": "Cauliflower pakora/pakoda (Phoolgobhi ke pakode)",
+"serving_description": "100 g",
+"kcal": 672,
+"protein_g": 2.0,
+"carbs_g": 4.5,
+"fat_g": 71.9,
+"source": "indb"
+},
+{
+"name": "Cauliflower parantha/paratha (Phoolgobhi ka parantha/paratha)",
+"serving_description": "100 g",
+"kcal": 178,
+"protein_g": 3.7,
+"carbs_g": 18.8,
+"fat_g": 9.5,
+"source": "indb"
+},
+{
+"name": "Cauliflower potato canjee",
+"serving_description": "100 g",
+"kcal": 17,
+"protein_g": 0.6,
+"carbs_g": 2.6,
+"fat_g": 0.4,
+"source": "indb"
+},
+{
+"name": "Cauliflower with coconut (Nariyal ke saath phoolgobhi)",
+"serving_description": "100 g",
+"kcal": 132,
+"protein_g": 2.6,
+"carbs_g": 4.0,
+"fat_g": 11.6,
+"source": "indb"
+},
+{
+"name": "Cauliflower, pea and potato bhujia (Phoolgobhi, matar aur aloo bhujia)",
+"serving_description": "100 g",
+"kcal": 96,
+"protein_g": 2.8,
+"carbs_g": 8.2,
+"fat_g": 5.5,
+"source": "indb"
+},
+{
+"name": "Cereal mix",
+"serving_description": "100 g",
+"kcal": 121,
+"protein_g": 3.3,
+"carbs_g": 21.8,
+"fat_g": 2.0,
+"source": "indb"
+},
+{
+"name": "Cereal pulse mix with amylase rice flour",
+"serving_description": "100 g",
+"kcal": 152,
+"protein_g": 4.3,
+"carbs_g": 27.8,
+"fat_g": 2.7,
+"source": "indb"
+},
+{
+"name": "Channa murmura premix",
+"serving_description": "100 g",
+"kcal": 339,
+"protein_g": 10.6,
+"carbs_g": 72.6,
+"fat_g": 3.3,
+"source": "indb"
+},
+{
+"name": "Chapati/Roti",
+"serving_description": "100 g",
+"kcal": 202,
+"protein_g": 5.9,
+"carbs_g": 35.6,
+"fat_g": 3.6,
+"source": "indb"
+},
+{
+"name": "Charlotte rousse",
+"serving_description": "100 g",
+"kcal": 188,
+"protein_g": 4.0,
+"carbs_g": 34.1,
+"fat_g": 4.8,
+"source": "indb"
+},
+{
+"name": "Chat masala",
+"serving_description": "100 g",
+"kcal": 223,
+"protein_g": 8.2,
+"carbs_g": 23.9,
+"fat_g": 9.9,
+"source": "indb"
+},
+{
+"name": "Checker board sandwich",
+"serving_description": "100 g",
+"kcal": 348,
+"protein_g": 7.4,
+"carbs_g": 25.9,
+"fat_g": 24.7,
+"source": "indb"
+},
+{
+"name": "Cheese and chilli sandwich",
+"serving_description": "100 g",
+"kcal": 218,
+"protein_g": 6.8,
+"carbs_g": 27.4,
+"fat_g": 9.8,
+"source": "indb"
+},
+{
+"name": "Cheese and mushroom omelette/omlet",
+"serving_description": "100 g",
+"kcal": 206,
+"protein_g": 9.7,
+"carbs_g": 1.7,
+"fat_g": 17.8,
+"source": "indb"
+},
+{
+"name": "Cheese and mushroom tart",
+"serving_description": "100 g",
+"kcal": 246,
+"protein_g": 5.5,
+"carbs_g": 21.4,
+"fat_g": 15.3,
+"source": "indb"
+},
+{
+"name": "Cheese and pineapple sandwich (Cheese aur ananas ka sandwich)",
+"serving_description": "100 g",
+"kcal": 258,
+"protein_g": 8.2,
+"carbs_g": 29.1,
+"fat_g": 12.8,
+"source": "indb"
+},
+{
+"name": "Cheese and tomato pancake",
+"serving_description": "100 g",
+"kcal": 147,
+"protein_g": 5.1,
+"carbs_g": 10.7,
+"fat_g": 9.3,
+"source": "indb"
+},
+{
+"name": "Cheese and tomato sandwich (Cheese aur tamatar ke sandwich)",
+"serving_description": "100 g",
+"kcal": 243,
+"protein_g": 7.9,
+"carbs_g": 26.9,
+"fat_g": 12.3,
+"source": "indb"
+},
+{
+"name": "Cheese and tomato sandwich (toasted) (Cheese aur tamatar ke sandwich (toasted))",
+"serving_description": "100 g",
+"kcal": 225,
+"protein_g": 6.8,
+"carbs_g": 21.4,
+"fat_g": 13.0,
+"source": "indb"
+},
+{
+"name": "Cheese balls",
+"serving_description": "100 g",
+"kcal": 681,
+"protein_g": 2.2,
+"carbs_g": 4.8,
+"fat_g": 72.6,
+"source": "indb"
+},
+{
+"name": "Cheese noodle ring",
+"serving_description": "100 g",
+"kcal": 134,
+"protein_g": 6.2,
+"carbs_g": 14.0,
+"fat_g": 6.1,
+"source": "indb"
+},
+{
+"name": "Cheese open sandwich",
+"serving_description": "100 g",
+"kcal": 274,
+"protein_g": 9.8,
+"carbs_g": 28.4,
+"fat_g": 14.2,
+"source": "indb"
+},
+{
+"name": "Cheese patties",
+"serving_description": "100 g",
+"kcal": 324,
+"protein_g": 7.4,
+"carbs_g": 22.2,
+"fat_g": 22.7,
+"source": "indb"
+},
+{
+"name": "Cheese pizza",
+"serving_description": "100 g",
+"kcal": 249,
+"protein_g": 5.8,
+"carbs_g": 30.6,
+"fat_g": 12.4,
+"source": "indb"
+},
+{
+"name": "Cheese pudding",
+"serving_description": "100 g",
+"kcal": 285,
+"protein_g": 11.3,
+"carbs_g": 19.3,
+"fat_g": 18.4,
+"source": "indb"
+},
+{
+"name": "Cheese sauce",
+"serving_description": "100 g",
+"kcal": 195,
+"protein_g": 7.7,
+"carbs_g": 7.1,
+"fat_g": 15.1,
+"source": "indb"
+},
+{
+"name": "Cheese soup",
+"serving_description": "100 g",
+"kcal": 41,
+"protein_g": 12.4,
+"carbs_g": 1.9,
+"fat_g": 17.1,
+"source": "indb"
+},
+{
+"name": "Cheese straws",
+"serving_description": "100 g",
+"kcal": 382,
+"protein_g": 9.8,
+"carbs_g": 30.6,
+"fat_g": 24.3,
+"source": "indb"
+},
+{
+"name": "Cheese toast",
+"serving_description": "100 g",
+"kcal": 785,
+"protein_g": 2.0,
+"carbs_g": 5.5,
+"fat_g": 84.1,
+"source": "indb"
+},
+{
+"name": "Chenna murki",
+"serving_description": "100 g",
+"kcal": 253,
+"protein_g": 10.5,
+"carbs_g": 36.0,
+"fat_g": 8.2,
+"source": "indb"
+},
+{
+"name": "Cherry and walnut cookies",
+"serving_description": "100 g",
+"kcal": 423,
+"protein_g": 5.6,
+"carbs_g": 59.4,
+"fat_g": 18.8,
+"source": "indb"
+},
+{
+"name": "Chhena poda",
+"serving_description": "100 g",
+"kcal": 345,
+"protein_g": 13.7,
+"carbs_g": 33.6,
+"fat_g": 17.9,
+"source": "indb"
+},
+{
+"name": "Chicken and cheese souffle",
+"serving_description": "100 g",
+"kcal": 182,
+"protein_g": 9.1,
+"carbs_g": 3.5,
+"fat_g": 14.7,
+"source": "indb"
+},
+{
+"name": "Chicken and corn open sandwich",
+"serving_description": "100 g",
+"kcal": 188,
+"protein_g": 8.6,
+"carbs_g": 19.2,
+"fat_g": 8.8,
+"source": "indb"
+},
+{
+"name": "Chicken and tomato towers",
+"serving_description": "100 g",
+"kcal": 101,
+"protein_g": 6.9,
+"carbs_g": 2.4,
+"fat_g": 7.0,
+"source": "indb"
+},
+{
+"name": "Chicken chowmein",
+"serving_description": "100 g",
+"kcal": 151,
+"protein_g": 6.3,
+"carbs_g": 13.3,
+"fat_g": 8.2,
+"source": "indb"
+},
+{
+"name": "Chicken consomme (Clear chicken soup)",
+"serving_description": "100 g",
+"kcal": 48,
+"protein_g": 11.5,
+"carbs_g": 1.2,
+"fat_g": 12.0,
+"source": "indb"
+},
+{
+"name": "Chicken curry",
+"serving_description": "100 g",
+"kcal": 129,
+"protein_g": 11.8,
+"carbs_g": 3.4,
+"fat_g": 7.6,
+"source": "indb"
+},
+{
+"name": "Chicken kebab",
+"serving_description": "100 g",
+"kcal": 729,
+"protein_g": 3.7,
+"carbs_g": 1.1,
+"fat_g": 78.9,
+"source": "indb"
+},
+{
+"name": "Chicken korma",
+"serving_description": "100 g",
+"kcal": 148,
+"protein_g": 9.8,
+"carbs_g": 5.4,
+"fat_g": 9.7,
+"source": "indb"
+},
+{
+"name": "Chicken lasagne",
+"serving_description": "100 g",
+"kcal": 187,
+"protein_g": 10.5,
+"carbs_g": 13.9,
+"fat_g": 10.4,
+"source": "indb"
+},
+{
+"name": "Chicken manchurian",
+"serving_description": "100 g",
+"kcal": 142,
+"protein_g": 9.5,
+"carbs_g": 6.1,
+"fat_g": 12.0,
+"source": "indb"
+},
+{
+"name": "Chicken pakora/pakoda",
+"serving_description": "100 g",
+"kcal": 590,
+"protein_g": 6.0,
+"carbs_g": 4.6,
+"fat_g": 61.0,
+"source": "indb"
+},
+{
+"name": "Chicken pulao",
+"serving_description": "100 g",
+"kcal": 108,
+"protein_g": 6.1,
+"carbs_g": 11.2,
+"fat_g": 8.5,
+"source": "indb"
+},
+{
+"name": "Chicken salad",
+"serving_description": "100 g",
+"kcal": 338,
+"protein_g": 15.3,
+"carbs_g": 1.3,
+"fat_g": 30.3,
+"source": "indb"
+},
+{
+"name": "Chicken sandwich",
+"serving_description": "100 g",
+"kcal": 253,
+"protein_g": 13.1,
+"carbs_g": 25.4,
+"fat_g": 11.7,
+"source": "indb"
+},
+{
+"name": "Chicken sandwich (toasted)",
+"serving_description": "100 g",
+"kcal": 167,
+"protein_g": 12.1,
+"carbs_g": 18.8,
+"fat_g": 5.3,
+"source": "indb"
+},
+{
+"name": "Chicken stew",
+"serving_description": "100 g",
+"kcal": 128,
+"protein_g": 7.2,
+"carbs_g": 4.4,
+"fat_g": 8.9,
+"source": "indb"
+},
+{
+"name": "Chicken stock",
+"serving_description": "100 g",
+"kcal": 30,
+"protein_g": 3.7,
+"carbs_g": 0.4,
+"fat_g": 1.5,
+"source": "indb"
+},
+{
+"name": "Chicken sweet and sour",
+"serving_description": "100 g",
+"kcal": 445,
+"protein_g": 6.9,
+"carbs_g": 2.7,
+"fat_g": 47.6,
+"source": "indb"
+},
+{
+"name": "Chicken sweet corn soup",
+"serving_description": "100 g",
+"kcal": 28,
+"protein_g": 14.5,
+"carbs_g": 1.6,
+"fat_g": 12.6,
+"source": "indb"
+},
+{
+"name": "Chicken walnut sandwich (Chicken aur akhrot ke sandwich)",
+"serving_description": "100 g",
+"kcal": 286,
+"protein_g": 12.6,
+"carbs_g": 22.6,
+"fat_g": 16.8,
+"source": "indb"
+},
+{
+"name": "Chicken yakhni",
+"serving_description": "100 g",
+"kcal": 99,
+"protein_g": 10.7,
+"carbs_g": 0.8,
+"fat_g": 6.1,
+"source": "indb"
+},
+{
+"name": "Chickpea flour cookies (Sweet besan rounds/cookies)",
+"serving_description": "100 g",
+"kcal": 207,
+"protein_g": 4.3,
+"carbs_g": 39.6,
+"fat_g": 3.4,
+"source": "indb"
+},
+{
+"name": "Chickpeas curry (Safed channa curry)",
+"serving_description": "100 g",
+"kcal": 163,
+"protein_g": 6.1,
+"carbs_g": 20.0,
+"fat_g": 6.8,
+"source": "indb"
+},
+{
+"name": "Chilli chicken",
+"serving_description": "100 g",
+"kcal": 199,
+"protein_g": 9.6,
+"carbs_g": 2.9,
+"fat_g": 16.6,
+"source": "indb"
+},
+{
+"name": "Chilli paneer",
+"serving_description": "100 g",
+"kcal": 778,
+"protein_g": 2.1,
+"carbs_g": 3.3,
+"fat_g": 84.0,
+"source": "indb"
+},
+{
+"name": "Chinese cabbage and meat ball soup",
+"serving_description": "100 g",
+"kcal": 484,
+"protein_g": 5.2,
+"carbs_g": 1.4,
+"fat_g": 56.6,
+"source": "indb"
+},
+{
+"name": "Chinese fried rice",
+"serving_description": "100 g",
+"kcal": 121,
+"protein_g": 4.1,
+"carbs_g": 13.4,
+"fat_g": 5.4,
+"source": "indb"
+},
+{
+"name": "Chocochip ice cream",
+"serving_description": "100 g",
+"kcal": 241,
+"protein_g": 4.2,
+"carbs_g": 16.8,
+"fat_g": 17.9,
+"source": "indb"
+},
+{
+"name": "Chocolate biscuit",
+"serving_description": "100 g",
+"kcal": 380,
+"protein_g": 5.9,
+"carbs_g": 51.6,
+"fat_g": 17.1,
+"source": "indb"
+},
+{
+"name": "Chocolate burfi",
+"serving_description": "100 g",
+"kcal": 339,
+"protein_g": 13.0,
+"carbs_g": 33.2,
+"fat_g": 17.9,
+"source": "indb"
+},
+{
+"name": "Chocolate butter icing",
+"serving_description": "100 g",
+"kcal": 470,
+"protein_g": 3.2,
+"carbs_g": 61.7,
+"fat_g": 24.8,
+"source": "indb"
+},
+{
+"name": "Chocolate cake",
+"serving_description": "100 g",
+"kcal": 336,
+"protein_g": 6.0,
+"carbs_g": 45.1,
+"fat_g": 15.2,
+"source": "indb"
+},
+{
+"name": "Chocolate chiffon cake",
+"serving_description": "100 g",
+"kcal": 312,
+"protein_g": 5.8,
+"carbs_g": 37.9,
+"fat_g": 15.8,
+"source": "indb"
+},
+{
+"name": "Chocolate chip cookies",
+"serving_description": "100 g",
+"kcal": 425,
+"protein_g": 5.8,
+"carbs_g": 58.0,
+"fat_g": 19.4,
+"source": "indb"
+},
+{
+"name": "Chocolate cream shells",
+"serving_description": "100 g",
+"kcal": 427,
+"protein_g": 5.1,
+"carbs_g": 59.3,
+"fat_g": 19.3,
+"source": "indb"
+},
+{
+"name": "Chocolate eclairs",
+"serving_description": "100 g",
+"kcal": 239,
+"protein_g": 4.2,
+"carbs_g": 26.2,
+"fat_g": 13.5,
+"source": "indb"
+},
+{
+"name": "Chocolate eggless cake",
+"serving_description": "100 g",
+"kcal": 312,
+"protein_g": 6.7,
+"carbs_g": 43.4,
+"fat_g": 13.2,
+"source": "indb"
+},
+{
+"name": "Chocolate glace icing",
+"serving_description": "100 g",
+"kcal": 436,
+"protein_g": 3.2,
+"carbs_g": 62.4,
+"fat_g": 20.8,
+"source": "indb"
+},
+{
+"name": "Chocolate ice cream",
+"serving_description": "100 g",
+"kcal": 178,
+"protein_g": 4.5,
+"carbs_g": 15.4,
+"fat_g": 11.2,
+"source": "indb"
+},
+{
+"name": "Chocolate meringue pie",
+"serving_description": "100 g",
+"kcal": 215,
+"protein_g": 5.0,
+"carbs_g": 28.8,
+"fat_g": 9.2,
+"source": "indb"
+},
+{
+"name": "Chocolate pastry",
+"serving_description": "100 g",
+"kcal": 243,
+"protein_g": 7.1,
+"carbs_g": 32.2,
+"fat_g": 10.1,
+"source": "indb"
+},
+{
+"name": "Chocolate pudding",
+"serving_description": "100 g",
+"kcal": 212,
+"protein_g": 3.5,
+"carbs_g": 29.6,
+"fat_g": 9.5,
+"source": "indb"
+},
+{
+"name": "Chocolate sauce",
+"serving_description": "100 g",
+"kcal": 263,
+"protein_g": 1.9,
+"carbs_g": 43.2,
+"fat_g": 10.4,
+"source": "indb"
+},
+{
+"name": "Chocolate souffle",
+"serving_description": "100 g",
+"kcal": 189,
+"protein_g": 7.9,
+"carbs_g": 14.7,
+"fat_g": 11.4,
+"source": "indb"
+},
+{
+"name": "Chocolate sponge cake",
+"serving_description": "100 g",
+"kcal": 240,
+"protein_g": 9.1,
+"carbs_g": 39.5,
+"fat_g": 5.5,
+"source": "indb"
+},
+{
+"name": "Chocolate swiss roll",
+"serving_description": "100 g",
+"kcal": 306,
+"protein_g": 6.0,
+"carbs_g": 27.0,
+"fat_g": 19.8,
+"source": "indb"
+},
+{
+"name": "Chocolate walnut cookies (Chocolate aur akhrot ke cookies)",
+"serving_description": "100 g",
+"kcal": 425,
+"protein_g": 6.6,
+"carbs_g": 47.1,
+"fat_g": 23.6,
+"source": "indb"
+},
+{
+"name": "Choconut ice cream",
+"serving_description": "100 g",
+"kcal": 274,
+"protein_g": 5.0,
+"carbs_g": 23.1,
+"fat_g": 18.5,
+"source": "indb"
+},
+{
+"name": "Choux pastry",
+"serving_description": "100 g",
+"kcal": 222,
+"protein_g": 5.6,
+"carbs_g": 16.2,
+"fat_g": 15.0,
+"source": "indb"
+},
+{
+"name": "Choux swans",
+"serving_description": "100 g",
+"kcal": 216,
+"protein_g": 4.4,
+"carbs_g": 14.9,
+"fat_g": 15.6,
+"source": "indb"
+},
+{
+"name": "Christmas bell biscuit",
+"serving_description": "100 g",
+"kcal": 405,
+"protein_g": 5.7,
+"carbs_g": 60.8,
+"fat_g": 15.8,
+"source": "indb"
+},
+{
+"name": "Christmas biscuit",
+"serving_description": "100 g",
+"kcal": 406,
+"protein_g": 5.7,
+"carbs_g": 61.0,
+"fat_g": 15.9,
+"source": "indb"
+},
+{
+"name": "Christmas cake",
+"serving_description": "100 g",
+"kcal": 373,
+"protein_g": 5.5,
+"carbs_g": 48.3,
+"fat_g": 16.9,
+"source": "indb"
+},
+{
+"name": "Christmas star biscuit",
+"serving_description": "100 g",
+"kcal": 392,
+"protein_g": 3.5,
+"carbs_g": 74.5,
+"fat_g": 10.0,
+"source": "indb"
+},
+{
+"name": "Christmas tree biscuit",
+"serving_description": "100 g",
+"kcal": 386,
+"protein_g": 5.4,
+"carbs_g": 58.4,
+"fat_g": 15.0,
+"source": "indb"
+},
+{
+"name": "Christmas wreath biscuit",
+"serving_description": "100 g",
+"kcal": 386,
+"protein_g": 5.4,
+"carbs_g": 58.1,
+"fat_g": 15.0,
+"source": "indb"
+},
+{
+"name": "Chum chum",
+"serving_description": "100 g",
+"kcal": 130,
+"protein_g": 1.5,
+"carbs_g": 28.3,
+"fat_g": 1.9,
+"source": "indb"
+},
+{
+"name": "Classic club sandwich",
+"serving_description": "100 g",
+"kcal": 201,
+"protein_g": 6.7,
+"carbs_g": 18.5,
+"fat_g": 11.6,
+"source": "indb"
+},
+{
+"name": "Classic italian pasta",
+"serving_description": "100 g",
+"kcal": 42,
+"protein_g": 0.6,
+"carbs_g": 4.4,
+"fat_g": 2.5,
+"source": "indb"
+},
+{
+"name": "Classic seasoned black beans",
+"serving_description": "100 g",
+"kcal": 29,
+"protein_g": 8.0,
+"carbs_g": 7.7,
+"fat_g": 8.3,
+"source": "indb"
+},
+{
+"name": "Clear tomato soup (Tamatar ka soup)",
+"serving_description": "100 g",
+"kcal": 80,
+"protein_g": 4.8,
+"carbs_g": 3.5,
+"fat_g": 12.2,
+"source": "indb"
+},
+{
+"name": "Club sandwich",
+"serving_description": "100 g",
+"kcal": 235,
+"protein_g": 7.3,
+"carbs_g": 18.5,
+"fat_g": 15.1,
+"source": "indb"
+},
+{
+"name": "Coco pine cooler",
+"serving_description": "100 g",
+"kcal": 33,
+"protein_g": 0.6,
+"carbs_g": 5.7,
+"fat_g": 1.0,
+"source": "indb"
+},
+{
+"name": "Coconut biscuit (Nariyal ke biscuit)",
+"serving_description": "100 g",
+"kcal": 435,
+"protein_g": 5.8,
+"carbs_g": 42.9,
+"fat_g": 27.2,
+"source": "indb"
+},
+{
+"name": "Coconut burfi (Nariyal ki burfi)",
+"serving_description": "100 g",
+"kcal": 468,
+"protein_g": 8.8,
+"carbs_g": 32.2,
+"fat_g": 34.6,
+"source": "indb"
+},
+{
+"name": "Coconut chutney (Nariyal ki chutney)",
+"serving_description": "100 g",
+"kcal": 266,
+"protein_g": 3.6,
+"carbs_g": 8.3,
+"fat_g": 25.0,
+"source": "indb"
+},
+{
+"name": "Coconut finger",
+"serving_description": "100 g",
+"kcal": 275,
+"protein_g": 7.1,
+"carbs_g": 42.6,
+"fat_g": 8.9,
+"source": "indb"
+},
+{
+"name": "Coconut kheer (Nariyal ki kheer)",
+"serving_description": "100 g",
+"kcal": 163,
+"protein_g": 3.4,
+"carbs_g": 14.4,
+"fat_g": 10.5,
+"source": "indb"
+},
+{
+"name": "Coconut pickle (Nariyal ka aachar)",
+"serving_description": "100 g",
+"kcal": 517,
+"protein_g": 3.0,
+"carbs_g": 11.5,
+"fat_g": 51.7,
+"source": "indb"
+},
+{
+"name": "Coffee biscuit",
+"serving_description": "100 g",
+"kcal": 417,
+"protein_g": 6.9,
+"carbs_g": 46.6,
+"fat_g": 23.0,
+"source": "indb"
+},
+{
+"name": "Coffee drops",
+"serving_description": "100 g",
+"kcal": 443,
+"protein_g": 7.6,
+"carbs_g": 43.1,
+"fat_g": 27.2,
+"source": "indb"
+},
+{
+"name": "Coffee ice cream",
+"serving_description": "100 g",
+"kcal": 151,
+"protein_g": 3.1,
+"carbs_g": 14.1,
+"fat_g": 9.4,
+"source": "indb"
+},
+{
+"name": "Coffee pear alaska",
+"serving_description": "100 g",
+"kcal": 204,
+"protein_g": 2.9,
+"carbs_g": 19.4,
+"fat_g": 13.2,
+"source": "indb"
+},
+{
+"name": "Cold chocolate souffle",
+"serving_description": "100 g",
+"kcal": 188,
+"protein_g": 6.4,
+"carbs_g": 17.2,
+"fat_g": 10.9,
+"source": "indb"
+},
+{
+"name": "Cold coffee (with cream)",
+"serving_description": "100 g",
+"kcal": 83,
+"protein_g": 1.9,
+"carbs_g": 12.0,
+"fat_g": 3.3,
+"source": "indb"
+},
+{
+"name": "Cold coffee with ice cream",
+"serving_description": "100 g",
+"kcal": 68,
+"protein_g": 1.6,
+"carbs_g": 11.2,
+"fat_g": 2.1,
+"source": "indb"
+},
+{
+"name": "Cold cucumber cream soup",
+"serving_description": "100 g",
+"kcal": 12,
+"protein_g": 0.3,
+"carbs_g": 1.8,
+"fat_g": 0.3,
+"source": "indb"
+},
+{
+"name": "Cold cucumber soup (Thanda kheere ka soup)",
+"serving_description": "100 g",
+"kcal": 48,
+"protein_g": 3.0,
+"carbs_g": 4.6,
+"fat_g": 2.0,
+"source": "indb"
+},
+{
+"name": "Cold lemon souffle",
+"serving_description": "100 g",
+"kcal": 170,
+"protein_g": 5.9,
+"carbs_g": 15.6,
+"fat_g": 9.8,
+"source": "indb"
+},
+{
+"name": "Cold orange souffle",
+"serving_description": "100 g",
+"kcal": 173,
+"protein_g": 5.9,
+"carbs_g": 16.3,
+"fat_g": 9.8,
+"source": "indb"
+},
+{
+"name": "Cold pineapple souffle",
+"serving_description": "100 g",
+"kcal": 181,
+"protein_g": 6.2,
+"carbs_g": 16.8,
+"fat_g": 10.4,
+"source": "indb"
+},
+{
+"name": "Cold summer garden soup",
+"serving_description": "100 g",
+"kcal": 49,
+"protein_g": 8.6,
+"carbs_g": 2.6,
+"fat_g": 14.1,
+"source": "indb"
+},
+{
+"name": "Cold tomato soup",
+"serving_description": "100 g",
+"kcal": 17,
+"protein_g": 0.1,
+"carbs_g": 0.6,
+"fat_g": 1.6,
+"source": "indb"
+},
+{
+"name": "Cold vanilla souffle",
+"serving_description": "100 g",
+"kcal": 180,
+"protein_g": 6.2,
+"carbs_g": 16.3,
+"fat_g": 10.3,
+"source": "indb"
+},
+{
+"name": "Coleslaw",
+"serving_description": "100 g",
+"kcal": 77,
+"protein_g": 1.2,
+"carbs_g": 5.6,
+"fat_g": 5.3,
+"source": "indb"
+},
+{
+"name": "Consomme au julienne",
+"serving_description": "100 g",
+"kcal": 28,
+"protein_g": 12.5,
+"carbs_g": 1.5,
+"fat_g": 10.7,
+"source": "indb"
+},
+{
+"name": "Consomme au vermicelli",
+"serving_description": "100 g",
+"kcal": 30,
+"protein_g": 15.2,
+"carbs_g": 1.3,
+"fat_g": 13.0,
+"source": "indb"
+},
+{
+"name": "Coriander chutney (Hare dhaniye ki chutney)",
+"serving_description": "100 g",
+"kcal": 43,
+"protein_g": 1.4,
+"carbs_g": 8.2,
+"fat_g": 0.4,
+"source": "indb"
+},
+{
+"name": "Corn omelette/omlet",
+"serving_description": "100 g",
+"kcal": 167,
+"protein_g": 11.4,
+"carbs_g": 1.6,
+"fat_g": 12.9,
+"source": "indb"
+},
+{
+"name": "Cornflakes with milk",
+"serving_description": "100 g",
+"kcal": 117,
+"protein_g": 3.6,
+"carbs_g": 14.9,
+"fat_g": 5.1,
+"source": "indb"
+},
+{
+"name": "Cottage cheese pie",
+"serving_description": "100 g",
+"kcal": 239,
+"protein_g": 7.4,
+"carbs_g": 20.7,
+"fat_g": 13.8,
+"source": "indb"
+},
+{
+"name": "Cracked wheat and green gram dal premix (Dalia moong dal premix)",
+"serving_description": "100 g",
+"kcal": 362,
+"protein_g": 15.9,
+"carbs_g": 64.7,
+"fat_g": 5.1,
+"source": "indb"
+},
+{
+"name": "Cracked wheat khichri/khichdi (Dalia khichri/khichdi)",
+"serving_description": "100 g",
+"kcal": 167,
+"protein_g": 7.6,
+"carbs_g": 22.3,
+"fat_g": 5.5,
+"source": "indb"
+},
+{
+"name": "Cracked wheat porridge (Meetha daliya)",
+"serving_description": "100 g",
+"kcal": 82,
+"protein_g": 2.6,
+"carbs_g": 8.9,
+"fat_g": 4.1,
+"source": "indb"
+},
+{
+"name": "Cranberry cookies",
+"serving_description": "100 g",
+"kcal": 272,
+"protein_g": 3.9,
+"carbs_g": 36.4,
+"fat_g": 12.7,
+"source": "indb"
+},
+{
+"name": "Cream buns",
+"serving_description": "100 g",
+"kcal": 216,
+"protein_g": 4.5,
+"carbs_g": 14.2,
+"fat_g": 15.8,
+"source": "indb"
+},
+{
+"name": "Cream horns",
+"serving_description": "100 g",
+"kcal": 408,
+"protein_g": 3.4,
+"carbs_g": 23.1,
+"fat_g": 33.6,
+"source": "indb"
+},
+{
+"name": "Cream of broccoli soup",
+"serving_description": "100 g",
+"kcal": 56,
+"protein_g": 9.0,
+"carbs_g": 3.7,
+"fat_g": 12.7,
+"source": "indb"
+},
+{
+"name": "Cream of carrot soup",
+"serving_description": "100 g",
+"kcal": 60,
+"protein_g": 8.3,
+"carbs_g": 5.7,
+"fat_g": 12.4,
+"source": "indb"
+},
+{
+"name": "Cream of green peas soup",
+"serving_description": "100 g",
+"kcal": 128,
+"protein_g": 7.1,
+"carbs_g": 6.8,
+"fat_g": 14.8,
+"source": "indb"
+},
+{
+"name": "Cream of mixed vegetable soup",
+"serving_description": "100 g",
+"kcal": 60,
+"protein_g": 6.8,
+"carbs_g": 4.9,
+"fat_g": 9.0,
+"source": "indb"
+},
+{
+"name": "Cream of mushroom soup",
+"serving_description": "100 g",
+"kcal": 117,
+"protein_g": 6.6,
+"carbs_g": 3.7,
+"fat_g": 15.5,
+"source": "indb"
+},
+{
+"name": "Cream of potato soup",
+"serving_description": "100 g",
+"kcal": 60,
+"protein_g": 8.1,
+"carbs_g": 6.1,
+"fat_g": 12.0,
+"source": "indb"
+},
+{
+"name": "Cream of spinach soup",
+"serving_description": "100 g",
+"kcal": 101,
+"protein_g": 5.2,
+"carbs_g": 3.4,
+"fat_g": 13.3,
+"source": "indb"
+},
+{
+"name": "Cream of tomato soup",
+"serving_description": "100 g",
+"kcal": 98,
+"protein_g": 4.6,
+"carbs_g": 3.9,
+"fat_g": 13.1,
+"source": "indb"
+},
+{
+"name": "Cream puffs",
+"serving_description": "100 g",
+"kcal": 221,
+"protein_g": 4.7,
+"carbs_g": 16.0,
+"fat_g": 15.5,
+"source": "indb"
+},
+{
+"name": "Creamed spinach",
+"serving_description": "100 g",
+"kcal": 97,
+"protein_g": 5.2,
+"carbs_g": 4.4,
+"fat_g": 6.4,
+"source": "indb"
+},
+{
+"name": "Creamed spinach and mushroom",
+"serving_description": "100 g",
+"kcal": 420,
+"protein_g": 2.3,
+"carbs_g": 3.2,
+"fat_g": 44.1,
+"source": "indb"
+},
+{
+"name": "Creamy chicken",
+"serving_description": "100 g",
+"kcal": 153,
+"protein_g": 13.5,
+"carbs_g": 3.1,
+"fat_g": 9.6,
+"source": "indb"
+},
+{
+"name": "Creamy chocolate mousse",
+"serving_description": "100 g",
+"kcal": 231,
+"protein_g": 6.9,
+"carbs_g": 9.5,
+"fat_g": 18.2,
+"source": "indb"
+},
+{
+"name": "Crispy baked fish",
+"serving_description": "100 g",
+"kcal": 138,
+"protein_g": 11.0,
+"carbs_g": 9.6,
+"fat_g": 6.4,
+"source": "indb"
+},
+{
+"name": "Crispy okra/Crispy lady's fingers (Karare bhindi)",
+"serving_description": "100 g",
+"kcal": 658,
+"protein_g": 1.9,
+"carbs_g": 4.3,
+"fat_g": 70.4,
+"source": "indb"
+},
+{
+"name": "Crunchy butterscotch",
+"serving_description": "100 g",
+"kcal": 277,
+"protein_g": 3.1,
+"carbs_g": 19.9,
+"fat_g": 21.0,
+"source": "indb"
+},
+{
+"name": "Cucumber and yogurt salad (Kheere aur dahi ka salad)",
+"serving_description": "100 g",
+"kcal": 36,
+"protein_g": 2.1,
+"carbs_g": 4.7,
+"fat_g": 0.9,
+"source": "indb"
+},
+{
+"name": "Cucumber raita (Kheere ka raita)",
+"serving_description": "100 g",
+"kcal": 59,
+"protein_g": 4.0,
+"carbs_g": 6.3,
+"fat_g": 2.1,
+"source": "indb"
+},
+{
+"name": "Cucumber sandwich (Kheere ka sandwich)",
+"serving_description": "100 g",
+"kcal": 189,
+"protein_g": 4.8,
+"carbs_g": 25.8,
+"fat_g": 8.0,
+"source": "indb"
+},
+{
+"name": "Cucumber sharbat (Kheere ka sharbat)",
+"serving_description": "100 g",
+"kcal": 27,
+"protein_g": 0.3,
+"carbs_g": 6.6,
+"fat_g": 0.1,
+"source": "indb"
+},
+{
+"name": "Cumin infused water (Jeere/Zeere ka pani)",
+"serving_description": "100 g",
+"kcal": 9,
+"protein_g": 0.2,
+"carbs_g": 1.9,
+"fat_g": 0.1,
+"source": "indb"
+},
+{
+"name": "Cumin pulao (Jeera/Zeera pulao)",
+"serving_description": "100 g",
+"kcal": 135,
+"protein_g": 2.5,
+"carbs_g": 23.6,
+"fat_g": 3.2,
+"source": "indb"
+},
+{
+"name": "Cumin seeds baghar (Jeera baghar/tadka)",
+"serving_description": "100 g",
+"kcal": 737,
+"protein_g": 3.3,
+"carbs_g": 5.2,
+"fat_g": 78.8,
+"source": "indb"
+},
+{
+"name": "Curd dip",
+"serving_description": "100 g",
+"kcal": 80,
+"protein_g": 5.0,
+"carbs_g": 7.9,
+"fat_g": 3.4,
+"source": "indb"
+},
+{
+"name": "Curd dressing",
+"serving_description": "100 g",
+"kcal": 79,
+"protein_g": 5.6,
+"carbs_g": 8.0,
+"fat_g": 2.9,
+"source": "indb"
+},
+{
+"name": "Curd mint dip",
+"serving_description": "100 g",
+"kcal": 76,
+"protein_g": 4.8,
+"carbs_g": 9.1,
+"fat_g": 2.4,
+"source": "indb"
+},
+{
+"name": "Curd rice (Dahi bhaat/Dahi chawal/ Perugu annam/Daddojanam/Thayir saadam)",
+"serving_description": "100 g",
+"kcal": 196,
+"protein_g": 5.8,
+"carbs_g": 32.9,
+"fat_g": 4.3,
+"source": "indb"
+},
+{
+"name": "Curd vegetable dip",
+"serving_description": "100 g",
+"kcal": 56,
+"protein_g": 3.9,
+"carbs_g": 6.0,
+"fat_g": 1.9,
+"source": "indb"
+},
+{
+"name": "Curd with potatoes (Dahi aloo)",
+"serving_description": "100 g",
+"kcal": 60,
+"protein_g": 1.6,
+"carbs_g": 7.1,
+"fat_g": 2.7,
+"source": "indb"
+},
+{
+"name": "Curried Cauliflower soup",
+"serving_description": "100 g",
+"kcal": 37,
+"protein_g": 6.7,
+"carbs_g": 3.1,
+"fat_g": 9.8,
+"source": "indb"
+},
+{
+"name": "Custard tart",
+"serving_description": "100 g",
+"kcal": 226,
+"protein_g": 3.7,
+"carbs_g": 28.7,
+"fat_g": 10.7,
+"source": "indb"
+},
+{
+"name": "Dahi vadas/Dahi bhalla",
+"serving_description": "100 g",
+"kcal": 668,
+"protein_g": 3.0,
+"carbs_g": 5.5,
+"fat_g": 70.4,
+"source": "indb"
+},
+{
+"name": "Dal dhokli",
+"serving_description": "100 g",
+"kcal": 69,
+"protein_g": 3.0,
+"carbs_g": 8.5,
+"fat_g": 2.5,
+"source": "indb"
+},
+{
+"name": "Dal makhani",
+"serving_description": "100 g",
+"kcal": 74,
+"protein_g": 3.3,
+"carbs_g": 8.0,
+"fat_g": 3.1,
+"source": "indb"
+},
+{
+"name": "Dal moong",
+"serving_description": "100 g",
+"kcal": 44,
+"protein_g": 2.2,
+"carbs_g": 4.9,
+"fat_g": 1.6,
+"source": "indb"
+},
+{
+"name": "Dal parantha/paratha",
+"serving_description": "100 g",
+"kcal": 268,
+"protein_g": 6.8,
+"carbs_g": 30.0,
+"fat_g": 13.1,
+"source": "indb"
+},
+{
+"name": "Dal stuffed poori",
+"serving_description": "100 g",
+"kcal": 785,
+"protein_g": 2.1,
+"carbs_g": 10.1,
+"fat_g": 81.7,
+"source": "indb"
+},
+{
+"name": "Dalma",
+"serving_description": "100 g",
+"kcal": 119,
+"protein_g": 4.9,
+"carbs_g": 15.0,
+"fat_g": 4.6,
+"source": "indb"
+},
+{
+"name": "Danedar burfi",
+"serving_description": "100 g",
+"kcal": 103,
+"protein_g": 3.2,
+"carbs_g": 12.3,
+"fat_g": 4.7,
+"source": "indb"
+},
+{
+"name": "Danish cookies",
+"serving_description": "100 g",
+"kcal": 475,
+"protein_g": 5.3,
+"carbs_g": 58.0,
+"fat_g": 24.9,
+"source": "indb"
+},
+{
+"name": "Danish luncheon sandwich",
+"serving_description": "100 g",
+"kcal": 194,
+"protein_g": 9.0,
+"carbs_g": 17.8,
+"fat_g": 10.1,
+"source": "indb"
+},
+{
+"name": "Date and nut pie",
+"serving_description": "100 g",
+"kcal": 322,
+"protein_g": 3.9,
+"carbs_g": 46.9,
+"fat_g": 13.3,
+"source": "indb"
+},
+{
+"name": "Date pickle (Khajoor ka achaar)",
+"serving_description": "100 g",
+"kcal": 182,
+"protein_g": 1.7,
+"carbs_g": 34.7,
+"fat_g": 4.2,
+"source": "indb"
+},
+{
+"name": "Dates chutney (Khajoor ki chutney)",
+"serving_description": "100 g",
+"kcal": 104,
+"protein_g": 1.1,
+"carbs_g": 21.7,
+"fat_g": 1.1,
+"source": "indb"
+},
+{
+"name": "Dessicated coconut chutney (Sookhe kase nariyal ki chutney)",
+"serving_description": "100 g",
+"kcal": 346,
+"protein_g": 12.9,
+"carbs_g": 36.7,
+"fat_g": 15.9,
+"source": "indb"
+},
+{
+"name": "Deviled egg",
+"serving_description": "100 g",
+"kcal": 99,
+"protein_g": 5.0,
+"carbs_g": 2.2,
+"fat_g": 7.7,
+"source": "indb"
+},
+{
+"name": "Dhansak (vegetarian)",
+"serving_description": "100 g",
+"kcal": 83,
+"protein_g": 3.3,
+"carbs_g": 7.3,
+"fat_g": 4.2,
+"source": "indb"
+},
+{
+"name": "Dhokla",
+"serving_description": "100 g",
+"kcal": 216,
+"protein_g": 13.4,
+"carbs_g": 30.7,
+"fat_g": 5.3,
+"source": "indb"
+},
+{
+"name": "Dil bahar",
+"serving_description": "100 g",
+"kcal": 130,
+"protein_g": 1.5,
+"carbs_g": 28.3,
+"fat_g": 1.9,
+"source": "indb"
+},
+{
+"name": "Dry arbi (Sookhi arbi)",
+"serving_description": "100 g",
+"kcal": 135,
+"protein_g": 2.1,
+"carbs_g": 11.1,
+"fat_g": 9.0,
+"source": "indb"
+},
+{
+"name": "Dry mango chutney (Sookhe aam ki chutney)",
+"serving_description": "100 g",
+"kcal": 298,
+"protein_g": 2.4,
+"carbs_g": 69.2,
+"fat_g": 0.7,
+"source": "indb"
+},
+{
+"name": "Dry masala chops",
+"serving_description": "100 g",
+"kcal": 135,
+"protein_g": 9.1,
+"carbs_g": 3.3,
+"fat_g": 9.5,
+"source": "indb"
+},
+{
+"name": "Dry potato (Sookhe aloo)",
+"serving_description": "100 g",
+"kcal": 103,
+"protein_g": 1.6,
+"carbs_g": 14.4,
+"fat_g": 4.2,
+"source": "indb"
+},
+{
+"name": "Dry washed urad",
+"serving_description": "100 g",
+"kcal": 125,
+"protein_g": 6.8,
+"carbs_g": 15.7,
+"fat_g": 3.5,
+"source": "indb"
+},
+{
+"name": "Ducheese potato",
+"serving_description": "100 g",
+"kcal": 141,
+"protein_g": 3.6,
+"carbs_g": 10.9,
+"fat_g": 9.0,
+"source": "indb"
+},
+{
+"name": "Dum aloo",
+"serving_description": "100 g",
+"kcal": 682,
+"protein_g": 0.7,
+"carbs_g": 3.3,
+"fat_g": 74.0,
+"source": "indb"
+},
+{
+"name": "Dundee cake",
+"serving_description": "100 g",
+"kcal": 397,
+"protein_g": 7.8,
+"carbs_g": 41.4,
+"fat_g": 22.7,
+"source": "indb"
+},
+{
+"name": "Egg and tomato sandwich (Ande aur tamatar ka sandwich)",
+"serving_description": "100 g",
+"kcal": 222,
+"protein_g": 7.7,
+"carbs_g": 25.9,
+"fat_g": 10.5,
+"source": "indb"
+},
+{
+"name": "Egg curry (Anda curry)",
+"serving_description": "100 g",
+"kcal": 118,
+"protein_g": 5.4,
+"carbs_g": 4.0,
+"fat_g": 8.8,
+"source": "indb"
+},
+{
+"name": "Egg cutlet (Anda cutlet)",
+"serving_description": "100 g",
+"kcal": 575,
+"protein_g": 2.4,
+"carbs_g": 5.8,
+"fat_g": 60.2,
+"source": "indb"
+},
+{
+"name": "Egg drop soup",
+"serving_description": "100 g",
+"kcal": 27,
+"protein_g": 12.9,
+"carbs_g": 1.1,
+"fat_g": 13.5,
+"source": "indb"
+},
+{
+"name": "Egg halwa (Ande ka halwa)",
+"serving_description": "100 g",
+"kcal": 300,
+"protein_g": 7.9,
+"carbs_g": 39.6,
+"fat_g": 13.4,
+"source": "indb"
+},
+{
+"name": "Egg in a pepper",
+"serving_description": "100 g",
+"kcal": 129,
+"protein_g": 12.6,
+"carbs_g": 0.2,
+"fat_g": 8.7,
+"source": "indb"
+},
+{
+"name": "Egg nog",
+"serving_description": "100 g",
+"kcal": 97,
+"protein_g": 4.8,
+"carbs_g": 8.1,
+"fat_g": 5.1,
+"source": "indb"
+},
+{
+"name": "Egg pakora/pakoda (Ande ke pakode)",
+"serving_description": "100 g",
+"kcal": 711,
+"protein_g": 2.8,
+"carbs_g": 4.5,
+"fat_g": 75.9,
+"source": "indb"
+},
+{
+"name": "Egg sandwich (Ande ka sandwich)",
+"serving_description": "100 g",
+"kcal": 286,
+"protein_g": 8.7,
+"carbs_g": 29.2,
+"fat_g": 15.8,
+"source": "indb"
+},
+{
+"name": "Egg sauce",
+"serving_description": "100 g",
+"kcal": 147,
+"protein_g": 6.0,
+"carbs_g": 5.9,
+"fat_g": 11.1,
+"source": "indb"
+},
+{
+"name": "Eggless cake",
+"serving_description": "100 g",
+"kcal": 318,
+"protein_g": 8.1,
+"carbs_g": 46.1,
+"fat_g": 11.8,
+"source": "indb"
+},
+{
+"name": "Eggplant/Brinjal rice (Vangi bhat)",
+"serving_description": "100 g",
+"kcal": 185,
+"protein_g": 5.3,
+"carbs_g": 31.7,
+"fat_g": 3.7,
+"source": "indb"
+},
+{
+"name": "Espreso coffee",
+"serving_description": "100 g",
+"kcal": 52,
+"protein_g": 1.7,
+"carbs_g": 6.6,
+"fat_g": 2.1,
+"source": "indb"
+},
+{
+"name": "Fermented bamboo shoot pickle (Mesu pickle)",
+"serving_description": "100 g",
+"kcal": 60,
+"protein_g": 1.6,
+"carbs_g": 1.7,
+"fat_g": 5.6,
+"source": "indb"
+},
+{
+"name": "Fermented bengal gram vada (Khameerikrit/Ufna hua channa dal ka vada)",
+"serving_description": "100 g",
+"kcal": 658,
+"protein_g": 4.1,
+"carbs_g": 8.7,
+"fat_g": 67.2,
+"source": "indb"
+},
+{
+"name": "Fettuccine with spinach sauce",
+"serving_description": "100 g",
+"kcal": 129,
+"protein_g": 3.1,
+"carbs_g": 12.2,
+"fat_g": 7.8,
+"source": "indb"
+},
+{
+"name": "Finger millet biscuit (Ragi biscuit)",
+"serving_description": "100 g",
+"kcal": 459,
+"protein_g": 4.0,
+"carbs_g": 52.7,
+"fat_g": 25.8,
+"source": "indb"
+},
+{
+"name": "Finger millet cake (Ragi cake)",
+"serving_description": "100 g",
+"kcal": 279,
+"protein_g": 4.0,
+"carbs_g": 38.9,
+"fat_g": 12.3,
+"source": "indb"
+},
+{
+"name": "Fish curry (Machli curry)",
+"serving_description": "100 g",
+"kcal": 111,
+"protein_g": 8.8,
+"carbs_g": 3.8,
+"fat_g": 6.7,
+"source": "indb"
+},
+{
+"name": "Fish cutlet (Machli ka cutlet)",
+"serving_description": "100 g",
+"kcal": 655,
+"protein_g": 2.8,
+"carbs_g": 3.1,
+"fat_g": 70.1,
+"source": "indb"
+},
+{
+"name": "Fish finger",
+"serving_description": "100 g",
+"kcal": 543,
+"protein_g": 5.7,
+"carbs_g": 4.5,
+"fat_g": 55.8,
+"source": "indb"
+},
+{
+"name": "Fish in coconut milk (Nariyal ke doodh ke saath machli)",
+"serving_description": "100 g",
+"kcal": 86,
+"protein_g": 8.7,
+"carbs_g": 2.7,
+"fat_g": 4.4,
+"source": "indb"
+},
+{
+"name": "Fish orly",
+"serving_description": "100 g",
+"kcal": 564,
+"protein_g": 5.9,
+"carbs_g": 4.3,
+"fat_g": 58.2,
+"source": "indb"
+},
+{
+"name": "Fish pakora/pakoda",
+"serving_description": "100 g",
+"kcal": 577,
+"protein_g": 6.0,
+"carbs_g": 4.6,
+"fat_g": 59.5,
+"source": "indb"
+},
+{
+"name": "Fish pie",
+"serving_description": "100 g",
+"kcal": 121,
+"protein_g": 9.3,
+"carbs_g": 7.7,
+"fat_g": 5.8,
+"source": "indb"
+},
+{
+"name": "Fish sandwich",
+"serving_description": "100 g",
+"kcal": 150,
+"protein_g": 4.7,
+"carbs_g": 10.1,
+"fat_g": 10.4,
+"source": "indb"
+},
+{
+"name": "Fish souffle",
+"serving_description": "100 g",
+"kcal": 140,
+"protein_g": 10.5,
+"carbs_g": 5.1,
+"fat_g": 8.5,
+"source": "indb"
+},
+{
+"name": "Fish tikka",
+"serving_description": "100 g",
+"kcal": 117,
+"protein_g": 16.0,
+"carbs_g": 3.9,
+"fat_g": 4.1,
+"source": "indb"
+},
+{
+"name": "Flaky pastry",
+"serving_description": "100 g",
+"kcal": 444,
+"protein_g": 4.7,
+"carbs_g": 33.6,
+"fat_g": 32.0,
+"source": "indb"
+},
+{
+"name": "Flan pastry",
+"serving_description": "100 g",
+"kcal": 446,
+"protein_g": 6.7,
+"carbs_g": 47.8,
+"fat_g": 25.0,
+"source": "indb"
+},
+{
+"name": "Flattened rice cutlet (Chirwa cutlet/Chivda cutlet/Poha cutlet)",
+"serving_description": "100 g",
+"kcal": 702,
+"protein_g": 1.8,
+"carbs_g": 7.4,
+"fat_g": 73.9,
+"source": "indb"
+},
+{
+"name": "Flavoured milkshake",
+"serving_description": "100 g",
+"kcal": 67,
+"protein_g": 2.1,
+"carbs_g": 8.6,
+"fat_g": 2.8,
+"source": "indb"
+},
+{
+"name": "French dressing",
+"serving_description": "100 g",
+"kcal": 734,
+"protein_g": 0.3,
+"carbs_g": 3.7,
+"fat_g": 79.6,
+"source": "indb"
+},
+{
+"name": "French omelette/omlet",
+"serving_description": "100 g",
+"kcal": 211,
+"protein_g": 10.0,
+"carbs_g": 0.4,
+"fat_g": 18.9,
+"source": "indb"
+},
+{
+"name": "French onion soup",
+"serving_description": "100 g",
+"kcal": 56,
+"protein_g": 11.4,
+"carbs_g": 4.3,
+"fat_g": 14.4,
+"source": "indb"
+},
+{
+"name": "French sandwich (toasted)",
+"serving_description": "100 g",
+"kcal": 187,
+"protein_g": 6.8,
+"carbs_g": 14.8,
+"fat_g": 11.5,
+"source": "indb"
+},
+{
+"name": "Fricassee of Mushroom",
+"serving_description": "100 g",
+"kcal": 107,
+"protein_g": 3.7,
+"carbs_g": 8.1,
+"fat_g": 6.6,
+"source": "indb"
+},
+{
+"name": "Fried chicken with tomato sauce (Fried chicken tamatar ki chutney kay saath)",
+"serving_description": "100 g",
+"kcal": 125,
+"protein_g": 11.5,
+"carbs_g": 2.5,
+"fat_g": 7.6,
+"source": "indb"
+},
+{
+"name": "Fried Egg",
+"serving_description": "100 g",
+"kcal": 224,
+"protein_g": 11.6,
+"carbs_g": 0.3,
+"fat_g": 19.6,
+"source": "indb"
+},
+{
+"name": "Fried fish (Indian style) (Tali hui machli)",
+"serving_description": "100 g",
+"kcal": 659,
+"protein_g": 4.3,
+"carbs_g": 5.4,
+"fat_g": 68.9,
+"source": "indb"
+},
+{
+"name": "Fried fish and Chips (English Style) (Tali hui machli aur chips)",
+"serving_description": "100 g",
+"kcal": 652,
+"protein_g": 3.4,
+"carbs_g": 2.8,
+"fat_g": 69.7,
+"source": "indb"
+},
+{
+"name": "Frozen frosty fruit salad (Phalon ka salaad)",
+"serving_description": "100 g",
+"kcal": 104,
+"protein_g": 1.7,
+"carbs_g": 15.6,
+"fat_g": 4.2,
+"source": "indb"
+},
+{
+"name": "Fruit delight",
+"serving_description": "100 g",
+"kcal": 107,
+"protein_g": 2.1,
+"carbs_g": 9.1,
+"fat_g": 7.1,
+"source": "indb"
+},
+{
+"name": "Fruit flan",
+"serving_description": "100 g",
+"kcal": 261,
+"protein_g": 3.3,
+"carbs_g": 34.7,
+"fat_g": 12.5,
+"source": "indb"
+},
+{
+"name": "Fruit Ice cream (Phalon ka Ice cream)",
+"serving_description": "100 g",
+"kcal": 171,
+"protein_g": 4.4,
+"carbs_g": 16.1,
+"fat_g": 10.4,
+"source": "indb"
+},
+{
+"name": "Fruit Loaf",
+"serving_description": "100 g",
+"kcal": 324,
+"protein_g": 5.4,
+"carbs_g": 46.5,
+"fat_g": 13.3,
+"source": "indb"
+},
+{
+"name": "Fruit Punch (with fresh juices)",
+"serving_description": "100 g",
+"kcal": 36,
+"protein_g": 0.1,
+"carbs_g": 9.4,
+"fat_g": 0.0,
+"source": "indb"
+},
+{
+"name": "Fruit Punch (with squashes)",
+"serving_description": "100 g",
+"kcal": 23,
+"protein_g": 0.1,
+"carbs_g": 6.0,
+"fat_g": 0.0,
+"source": "indb"
+},
+{
+"name": "Fruit puree tart",
+"serving_description": "100 g",
+"kcal": 287,
+"protein_g": 3.3,
+"carbs_g": 30.4,
+"fat_g": 16.8,
+"source": "indb"
+},
+{
+"name": "Fruit salad (Phalon ka salaad)",
+"serving_description": "100 g",
+"kcal": 78,
+"protein_g": 0.9,
+"carbs_g": 16.0,
+"fat_g": 1.2,
+"source": "indb"
+},
+{
+"name": "Garam masala",
+"serving_description": "100 g",
+"kcal": 254,
+"protein_g": 9.9,
+"carbs_g": 26.2,
+"fat_g": 11.0,
+"source": "indb"
+},
+{
+"name": "Garlic chickpea soup (Lahasun aur chane ka shoraba)",
+"serving_description": "100 g",
+"kcal": 90,
+"protein_g": 4.4,
+"carbs_g": 13.9,
+"fat_g": 2.0,
+"source": "indb"
+},
+{
+"name": "Garlic chutney/Poondu chutney (Lahasun ki chutney)",
+"serving_description": "100 g",
+"kcal": 256,
+"protein_g": 3.3,
+"carbs_g": 20.4,
+"fat_g": 17.6,
+"source": "indb"
+},
+{
+"name": "Garlic pickle (Lahasun ka achar)",
+"serving_description": "100 g",
+"kcal": 414,
+"protein_g": 3.7,
+"carbs_g": 9.8,
+"fat_g": 39.9,
+"source": "indb"
+},
+{
+"name": "Garlic soup",
+"serving_description": "100 g",
+"kcal": 195,
+"protein_g": 2.4,
+"carbs_g": 7.0,
+"fat_g": 17.6,
+"source": "indb"
+},
+{
+"name": "Ghiya/Lauki Kofta Curry",
+"serving_description": "100 g",
+"kcal": 639,
+"protein_g": 0.9,
+"carbs_g": 2.7,
+"fat_g": 69.4,
+"source": "indb"
+},
+{
+"name": "Ghujia/Lavang latika",
+"serving_description": "100 g",
+"kcal": 769,
+"protein_g": 1.9,
+"carbs_g": 13.0,
+"fat_g": 78.9,
+"source": "indb"
+},
+{
+"name": "Ginger biscuit (Adarak ke biscuit)",
+"serving_description": "100 g",
+"kcal": 418,
+"protein_g": 6.0,
+"carbs_g": 58.4,
+"fat_g": 18.3,
+"source": "indb"
+},
+{
+"name": "Ginger bread man",
+"serving_description": "100 g",
+"kcal": 365,
+"protein_g": 6.6,
+"carbs_g": 60.3,
+"fat_g": 11.0,
+"source": "indb"
+},
+{
+"name": "Ginger candy (Adrak ki candy)",
+"serving_description": "100 g",
+"kcal": 196,
+"protein_g": 0.7,
+"carbs_g": 50.4,
+"fat_g": 0.3,
+"source": "indb"
+},
+{
+"name": "Ginger chicken",
+"serving_description": "100 g",
+"kcal": 129,
+"protein_g": 8.2,
+"carbs_g": 5.6,
+"fat_g": 8.2,
+"source": "indb"
+},
+{
+"name": "Gingerman biscuit",
+"serving_description": "100 g",
+"kcal": 357,
+"protein_g": 6.3,
+"carbs_g": 55.2,
+"fat_g": 12.7,
+"source": "indb"
+},
+{
+"name": "Gingo",
+"serving_description": "100 g",
+"kcal": 48,
+"protein_g": 0.1,
+"carbs_g": 12.4,
+"fat_g": 0.1,
+"source": "indb"
+},
+{
+"name": "Glace icing",
+"serving_description": "100 g",
+"kcal": 324,
+"protein_g": 0.0,
+"carbs_g": 86.3,
+"fat_g": 0.0,
+"source": "indb"
+},
+{
+"name": "Gobi 65",
+"serving_description": "100 g",
+"kcal": 278,
+"protein_g": 0.6,
+"carbs_g": 3.6,
+"fat_g": 29.1,
+"source": "indb"
+},
+{
+"name": "Gooseberry chutney (Amla chutney)",
+"serving_description": "100 g",
+"kcal": 43,
+"protein_g": 1.4,
+"carbs_g": 8.8,
+"fat_g": 0.6,
+"source": "indb"
+},
+{
+"name": "Gooseberry marmalade (Amla murabba)",
+"serving_description": "100 g",
+"kcal": 123,
+"protein_g": 0.1,
+"carbs_g": 32.3,
+"fat_g": 0.0,
+"source": "indb"
+},
+{
+"name": "Gooseberry pickle (Amla ka achaar)",
+"serving_description": "100 g",
+"kcal": 279,
+"protein_g": 1.5,
+"carbs_g": 7.6,
+"fat_g": 27.6,
+"source": "indb"
+},
+{
+"name": "Gram flour and semolina chilla/cheela/savory pancake (Besan suji chilla/cheela)",
+"serving_description": "100 g",
+"kcal": 759,
+"protein_g": 2.1,
+"carbs_g": 7.6,
+"fat_g": 80.0,
+"source": "indb"
+},
+{
+"name": "Gram flour and semolina dhokla (Besan suji dhokla)",
+"serving_description": "100 g",
+"kcal": 199,
+"protein_g": 8.5,
+"carbs_g": 25.9,
+"fat_g": 7.1,
+"source": "indb"
+},
+{
+"name": "Gram flour burfi (Besan burfi)",
+"serving_description": "100 g",
+"kcal": 422,
+"protein_g": 11.2,
+"carbs_g": 46.6,
+"fat_g": 22.4,
+"source": "indb"
+},
+{
+"name": "Gram flour chilla/cheela (Besan chilla/cheela)",
+"serving_description": "100 g",
+"kcal": 136,
+"protein_g": 7.8,
+"carbs_g": 21.0,
+"fat_g": 2.9,
+"source": "indb"
+},
+{
+"name": "Gram flour halwa (Besan halwa)",
+"serving_description": "100 g",
+"kcal": 277,
+"protein_g": 5.9,
+"carbs_g": 25.8,
+"fat_g": 17.3,
+"source": "indb"
+},
+{
+"name": "Gram flour ladoo (Besan ladoo)",
+"serving_description": "100 g",
+"kcal": 477,
+"protein_g": 8.9,
+"carbs_g": 62.6,
+"fat_g": 22.8,
+"source": "indb"
+},
+{
+"name": "Gram flour poori (Besan poori)",
+"serving_description": "100 g",
+"kcal": 698,
+"protein_g": 2.6,
+"carbs_g": 10.9,
+"fat_g": 71.5,
+"source": "indb"
+},
+{
+"name": "Grape and orange whip",
+"serving_description": "100 g",
+"kcal": 57,
+"protein_g": 1.4,
+"carbs_g": 6.7,
+"fat_g": 2.6,
+"source": "indb"
+},
+{
+"name": "Grapes raita (Angoor ka raita)",
+"serving_description": "100 g",
+"kcal": 73,
+"protein_g": 4.0,
+"carbs_g": 9.7,
+"fat_g": 2.1,
+"source": "indb"
+},
+{
+"name": "Gravy for kofta",
+"serving_description": "100 g",
+"kcal": 126,
+"protein_g": 1.7,
+"carbs_g": 6.3,
+"fat_g": 10.3,
+"source": "indb"
+},
+{
+"name": "Green chickpeas pulao (Choliya pulao/Hare chane ka pulao)",
+"serving_description": "100 g",
+"kcal": 173,
+"protein_g": 4.9,
+"carbs_g": 27.6,
+"fat_g": 4.8,
+"source": "indb"
+},
+{
+"name": "Green chilli raita (Hari mirch ka raita)",
+"serving_description": "100 g",
+"kcal": 77,
+"protein_g": 5.6,
+"carbs_g": 7.7,
+"fat_g": 2.9,
+"source": "indb"
+},
+{
+"name": "Green chilli sauce",
+"serving_description": "100 g",
+"kcal": 46,
+"protein_g": 1.2,
+"carbs_g": 7.4,
+"fat_g": 0.3,
+"source": "indb"
+},
+{
+"name": "Green chutney",
+"serving_description": "100 g",
+"kcal": 79,
+"protein_g": 5.4,
+"carbs_g": 10.0,
+"fat_g": 1.6,
+"source": "indb"
+},
+{
+"name": "Green gram whole with baghar (Sabut moong dal with tadka)",
+"serving_description": "100 g",
+"kcal": 63,
+"protein_g": 3.2,
+"carbs_g": 6.8,
+"fat_g": 2.5,
+"source": "indb"
+},
+{
+"name": "Green pea soup (Matar ka soup)",
+"serving_description": "100 g",
+"kcal": 40,
+"protein_g": 11.1,
+"carbs_g": 3.6,
+"fat_g": 12.9,
+"source": "indb"
+},
+{
+"name": "Green tomato pickle (Haray tamatar ka achaar)",
+"serving_description": "100 g",
+"kcal": 193,
+"protein_g": 1.2,
+"carbs_g": 2.9,
+"fat_g": 19.7,
+"source": "indb"
+},
+{
+"name": "Greenpea cookies",
+"serving_description": "100 g",
+"kcal": 159,
+"protein_g": 6.5,
+"carbs_g": 23.1,
+"fat_g": 4.2,
+"source": "indb"
+},
+{
+"name": "Guava jelly (Amrood ki jelly)",
+"serving_description": "100 g",
+"kcal": 116,
+"protein_g": 1.1,
+"carbs_g": 28.2,
+"fat_g": 0.2,
+"source": "indb"
+},
+{
+"name": "Guava raita (Amarood ka raita)",
+"serving_description": "100 g",
+"kcal": 64,
+"protein_g": 4.2,
+"carbs_g": 7.3,
+"fat_g": 2.1,
+"source": "indb"
+},
+{
+"name": "Gujarati handvo",
+"serving_description": "100 g",
+"kcal": 207,
+"protein_g": 8.2,
+"carbs_g": 31.9,
+"fat_g": 4.8,
+"source": "indb"
+},
+{
+"name": "Gulab Jamun with khoya",
+"serving_description": "100 g",
+"kcal": 586,
+"protein_g": 2.0,
+"carbs_g": 26.1,
+"fat_g": 53.2,
+"source": "indb"
+},
+{
+"name": "Gulab jamun with milk powder",
+"serving_description": "100 g",
+"kcal": 471,
+"protein_g": 0.9,
+"carbs_g": 28.2,
+"fat_g": 40.2,
+"source": "indb"
+},
+{
+"name": "Gum icing",
+"serving_description": "100 g",
+"kcal": 223,
+"protein_g": 5.9,
+"carbs_g": 53.2,
+"fat_g": 0.0,
+"source": "indb"
+},
+{
+"name": "Gun powder chutney",
+"serving_description": "100 g",
+"kcal": 312,
+"protein_g": 21.6,
+"carbs_g": 47.6,
+"fat_g": 2.7,
+"source": "indb"
+},
+{
+"name": "Gunjia",
+"serving_description": "100 g",
+"kcal": 667,
+"protein_g": 3.0,
+"carbs_g": 5.7,
+"fat_g": 70.3,
+"source": "indb"
+},
+{
+"name": "Ham and Bean soup",
+"serving_description": "100 g",
+"kcal": 96,
+"protein_g": 10.6,
+"carbs_g": 4.2,
+"fat_g": 4.2,
+"source": "indb"
+},
+{
+"name": "Handi chicken",
+"serving_description": "100 g",
+"kcal": 166,
+"protein_g": 12.3,
+"carbs_g": 1.5,
+"fat_g": 12.5,
+"source": "indb"
+},
+{
+"name": "Hariyali Fish Tikka",
+"serving_description": "100 g",
+"kcal": 150,
+"protein_g": 14.0,
+"carbs_g": 2.2,
+"fat_g": 9.4,
+"source": "indb"
+},
+{
+"name": "Hawain salad",
+"serving_description": "100 g",
+"kcal": 175,
+"protein_g": 4.3,
+"carbs_g": 14.4,
+"fat_g": 11.4,
+"source": "indb"
+},
+{
+"name": "Hazelnut cookies",
+"serving_description": "100 g",
+"kcal": 493,
+"protein_g": 6.2,
+"carbs_g": 39.4,
+"fat_g": 35.0,
+"source": "indb"
+},
+{
+"name": "Home made egg noodles",
+"serving_description": "100 g",
+"kcal": 241,
+"protein_g": 6.5,
+"carbs_g": 42.9,
+"fat_g": 4.4,
+"source": "indb"
+},
+{
+"name": "Home made plain noodles",
+"serving_description": "100 g",
+"kcal": 239,
+"protein_g": 6.2,
+"carbs_g": 44.5,
+"fat_g": 3.6,
+"source": "indb"
+},
+{
+"name": "Honey banana cream",
+"serving_description": "100 g",
+"kcal": 125,
+"protein_g": 2.8,
+"carbs_g": 13.6,
+"fat_g": 6.7,
+"source": "indb"
+},
+{
+"name": "Honey cake",
+"serving_description": "100 g",
+"kcal": 334,
+"protein_g": 3.1,
+"carbs_g": 49.0,
+"fat_g": 14.7,
+"source": "indb"
+},
+{
+"name": "Horsegram dal (Kulthi dal)",
+"serving_description": "100 g",
+"kcal": 56,
+"protein_g": 2.9,
+"carbs_g": 8.2,
+"fat_g": 1.1,
+"source": "indb"
+},
+{
+"name": "Hot and sour soup",
+"serving_description": "100 g",
+"kcal": 32,
+"protein_g": 3.1,
+"carbs_g": 1.8,
+"fat_g": 1.3,
+"source": "indb"
+},
+{
+"name": "Hot cheese souffle",
+"serving_description": "100 g",
+"kcal": 177,
+"protein_g": 9.2,
+"carbs_g": 5.4,
+"fat_g": 13.2,
+"source": "indb"
+},
+{
+"name": "Hot cherry sauce",
+"serving_description": "100 g",
+"kcal": 253,
+"protein_g": 0.1,
+"carbs_g": 67.9,
+"fat_g": 0.1,
+"source": "indb"
+},
+{
+"name": "Hot chocolate",
+"serving_description": "100 g",
+"kcal": 90,
+"protein_g": 3.4,
+"carbs_g": 9.0,
+"fat_g": 4.6,
+"source": "indb"
+},
+{
+"name": "Hot chocolate souffle",
+"serving_description": "100 g",
+"kcal": 226,
+"protein_g": 6.7,
+"carbs_g": 26.2,
+"fat_g": 11.1,
+"source": "indb"
+},
+{
+"name": "Hot cocoa",
+"serving_description": "100 g",
+"kcal": 90,
+"protein_g": 3.4,
+"carbs_g": 9.2,
+"fat_g": 4.6,
+"source": "indb"
+},
+{
+"name": "Hot fish souffle",
+"serving_description": "100 g",
+"kcal": 143,
+"protein_g": 11.2,
+"carbs_g": 3.7,
+"fat_g": 9.2,
+"source": "indb"
+},
+{
+"name": "Hot lemon souffle",
+"serving_description": "100 g",
+"kcal": 155,
+"protein_g": 5.3,
+"carbs_g": 16.3,
+"fat_g": 7.9,
+"source": "indb"
+},
+{
+"name": "Hot orange souffle",
+"serving_description": "100 g",
+"kcal": 180,
+"protein_g": 6.9,
+"carbs_g": 18.8,
+"fat_g": 8.9,
+"source": "indb"
+},
+{
+"name": "Hot potato souffle",
+"serving_description": "100 g",
+"kcal": 126,
+"protein_g": 5.5,
+"carbs_g": 8.6,
+"fat_g": 7.6,
+"source": "indb"
+},
+{
+"name": "Hot spinach souffle",
+"serving_description": "100 g",
+"kcal": 104,
+"protein_g": 5.4,
+"carbs_g": 4.2,
+"fat_g": 7.2,
+"source": "indb"
+},
+{
+"name": "Hot tea (Garam Chai)",
+"serving_description": "100 g",
+"kcal": 16,
+"protein_g": 0.4,
+"carbs_g": 2.6,
+"fat_g": 0.5,
+"source": "indb"
+},
+{
+"name": "Hot vanilla souffle",
+"serving_description": "100 g",
+"kcal": 193,
+"protein_g": 6.9,
+"carbs_g": 21.8,
+"fat_g": 9.1,
+"source": "indb"
+},
+{
+"name": "Ice box cookies",
+"serving_description": "100 g",
+"kcal": 374,
+"protein_g": 5.7,
+"carbs_g": 56.1,
+"fat_g": 14.4,
+"source": "indb"
+},
+{
+"name": "Iced tea",
+"serving_description": "100 g",
+"kcal": 10,
+"protein_g": 0.0,
+"carbs_g": 2.7,
+"fat_g": 0.0,
+"source": "indb"
+},
+{
+"name": "Idli",
+"serving_description": "100 g",
+"kcal": 138,
+"protein_g": 4.6,
+"carbs_g": 28.2,
+"fat_g": 0.3,
+"source": "indb"
+},
+{
+"name": "Indian lamb and egg curry (Nargisi kofta)",
+"serving_description": "100 g",
+"kcal": 336,
+"protein_g": 3.8,
+"carbs_g": 2.1,
+"fat_g": 34.7,
+"source": "indb"
+},
+{
+"name": "Indian style egg bhujia (Anda bhujia (Indian style))",
+"serving_description": "100 g",
+"kcal": 103,
+"protein_g": 6.1,
+"carbs_g": 3.8,
+"fat_g": 7.0,
+"source": "indb"
+},
+{
+"name": "Instant coffee",
+"serving_description": "100 g",
+"kcal": 23,
+"protein_g": 0.6,
+"carbs_g": 3.7,
+"fat_g": 0.7,
+"source": "indb"
+},
+{
+"name": "Instant dhokla",
+"serving_description": "100 g",
+"kcal": 207,
+"protein_g": 7.7,
+"carbs_g": 24.1,
+"fat_g": 9.4,
+"source": "indb"
+},
+{
+"name": "Instant idli (with semolina)",
+"serving_description": "100 g",
+"kcal": 247,
+"protein_g": 9.2,
+"carbs_g": 43.4,
+"fat_g": 3.6,
+"source": "indb"
+},
+{
+"name": "Jackfruit fritters (Ponsa mulik/Kathal ka pakora)",
+"serving_description": "100 g",
+"kcal": 598,
+"protein_g": 2.3,
+"carbs_g": 24.0,
+"fat_g": 54.4,
+"source": "indb"
+},
+{
+"name": "Jackfruit kofta curry (Kathal ka kofta curry)",
+"serving_description": "100 g",
+"kcal": 321,
+"protein_g": 0.8,
+"carbs_g": 3.2,
+"fat_g": 33.8,
+"source": "indb"
+},
+{
+"name": "Jackfruit sabzi (Kathal ki sabzi)",
+"serving_description": "100 g",
+"kcal": 625,
+"protein_g": 0.7,
+"carbs_g": 3.4,
+"fat_g": 67.6,
+"source": "indb"
+},
+{
+"name": "Jackfruit/Kathal (dry)",
+"serving_description": "100 g",
+"kcal": 489,
+"protein_g": 0.9,
+"carbs_g": 4.6,
+"fat_g": 51.8,
+"source": "indb"
+},
+{
+"name": "Jal jeera",
+"serving_description": "100 g",
+"kcal": 30,
+"protein_g": 0.4,
+"carbs_g": 6.7,
+"fat_g": 0.3,
+"source": "indb"
+},
+{
+"name": "Jam and fruit pancake",
+"serving_description": "100 g",
+"kcal": 162,
+"protein_g": 3.8,
+"carbs_g": 20.7,
+"fat_g": 7.0,
+"source": "indb"
+},
+{
+"name": "Jam filling",
+"serving_description": "100 g",
+"kcal": 185,
+"protein_g": 0.0,
+"carbs_g": 46.2,
+"fat_g": 0.0,
+"source": "indb"
+},
+{
+"name": "Jam tart",
+"serving_description": "100 g",
+"kcal": 361,
+"protein_g": 4.4,
+"carbs_g": 46.2,
+"fat_g": 17.4,
+"source": "indb"
+},
+{
+"name": "Jellied sunshine fruit salad",
+"serving_description": "100 g",
+"kcal": 49,
+"protein_g": 5.9,
+"carbs_g": 4.2,
+"fat_g": 0.8,
+"source": "indb"
+},
+{
+"name": "Jelly biscuit",
+"serving_description": "100 g",
+"kcal": 405,
+"protein_g": 4.2,
+"carbs_g": 55.2,
+"fat_g": 19.3,
+"source": "indb"
+},
+{
+"name": "Jhatpat achar with carrot (Jhatpat achaar gajar ke saath)",
+"serving_description": "100 g",
+"kcal": 91,
+"protein_g": 2.0,
+"carbs_g": 6.3,
+"fat_g": 6.5,
+"source": "indb"
+},
+{
+"name": "Jowar dosa",
+"serving_description": "100 g",
+"kcal": 294,
+"protein_g": 8.5,
+"carbs_g": 40.5,
+"fat_g": 10.3,
+"source": "indb"
+},
+{
+"name": "Kabuli channa curry",
+"serving_description": "100 g",
+"kcal": 69,
+"protein_g": 2.9,
+"carbs_g": 7.6,
+"fat_g": 3.1,
+"source": "indb"
+},
+{
+"name": "Kadhai Paneer",
+"serving_description": "100 g",
+"kcal": 108,
+"protein_g": 4.3,
+"carbs_g": 7.3,
+"fat_g": 6.8,
+"source": "indb"
+},
+{
+"name": "Kale salad",
+"serving_description": "100 g",
+"kcal": 178,
+"protein_g": 4.9,
+"carbs_g": 5.0,
+"fat_g": 15.3,
+"source": "indb"
+},
+{
+"name": "Kashmiri 'tahar'",
+"serving_description": "100 g",
+"kcal": 98,
+"protein_g": 2.0,
+"carbs_g": 19.1,
+"fat_g": 1.4,
+"source": "indb"
+},
+{
+"name": "Kashmiri masala",
+"serving_description": "100 g",
+"kcal": 389,
+"protein_g": 8.3,
+"carbs_g": 23.2,
+"fat_g": 31.0,
+"source": "indb"
+},
+{
+"name": "Kashmiri mutton koftas (Gushtaba)",
+"serving_description": "100 g",
+"kcal": 97,
+"protein_g": 6.3,
+"carbs_g": 3.0,
+"fat_g": 6.8,
+"source": "indb"
+},
+{
+"name": "Kashmiri tea (Kehwa)",
+"serving_description": "100 g",
+"kcal": 25,
+"protein_g": 0.2,
+"carbs_g": 5.2,
+"fat_g": 0.5,
+"source": "indb"
+},
+{
+"name": "Keema kofta curry",
+"serving_description": "100 g",
+"kcal": 154,
+"protein_g": 9.8,
+"carbs_g": 5.6,
+"fat_g": 10.4,
+"source": "indb"
+},
+{
+"name": "Keema pancake",
+"serving_description": "100 g",
+"kcal": 176,
+"protein_g": 9.0,
+"carbs_g": 9.6,
+"fat_g": 11.2,
+"source": "indb"
+},
+{
+"name": "Keema parantha/paratha",
+"serving_description": "100 g",
+"kcal": 238,
+"protein_g": 9.4,
+"carbs_g": 18.4,
+"fat_g": 13.9,
+"source": "indb"
+},
+{
+"name": "Kesari bath",
+"serving_description": "100 g",
+"kcal": 245,
+"protein_g": 2.4,
+"carbs_g": 31.4,
+"fat_g": 12.6,
+"source": "indb"
+},
+{
+"name": "Khakhra",
+"serving_description": "100 g",
+"kcal": 178,
+"protein_g": 4.8,
+"carbs_g": 27.7,
+"fat_g": 5.3,
+"source": "indb"
+},
+{
+"name": "Khakhra chaat",
+"serving_description": "100 g",
+"kcal": 359,
+"protein_g": 4.5,
+"carbs_g": 16.6,
+"fat_g": 30.6,
+"source": "indb"
+},
+{
+"name": "Khaman (dhokla)",
+"serving_description": "100 g",
+"kcal": 55,
+"protein_g": 1.9,
+"carbs_g": 5.4,
+"fat_g": 2.8,
+"source": "indb"
+},
+{
+"name": "Khasta kachori",
+"serving_description": "100 g",
+"kcal": 713,
+"protein_g": 2.5,
+"carbs_g": 12.8,
+"fat_g": 72.3,
+"source": "indb"
+},
+{
+"name": "Khatta channa",
+"serving_description": "100 g",
+"kcal": 203,
+"protein_g": 6.3,
+"carbs_g": 21.1,
+"fat_g": 10.6,
+"source": "indb"
+},
+{
+"name": "Khoa and coconut pancake",
+"serving_description": "100 g",
+"kcal": 272,
+"protein_g": 7.0,
+"carbs_g": 27.3,
+"fat_g": 15.3,
+"source": "indb"
+},
+{
+"name": "Khoa coconut burfi",
+"serving_description": "100 g",
+"kcal": 411,
+"protein_g": 10.0,
+"carbs_g": 36.5,
+"fat_g": 26.0,
+"source": "indb"
+},
+{
+"name": "Khoa ladoo",
+"serving_description": "100 g",
+"kcal": 396,
+"protein_g": 12.2,
+"carbs_g": 34.4,
+"fat_g": 24.1,
+"source": "indb"
+},
+{
+"name": "Kidney bean curry (Rajmah curry)",
+"serving_description": "100 g",
+"kcal": 144,
+"protein_g": 6.0,
+"carbs_g": 16.4,
+"fat_g": 5.8,
+"source": "indb"
+},
+{
+"name": "Kidney bean sandwich with cottage cheese",
+"serving_description": "100 g",
+"kcal": 177,
+"protein_g": 9.8,
+"carbs_g": 18.9,
+"fat_g": 6.8,
+"source": "indb"
+},
+{
+"name": "Kiwi granola pudding",
+"serving_description": "100 g",
+"kcal": 281,
+"protein_g": 5.6,
+"carbs_g": 32.3,
+"fat_g": 15.4,
+"source": "indb"
+},
+{
+"name": "Kulfi",
+"serving_description": "100 g",
+"kcal": 98,
+"protein_g": 3.2,
+"carbs_g": 11.3,
+"fat_g": 4.7,
+"source": "indb"
+},
+{
+"name": "Lasagne with meat sauce",
+"serving_description": "100 g",
+"kcal": 63,
+"protein_g": 2.9,
+"carbs_g": 5.4,
+"fat_g": 3.4,
+"source": "indb"
+},
+{
+"name": "Lasagne with vegetables",
+"serving_description": "100 g",
+"kcal": 49,
+"protein_g": 1.7,
+"carbs_g": 5.9,
+"fat_g": 2.2,
+"source": "indb"
+},
+{
+"name": "Lassi (salted)",
+"serving_description": "100 g",
+"kcal": 19,
+"protein_g": 1.4,
+"carbs_g": 1.9,
+"fat_g": 0.7,
+"source": "indb"
+},
+{
+"name": "Lem-o-gin",
+"serving_description": "100 g",
+"kcal": 22,
+"protein_g": 0.1,
+"carbs_g": 5.6,
+"fat_g": 0.0,
+"source": "indb"
+},
+{
+"name": "Lemon and ginger squash (Nimbu aur adrak ka squash)",
+"serving_description": "100 g",
+"kcal": 170,
+"protein_g": 0.5,
+"carbs_g": 44.1,
+"fat_g": 0.2,
+"source": "indb"
+},
+{
+"name": "Lemon butter fish",
+"serving_description": "100 g",
+"kcal": 160,
+"protein_g": 16.4,
+"carbs_g": 0.8,
+"fat_g": 10.3,
+"source": "indb"
+},
+{
+"name": "Lemon cake",
+"serving_description": "100 g",
+"kcal": 374,
+"protein_g": 5.3,
+"carbs_g": 43.1,
+"fat_g": 20.6,
+"source": "indb"
+},
+{
+"name": "Lemon chicken",
+"serving_description": "100 g",
+"kcal": 170,
+"protein_g": 20.2,
+"carbs_g": 0.6,
+"fat_g": 9.7,
+"source": "indb"
+},
+{
+"name": "Lemon chiffon pie",
+"serving_description": "100 g",
+"kcal": 259,
+"protein_g": 4.9,
+"carbs_g": 27.6,
+"fat_g": 14.5,
+"source": "indb"
+},
+{
+"name": "Lemon cookies",
+"serving_description": "100 g",
+"kcal": 394,
+"protein_g": 5.6,
+"carbs_g": 42.2,
+"fat_g": 23.0,
+"source": "indb"
+},
+{
+"name": "Lemon coriander soup",
+"serving_description": "100 g",
+"kcal": 108,
+"protein_g": 2.3,
+"carbs_g": 10.3,
+"fat_g": 6.3,
+"source": "indb"
+},
+{
+"name": "Lemon curd filling",
+"serving_description": "100 g",
+"kcal": 226,
+"protein_g": 3.4,
+"carbs_g": 26.4,
+"fat_g": 12.6,
+"source": "indb"
+},
+{
+"name": "Lemon green chilli pickle (Nimboo aur hari mirch ka achaar)",
+"serving_description": "100 g",
+"kcal": 14,
+"protein_g": 0.9,
+"carbs_g": 2.1,
+"fat_g": 0.2,
+"source": "indb"
+},
+{
+"name": "Lemon meringue pie",
+"serving_description": "100 g",
+"kcal": 224,
+"protein_g": 3.9,
+"carbs_g": 35.1,
+"fat_g": 8.2,
+"source": "indb"
+},
+{
+"name": "Lemon rice (Pulihora, Elumichai sadam, Chitranna)",
+"serving_description": "100 g",
+"kcal": 176,
+"protein_g": 4.3,
+"carbs_g": 21.6,
+"fat_g": 7.9,
+"source": "indb"
+},
+{
+"name": "Lemon souffle",
+"serving_description": "100 g",
+"kcal": 169,
+"protein_g": 6.9,
+"carbs_g": 13.4,
+"fat_g": 10.0,
+"source": "indb"
+},
+{
+"name": "Lemon squash (Nimbu ka squash)",
+"serving_description": "100 g",
+"kcal": 185,
+"protein_g": 0.2,
+"carbs_g": 48.9,
+"fat_g": 0.1,
+"source": "indb"
+},
+{
+"name": "Lemon tart",
+"serving_description": "100 g",
+"kcal": 303,
+"protein_g": 6.1,
+"carbs_g": 30.7,
+"fat_g": 17.4,
+"source": "indb"
+},
+{
+"name": "Lemonade",
+"serving_description": "100 g",
+"kcal": 21,
+"protein_g": 0.0,
+"carbs_g": 5.5,
+"fat_g": 0.0,
+"source": "indb"
+},
+{
+"name": "Lentil soup",
+"serving_description": "100 g",
+"kcal": 31,
+"protein_g": 9.7,
+"carbs_g": 3.9,
+"fat_g": 11.7,
+"source": "indb"
+},
+{
+"name": "Lentils and semolina porridge (Dal suji porridge/daliya)",
+"serving_description": "100 g",
+"kcal": 117,
+"protein_g": 3.3,
+"carbs_g": 23.2,
+"fat_g": 1.1,
+"source": "indb"
+},
+{
+"name": "Lentils and wheat porridge (Dal wheat porridge/daliya )",
+"serving_description": "100 g",
+"kcal": 53,
+"protein_g": 2.7,
+"carbs_g": 8.4,
+"fat_g": 0.9,
+"source": "indb"
+},
+{
+"name": "Lichi squash",
+"serving_description": "100 g",
+"kcal": 198,
+"protein_g": 0.3,
+"carbs_g": 52.0,
+"fat_g": 0.1,
+"source": "indb"
+},
+{
+"name": "Lobia curry",
+"serving_description": "100 g",
+"kcal": 149,
+"protein_g": 6.1,
+"carbs_g": 17.9,
+"fat_g": 5.6,
+"source": "indb"
+},
+{
+"name": "Lotus seed halwa (Kamal gattay ka halwa)",
+"serving_description": "100 g",
+"kcal": 371,
+"protein_g": 7.8,
+"carbs_g": 39.6,
+"fat_g": 20.7,
+"source": "indb"
+},
+{
+"name": "Lotus stem curry (Kamal kakdi curry)",
+"serving_description": "100 g",
+"kcal": 110,
+"protein_g": 1.5,
+"carbs_g": 9.2,
+"fat_g": 7.3,
+"source": "indb"
+},
+{
+"name": "Lotus stem kofta curry (Kamal kakdi kofta curry)",
+"serving_description": "100 g",
+"kcal": 634,
+"protein_g": 1.0,
+"carbs_g": 5.0,
+"fat_g": 67.8,
+"source": "indb"
+},
+{
+"name": "Lotus stem pickle (Kamal kakdi ka achar)",
+"serving_description": "100 g",
+"kcal": 103,
+"protein_g": 1.4,
+"carbs_g": 20.1,
+"fat_g": 1.6,
+"source": "indb"
+},
+{
+"name": "Low calorie quick mayonnaise",
+"serving_description": "100 g",
+"kcal": 243,
+"protein_g": 1.4,
+"carbs_g": 4.7,
+"fat_g": 24.4,
+"source": "indb"
+},
+{
+"name": "Maa chaane ki dal",
+"serving_description": "100 g",
+"kcal": 345,
+"protein_g": 19.8,
+"carbs_g": 43.1,
+"fat_g": 9.5,
+"source": "indb"
+},
+{
+"name": "Macaroni salad",
+"serving_description": "100 g",
+"kcal": 262,
+"protein_g": 5.0,
+"carbs_g": 21.6,
+"fat_g": 17.8,
+"source": "indb"
+},
+{
+"name": "Macroni cheese pie",
+"serving_description": "100 g",
+"kcal": 171,
+"protein_g": 5.9,
+"carbs_g": 21.1,
+"fat_g": 7.5,
+"source": "indb"
+},
+{
+"name": "Maize porridge",
+"serving_description": "100 g",
+"kcal": 90,
+"protein_g": 2.1,
+"carbs_g": 15.6,
+"fat_g": 1.9,
+"source": "indb"
+},
+{
+"name": "Makhana kheer",
+"serving_description": "100 g",
+"kcal": 108,
+"protein_g": 3.3,
+"carbs_g": 12.9,
+"fat_g": 5.0,
+"source": "indb"
+},
+{
+"name": "Makki ki roti",
+"serving_description": "100 g",
+"kcal": 264,
+"protein_g": 3.5,
+"carbs_g": 24.2,
+"fat_g": 16.8,
+"source": "indb"
+},
+{
+"name": "Mal pua",
+"serving_description": "100 g",
+"kcal": 567,
+"protein_g": 1.7,
+"carbs_g": 17.6,
+"fat_g": 54.6,
+"source": "indb"
+},
+{
+"name": "Mango cheesecake",
+"serving_description": "100 g",
+"kcal": 152,
+"protein_g": 2.4,
+"carbs_g": 20.1,
+"fat_g": 7.3,
+"source": "indb"
+},
+{
+"name": "Mango ice cream",
+"serving_description": "100 g",
+"kcal": 126,
+"protein_g": 3.4,
+"carbs_g": 11.1,
+"fat_g": 7.6,
+"source": "indb"
+},
+{
+"name": "Mango malpua",
+"serving_description": "100 g",
+"kcal": 335,
+"protein_g": 1.6,
+"carbs_g": 12.8,
+"fat_g": 30.7,
+"source": "indb"
+},
+{
+"name": "Mango milkshake (Aam milkshake)",
+"serving_description": "100 g",
+"kcal": 57,
+"protein_g": 1.7,
+"carbs_g": 7.2,
+"fat_g": 2.3,
+"source": "indb"
+},
+{
+"name": "Mango milkshake with ice cream (Aam milkshake ice cream ke saath)",
+"serving_description": "100 g",
+"kcal": 68,
+"protein_g": 1.9,
+"carbs_g": 9.2,
+"fat_g": 2.8,
+"source": "indb"
+},
+{
+"name": "Mango mousse",
+"serving_description": "100 g",
+"kcal": 125,
+"protein_g": 3.2,
+"carbs_g": 9.1,
+"fat_g": 8.5,
+"source": "indb"
+},
+{
+"name": "Mango murabba candy",
+"serving_description": "100 g",
+"kcal": 293,
+"protein_g": 0.3,
+"carbs_g": 77.3,
+"fat_g": 0.1,
+"source": "indb"
+},
+{
+"name": "Mango pickle (Aam ka achaar)",
+"serving_description": "100 g",
+"kcal": 192,
+"protein_g": 1.6,
+"carbs_g": 8.1,
+"fat_g": 17.9,
+"source": "indb"
+},
+{
+"name": "Mango raita (Aam ka raita)",
+"serving_description": "100 g",
+"kcal": 67,
+"protein_g": 3.9,
+"carbs_g": 8.2,
+"fat_g": 2.1,
+"source": "indb"
+},
+{
+"name": "Mango squash (Aam ka squash)",
+"serving_description": "100 g",
+"kcal": 195,
+"protein_g": 0.2,
+"carbs_g": 51.0,
+"fat_g": 0.2,
+"source": "indb"
+},
+{
+"name": "Mango vanilla custard",
+"serving_description": "100 g",
+"kcal": 148,
+"protein_g": 3.4,
+"carbs_g": 18.4,
+"fat_g": 7.0,
+"source": "indb"
+},
+{
+"name": "Marble cake",
+"serving_description": "100 g",
+"kcal": 354,
+"protein_g": 6.3,
+"carbs_g": 46.9,
+"fat_g": 16.3,
+"source": "indb"
+},
+{
+"name": "Marmalade (Murabba)",
+"serving_description": "100 g",
+"kcal": 144,
+"protein_g": 0.2,
+"carbs_g": 37.6,
+"fat_g": 0.0,
+"source": "indb"
+},
+{
+"name": "Masala arbi",
+"serving_description": "100 g",
+"kcal": 185,
+"protein_g": 3.0,
+"carbs_g": 16.2,
+"fat_g": 11.9,
+"source": "indb"
+},
+{
+"name": "Masala biscuit",
+"serving_description": "100 g",
+"kcal": 394,
+"protein_g": 6.1,
+"carbs_g": 45.2,
+"fat_g": 20.8,
+"source": "indb"
+},
+{
+"name": "Masala dosa",
+"serving_description": "100 g",
+"kcal": 165,
+"protein_g": 3.3,
+"carbs_g": 19.6,
+"fat_g": 7.8,
+"source": "indb"
+},
+{
+"name": "Masala dosa mixed vegetable fillings",
+"serving_description": "100 g",
+"kcal": 145,
+"protein_g": 4.8,
+"carbs_g": 23.0,
+"fat_g": 3.3,
+"source": "indb"
+},
+{
+"name": "Masala dosa paneer fillings",
+"serving_description": "100 g",
+"kcal": 243,
+"protein_g": 10.3,
+"carbs_g": 29.8,
+"fat_g": 8.8,
+"source": "indb"
+},
+{
+"name": "Masala green chilli pakora/pakoda (Hari mirch kay pakode)",
+"serving_description": "100 g",
+"kcal": 669,
+"protein_g": 2.2,
+"carbs_g": 5.5,
+"fat_g": 71.0,
+"source": "indb"
+},
+{
+"name": "Masala onion pakora/pakoda (Pyaaz ke pakode)",
+"serving_description": "100 g",
+"kcal": 552,
+"protein_g": 2.0,
+"carbs_g": 6.5,
+"fat_g": 57.6,
+"source": "indb"
+},
+{
+"name": "Masala souffle",
+"serving_description": "100 g",
+"kcal": 124,
+"protein_g": 6.4,
+"carbs_g": 8.0,
+"fat_g": 7.4,
+"source": "indb"
+},
+{
+"name": "Masala urad dal vada",
+"serving_description": "100 g",
+"kcal": 704,
+"protein_g": 4.3,
+"carbs_g": 9.9,
+"fat_g": 71.6,
+"source": "indb"
+},
+{
+"name": "Masala vada",
+"serving_description": "100 g",
+"kcal": 826,
+"protein_g": 1.7,
+"carbs_g": 4.1,
+"fat_g": 89.2,
+"source": "indb"
+},
+{
+"name": "Mashed banana with milk",
+"serving_description": "100 g",
+"kcal": 95,
+"protein_g": 2.5,
+"carbs_g": 14.6,
+"fat_g": 3.0,
+"source": "indb"
+},
+{
+"name": "Mathri",
+"serving_description": "100 g",
+"kcal": 805,
+"protein_g": 1.7,
+"carbs_g": 12.3,
+"fat_g": 83.1,
+"source": "indb"
+},
+{
+"name": "Mayonnaise",
+"serving_description": "100 g",
+"kcal": 775,
+"protein_g": 1.9,
+"carbs_g": 1.6,
+"fat_g": 84.5,
+"source": "indb"
+},
+{
+"name": "Mayonnaise vegetable dip",
+"serving_description": "100 g",
+"kcal": 241,
+"protein_g": 3.0,
+"carbs_g": 4.8,
+"fat_g": 23.4,
+"source": "indb"
+},
+{
+"name": "Mayonnaise without eggs",
+"serving_description": "100 g",
+"kcal": 329,
+"protein_g": 2.1,
+"carbs_g": 4.0,
+"fat_g": 33.8,
+"source": "indb"
+},
+{
+"name": "Meat and macaroni casserole",
+"serving_description": "100 g",
+"kcal": 162,
+"protein_g": 9.1,
+"carbs_g": 16.1,
+"fat_g": 10.2,
+"source": "indb"
+},
+{
+"name": "Meat consomme (with mutton)",
+"serving_description": "100 g",
+"kcal": 30,
+"protein_g": 14.9,
+"carbs_g": 0.5,
+"fat_g": 13.7,
+"source": "indb"
+},
+{
+"name": "Meat stock",
+"serving_description": "100 g",
+"kcal": 24,
+"protein_g": 2.1,
+"carbs_g": 0.0,
+"fat_g": 1.8,
+"source": "indb"
+},
+{
+"name": "Melting moments",
+"serving_description": "100 g",
+"kcal": 438,
+"protein_g": 5.7,
+"carbs_g": 55.8,
+"fat_g": 21.8,
+"source": "indb"
+},
+{
+"name": "Meringue and rice pudding",
+"serving_description": "100 g",
+"kcal": 113,
+"protein_g": 4.8,
+"carbs_g": 14.6,
+"fat_g": 4.1,
+"source": "indb"
+},
+{
+"name": "Methi chaman",
+"serving_description": "100 g",
+"kcal": 476,
+"protein_g": 1.5,
+"carbs_g": 2.8,
+"fat_g": 50.9,
+"source": "indb"
+},
+{
+"name": "Methi malai paneer",
+"serving_description": "100 g",
+"kcal": 195,
+"protein_g": 7.3,
+"carbs_g": 8.2,
+"fat_g": 14.8,
+"source": "indb"
+},
+{
+"name": "Methi pakora/pakoda (Methi ke pakode)",
+"serving_description": "100 g",
+"kcal": 713,
+"protein_g": 2.1,
+"carbs_g": 4.7,
+"fat_g": 76.4,
+"source": "indb"
+},
+{
+"name": "Methi parantha/paratha",
+"serving_description": "100 g",
+"kcal": 148,
+"protein_g": 4.3,
+"carbs_g": 22.2,
+"fat_g": 4.3,
+"source": "indb"
+},
+{
+"name": "Methi poori",
+"serving_description": "100 g",
+"kcal": 710,
+"protein_g": 1.5,
+"carbs_g": 8.0,
+"fat_g": 74.6,
+"source": "indb"
+},
+{
+"name": "Methi thepla",
+"serving_description": "100 g",
+"kcal": 346,
+"protein_g": 9.0,
+"carbs_g": 41.3,
+"fat_g": 15.9,
+"source": "indb"
+},
+{
+"name": "Mexican rice",
+"serving_description": "100 g",
+"kcal": 121,
+"protein_g": 4.6,
+"carbs_g": 14.2,
+"fat_g": 4.9,
+"source": "indb"
+},
+{
+"name": "Milk cake",
+"serving_description": "100 g",
+"kcal": 127,
+"protein_g": 3.0,
+"carbs_g": 9.1,
+"fat_g": 8.9,
+"source": "indb"
+},
+{
+"name": "Milk cookies",
+"serving_description": "100 g",
+"kcal": 459,
+"protein_g": 10.5,
+"carbs_g": 48.4,
+"fat_g": 25.0,
+"source": "indb"
+},
+{
+"name": "Millet soup",
+"serving_description": "100 g",
+"kcal": 56,
+"protein_g": 11.3,
+"carbs_g": 8.2,
+"fat_g": 12.6,
+"source": "indb"
+},
+{
+"name": "Minced meat ball curry",
+"serving_description": "100 g",
+"kcal": 110,
+"protein_g": 6.8,
+"carbs_g": 2.9,
+"fat_g": 7.8,
+"source": "indb"
+},
+{
+"name": "Minced meat cutlet",
+"serving_description": "100 g",
+"kcal": 532,
+"protein_g": 5.1,
+"carbs_g": 5.6,
+"fat_g": 54.5,
+"source": "indb"
+},
+{
+"name": "Minced meat pancake (with chicken)",
+"serving_description": "100 g",
+"kcal": 116,
+"protein_g": 12.0,
+"carbs_g": 8.2,
+"fat_g": 10.5,
+"source": "indb"
+},
+{
+"name": "Minced meat patties",
+"serving_description": "100 g",
+"kcal": 266,
+"protein_g": 6.9,
+"carbs_g": 15.3,
+"fat_g": 19.6,
+"source": "indb"
+},
+{
+"name": "Minced meat pie",
+"serving_description": "100 g",
+"kcal": 222,
+"protein_g": 7.4,
+"carbs_g": 18.1,
+"fat_g": 13.0,
+"source": "indb"
+},
+{
+"name": "Minced meat samosa (Keema ka samosa)",
+"serving_description": "100 g",
+"kcal": 621,
+"protein_g": 4.4,
+"carbs_g": 6.1,
+"fat_g": 64.3,
+"source": "indb"
+},
+{
+"name": "Minestrone soup",
+"serving_description": "100 g",
+"kcal": 43,
+"protein_g": 9.3,
+"carbs_g": 3.7,
+"fat_g": 11.1,
+"source": "indb"
+},
+{
+"name": "Mint and coriander chutney (Pudinay aur dhaniye ki chutney)",
+"serving_description": "100 g",
+"kcal": 103,
+"protein_g": 2.8,
+"carbs_g": 21.2,
+"fat_g": 0.5,
+"source": "indb"
+},
+{
+"name": "Mint and peanut raita (Pudinay aur moongfali ka raita)",
+"serving_description": "100 g",
+"kcal": 112,
+"protein_g": 7.0,
+"carbs_g": 7.3,
+"fat_g": 6.2,
+"source": "indb"
+},
+{
+"name": "Mint and peanut sandwich",
+"serving_description": "100 g",
+"kcal": 274,
+"protein_g": 7.2,
+"carbs_g": 31.8,
+"fat_g": 13.9,
+"source": "indb"
+},
+{
+"name": "Mint raita (Pudinay ka raita)",
+"serving_description": "100 g",
+"kcal": 78,
+"protein_g": 5.6,
+"carbs_g": 7.6,
+"fat_g": 3.0,
+"source": "indb"
+},
+{
+"name": "Mint tomato chutney (Pudinay aur tamatar ki chutney)",
+"serving_description": "100 g",
+"kcal": 44,
+"protein_g": 1.5,
+"carbs_g": 8.2,
+"fat_g": 0.4,
+"source": "indb"
+},
+{
+"name": "Mintade",
+"serving_description": "100 g",
+"kcal": 40,
+"protein_g": 0.0,
+"carbs_g": 10.6,
+"fat_g": 0.0,
+"source": "indb"
+},
+{
+"name": "Mixed dal",
+"serving_description": "100 g",
+"kcal": 62,
+"protein_g": 2.5,
+"carbs_g": 5.8,
+"fat_g": 3.1,
+"source": "indb"
+},
+{
+"name": "Mixed pulse and vegetable salad",
+"serving_description": "100 g",
+"kcal": 83,
+"protein_g": 4.7,
+"carbs_g": 14.0,
+"fat_g": 0.8,
+"source": "indb"
+},
+{
+"name": "Mixed stock",
+"serving_description": "100 g",
+"kcal": 25,
+"protein_g": 2.1,
+"carbs_g": 0.3,
+"fat_g": 1.7,
+"source": "indb"
+},
+{
+"name": "Mixed vegetable pakora/pakoda",
+"serving_description": "100 g",
+"kcal": 674,
+"protein_g": 1.9,
+"carbs_g": 5.1,
+"fat_g": 71.9,
+"source": "indb"
+},
+{
+"name": "Mixed vegetable pickle (Sabziyoon ka achaar)",
+"serving_description": "100 g",
+"kcal": 211,
+"protein_g": 1.9,
+"carbs_g": 7.5,
+"fat_g": 19.7,
+"source": "indb"
+},
+{
+"name": "Mixed vegetable pulao",
+"serving_description": "100 g",
+"kcal": 113,
+"protein_g": 2.7,
+"carbs_g": 17.5,
+"fat_g": 3.3,
+"source": "indb"
+},
+{
+"name": "Mixed vegetable salad with curd sauce",
+"serving_description": "100 g",
+"kcal": 60,
+"protein_g": 4.2,
+"carbs_g": 7.0,
+"fat_g": 1.5,
+"source": "indb"
+},
+{
+"name": "Mixed vegetable soup",
+"serving_description": "100 g",
+"kcal": 36,
+"protein_g": 8.2,
+"carbs_g": 2.9,
+"fat_g": 11.7,
+"source": "indb"
+},
+{
+"name": "Mooli bhujia",
+"serving_description": "100 g",
+"kcal": 91,
+"protein_g": 1.7,
+"carbs_g": 4.7,
+"fat_g": 7.3,
+"source": "indb"
+},
+{
+"name": "Moong bean dosa (Pesarattu)",
+"serving_description": "100 g",
+"kcal": 286,
+"protein_g": 12.3,
+"carbs_g": 31.9,
+"fat_g": 11.7,
+"source": "indb"
+},
+{
+"name": "Moong dal halwa",
+"serving_description": "100 g",
+"kcal": 350,
+"protein_g": 8.4,
+"carbs_g": 40.2,
+"fat_g": 17.7,
+"source": "indb"
+},
+{
+"name": "Moong dal kheer",
+"serving_description": "100 g",
+"kcal": 77,
+"protein_g": 3.0,
+"carbs_g": 9.9,
+"fat_g": 3.0,
+"source": "indb"
+},
+{
+"name": "Moong dal mixture",
+"serving_description": "100 g",
+"kcal": 159,
+"protein_g": 4.6,
+"carbs_g": 33.9,
+"fat_g": 1.0,
+"source": "indb"
+},
+{
+"name": "Moong dal stuffed cheela/chilla (Moong dal ka cheela/chilla)",
+"serving_description": "100 g",
+"kcal": 155,
+"protein_g": 7.0,
+"carbs_g": 19.4,
+"fat_g": 5.1,
+"source": "indb"
+},
+{
+"name": "Moong dal with vadi",
+"serving_description": "100 g",
+"kcal": 24,
+"protein_g": 0.4,
+"carbs_g": 1.0,
+"fat_g": 2.0,
+"source": "indb"
+},
+{
+"name": "Moti mahal dal (Urad rajmah mix dal)",
+"serving_description": "100 g",
+"kcal": 103,
+"protein_g": 3.9,
+"carbs_g": 8.7,
+"fat_g": 5.7,
+"source": "indb"
+},
+{
+"name": "Mulligatawny soup",
+"serving_description": "100 g",
+"kcal": 54,
+"protein_g": 11.3,
+"carbs_g": 8.2,
+"fat_g": 13.3,
+"source": "indb"
+},
+{
+"name": "Murmura (Puffed rice)",
+"serving_description": "100 g",
+"kcal": 113,
+"protein_g": 3.6,
+"carbs_g": 15.7,
+"fat_g": 4.0,
+"source": "indb"
+},
+{
+"name": "Murmura chikki",
+"serving_description": "100 g",
+"kcal": 254,
+"protein_g": 2.1,
+"carbs_g": 59.6,
+"fat_g": 0.3,
+"source": "indb"
+},
+{
+"name": "Mushroom and cheese sandwich (toasted)",
+"serving_description": "100 g",
+"kcal": 227,
+"protein_g": 7.8,
+"carbs_g": 21.0,
+"fat_g": 13.0,
+"source": "indb"
+},
+{
+"name": "Mushroom matar",
+"serving_description": "100 g",
+"kcal": 71,
+"protein_g": 2.8,
+"carbs_g": 5.3,
+"fat_g": 4.1,
+"source": "indb"
+},
+{
+"name": "Mushroom pulao",
+"serving_description": "100 g",
+"kcal": 124,
+"protein_g": 2.5,
+"carbs_g": 19.0,
+"fat_g": 4.0,
+"source": "indb"
+},
+{
+"name": "Mushroom sauce",
+"serving_description": "100 g",
+"kcal": 138,
+"protein_g": 3.4,
+"carbs_g": 7.3,
+"fat_g": 10.5,
+"source": "indb"
+},
+{
+"name": "Mustard sauce",
+"serving_description": "100 g",
+"kcal": 159,
+"protein_g": 4.0,
+"carbs_g": 8.3,
+"fat_g": 12.2,
+"source": "indb"
+},
+{
+"name": "Mustard seeds baghar (Mustard seed tadka)",
+"serving_description": "100 g",
+"kcal": 553,
+"protein_g": 4.7,
+"carbs_g": 10.4,
+"fat_g": 54.3,
+"source": "indb"
+},
+{
+"name": "Mutton biryani/biriyani",
+"serving_description": "100 g",
+"kcal": 191,
+"protein_g": 7.4,
+"carbs_g": 22.5,
+"fat_g": 7.7,
+"source": "indb"
+},
+{
+"name": "Mutton chops",
+"serving_description": "100 g",
+"kcal": 664,
+"protein_g": 4.0,
+"carbs_g": 1.5,
+"fat_g": 71.3,
+"source": "indb"
+},
+{
+"name": "Mutton do piaza",
+"serving_description": "100 g",
+"kcal": 183,
+"protein_g": 9.4,
+"carbs_g": 4.1,
+"fat_g": 14.4,
+"source": "indb"
+},
+{
+"name": "Mutton korma",
+"serving_description": "100 g",
+"kcal": 116,
+"protein_g": 7.1,
+"carbs_g": 2.5,
+"fat_g": 8.5,
+"source": "indb"
+},
+{
+"name": "Mutton pulao",
+"serving_description": "100 g",
+"kcal": 131,
+"protein_g": 6.5,
+"carbs_g": 11.3,
+"fat_g": 10.8,
+"source": "indb"
+},
+{
+"name": "Mutton seekh kebab",
+"serving_description": "100 g",
+"kcal": 134,
+"protein_g": 11.3,
+"carbs_g": 3.1,
+"fat_g": 8.4,
+"source": "indb"
+},
+{
+"name": "Mutton yakhni",
+"serving_description": "100 g",
+"kcal": 104,
+"protein_g": 8.3,
+"carbs_g": 0.8,
+"fat_g": 7.7,
+"source": "indb"
+},
+{
+"name": "Naan",
+"serving_description": "100 g",
+"kcal": 286,
+"protein_g": 8.1,
+"carbs_g": 51.8,
+"fat_g": 5.0,
+"source": "indb"
+},
+{
+"name": "Namkeen daliya",
+"serving_description": "100 g",
+"kcal": 295,
+"protein_g": 8.3,
+"carbs_g": 49.3,
+"fat_g": 8.0,
+"source": "indb"
+},
+{
+"name": "Nannari sharbat",
+"serving_description": "100 g",
+"kcal": 89,
+"protein_g": 0.0,
+"carbs_g": 23.6,
+"fat_g": 0.0,
+"source": "indb"
+},
+{
+"name": "Navratan pulao",
+"serving_description": "100 g",
+"kcal": 262,
+"protein_g": 6.2,
+"carbs_g": 37.0,
+"fat_g": 9.5,
+"source": "indb"
+},
+{
+"name": "Oatmeal Porridge",
+"serving_description": "100 g",
+"kcal": 73,
+"protein_g": 2.6,
+"carbs_g": 8.8,
+"fat_g": 3.2,
+"source": "indb"
+},
+{
+"name": "Oats burfi",
+"serving_description": "100 g",
+"kcal": 425,
+"protein_g": 8.9,
+"carbs_g": 62.5,
+"fat_g": 17.3,
+"source": "indb"
+},
+{
+"name": "Okra/Lady's fingers fry (Bhindi sabzi/sabji/subji)",
+"serving_description": "100 g",
+"kcal": 111,
+"protein_g": 1.8,
+"carbs_g": 4.5,
+"fat_g": 9.3,
+"source": "indb"
+},
+{
+"name": "Olive biscuit",
+"serving_description": "100 g",
+"kcal": 438,
+"protein_g": 3.2,
+"carbs_g": 55.0,
+"fat_g": 23.7,
+"source": "indb"
+},
+{
+"name": "Onion chutney (Pyaaz ki chutney/Vengaya chutney)",
+"serving_description": "100 g",
+"kcal": 144,
+"protein_g": 3.0,
+"carbs_g": 13.5,
+"fat_g": 8.4,
+"source": "indb"
+},
+{
+"name": "Onion pakora/pakoda (Pyaaz ke pakode)",
+"serving_description": "100 g",
+"kcal": 675,
+"protein_g": 1.9,
+"carbs_g": 5.4,
+"fat_g": 71.8,
+"source": "indb"
+},
+{
+"name": "Onion raita (Pyaaz ka raita)",
+"serving_description": "100 g",
+"kcal": 72,
+"protein_g": 4.9,
+"carbs_g": 7.9,
+"fat_g": 2.4,
+"source": "indb"
+},
+{
+"name": "Onion tomato baghar (Pyaaz tamatar ka tadka)",
+"serving_description": "100 g",
+"kcal": 138,
+"protein_g": 1.3,
+"carbs_g": 6.2,
+"fat_g": 12.0,
+"source": "indb"
+},
+{
+"name": "Onion tomato uttapam",
+"serving_description": "100 g",
+"kcal": 462,
+"protein_g": 1.9,
+"carbs_g": 11.3,
+"fat_g": 45.3,
+"source": "indb"
+},
+{
+"name": "Onion-green chilli parantha/paratha (Pyaaz aur hari mirch ka parantha/paratha)",
+"serving_description": "100 g",
+"kcal": 191,
+"protein_g": 4.4,
+"carbs_g": 26.4,
+"fat_g": 7.3,
+"source": "indb"
+},
+{
+"name": "Orange and pineapple cream",
+"serving_description": "100 g",
+"kcal": 101,
+"protein_g": 1.4,
+"carbs_g": 12.0,
+"fat_g": 5.4,
+"source": "indb"
+},
+{
+"name": "Orange biscuit",
+"serving_description": "100 g",
+"kcal": 355,
+"protein_g": 3.6,
+"carbs_g": 62.1,
+"fat_g": 11.0,
+"source": "indb"
+},
+{
+"name": "Orange cake",
+"serving_description": "100 g",
+"kcal": 358,
+"protein_g": 6.1,
+"carbs_g": 48.3,
+"fat_g": 16.2,
+"source": "indb"
+},
+{
+"name": "Orange chiffon pie",
+"serving_description": "100 g",
+"kcal": 208,
+"protein_g": 3.9,
+"carbs_g": 23.1,
+"fat_g": 11.2,
+"source": "indb"
+},
+{
+"name": "Orange cream flan",
+"serving_description": "100 g",
+"kcal": 280,
+"protein_g": 4.7,
+"carbs_g": 36.2,
+"fat_g": 13.6,
+"source": "indb"
+},
+{
+"name": "Orange cream tart",
+"serving_description": "100 g",
+"kcal": 197,
+"protein_g": 2.6,
+"carbs_g": 27.4,
+"fat_g": 8.7,
+"source": "indb"
+},
+{
+"name": "Orange eggless cake",
+"serving_description": "100 g",
+"kcal": 356,
+"protein_g": 7.2,
+"carbs_g": 52.6,
+"fat_g": 13.8,
+"source": "indb"
+},
+{
+"name": "Orange gateau",
+"serving_description": "100 g",
+"kcal": 178,
+"protein_g": 4.8,
+"carbs_g": 27.0,
+"fat_g": 6.0,
+"source": "indb"
+},
+{
+"name": "Orange marmalade (Santray ka murabba)",
+"serving_description": "100 g",
+"kcal": 104,
+"protein_g": 0.7,
+"carbs_g": 25.9,
+"fat_g": 0.1,
+"source": "indb"
+},
+{
+"name": "Orange milkshake (Narangi milkshake)",
+"serving_description": "100 g",
+"kcal": 57,
+"protein_g": 1.9,
+"carbs_g": 7.1,
+"fat_g": 2.5,
+"source": "indb"
+},
+{
+"name": "Orange milkshake with ice cream (Narangi milkshake ice cream ke saath)",
+"serving_description": "100 g",
+"kcal": 68,
+"protein_g": 1.9,
+"carbs_g": 9.1,
+"fat_g": 2.7,
+"source": "indb"
+},
+{
+"name": "Orange omelette/omlet",
+"serving_description": "100 g",
+"kcal": 195,
+"protein_g": 8.9,
+"carbs_g": 1.7,
+"fat_g": 16.8,
+"source": "indb"
+},
+{
+"name": "Orange souffle",
+"serving_description": "100 g",
+"kcal": 168,
+"protein_g": 6.8,
+"carbs_g": 14.2,
+"fat_g": 9.7,
+"source": "indb"
+},
+{
+"name": "Orange squash (Santre ka squash)",
+"serving_description": "100 g",
+"kcal": 193,
+"protein_g": 0.2,
+"carbs_g": 50.9,
+"fat_g": 0.0,
+"source": "indb"
+},
+{
+"name": "Paaner do pyaza",
+"serving_description": "100 g",
+"kcal": 128,
+"protein_g": 4.2,
+"carbs_g": 3.4,
+"fat_g": 10.9,
+"source": "indb"
+},
+{
+"name": "Pancake",
+"serving_description": "100 g",
+"kcal": 203,
+"protein_g": 5.7,
+"carbs_g": 20.5,
+"fat_g": 10.8,
+"source": "indb"
+},
+{
+"name": "Panchmel dal",
+"serving_description": "100 g",
+"kcal": 111,
+"protein_g": 4.6,
+"carbs_g": 10.7,
+"fat_g": 5.4,
+"source": "indb"
+},
+{
+"name": "Paneer and pea samosa (Paneer matar ka samosa)",
+"serving_description": "100 g",
+"kcal": 624,
+"protein_g": 4.0,
+"carbs_g": 8.5,
+"fat_g": 63.6,
+"source": "indb"
+},
+{
+"name": "Paneer curry",
+"serving_description": "100 g",
+"kcal": 177,
+"protein_g": 7.8,
+"carbs_g": 8.4,
+"fat_g": 12.4,
+"source": "indb"
+},
+{
+"name": "Paneer cutlet",
+"serving_description": "100 g",
+"kcal": 672,
+"protein_g": 4.6,
+"carbs_g": 7.6,
+"fat_g": 69.4,
+"source": "indb"
+},
+{
+"name": "Paneer in butter sauce",
+"serving_description": "100 g",
+"kcal": 146,
+"protein_g": 7.0,
+"carbs_g": 9.7,
+"fat_g": 8.8,
+"source": "indb"
+},
+{
+"name": "Paneer kaathi roll",
+"serving_description": "100 g",
+"kcal": 286,
+"protein_g": 6.9,
+"carbs_g": 20.1,
+"fat_g": 19.6,
+"source": "indb"
+},
+{
+"name": "Paneer kheer",
+"serving_description": "100 g",
+"kcal": 105,
+"protein_g": 4.5,
+"carbs_g": 10.0,
+"fat_g": 5.4,
+"source": "indb"
+},
+{
+"name": "Paneer kofta curry",
+"serving_description": "100 g",
+"kcal": 671,
+"protein_g": 2.4,
+"carbs_g": 3.3,
+"fat_g": 72.1,
+"source": "indb"
+},
+{
+"name": "Paneer lababdar",
+"serving_description": "100 g",
+"kcal": 105,
+"protein_g": 4.0,
+"carbs_g": 3.4,
+"fat_g": 8.5,
+"source": "indb"
+},
+{
+"name": "Paneer makhana korma",
+"serving_description": "100 g",
+"kcal": 776,
+"protein_g": 3.2,
+"carbs_g": 4.6,
+"fat_g": 82.8,
+"source": "indb"
+},
+{
+"name": "Paneer pakora/pakoda",
+"serving_description": "100 g",
+"kcal": 718,
+"protein_g": 3.3,
+"carbs_g": 5.5,
+"fat_g": 76.1,
+"source": "indb"
+},
+{
+"name": "Paneer parantha/paratha",
+"serving_description": "100 g",
+"kcal": 263,
+"protein_g": 8.0,
+"carbs_g": 24.3,
+"fat_g": 14.6,
+"source": "indb"
+},
+{
+"name": "Paneer patties",
+"serving_description": "100 g",
+"kcal": 339,
+"protein_g": 7.6,
+"carbs_g": 22.8,
+"fat_g": 24.0,
+"source": "indb"
+},
+{
+"name": "Paneer pea sandwich (toasted) (Paneer matar ka sandwich)",
+"serving_description": "100 g",
+"kcal": 250,
+"protein_g": 12.4,
+"carbs_g": 24.1,
+"fat_g": 12.0,
+"source": "indb"
+},
+{
+"name": "Paneer potato cutlet (Paneer aloo cutlet)",
+"serving_description": "100 g",
+"kcal": 673,
+"protein_g": 2.5,
+"carbs_g": 5.2,
+"fat_g": 71.4,
+"source": "indb"
+},
+{
+"name": "Paneer pulao",
+"serving_description": "100 g",
+"kcal": 582,
+"protein_g": 2.0,
+"carbs_g": 8.8,
+"fat_g": 59.8,
+"source": "indb"
+},
+{
+"name": "Paneer shaslik/tikka",
+"serving_description": "100 g",
+"kcal": 94,
+"protein_g": 5.1,
+"carbs_g": 8.0,
+"fat_g": 4.5,
+"source": "indb"
+},
+{
+"name": "Paneer soup",
+"serving_description": "100 g",
+"kcal": 48,
+"protein_g": 3.2,
+"carbs_g": 2.4,
+"fat_g": 2.8,
+"source": "indb"
+},
+{
+"name": "Paneer stuffed cheela/chilla",
+"serving_description": "100 g",
+"kcal": 205,
+"protein_g": 11.4,
+"carbs_g": 19.2,
+"fat_g": 8.9,
+"source": "indb"
+},
+{
+"name": "Paneer, apple and pineapple salad",
+"serving_description": "100 g",
+"kcal": 95,
+"protein_g": 3.9,
+"carbs_g": 8.3,
+"fat_g": 5.1,
+"source": "indb"
+},
+{
+"name": "Papdi",
+"serving_description": "100 g",
+"kcal": 709,
+"protein_g": 1.8,
+"carbs_g": 12.9,
+"fat_g": 72.1,
+"source": "indb"
+},
+{
+"name": "Parsley potato",
+"serving_description": "100 g",
+"kcal": 120,
+"protein_g": 1.5,
+"carbs_g": 13.8,
+"fat_g": 6.3,
+"source": "indb"
+},
+{
+"name": "Pasta cheese sauce",
+"serving_description": "100 g",
+"kcal": 149,
+"protein_g": 4.3,
+"carbs_g": 9.0,
+"fat_g": 10.8,
+"source": "indb"
+},
+{
+"name": "Pasta hot pot",
+"serving_description": "100 g",
+"kcal": 125,
+"protein_g": 5.8,
+"carbs_g": 11.6,
+"fat_g": 6.5,
+"source": "indb"
+},
+{
+"name": "Pasta salad",
+"serving_description": "100 g",
+"kcal": 190,
+"protein_g": 4.2,
+"carbs_g": 12.7,
+"fat_g": 13.9,
+"source": "indb"
+},
+{
+"name": "Pasta spinach sauce",
+"serving_description": "100 g",
+"kcal": 85,
+"protein_g": 1.8,
+"carbs_g": 1.8,
+"fat_g": 7.9,
+"source": "indb"
+},
+{
+"name": "Paushtik ladoo",
+"serving_description": "100 g",
+"kcal": 486,
+"protein_g": 7.7,
+"carbs_g": 60.3,
+"fat_g": 25.0,
+"source": "indb"
+},
+{
+"name": "Paushtik roti",
+"serving_description": "100 g",
+"kcal": 149,
+"protein_g": 7.2,
+"carbs_g": 26.6,
+"fat_g": 1.5,
+"source": "indb"
+},
+{
+"name": "Pav bhaji",
+"serving_description": "100 g",
+"kcal": 97,
+"protein_g": 2.7,
+"carbs_g": 12.0,
+"fat_g": 4.3,
+"source": "indb"
+},
+{
+"name": "Pav bhaji masala",
+"serving_description": "100 g",
+"kcal": 230,
+"protein_g": 9.1,
+"carbs_g": 29.1,
+"fat_g": 11.0,
+"source": "indb"
+},
+{
+"name": "Pavlova",
+"serving_description": "100 g",
+"kcal": 201,
+"protein_g": 1.8,
+"carbs_g": 21.8,
+"fat_g": 12.3,
+"source": "indb"
+},
+{
+"name": "Pea curry (Matar ki sabzi)",
+"serving_description": "100 g",
+"kcal": 103,
+"protein_g": 4.5,
+"carbs_g": 9.2,
+"fat_g": 5.1,
+"source": "indb"
+},
+{
+"name": "Pea keema curry (Matar keema ki sabzi)",
+"serving_description": "100 g",
+"kcal": 133,
+"protein_g": 8.4,
+"carbs_g": 6.2,
+"fat_g": 8.1,
+"source": "indb"
+},
+{
+"name": "Pea keema sandwich (toasted) (Matar aur keema ka sandwich)",
+"serving_description": "100 g",
+"kcal": 172,
+"protein_g": 11.1,
+"carbs_g": 20.3,
+"fat_g": 5.6,
+"source": "indb"
+},
+{
+"name": "Pea kofta curry (Matar kofta curry)",
+"serving_description": "100 g",
+"kcal": 596,
+"protein_g": 2.0,
+"carbs_g": 4.2,
+"fat_g": 63.4,
+"source": "indb"
+},
+{
+"name": "Pea mushroom curry (Matar mushroom)",
+"serving_description": "100 g",
+"kcal": 93,
+"protein_g": 3.9,
+"carbs_g": 7.4,
+"fat_g": 5.2,
+"source": "indb"
+},
+{
+"name": "Pea paneer curry (Matar paneer)",
+"serving_description": "100 g",
+"kcal": 135,
+"protein_g": 6.6,
+"carbs_g": 9.3,
+"fat_g": 7.8,
+"source": "indb"
+},
+{
+"name": "Pea parantha/paratha (Matar ka parantha/paratha)",
+"serving_description": "100 g",
+"kcal": 191,
+"protein_g": 5.6,
+"carbs_g": 21.5,
+"fat_g": 8.8,
+"source": "indb"
+},
+{
+"name": "Pea potato curry (Aloo matar)",
+"serving_description": "100 g",
+"kcal": 101,
+"protein_g": 3.5,
+"carbs_g": 9.7,
+"fat_g": 5.1,
+"source": "indb"
+},
+{
+"name": "Pea potato sandwich (toasted) (Matar aloo ka sandwich)",
+"serving_description": "100 g",
+"kcal": 165,
+"protein_g": 4.6,
+"carbs_g": 25.2,
+"fat_g": 5.4,
+"source": "indb"
+},
+{
+"name": "Pea vadi curry",
+"serving_description": "100 g",
+"kcal": 102,
+"protein_g": 4.6,
+"carbs_g": 8.9,
+"fat_g": 5.1,
+"source": "indb"
+},
+{
+"name": "Peach blueberry preserves",
+"serving_description": "100 g",
+"kcal": 177,
+"protein_g": 0.5,
+"carbs_g": 45.8,
+"fat_g": 0.2,
+"source": "indb"
+},
+{
+"name": "Peach melba ice cream",
+"serving_description": "100 g",
+"kcal": 201,
+"protein_g": 2.1,
+"carbs_g": 16.3,
+"fat_g": 14.5,
+"source": "indb"
+},
+{
+"name": "Peanut and tomato sandwich (Moongfali aur tamatar ka sandwich)",
+"serving_description": "100 g",
+"kcal": 291,
+"protein_g": 9.5,
+"carbs_g": 28.5,
+"fat_g": 16.1,
+"source": "indb"
+},
+{
+"name": "Peanut biscuit",
+"serving_description": "100 g",
+"kcal": 401,
+"protein_g": 8.5,
+"carbs_g": 46.7,
+"fat_g": 20.4,
+"source": "indb"
+},
+{
+"name": "Peanut brittle (Moongfali ki chikki)",
+"serving_description": "100 g",
+"kcal": 320,
+"protein_g": 6.9,
+"carbs_g": 47.5,
+"fat_g": 11.1,
+"source": "indb"
+},
+{
+"name": "Peanut burfi (Moongfali ki burfi)",
+"serving_description": "100 g",
+"kcal": 551,
+"protein_g": 9.3,
+"carbs_g": 48.1,
+"fat_g": 36.8,
+"source": "indb"
+},
+{
+"name": "Peanut butter cucumber sandwich",
+"serving_description": "100 g",
+"kcal": 243,
+"protein_g": 9.0,
+"carbs_g": 29.8,
+"fat_g": 10.6,
+"source": "indb"
+},
+{
+"name": "Peanut chutney (Mungfali ki chutney)",
+"serving_description": "100 g",
+"kcal": 258,
+"protein_g": 11.8,
+"carbs_g": 9.9,
+"fat_g": 19.1,
+"source": "indb"
+},
+{
+"name": "Peanut cutlet (Mungfali ke cutlet)",
+"serving_description": "100 g",
+"kcal": 699,
+"protein_g": 2.6,
+"carbs_g": 5.7,
+"fat_g": 74.0,
+"source": "indb"
+},
+{
+"name": "Peanut pulao",
+"serving_description": "100 g",
+"kcal": 193,
+"protein_g": 5.3,
+"carbs_g": 21.2,
+"fat_g": 9.5,
+"source": "indb"
+},
+{
+"name": "Peanut raita (Mungfali ka raita)",
+"serving_description": "100 g",
+"kcal": 150,
+"protein_g": 8.6,
+"carbs_g": 9.3,
+"fat_g": 9.0,
+"source": "indb"
+},
+{
+"name": "Peanut sago vada (Sabudana mungfali vada)",
+"serving_description": "100 g",
+"kcal": 750,
+"protein_g": 1.0,
+"carbs_g": 7.1,
+"fat_g": 79.8,
+"source": "indb"
+},
+{
+"name": "Pear chocholate sunday",
+"serving_description": "100 g",
+"kcal": 183,
+"protein_g": 2.1,
+"carbs_g": 15.0,
+"fat_g": 13.1,
+"source": "indb"
+},
+{
+"name": "Pear preserves (Naashpati ka murabba)",
+"serving_description": "100 g",
+"kcal": 101,
+"protein_g": 0.3,
+"carbs_g": 25.7,
+"fat_g": 0.2,
+"source": "indb"
+},
+{
+"name": "Pearl millet infant food (Bajra shishu aahaar)",
+"serving_description": "100 g",
+"kcal": 362,
+"protein_g": 12.0,
+"carbs_g": 62.1,
+"fat_g": 6.6,
+"source": "indb"
+},
+{
+"name": "Pearl millet ladoo (Bajra ladoo)",
+"serving_description": "100 g",
+"kcal": 320,
+"protein_g": 9.6,
+"carbs_g": 51.0,
+"fat_g": 8.1,
+"source": "indb"
+},
+{
+"name": "Pearl millet mathri (Bajra mathri)",
+"serving_description": "100 g",
+"kcal": 785,
+"protein_g": 1.8,
+"carbs_g": 7.4,
+"fat_g": 83.1,
+"source": "indb"
+},
+{
+"name": "Peas brinjal bhartha (Matar baingan bhartha)",
+"serving_description": "100 g",
+"kcal": 85,
+"protein_g": 2.1,
+"carbs_g": 5.0,
+"fat_g": 6.1,
+"source": "indb"
+},
+{
+"name": "Peas kachori (Matar kachori)",
+"serving_description": "100 g",
+"kcal": 585,
+"protein_g": 3.2,
+"carbs_g": 13.2,
+"fat_g": 57.5,
+"source": "indb"
+},
+{
+"name": "Peas poori (Matar ki poori)",
+"serving_description": "100 g",
+"kcal": 593,
+"protein_g": 3.0,
+"carbs_g": 14.9,
+"fat_g": 57.7,
+"source": "indb"
+},
+{
+"name": "Peas pulao (Matar pulao)",
+"serving_description": "100 g",
+"kcal": 109,
+"protein_g": 3.9,
+"carbs_g": 18.4,
+"fat_g": 1.9,
+"source": "indb"
+},
+{
+"name": "Penne platter",
+"serving_description": "100 g",
+"kcal": 177,
+"protein_g": 5.0,
+"carbs_g": 20.9,
+"fat_g": 8.7,
+"source": "indb"
+},
+{
+"name": "Phirni",
+"serving_description": "100 g",
+"kcal": 116,
+"protein_g": 3.5,
+"carbs_g": 16.1,
+"fat_g": 4.3,
+"source": "indb"
+},
+{
+"name": "Pickled cabbage",
+"serving_description": "100 g",
+"kcal": 14,
+"protein_g": 0.4,
+"carbs_g": 2.6,
+"fat_g": 0.1,
+"source": "indb"
+},
+{
+"name": "Pickled mustard greens",
+"serving_description": "100 g",
+"kcal": 13,
+"protein_g": 1.5,
+"carbs_g": 1.1,
+"fat_g": 0.2,
+"source": "indb"
+},
+{
+"name": "Pin wheel biscuit",
+"serving_description": "100 g",
+"kcal": 405,
+"protein_g": 5.4,
+"carbs_g": 54.6,
+"fat_g": 18.7,
+"source": "indb"
+},
+{
+"name": "Pin wheel sandwich",
+"serving_description": "100 g",
+"kcal": 312,
+"protein_g": 8.8,
+"carbs_g": 14.0,
+"fat_g": 24.9,
+"source": "indb"
+},
+{
+"name": "Pineapple cake",
+"serving_description": "100 g",
+"kcal": 196,
+"protein_g": 5.0,
+"carbs_g": 23.5,
+"fat_g": 9.3,
+"source": "indb"
+},
+{
+"name": "Pineapple jam",
+"serving_description": "100 g",
+"kcal": 149,
+"protein_g": 0.3,
+"carbs_g": 38.3,
+"fat_g": 0.2,
+"source": "indb"
+},
+{
+"name": "Pineapple milkshake (Ananas milkshake)",
+"serving_description": "100 g",
+"kcal": 56,
+"protein_g": 1.7,
+"carbs_g": 7.6,
+"fat_g": 2.2,
+"source": "indb"
+},
+{
+"name": "Pineapple milkshake with ice cream (Ananas milkshake ice cream ke saath)",
+"serving_description": "100 g",
+"kcal": 68,
+"protein_g": 1.9,
+"carbs_g": 9.3,
+"fat_g": 2.8,
+"source": "indb"
+},
+{
+"name": "Pineapple pastry",
+"serving_description": "100 g",
+"kcal": 208,
+"protein_g": 6.1,
+"carbs_g": 29.0,
+"fat_g": 7.9,
+"source": "indb"
+},
+{
+"name": "Pineapple raita (Ananas ka raita)",
+"serving_description": "100 g",
+"kcal": 68,
+"protein_g": 3.9,
+"carbs_g": 8.6,
+"fat_g": 2.0,
+"source": "indb"
+},
+{
+"name": "Pineapple souffle",
+"serving_description": "100 g",
+"kcal": 196,
+"protein_g": 8.1,
+"carbs_g": 15.5,
+"fat_g": 11.7,
+"source": "indb"
+},
+{
+"name": "Pineapple squash (Ananas ka squash)",
+"serving_description": "100 g",
+"kcal": 195,
+"protein_g": 0.2,
+"carbs_g": 51.3,
+"fat_g": 0.0,
+"source": "indb"
+},
+{
+"name": "Pineapple tart",
+"serving_description": "100 g",
+"kcal": 195,
+"protein_g": 2.3,
+"carbs_g": 28.6,
+"fat_g": 8.2,
+"source": "indb"
+},
+{
+"name": "Pineapple upside down pudding",
+"serving_description": "100 g",
+"kcal": 258,
+"protein_g": 3.1,
+"carbs_g": 35.7,
+"fat_g": 11.9,
+"source": "indb"
+},
+{
+"name": "Pizza",
+"serving_description": "100 g",
+"kcal": 147,
+"protein_g": 6.8,
+"carbs_g": 9.9,
+"fat_g": 8.7,
+"source": "indb"
+},
+{
+"name": "Plain burfi (Burfi)",
+"serving_description": "100 g",
+"kcal": 408,
+"protein_g": 9.8,
+"carbs_g": 30.9,
+"fat_g": 28.0,
+"source": "indb"
+},
+{
+"name": "Plain cream cake",
+"serving_description": "100 g",
+"kcal": 354,
+"protein_g": 6.2,
+"carbs_g": 47.2,
+"fat_g": 16.2,
+"source": "indb"
+},
+{
+"name": "Plain dosa",
+"serving_description": "100 g",
+"kcal": 381,
+"protein_g": 10.3,
+"carbs_g": 64.1,
+"fat_g": 8.4,
+"source": "indb"
+},
+{
+"name": "Plain khitchdi (Plain khichri/khichdi)",
+"serving_description": "100 g",
+"kcal": 57,
+"protein_g": 1.7,
+"carbs_g": 10.0,
+"fat_g": 1.0,
+"source": "indb"
+},
+{
+"name": "Plain omelette/omlet",
+"serving_description": "100 g",
+"kcal": 272,
+"protein_g": 9.7,
+"carbs_g": 0.6,
+"fat_g": 25.7,
+"source": "indb"
+},
+{
+"name": "Plain parantha/paratha",
+"serving_description": "100 g",
+"kcal": 298,
+"protein_g": 5.1,
+"carbs_g": 30.7,
+"fat_g": 16.9,
+"source": "indb"
+},
+{
+"name": "Plain pulao",
+"serving_description": "100 g",
+"kcal": 140,
+"protein_g": 2.3,
+"carbs_g": 21.8,
+"fat_g": 4.6,
+"source": "indb"
+},
+{
+"name": "Plain urad dal vada (Uzunne vada/Minapa garelu/Ulundu vadai/Medu vada)",
+"serving_description": "100 g",
+"kcal": 745,
+"protein_g": 4.4,
+"carbs_g": 9.7,
+"fat_g": 76.3,
+"source": "indb"
+},
+{
+"name": "Plum chutney (Aloo bukhara ki chutney)",
+"serving_description": "100 g",
+"kcal": 177,
+"protein_g": 0.5,
+"carbs_g": 45.0,
+"fat_g": 0.3,
+"source": "indb"
+},
+{
+"name": "Plum jam (Aloo bukhara jam)",
+"serving_description": "100 g",
+"kcal": 179,
+"protein_g": 0.3,
+"carbs_g": 46.2,
+"fat_g": 0.2,
+"source": "indb"
+},
+{
+"name": "Plum squash (Aloo bukhara squash)",
+"serving_description": "100 g",
+"kcal": 211,
+"protein_g": 0.2,
+"carbs_g": 55.5,
+"fat_g": 0.1,
+"source": "indb"
+},
+{
+"name": "Poached egg",
+"serving_description": "100 g",
+"kcal": 124,
+"protein_g": 12.0,
+"carbs_g": 0.4,
+"fat_g": 8.2,
+"source": "indb"
+},
+{
+"name": "Poha",
+"serving_description": "100 g",
+"kcal": 295,
+"protein_g": 6.1,
+"carbs_g": 35.0,
+"fat_g": 14.1,
+"source": "indb"
+},
+{
+"name": "Poha with curd (Poha aur dahi)",
+"serving_description": "100 g",
+"kcal": 173,
+"protein_g": 6.0,
+"carbs_g": 26.7,
+"fat_g": 4.7,
+"source": "indb"
+},
+{
+"name": "Pomegranate raita (Anaar ka raita)",
+"serving_description": "100 g",
+"kcal": 73,
+"protein_g": 4.0,
+"carbs_g": 7.2,
+"fat_g": 3.2,
+"source": "indb"
+},
+{
+"name": "Poori",
+"serving_description": "100 g",
+"kcal": 738,
+"protein_g": 1.4,
+"carbs_g": 8.2,
+"fat_g": 77.6,
+"source": "indb"
+},
+{
+"name": "Poshtik chilla/cheela",
+"serving_description": "100 g",
+"kcal": 160,
+"protein_g": 4.8,
+"carbs_g": 27.5,
+"fat_g": 3.0,
+"source": "indb"
+},
+{
+"name": "Poshtik cutlet",
+"serving_description": "100 g",
+"kcal": 496,
+"protein_g": 2.0,
+"carbs_g": 7.4,
+"fat_g": 50.9,
+"source": "indb"
+},
+{
+"name": "Poshtik khichdi/khichri",
+"serving_description": "100 g",
+"kcal": 93,
+"protein_g": 3.0,
+"carbs_g": 15.6,
+"fat_g": 1.9,
+"source": "indb"
+},
+{
+"name": "Poshtik namak paras",
+"serving_description": "100 g",
+"kcal": 613,
+"protein_g": 6.5,
+"carbs_g": 19.5,
+"fat_g": 56.6,
+"source": "indb"
+},
+{
+"name": "Potato aigrettes",
+"serving_description": "100 g",
+"kcal": 530,
+"protein_g": 2.4,
+"carbs_g": 8.0,
+"fat_g": 54.2,
+"source": "indb"
+},
+{
+"name": "Potato bonda (Aloo bonda)",
+"serving_description": "100 g",
+"kcal": 633,
+"protein_g": 1.1,
+"carbs_g": 4.5,
+"fat_g": 67.8,
+"source": "indb"
+},
+{
+"name": "Potato canjee (Aloo canjee)",
+"serving_description": "100 g",
+"kcal": 16,
+"protein_g": 0.4,
+"carbs_g": 2.7,
+"fat_g": 0.4,
+"source": "indb"
+},
+{
+"name": "Potato capsicum (Shimla mirch aloo)",
+"serving_description": "100 g",
+"kcal": 126,
+"protein_g": 1.4,
+"carbs_g": 8.7,
+"fat_g": 9.3,
+"source": "indb"
+},
+{
+"name": "Potato cauliflower (Aloo gobhi)",
+"serving_description": "100 g",
+"kcal": 106,
+"protein_g": 1.9,
+"carbs_g": 6.0,
+"fat_g": 8.1,
+"source": "indb"
+},
+{
+"name": "Potato curry (Aloo ki sabzi)",
+"serving_description": "100 g",
+"kcal": 90,
+"protein_g": 1.5,
+"carbs_g": 10.4,
+"fat_g": 4.5,
+"source": "indb"
+},
+{
+"name": "Potato fenugreek (Aloo methi)",
+"serving_description": "100 g",
+"kcal": 135,
+"protein_g": 2.2,
+"carbs_g": 8.5,
+"fat_g": 10.0,
+"source": "indb"
+},
+{
+"name": "Potato halwa (Aloo ka halwa)",
+"serving_description": "100 g",
+"kcal": 152,
+"protein_g": 1.5,
+"carbs_g": 29.2,
+"fat_g": 3.5,
+"source": "indb"
+},
+{
+"name": "Potato kofta curry (Aloo kofta curry)",
+"serving_description": "100 g",
+"kcal": 455,
+"protein_g": 0.6,
+"carbs_g": 2.8,
+"fat_g": 49.1,
+"source": "indb"
+},
+{
+"name": "Potato nests",
+"serving_description": "100 g",
+"kcal": 112,
+"protein_g": 5.7,
+"carbs_g": 11.0,
+"fat_g": 4.8,
+"source": "indb"
+},
+{
+"name": "Potato pakora/pakoda (Aloo pakoda)",
+"serving_description": "100 g",
+"kcal": 677,
+"protein_g": 1.9,
+"carbs_g": 6.0,
+"fat_g": 71.8,
+"source": "indb"
+},
+{
+"name": "Potato parantha/paratha (Aloo ka parantha/paratha)",
+"serving_description": "100 g",
+"kcal": 205,
+"protein_g": 3.7,
+"carbs_g": 23.9,
+"fat_g": 10.2,
+"source": "indb"
+},
+{
+"name": "Potato pickle (Aloo ka achaar)",
+"serving_description": "100 g",
+"kcal": 369,
+"protein_g": 2.1,
+"carbs_g": 7.9,
+"fat_g": 36.5,
+"source": "indb"
+},
+{
+"name": "Potato raita (Aloo ka raita)",
+"serving_description": "100 g",
+"kcal": 75,
+"protein_g": 4.2,
+"carbs_g": 10.2,
+"fat_g": 2.0,
+"source": "indb"
+},
+{
+"name": "Potato salad (Aloo ka salaad)",
+"serving_description": "100 g",
+"kcal": 90,
+"protein_g": 1.4,
+"carbs_g": 11.2,
+"fat_g": 4.4,
+"source": "indb"
+},
+{
+"name": "Potato samosa (Aloo ka samosa)",
+"serving_description": "100 g",
+"kcal": 577,
+"protein_g": 1.7,
+"carbs_g": 9.2,
+"fat_g": 59.2,
+"source": "indb"
+},
+{
+"name": "Potato stuffed poori (Aloo ki poori)",
+"serving_description": "100 g",
+"kcal": 777,
+"protein_g": 1.5,
+"carbs_g": 9.4,
+"fat_g": 81.4,
+"source": "indb"
+},
+{
+"name": "Potato with curd",
+"serving_description": "100 g",
+"kcal": 73,
+"protein_g": 3.2,
+"carbs_g": 12.0,
+"fat_g": 1.3,
+"source": "indb"
+},
+{
+"name": "Prawn curry (with coconut) (Jhinga curry)",
+"serving_description": "100 g",
+"kcal": 110,
+"protein_g": 8.5,
+"carbs_g": 3.1,
+"fat_g": 6.9,
+"source": "indb"
+},
+{
+"name": "Prawn sandwich",
+"serving_description": "100 g",
+"kcal": 170,
+"protein_g": 10.4,
+"carbs_g": 11.9,
+"fat_g": 9.3,
+"source": "indb"
+},
+{
+"name": "Puffed wheat (Murmure/Moori)",
+"serving_description": "100 g",
+"kcal": 113,
+"protein_g": 3.6,
+"carbs_g": 15.7,
+"fat_g": 4.0,
+"source": "indb"
+},
+{
+"name": "Puffy omelette/omlet",
+"serving_description": "100 g",
+"kcal": 188,
+"protein_g": 8.8,
+"carbs_g": 0.1,
+"fat_g": 16.8,
+"source": "indb"
+},
+{
+"name": "Pulse mix",
+"serving_description": "100 g",
+"kcal": 83,
+"protein_g": 3.2,
+"carbs_g": 16.0,
+"fat_g": 0.5,
+"source": "indb"
+},
+{
+"name": "Pumpkin coconut burfi (Kaddu aur nariyal ki burfi)",
+"serving_description": "100 g",
+"kcal": 186,
+"protein_g": 1.8,
+"carbs_g": 17.0,
+"fat_g": 12.7,
+"source": "indb"
+},
+{
+"name": "Pumpkin cookies",
+"serving_description": "100 g",
+"kcal": 218,
+"protein_g": 2.5,
+"carbs_g": 44.7,
+"fat_g": 3.9,
+"source": "indb"
+},
+{
+"name": "Pumpkin halwa (Kaddu ka halwa)",
+"serving_description": "100 g",
+"kcal": 190,
+"protein_g": 1.3,
+"carbs_g": 27.6,
+"fat_g": 8.8,
+"source": "indb"
+},
+{
+"name": "Pumpkin kheer (Kaddu ki kheer)",
+"serving_description": "100 g",
+"kcal": 86,
+"protein_g": 2.8,
+"carbs_g": 10.4,
+"fat_g": 3.9,
+"source": "indb"
+},
+{
+"name": "Pumpkin raita (Kaddu ka raita)",
+"serving_description": "100 g",
+"kcal": 56,
+"protein_g": 3.7,
+"carbs_g": 6.0,
+"fat_g": 1.9,
+"source": "indb"
+},
+{
+"name": "Pumpkin soup",
+"serving_description": "100 g",
+"kcal": 40,
+"protein_g": 0.5,
+"carbs_g": 2.1,
+"fat_g": 3.2,
+"source": "indb"
+},
+{
+"name": "Putharekulu",
+"serving_description": "100 g",
+"kcal": 318,
+"protein_g": 3.7,
+"carbs_g": 59.6,
+"fat_g": 7.6,
+"source": "indb"
+},
+{
+"name": "Queen of pudding",
+"serving_description": "100 g",
+"kcal": 133,
+"protein_g": 5.5,
+"carbs_g": 16.3,
+"fat_g": 5.4,
+"source": "indb"
+},
+{
+"name": "Quinoa khichdi/khichri",
+"serving_description": "100 g",
+"kcal": 64,
+"protein_g": 3.2,
+"carbs_g": 8.8,
+"fat_g": 1.6,
+"source": "indb"
+},
+{
+"name": "Radish parantha/paratha (Mooli ka parantha/paratha)",
+"serving_description": "100 g",
+"kcal": 184,
+"protein_g": 3.3,
+"carbs_g": 20.5,
+"fat_g": 9.5,
+"source": "indb"
+},
+{
+"name": "Rainbow sandwich",
+"serving_description": "100 g",
+"kcal": 273,
+"protein_g": 7.7,
+"carbs_g": 34.3,
+"fat_g": 12.5,
+"source": "indb"
+},
+{
+"name": "Rajbogh",
+"serving_description": "100 g",
+"kcal": 134,
+"protein_g": 1.7,
+"carbs_g": 28.2,
+"fat_g": 2.3,
+"source": "indb"
+},
+{
+"name": "Rasam powder (Rasam masala)",
+"serving_description": "100 g",
+"kcal": 268,
+"protein_g": 12.0,
+"carbs_g": 25.2,
+"fat_g": 11.8,
+"source": "indb"
+},
+{
+"name": "Rasam with lemon (Nimmakaya rasam/Nimmakaya charu/Elumichai rasam/Nimbe hannina saaru)",
+"serving_description": "100 g",
+"kcal": 24,
+"protein_g": 1.1,
+"carbs_g": 2.8,
+"fat_g": 0.9,
+"source": "indb"
+},
+{
+"name": "Rasam with tamarind (Puli rasam/ Chintapandu rasam/ Charu/Saaru)",
+"serving_description": "100 g",
+"kcal": 27,
+"protein_g": 1.1,
+"carbs_g": 3.4,
+"fat_g": 0.9,
+"source": "indb"
+},
+{
+"name": "Rasbhari",
+"serving_description": "100 g",
+"kcal": 130,
+"protein_g": 1.5,
+"carbs_g": 28.3,
+"fat_g": 1.9,
+"source": "indb"
+},
+{
+"name": "Rasgulla",
+"serving_description": "100 g",
+"kcal": 119,
+"protein_g": 1.4,
+"carbs_g": 25.8,
+"fat_g": 1.7,
+"source": "indb"
+},
+{
+"name": "Rasmalai",
+"serving_description": "100 g",
+"kcal": 136,
+"protein_g": 1.6,
+"carbs_g": 29.2,
+"fat_g": 2.1,
+"source": "indb"
+},
+{
+"name": "Raspberry bavarian cream",
+"serving_description": "100 g",
+"kcal": 150,
+"protein_g": 3.3,
+"carbs_g": 17.8,
+"fat_g": 7.9,
+"source": "indb"
+},
+{
+"name": "Raspberry shortbread cookies",
+"serving_description": "100 g",
+"kcal": 441,
+"protein_g": 3.0,
+"carbs_g": 61.2,
+"fat_g": 21.3,
+"source": "indb"
+},
+{
+"name": "Raw banana kofta curry (Kela kofta curry)",
+"serving_description": "100 g",
+"kcal": 627,
+"protein_g": 0.6,
+"carbs_g": 3.4,
+"fat_g": 68.0,
+"source": "indb"
+},
+{
+"name": "Raw mango chutney (Kachhe aam/Kairi ki chutney)",
+"serving_description": "100 g",
+"kcal": 193,
+"protein_g": 0.5,
+"carbs_g": 49.9,
+"fat_g": 0.2,
+"source": "indb"
+},
+{
+"name": "Raw mango drink (Aam panna)",
+"serving_description": "100 g",
+"kcal": 36,
+"protein_g": 0.2,
+"carbs_g": 9.0,
+"fat_g": 0.0,
+"source": "indb"
+},
+{
+"name": "Raw papaya with coconut (Papaya thoran)",
+"serving_description": "100 g",
+"kcal": 133,
+"protein_g": 1.5,
+"carbs_g": 5.6,
+"fat_g": 11.4,
+"source": "indb"
+},
+{
+"name": "Raw turnip with coconut",
+"serving_description": "100 g",
+"kcal": 132,
+"protein_g": 1.8,
+"carbs_g": 5.8,
+"fat_g": 11.5,
+"source": "indb"
+},
+{
+"name": "Ribbon sandwich",
+"serving_description": "100 g",
+"kcal": 239,
+"protein_g": 6.3,
+"carbs_g": 24.8,
+"fat_g": 13.4,
+"source": "indb"
+},
+{
+"name": "Rice dal porridge (Chawal dal ki khichdi/khichri)",
+"serving_description": "100 g",
+"kcal": 383,
+"protein_g": 10.8,
+"carbs_g": 65.0,
+"fat_g": 8.3,
+"source": "indb"
+},
+{
+"name": "Rice flakes (Chiwda/Aval)",
+"serving_description": "100 g",
+"kcal": 112,
+"protein_g": 3.6,
+"carbs_g": 15.6,
+"fat_g": 4.0,
+"source": "indb"
+},
+{
+"name": "Rice flakes and roasted channa",
+"serving_description": "100 g",
+"kcal": 333,
+"protein_g": 10.6,
+"carbs_g": 71.9,
+"fat_g": 2.9,
+"source": "indb"
+},
+{
+"name": "Rice kheer (Chawal ki kheer)",
+"serving_description": "100 g",
+"kcal": 75,
+"protein_g": 2.3,
+"carbs_g": 10.0,
+"fat_g": 3.0,
+"source": "indb"
+},
+{
+"name": "Rice moong dal cheela (Chawal aur moong dal ka cheela)",
+"serving_description": "100 g",
+"kcal": 798,
+"protein_g": 2.7,
+"carbs_g": 11.1,
+"fat_g": 82.4,
+"source": "indb"
+},
+{
+"name": "Rice murukku",
+"serving_description": "100 g",
+"kcal": 594,
+"protein_g": 5.4,
+"carbs_g": 33.3,
+"fat_g": 48.2,
+"source": "indb"
+},
+{
+"name": "Rice puttu (Ari puttu)",
+"serving_description": "100 g",
+"kcal": 82,
+"protein_g": 1.3,
+"carbs_g": 11.8,
+"fat_g": 3.1,
+"source": "indb"
+},
+{
+"name": "Rice upma",
+"serving_description": "100 g",
+"kcal": 151,
+"protein_g": 2.6,
+"carbs_g": 18.0,
+"fat_g": 7.5,
+"source": "indb"
+},
+{
+"name": "Rich chocolate mousse",
+"serving_description": "100 g",
+"kcal": 188,
+"protein_g": 8.0,
+"carbs_g": 10.8,
+"fat_g": 12.2,
+"source": "indb"
+},
+{
+"name": "Roast chicken",
+"serving_description": "100 g",
+"kcal": 200,
+"protein_g": 20.5,
+"carbs_g": 0.1,
+"fat_g": 13.1,
+"source": "indb"
+},
+{
+"name": "Roast potatoes",
+"serving_description": "100 g",
+"kcal": 87,
+"protein_g": 1.5,
+"carbs_g": 14.5,
+"fat_g": 2.4,
+"source": "indb"
+},
+{
+"name": "Roasted cauliflower steak",
+"serving_description": "100 g",
+"kcal": 79,
+"protein_g": 2.0,
+"carbs_g": 2.0,
+"fat_g": 6.7,
+"source": "indb"
+},
+{
+"name": "Roghan josh",
+"serving_description": "100 g",
+"kcal": 140,
+"protein_g": 9.6,
+"carbs_g": 4.9,
+"fat_g": 9.0,
+"source": "indb"
+},
+{
+"name": "Rolled sandwich",
+"serving_description": "100 g",
+"kcal": 293,
+"protein_g": 6.5,
+"carbs_g": 34.7,
+"fat_g": 15.3,
+"source": "indb"
+},
+{
+"name": "Royal icing",
+"serving_description": "100 g",
+"kcal": 333,
+"protein_g": 1.7,
+"carbs_g": 86.5,
+"fat_g": 0.0,
+"source": "indb"
+},
+{
+"name": "Russian salad",
+"serving_description": "100 g",
+"kcal": 115,
+"protein_g": 4.3,
+"carbs_g": 6.5,
+"fat_g": 7.8,
+"source": "indb"
+},
+{
+"name": "Saffron biscuit (Kesar biscuit)",
+"serving_description": "100 g",
+"kcal": 459,
+"protein_g": 6.0,
+"carbs_g": 59.7,
+"fat_g": 22.0,
+"source": "indb"
+},
+{
+"name": "Saffron milk (Kesariya doodh)",
+"serving_description": "100 g",
+"kcal": 102,
+"protein_g": 3.2,
+"carbs_g": 12.6,
+"fat_g": 4.6,
+"source": "indb"
+},
+{
+"name": "Sago cutlet/vadas (Sabudana cutlet/vadas)",
+"serving_description": "100 g",
+"kcal": 559,
+"protein_g": 0.6,
+"carbs_g": 11.2,
+"fat_g": 57.0,
+"source": "indb"
+},
+{
+"name": "Sago khitchdi/khichri (Sabudana khitchdi/khichri)",
+"serving_description": "100 g",
+"kcal": 187,
+"protein_g": 2.7,
+"carbs_g": 22.4,
+"fat_g": 10.1,
+"source": "indb"
+},
+{
+"name": "Sajina",
+"serving_description": "100 g",
+"kcal": 345,
+"protein_g": 10.8,
+"carbs_g": 66.9,
+"fat_g": 3.0,
+"source": "indb"
+},
+{
+"name": "Salami sandwich",
+"serving_description": "100 g",
+"kcal": 256,
+"protein_g": 8.7,
+"carbs_g": 21.5,
+"fat_g": 15.5,
+"source": "indb"
+},
+{
+"name": "Sambar",
+"serving_description": "100 g",
+"kcal": 97,
+"protein_g": 3.4,
+"carbs_g": 10.6,
+"fat_g": 4.4,
+"source": "indb"
+},
+{
+"name": "Sambar powder (Sambar masala)",
+"serving_description": "100 g",
+"kcal": 297,
+"protein_g": 12.5,
+"carbs_g": 23.4,
+"fat_g": 15.6,
+"source": "indb"
+},
+{
+"name": "Sarson ka saag",
+"serving_description": "100 g",
+"kcal": 88,
+"protein_g": 3.0,
+"carbs_g": 5.3,
+"fat_g": 5.9,
+"source": "indb"
+},
+{
+"name": "Sattu drink",
+"serving_description": "100 g",
+"kcal": 23,
+"protein_g": 0.6,
+"carbs_g": 5.2,
+"fat_g": 0.1,
+"source": "indb"
+},
+{
+"name": "Saunth/Sonth chutney with ginger",
+"serving_description": "100 g",
+"kcal": 84,
+"protein_g": 0.3,
+"carbs_g": 20.6,
+"fat_g": 0.1,
+"source": "indb"
+},
+{
+"name": "Saunth/Sonth chutney with tamarind/imli",
+"serving_description": "100 g",
+"kcal": 142,
+"protein_g": 1.0,
+"carbs_g": 33.6,
+"fat_g": 0.2,
+"source": "indb"
+},
+{
+"name": "Sauteed radishes with green beans",
+"serving_description": "100 g",
+"kcal": 94,
+"protein_g": 2.4,
+"carbs_g": 6.0,
+"fat_g": 6.6,
+"source": "indb"
+},
+{
+"name": "Savoury cheese horns",
+"serving_description": "100 g",
+"kcal": 295,
+"protein_g": 5.7,
+"carbs_g": 21.4,
+"fat_g": 20.7,
+"source": "indb"
+},
+{
+"name": "Savoury puffs",
+"serving_description": "100 g",
+"kcal": 191,
+"protein_g": 9.5,
+"carbs_g": 10.8,
+"fat_g": 15.2,
+"source": "indb"
+},
+{
+"name": "Schezwan chutney",
+"serving_description": "100 g",
+"kcal": 205,
+"protein_g": 3.3,
+"carbs_g": 10.8,
+"fat_g": 17.7,
+"source": "indb"
+},
+{
+"name": "Scotch egg",
+"serving_description": "100 g",
+"kcal": 677,
+"protein_g": 4.1,
+"carbs_g": 1.9,
+"fat_g": 72.6,
+"source": "indb"
+},
+{
+"name": "Scrambled egg (Ande ki bhurji)",
+"serving_description": "100 g",
+"kcal": 156,
+"protein_g": 10.3,
+"carbs_g": 1.4,
+"fat_g": 12.2,
+"source": "indb"
+},
+{
+"name": "Semolina burfi (Suji/Rava burfi)",
+"serving_description": "100 g",
+"kcal": 349,
+"protein_g": 3.5,
+"carbs_g": 47.1,
+"fat_g": 16.9,
+"source": "indb"
+},
+{
+"name": "Semolina cake (Suji/Rava cake)",
+"serving_description": "100 g",
+"kcal": 374,
+"protein_g": 6.6,
+"carbs_g": 31.3,
+"fat_g": 25.2,
+"source": "indb"
+},
+{
+"name": "Semolina carrot vada (Suji gajar vada)",
+"serving_description": "100 g",
+"kcal": 700,
+"protein_g": 1.6,
+"carbs_g": 6.5,
+"fat_g": 74.1,
+"source": "indb"
+},
+{
+"name": "Semolina dhokla (Suji/Rava dhokla)",
+"serving_description": "100 g",
+"kcal": 195,
+"protein_g": 5.4,
+"carbs_g": 30.9,
+"fat_g": 5.2,
+"source": "indb"
+},
+{
+"name": "Semolina dosa (Suji/Rava dosa)",
+"serving_description": "100 g",
+"kcal": 227,
+"protein_g": 7.3,
+"carbs_g": 32.8,
+"fat_g": 7.1,
+"source": "indb"
+},
+{
+"name": "Semolina halwa (Suji ka halwa)",
+"serving_description": "100 g",
+"kcal": 226,
+"protein_g": 2.2,
+"carbs_g": 24.7,
+"fat_g": 13.4,
+"source": "indb"
+},
+{
+"name": "Semolina idli (Suji/Rava idli)",
+"serving_description": "100 g",
+"kcal": 206,
+"protein_g": 9.3,
+"carbs_g": 33.7,
+"fat_g": 3.5,
+"source": "indb"
+},
+{
+"name": "Semolina kheer (Suji/Rava kheer)",
+"serving_description": "100 g",
+"kcal": 113,
+"protein_g": 3.4,
+"carbs_g": 15.9,
+"fat_g": 4.2,
+"source": "indb"
+},
+{
+"name": "Semolina ladoo with coconut (Suji/Rava aur nariyal ke ladoo )",
+"serving_description": "100 g",
+"kcal": 464,
+"protein_g": 5.7,
+"carbs_g": 50.9,
+"fat_g": 27.0,
+"source": "indb"
+},
+{
+"name": "Semolina ladoo with khoya (Suji/Rava aur khoye ke ladoo )",
+"serving_description": "100 g",
+"kcal": 429,
+"protein_g": 6.7,
+"carbs_g": 52.9,
+"fat_g": 21.9,
+"source": "indb"
+},
+{
+"name": "Semolina ladoo with nuts (Suji/Rava ladoo with nuts)",
+"serving_description": "100 g",
+"kcal": 442,
+"protein_g": 5.4,
+"carbs_g": 48.0,
+"fat_g": 25.5,
+"source": "indb"
+},
+{
+"name": "Semolina milk drink (Thari kanji)",
+"serving_description": "100 g",
+"kcal": 44,
+"protein_g": 1.0,
+"carbs_g": 6.9,
+"fat_g": 1.4,
+"source": "indb"
+},
+{
+"name": "Semolina porridge (Suji/Rava daliya)",
+"serving_description": "100 g",
+"kcal": 101,
+"protein_g": 3.8,
+"carbs_g": 12.4,
+"fat_g": 4.1,
+"source": "indb"
+},
+{
+"name": "Semolina upma (Suji/Rava upma)",
+"serving_description": "100 g",
+"kcal": 148,
+"protein_g": 3.3,
+"carbs_g": 16.3,
+"fat_g": 7.5,
+"source": "indb"
+},
+{
+"name": "Sesame biscuit (Til ke biscuit)",
+"serving_description": "100 g",
+"kcal": 424,
+"protein_g": 8.3,
+"carbs_g": 53.6,
+"fat_g": 19.3,
+"source": "indb"
+},
+{
+"name": "Sesame chickpeas brittle (Til aur channe ki chikki)",
+"serving_description": "100 g",
+"kcal": 283,
+"protein_g": 8.5,
+"carbs_g": 50.5,
+"fat_g": 4.7,
+"source": "indb"
+},
+{
+"name": "Sesame ladoo (Til ke ladoo)",
+"serving_description": "100 g",
+"kcal": 397,
+"protein_g": 10.7,
+"carbs_g": 43.5,
+"fat_g": 19.6,
+"source": "indb"
+},
+{
+"name": "Sesame toast",
+"serving_description": "100 g",
+"kcal": 495,
+"protein_g": 1.9,
+"carbs_g": 11.1,
+"fat_g": 49.4,
+"source": "indb"
+},
+{
+"name": "Sev (Omapodi/Karapusa)",
+"serving_description": "100 g",
+"kcal": 609,
+"protein_g": 5.1,
+"carbs_g": 12.9,
+"fat_g": 60.1,
+"source": "indb"
+},
+{
+"name": "Shahi chicken masala",
+"serving_description": "100 g",
+"kcal": 164,
+"protein_g": 9.8,
+"carbs_g": 4.1,
+"fat_g": 12.0,
+"source": "indb"
+},
+{
+"name": "Shahi keema kofta curry",
+"serving_description": "100 g",
+"kcal": 418,
+"protein_g": 4.1,
+"carbs_g": 1.7,
+"fat_g": 43.8,
+"source": "indb"
+},
+{
+"name": "Shahi paneer",
+"serving_description": "100 g",
+"kcal": 156,
+"protein_g": 5.1,
+"carbs_g": 6.6,
+"fat_g": 12.3,
+"source": "indb"
+},
+{
+"name": "Shahi suji halwa",
+"serving_description": "100 g",
+"kcal": 382,
+"protein_g": 3.5,
+"carbs_g": 44.4,
+"fat_g": 21.7,
+"source": "indb"
+},
+{
+"name": "Shahi tukre",
+"serving_description": "100 g",
+"kcal": 190,
+"protein_g": 2.8,
+"carbs_g": 41.5,
+"fat_g": 2.5,
+"source": "indb"
+},
+{
+"name": "Shammi kebab",
+"serving_description": "100 g",
+"kcal": 686,
+"protein_g": 4.5,
+"carbs_g": 3.5,
+"fat_g": 72.6,
+"source": "indb"
+},
+{
+"name": "Shepherd's pie (vegetarian)",
+"serving_description": "100 g",
+"kcal": 136,
+"protein_g": 5.0,
+"carbs_g": 12.0,
+"fat_g": 7.3,
+"source": "indb"
+},
+{
+"name": "Shepherd's pie (with minced meat)",
+"serving_description": "100 g",
+"kcal": 143,
+"protein_g": 7.4,
+"carbs_g": 8.1,
+"fat_g": 8.9,
+"source": "indb"
+},
+{
+"name": "Shishu ahar",
+"serving_description": "100 g",
+"kcal": 93,
+"protein_g": 2.6,
+"carbs_g": 17.4,
+"fat_g": 1.4,
+"source": "indb"
+},
+{
+"name": "Short bread cookies",
+"serving_description": "100 g",
+"kcal": 443,
+"protein_g": 6.0,
+"carbs_g": 64.8,
+"fat_g": 18.0,
+"source": "indb"
+},
+{
+"name": "Short crust pastry",
+"serving_description": "100 g",
+"kcal": 422,
+"protein_g": 6.1,
+"carbs_g": 44.7,
+"fat_g": 24.0,
+"source": "indb"
+},
+{
+"name": "Small onion pickle",
+"serving_description": "100 g",
+"kcal": 17,
+"protein_g": 1.6,
+"carbs_g": 2.8,
+"fat_g": 0.6,
+"source": "indb"
+},
+{
+"name": "Snow flakes pudding",
+"serving_description": "100 g",
+"kcal": 95,
+"protein_g": 4.7,
+"carbs_g": 8.1,
+"fat_g": 5.0,
+"source": "indb"
+},
+{
+"name": "Soft Custard (stirred)",
+"serving_description": "100 g",
+"kcal": 109,
+"protein_g": 5.0,
+"carbs_g": 11.2,
+"fat_g": 5.1,
+"source": "indb"
+},
+{
+"name": "Sour cream potato salad",
+"serving_description": "100 g",
+"kcal": 122,
+"protein_g": 2.9,
+"carbs_g": 9.1,
+"fat_g": 8.1,
+"source": "indb"
+},
+{
+"name": "Sour lentils (Khatti dal)",
+"serving_description": "100 g",
+"kcal": 35,
+"protein_g": 2.2,
+"carbs_g": 6.0,
+"fat_g": 0.1,
+"source": "indb"
+},
+{
+"name": "Soya chikki",
+"serving_description": "100 g",
+"kcal": 424,
+"protein_g": 7.2,
+"carbs_g": 62.9,
+"fat_g": 15.5,
+"source": "indb"
+},
+{
+"name": "Soya chunks and peas (Nutrinugget matar)",
+"serving_description": "100 g",
+"kcal": 83,
+"protein_g": 3.0,
+"carbs_g": 5.8,
+"fat_g": 5.1,
+"source": "indb"
+},
+{
+"name": "Soya chunks korma (Nutrinugget korma)",
+"serving_description": "100 g",
+"kcal": 131,
+"protein_g": 3.9,
+"carbs_g": 7.7,
+"fat_g": 9.5,
+"source": "indb"
+},
+{
+"name": "Soya chunks sweet and sour (Nutrinugget sweet and sour)",
+"serving_description": "100 g",
+"kcal": 501,
+"protein_g": 2.9,
+"carbs_g": 3.3,
+"fat_g": 56.0,
+"source": "indb"
+},
+{
+"name": "Soya roti",
+"serving_description": "100 g",
+"kcal": 284,
+"protein_g": 9.2,
+"carbs_g": 40.0,
+"fat_g": 9.2,
+"source": "indb"
+},
+{
+"name": "Soya seekh kebab",
+"serving_description": "100 g",
+"kcal": 115,
+"protein_g": 5.4,
+"carbs_g": 10.0,
+"fat_g": 5.9,
+"source": "indb"
+},
+{
+"name": "Soyabean curry",
+"serving_description": "100 g",
+"kcal": 163,
+"protein_g": 10.4,
+"carbs_g": 6.8,
+"fat_g": 10.2,
+"source": "indb"
+},
+{
+"name": "Soyabean muthias",
+"serving_description": "100 g",
+"kcal": 839,
+"protein_g": 2.5,
+"carbs_g": 3.7,
+"fat_g": 90.4,
+"source": "indb"
+},
+{
+"name": "Soyabean namak paras",
+"serving_description": "100 g",
+"kcal": 838,
+"protein_g": 2.7,
+"carbs_g": 4.7,
+"fat_g": 89.8,
+"source": "indb"
+},
+{
+"name": "Soyabean tikki",
+"serving_description": "100 g",
+"kcal": 698,
+"protein_g": 3.5,
+"carbs_g": 4.4,
+"fat_g": 74.0,
+"source": "indb"
+},
+{
+"name": "Spaghetti and cheese balls in tomato sauce",
+"serving_description": "100 g",
+"kcal": 508,
+"protein_g": 2.4,
+"carbs_g": 7.8,
+"fat_g": 52.1,
+"source": "indb"
+},
+{
+"name": "Spaghetti bolognese",
+"serving_description": "100 g",
+"kcal": 97,
+"protein_g": 9.4,
+"carbs_g": 10.0,
+"fat_g": 9.5,
+"source": "indb"
+},
+{
+"name": "Spaghetti with meat balls and tomato sauce",
+"serving_description": "100 g",
+"kcal": 158,
+"protein_g": 5.6,
+"carbs_g": 10.5,
+"fat_g": 10.6,
+"source": "indb"
+},
+{
+"name": "Spaghetti with paneer balls and tomato sauce",
+"serving_description": "100 g",
+"kcal": 159,
+"protein_g": 4.0,
+"carbs_g": 12.7,
+"fat_g": 10.4,
+"source": "indb"
+},
+{
+"name": "Spanish omelette/omlet",
+"serving_description": "100 g",
+"kcal": 157,
+"protein_g": 8.3,
+"carbs_g": 5.1,
+"fat_g": 11.4,
+"source": "indb"
+},
+{
+"name": "Spanish rice",
+"serving_description": "100 g",
+"kcal": 164,
+"protein_g": 4.2,
+"carbs_g": 31.1,
+"fat_g": 2.2,
+"source": "indb"
+},
+{
+"name": "Spicy chutney sandwich",
+"serving_description": "100 g",
+"kcal": 250,
+"protein_g": 8.7,
+"carbs_g": 34.0,
+"fat_g": 9.6,
+"source": "indb"
+},
+{
+"name": "Spicy corn chaat",
+"serving_description": "100 g",
+"kcal": 480,
+"protein_g": 4.6,
+"carbs_g": 11.4,
+"fat_g": 46.6,
+"source": "indb"
+},
+{
+"name": "Spinach and paneer souffle",
+"serving_description": "100 g",
+"kcal": 186,
+"protein_g": 7.6,
+"carbs_g": 9.6,
+"fat_g": 13.5,
+"source": "indb"
+},
+{
+"name": "Spinach and potato (Palak aloo)",
+"serving_description": "100 g",
+"kcal": 57,
+"protein_g": 1.6,
+"carbs_g": 5.9,
+"fat_g": 2.8,
+"source": "indb"
+},
+{
+"name": "Spinach burfi (Palak burfi)",
+"serving_description": "100 g",
+"kcal": 121,
+"protein_g": 2.7,
+"carbs_g": 12.8,
+"fat_g": 6.8,
+"source": "indb"
+},
+{
+"name": "Spinach chickpeas cutlet (Palak channa dal cutlet)",
+"serving_description": "100 g",
+"kcal": 688,
+"protein_g": 1.4,
+"carbs_g": 4.9,
+"fat_g": 73.6,
+"source": "indb"
+},
+{
+"name": "Spinach khichri (Palak khichri/khichdi)",
+"serving_description": "100 g",
+"kcal": 102,
+"protein_g": 3.4,
+"carbs_g": 17.4,
+"fat_g": 1.9,
+"source": "indb"
+},
+{
+"name": "Spinach kofta curry (Palak kofta curry)",
+"serving_description": "100 g",
+"kcal": 572,
+"protein_g": 1.1,
+"carbs_g": 3.6,
+"fat_g": 61.5,
+"source": "indb"
+},
+{
+"name": "Spinach mushroom (Palak mushroom)",
+"serving_description": "100 g",
+"kcal": 48,
+"protein_g": 1.9,
+"carbs_g": 3.0,
+"fat_g": 3.0,
+"source": "indb"
+},
+{
+"name": "Spinach mushroom scrambled egg (Palak mushroom bhurji)",
+"serving_description": "100 g",
+"kcal": 159,
+"protein_g": 13.3,
+"carbs_g": 0.6,
+"fat_g": 11.5,
+"source": "indb"
+},
+{
+"name": "Spinach mutton (Palak mutton)",
+"serving_description": "100 g",
+"kcal": 80,
+"protein_g": 5.7,
+"carbs_g": 3.4,
+"fat_g": 4.7,
+"source": "indb"
+},
+{
+"name": "Spinach pakora/pakoda (Palak pakoda)",
+"serving_description": "100 g",
+"kcal": 713,
+"protein_g": 2.0,
+"carbs_g": 4.7,
+"fat_g": 76.4,
+"source": "indb"
+},
+{
+"name": "Spinach paneer (Palak paneer)",
+"serving_description": "100 g",
+"kcal": 78,
+"protein_g": 4.0,
+"carbs_g": 4.4,
+"fat_g": 4.8,
+"source": "indb"
+},
+{
+"name": "Spinach paneer kofta curry (Palak paneer kofta curry)",
+"serving_description": "100 g",
+"kcal": 606,
+"protein_g": 1.4,
+"carbs_g": 2.9,
+"fat_g": 65.4,
+"source": "indb"
+},
+{
+"name": "Spinach peanut burfi (Palak aur mungfali ki burfi)",
+"serving_description": "100 g",
+"kcal": 105,
+"protein_g": 3.4,
+"carbs_g": 13.6,
+"fat_g": 4.4,
+"source": "indb"
+},
+{
+"name": "Spinach peanut namak paras (Palak moongfali namak paras)",
+"serving_description": "100 g",
+"kcal": 740,
+"protein_g": 1.7,
+"carbs_g": 6.6,
+"fat_g": 78.5,
+"source": "indb"
+},
+{
+"name": "Spinach poori (Palak poori)",
+"serving_description": "100 g",
+"kcal": 684,
+"protein_g": 1.4,
+"carbs_g": 7.8,
+"fat_g": 71.9,
+"source": "indb"
+},
+{
+"name": "Spinach raita (Palak ka raita)",
+"serving_description": "100 g",
+"kcal": 53,
+"protein_g": 3.9,
+"carbs_g": 5.1,
+"fat_g": 1.9,
+"source": "indb"
+},
+{
+"name": "Spinach souffle",
+"serving_description": "100 g",
+"kcal": 150,
+"protein_g": 7.4,
+"carbs_g": 6.3,
+"fat_g": 10.5,
+"source": "indb"
+},
+{
+"name": "Spinach soup (Palak ka soup)",
+"serving_description": "100 g",
+"kcal": 33,
+"protein_g": 10.5,
+"carbs_g": 3.0,
+"fat_g": 14.3,
+"source": "indb"
+},
+{
+"name": "Spinach soup in milk",
+"serving_description": "100 g",
+"kcal": 57,
+"protein_g": 2.9,
+"carbs_g": 4.0,
+"fat_g": 3.2,
+"source": "indb"
+},
+{
+"name": "Split bengal gram burfi/fudge (Channa dal burfi)",
+"serving_description": "100 g",
+"kcal": 287,
+"protein_g": 4.6,
+"carbs_g": 54.6,
+"fat_g": 7.1,
+"source": "indb"
+},
+{
+"name": "Split bengal gram dal (Channa dal)",
+"serving_description": "100 g",
+"kcal": 100,
+"protein_g": 4.2,
+"carbs_g": 10.0,
+"fat_g": 4.6,
+"source": "indb"
+},
+{
+"name": "Split bengal gram dal and vegetable pulao (Channa dal and vegetable pulao)",
+"serving_description": "100 g",
+"kcal": 117,
+"protein_g": 3.6,
+"carbs_g": 19.7,
+"fat_g": 2.3,
+"source": "indb"
+},
+{
+"name": "Split bengal gram sweet rice (Channa dal sweet rice)",
+"serving_description": "100 g",
+"kcal": 190,
+"protein_g": 4.2,
+"carbs_g": 41.1,
+"fat_g": 0.6,
+"source": "indb"
+},
+{
+"name": "Split bengal gram with bottle gourd (Channa dal with ghiya/lauki)",
+"serving_description": "100 g",
+"kcal": 73,
+"protein_g": 2.8,
+"carbs_g": 7.1,
+"fat_g": 3.6,
+"source": "indb"
+},
+{
+"name": "Sponge cake",
+"serving_description": "100 g",
+"kcal": 254,
+"protein_g": 9.2,
+"carbs_g": 44.6,
+"fat_g": 4.7,
+"source": "indb"
+},
+{
+"name": "Spring basket salad",
+"serving_description": "100 g",
+"kcal": 160,
+"protein_g": 3.4,
+"carbs_g": 11.6,
+"fat_g": 11.3,
+"source": "indb"
+},
+{
+"name": "Spring roll",
+"serving_description": "100 g",
+"kcal": 624,
+"protein_g": 1.8,
+"carbs_g": 8.6,
+"fat_g": 64.6,
+"source": "indb"
+},
+{
+"name": "Sprouted moong dal chat",
+"serving_description": "100 g",
+"kcal": 32,
+"protein_g": 1.3,
+"carbs_g": 6.0,
+"fat_g": 0.3,
+"source": "indb"
+},
+{
+"name": "Sprouted moong daliya",
+"serving_description": "100 g",
+"kcal": 112,
+"protein_g": 2.8,
+"carbs_g": 14.8,
+"fat_g": 4.7,
+"source": "indb"
+},
+{
+"name": "Sprouted moong parantha/paratha",
+"serving_description": "100 g",
+"kcal": 229,
+"protein_g": 4.3,
+"carbs_g": 24.3,
+"fat_g": 12.4,
+"source": "indb"
+},
+{
+"name": "Sprouted moong poha",
+"serving_description": "100 g",
+"kcal": 193,
+"protein_g": 5.6,
+"carbs_g": 26.6,
+"fat_g": 6.9,
+"source": "indb"
+},
+{
+"name": "Sprouted moong pulao",
+"serving_description": "100 g",
+"kcal": 113,
+"protein_g": 2.2,
+"carbs_g": 17.5,
+"fat_g": 3.6,
+"source": "indb"
+},
+{
+"name": "Sprouted moong raita",
+"serving_description": "100 g",
+"kcal": 61,
+"protein_g": 4.6,
+"carbs_g": 6.1,
+"fat_g": 2.2,
+"source": "indb"
+},
+{
+"name": "Sprouted moong salad",
+"serving_description": "100 g",
+"kcal": 38,
+"protein_g": 2.3,
+"carbs_g": 5.5,
+"fat_g": 0.7,
+"source": "indb"
+},
+{
+"name": "Sprouts upma",
+"serving_description": "100 g",
+"kcal": 316,
+"protein_g": 9.5,
+"carbs_g": 45.0,
+"fat_g": 10.4,
+"source": "indb"
+},
+{
+"name": "Starfruit preserves",
+"serving_description": "100 g",
+"kcal": 129,
+"protein_g": 0.2,
+"carbs_g": 33.6,
+"fat_g": 0.1,
+"source": "indb"
+},
+{
+"name": "Steamed cake with chocolate sauce",
+"serving_description": "100 g",
+"kcal": 302,
+"protein_g": 4.5,
+"carbs_g": 29.1,
+"fat_g": 19.0,
+"source": "indb"
+},
+{
+"name": "Steamed orange pudding",
+"serving_description": "100 g",
+"kcal": 278,
+"protein_g": 2.3,
+"carbs_g": 41.5,
+"fat_g": 12.0,
+"source": "indb"
+},
+{
+"name": "Steeped hot coffee",
+"serving_description": "100 g",
+"kcal": 16,
+"protein_g": 0.4,
+"carbs_g": 3.0,
+"fat_g": 0.3,
+"source": "indb"
+},
+{
+"name": "Stewed apple",
+"serving_description": "100 g",
+"kcal": 92,
+"protein_g": 0.2,
+"carbs_g": 22.5,
+"fat_g": 0.4,
+"source": "indb"
+},
+{
+"name": "Stewed apple with custard",
+"serving_description": "100 g",
+"kcal": 93,
+"protein_g": 1.3,
+"carbs_g": 18.4,
+"fat_g": 1.8,
+"source": "indb"
+},
+{
+"name": "Stewed fruit (with pear)",
+"serving_description": "100 g",
+"kcal": 74,
+"protein_g": 0.3,
+"carbs_g": 18.2,
+"fat_g": 0.3,
+"source": "indb"
+},
+{
+"name": "Strawberry and vanilla cake with butter icing",
+"serving_description": "100 g",
+"kcal": 371,
+"protein_g": 3.9,
+"carbs_g": 44.3,
+"fat_g": 20.4,
+"source": "indb"
+},
+{
+"name": "Strawberry ice cream",
+"serving_description": "100 g",
+"kcal": 216,
+"protein_g": 4.2,
+"carbs_g": 12.3,
+"fat_g": 17.0,
+"source": "indb"
+},
+{
+"name": "Stuffed baked potatoes",
+"serving_description": "100 g",
+"kcal": 100,
+"protein_g": 3.8,
+"carbs_g": 11.0,
+"fat_g": 4.4,
+"source": "indb"
+},
+{
+"name": "Stuffed bittergourd (dry) (Bharwa karela)",
+"serving_description": "100 g",
+"kcal": 218,
+"protein_g": 1.3,
+"carbs_g": 2.5,
+"fat_g": 22.4,
+"source": "indb"
+},
+{
+"name": "Stuffed bittergourd (wet) (Bharwa karele)",
+"serving_description": "100 g",
+"kcal": 162,
+"protein_g": 1.4,
+"carbs_g": 4.7,
+"fat_g": 15.2,
+"source": "indb"
+},
+{
+"name": "Stuffed bottle gourd (Stuffed ghiya/lauki)",
+"serving_description": "100 g",
+"kcal": 93,
+"protein_g": 5.8,
+"carbs_g": 4.4,
+"fat_g": 5.8,
+"source": "indb"
+},
+{
+"name": "Stuffed brinjal (Bharwa baingan)",
+"serving_description": "100 g",
+"kcal": 93,
+"protein_g": 1.5,
+"carbs_g": 4.0,
+"fat_g": 7.7,
+"source": "indb"
+},
+{
+"name": "Stuffed capsicum (Bharwa shimla mirch)",
+"serving_description": "100 g",
+"kcal": 91,
+"protein_g": 1.3,
+"carbs_g": 8.3,
+"fat_g": 5.7,
+"source": "indb"
+},
+{
+"name": "Stuffed egg omelette/omlet",
+"serving_description": "100 g",
+"kcal": 204,
+"protein_g": 8.6,
+"carbs_g": 2.3,
+"fat_g": 17.8,
+"source": "indb"
+},
+{
+"name": "Stuffed okra (Bharwa bhindi)",
+"serving_description": "100 g",
+"kcal": 94,
+"protein_g": 2.1,
+"carbs_g": 3.9,
+"fat_g": 7.7,
+"source": "indb"
+},
+{
+"name": "Stuffed round gourd (Bharwa tinde)",
+"serving_description": "100 g",
+"kcal": 73,
+"protein_g": 1.1,
+"carbs_g": 4.0,
+"fat_g": 5.7,
+"source": "indb"
+},
+{
+"name": "Stuffed tomatoes (Bharwa tamatar)",
+"serving_description": "100 g",
+"kcal": 93,
+"protein_g": 3.3,
+"carbs_g": 6.2,
+"fat_g": 6.1,
+"source": "indb"
+},
+{
+"name": "Submarine sandwich",
+"serving_description": "100 g",
+"kcal": 217,
+"protein_g": 6.1,
+"carbs_g": 13.6,
+"fat_g": 15.3,
+"source": "indb"
+},
+{
+"name": "Summer cooler",
+"serving_description": "100 g",
+"kcal": 22,
+"protein_g": 0.4,
+"carbs_g": 5.4,
+"fat_g": 0.0,
+"source": "indb"
+},
+{
+"name": "Sunflower cookies",
+"serving_description": "100 g",
+"kcal": 521,
+"protein_g": 9.5,
+"carbs_g": 40.1,
+"fat_g": 36.3,
+"source": "indb"
+},
+{
+"name": "Sunset and sunrise open sandwich",
+"serving_description": "100 g",
+"kcal": 241,
+"protein_g": 8.6,
+"carbs_g": 18.9,
+"fat_g": 15.1,
+"source": "indb"
+},
+{
+"name": "Sweet and salty biscuit (Meethay aur namkeen biscuit)",
+"serving_description": "100 g",
+"kcal": 408,
+"protein_g": 6.2,
+"carbs_g": 45.1,
+"fat_g": 22.4,
+"source": "indb"
+},
+{
+"name": "Sweet and sour tomato pickle (Khatta meetha tamatar ka achaar)",
+"serving_description": "100 g",
+"kcal": 61,
+"protein_g": 1.3,
+"carbs_g": 6.6,
+"fat_g": 3.2,
+"source": "indb"
+},
+{
+"name": "Sweet corn soup",
+"serving_description": "100 g",
+"kcal": 32,
+"protein_g": 1.0,
+"carbs_g": 3.6,
+"fat_g": 1.6,
+"source": "indb"
+},
+{
+"name": "Sweet couscous dessert",
+"serving_description": "100 g",
+"kcal": 196,
+"protein_g": 3.8,
+"carbs_g": 29.7,
+"fat_g": 7.7,
+"source": "indb"
+},
+{
+"name": "Sweet Lassi (Meethi lassi)",
+"serving_description": "100 g",
+"kcal": 36,
+"protein_g": 1.3,
+"carbs_g": 6.5,
+"fat_g": 0.7,
+"source": "indb"
+},
+{
+"name": "Sweet lemon pickle (Neembu ka meetha achaar)",
+"serving_description": "100 g",
+"kcal": 70,
+"protein_g": 1.2,
+"carbs_g": 16.9,
+"fat_g": 0.2,
+"source": "indb"
+},
+{
+"name": "Sweet open sandwich",
+"serving_description": "100 g",
+"kcal": 244,
+"protein_g": 5.0,
+"carbs_g": 39.2,
+"fat_g": 8.2,
+"source": "indb"
+},
+{
+"name": "Sweet peach pickle (Aadoo ka achaar)",
+"serving_description": "100 g",
+"kcal": 145,
+"protein_g": 0.5,
+"carbs_g": 37.0,
+"fat_g": 0.2,
+"source": "indb"
+},
+{
+"name": "Sweet plain biscuit",
+"serving_description": "100 g",
+"kcal": 381,
+"protein_g": 5.9,
+"carbs_g": 50.3,
+"fat_g": 17.7,
+"source": "indb"
+},
+{
+"name": "Sweet poori (Meethi poori)",
+"serving_description": "100 g",
+"kcal": 783,
+"protein_g": 2.1,
+"carbs_g": 14.3,
+"fat_g": 79.6,
+"source": "indb"
+},
+{
+"name": "Sweet potato biscuit (Shakarkand ke biscuit)",
+"serving_description": "100 g",
+"kcal": 296,
+"protein_g": 5.1,
+"carbs_g": 38.1,
+"fat_g": 13.3,
+"source": "indb"
+},
+{
+"name": "Sweet raita (Meetha raita)",
+"serving_description": "100 g",
+"kcal": 99,
+"protein_g": 3.2,
+"carbs_g": 17.9,
+"fat_g": 1.8,
+"source": "indb"
+},
+{
+"name": "Sweet rice (Meethe chawal)",
+"serving_description": "100 g",
+"kcal": 215,
+"protein_g": 2.1,
+"carbs_g": 42.6,
+"fat_g": 4.6,
+"source": "indb"
+},
+{
+"name": "Sweet split chickpea roti (Sweet channa dal roti/Puranpoli)",
+"serving_description": "100 g",
+"kcal": 367,
+"protein_g": 9.5,
+"carbs_g": 62.7,
+"fat_g": 7.9,
+"source": "indb"
+},
+{
+"name": "Sweet wheat porridge (Sweet dalia)",
+"serving_description": "100 g",
+"kcal": 141,
+"protein_g": 5.1,
+"carbs_g": 23.8,
+"fat_g": 2.8,
+"source": "indb"
+},
+{
+"name": "Sweetened yogurt (Shrikhand)",
+"serving_description": "100 g",
+"kcal": 107,
+"protein_g": 5.3,
+"carbs_g": 16.0,
+"fat_g": 2.9,
+"source": "indb"
+},
+{
+"name": "Swiss roll",
+"serving_description": "100 g",
+"kcal": 252,
+"protein_g": 7.3,
+"carbs_g": 48.3,
+"fat_g": 3.8,
+"source": "indb"
+},
+{
+"name": "Talaumein soup",
+"serving_description": "100 g",
+"kcal": 36,
+"protein_g": 10.1,
+"carbs_g": 4.2,
+"fat_g": 12.8,
+"source": "indb"
+},
+{
+"name": "Tamarind chutney (Chintapandu pachadi/Puli chutney)",
+"serving_description": "100 g",
+"kcal": 109,
+"protein_g": 0.9,
+"carbs_g": 25.1,
+"fat_g": 0.5,
+"source": "indb"
+},
+{
+"name": "Tamarind rice (Chintapandu pulihora/Puliyodharai/Puli sadam/Huli anna)",
+"serving_description": "100 g",
+"kcal": 373,
+"protein_g": 7.5,
+"carbs_g": 65.1,
+"fat_g": 8.5,
+"source": "indb"
+},
+{
+"name": "Tandoori chicken",
+"serving_description": "100 g",
+"kcal": 145,
+"protein_g": 16.3,
+"carbs_g": 2.3,
+"fat_g": 7.9,
+"source": "indb"
+},
+{
+"name": "Tandoori fish",
+"serving_description": "100 g",
+"kcal": 96,
+"protein_g": 11.2,
+"carbs_g": 2.4,
+"fat_g": 4.6,
+"source": "indb"
+},
+{
+"name": "Tandoori parantha/paratha",
+"serving_description": "100 g",
+"kcal": 295,
+"protein_g": 5.1,
+"carbs_g": 30.7,
+"fat_g": 16.5,
+"source": "indb"
+},
+{
+"name": "Tartare sauce",
+"serving_description": "100 g",
+"kcal": 611,
+"protein_g": 1.4,
+"carbs_g": 3.0,
+"fat_g": 66.1,
+"source": "indb"
+},
+{
+"name": "Thandai",
+"serving_description": "100 g",
+"kcal": 101,
+"protein_g": 3.6,
+"carbs_g": 9.1,
+"fat_g": 5.9,
+"source": "indb"
+},
+{
+"name": "Thickened sweetened milk (Rabri)",
+"serving_description": "100 g",
+"kcal": 103,
+"protein_g": 3.5,
+"carbs_g": 10.5,
+"fat_g": 5.3,
+"source": "indb"
+},
+{
+"name": "Thousand island dressing",
+"serving_description": "100 g",
+"kcal": 408,
+"protein_g": 1.4,
+"carbs_g": 4.5,
+"fat_g": 42.9,
+"source": "indb"
+},
+{
+"name": "Tomato and cucumber sandwich (Tamatar aur kheere ka sandwich)",
+"serving_description": "100 g",
+"kcal": 151,
+"protein_g": 4.0,
+"carbs_g": 20.5,
+"fat_g": 6.3,
+"source": "indb"
+},
+{
+"name": "Tomato aspic",
+"serving_description": "100 g",
+"kcal": 50,
+"protein_g": 6.9,
+"carbs_g": 5.0,
+"fat_g": 0.3,
+"source": "indb"
+},
+{
+"name": "Tomato chicken",
+"serving_description": "100 g",
+"kcal": 112,
+"protein_g": 10.6,
+"carbs_g": 2.1,
+"fat_g": 6.7,
+"source": "indb"
+},
+{
+"name": "Tomato chutney (Tamatar ki chutney)",
+"serving_description": "100 g",
+"kcal": 176,
+"protein_g": 1.0,
+"carbs_g": 31.8,
+"fat_g": 6.0,
+"source": "indb"
+},
+{
+"name": "Tomato fish",
+"serving_description": "100 g",
+"kcal": 490,
+"protein_g": 2.4,
+"carbs_g": 3.2,
+"fat_g": 51.9,
+"source": "indb"
+},
+{
+"name": "Tomato ginger chutney (Tamatar adarak ki chutney)",
+"serving_description": "100 g",
+"kcal": 45,
+"protein_g": 1.0,
+"carbs_g": 9.1,
+"fat_g": 0.3,
+"source": "indb"
+},
+{
+"name": "Tomato ketchup",
+"serving_description": "100 g",
+"kcal": 33,
+"protein_g": 0.9,
+"carbs_g": 6.5,
+"fat_g": 0.3,
+"source": "indb"
+},
+{
+"name": "Tomato onion raita (Tamatar aur pyaaz ka raita)",
+"serving_description": "100 g",
+"kcal": 59,
+"protein_g": 3.7,
+"carbs_g": 7.1,
+"fat_g": 1.8,
+"source": "indb"
+},
+{
+"name": "Tomato puree",
+"serving_description": "100 g",
+"kcal": 21,
+"protein_g": 0.8,
+"carbs_g": 3.7,
+"fat_g": 0.2,
+"source": "indb"
+},
+{
+"name": "Tomato sandwich (grilled)",
+"serving_description": "100 g",
+"kcal": 190,
+"protein_g": 6.3,
+"carbs_g": 21.3,
+"fat_g": 9.4,
+"source": "indb"
+},
+{
+"name": "Tomato sauce",
+"serving_description": "100 g",
+"kcal": 34,
+"protein_g": 0.8,
+"carbs_g": 7.2,
+"fat_g": 0.3,
+"source": "indb"
+},
+{
+"name": "Tossed green salad",
+"serving_description": "100 g",
+"kcal": 50,
+"protein_g": 1.3,
+"carbs_g": 3.8,
+"fat_g": 3.2,
+"source": "indb"
+},
+{
+"name": "Tossed salad",
+"serving_description": "100 g",
+"kcal": 63,
+"protein_g": 1.0,
+"carbs_g": 5.0,
+"fat_g": 4.2,
+"source": "indb"
+},
+{
+"name": "Triffle pudding",
+"serving_description": "100 g",
+"kcal": 117,
+"protein_g": 2.9,
+"carbs_g": 18.2,
+"fat_g": 3.9,
+"source": "indb"
+},
+{
+"name": "Tutti fruitti biscuit",
+"serving_description": "100 g",
+"kcal": 421,
+"protein_g": 5.2,
+"carbs_g": 53.1,
+"fat_g": 17.9,
+"source": "indb"
+},
+{
+"name": "Tutti frutti cake",
+"serving_description": "100 g",
+"kcal": 348,
+"protein_g": 4.5,
+"carbs_g": 52.9,
+"fat_g": 12.7,
+"source": "indb"
+},
+{
+"name": "Urad sabut special",
+"serving_description": "100 g",
+"kcal": 79,
+"protein_g": 2.3,
+"carbs_g": 5.0,
+"fat_g": 5.5,
+"source": "indb"
+},
+{
+"name": "Urad special dehusked",
+"serving_description": "100 g",
+"kcal": 69,
+"protein_g": 3.1,
+"carbs_g": 8.9,
+"fat_g": 2.2,
+"source": "indb"
+},
+{
+"name": "Uttapam",
+"serving_description": "100 g",
+"kcal": 256,
+"protein_g": 6.2,
+"carbs_g": 36.3,
+"fat_g": 9.0,
+"source": "indb"
+},
+{
+"name": "Vanilla ice cream with apples in hot cherry sauce",
+"serving_description": "100 g",
+"kcal": 196,
+"protein_g": 1.7,
+"carbs_g": 22.8,
+"fat_g": 11.5,
+"source": "indb"
+},
+{
+"name": "Vanilla ice cream with egg",
+"serving_description": "100 g",
+"kcal": 215,
+"protein_g": 4.2,
+"carbs_g": 11.7,
+"fat_g": 17.0,
+"source": "indb"
+},
+{
+"name": "Vanilla ice cream without egg",
+"serving_description": "100 g",
+"kcal": 229,
+"protein_g": 2.7,
+"carbs_g": 14.2,
+"fat_g": 18.1,
+"source": "indb"
+},
+{
+"name": "Vanilla souffle",
+"serving_description": "100 g",
+"kcal": 188,
+"protein_g": 7.7,
+"carbs_g": 14.8,
+"fat_g": 11.2,
+"source": "indb"
+},
+{
+"name": "Veg manchurian",
+"serving_description": "100 g",
+"kcal": 586,
+"protein_g": 0.9,
+"carbs_g": 6.8,
+"fat_g": 61.7,
+"source": "indb"
+},
+{
+"name": "Veg paneer stew",
+"serving_description": "100 g",
+"kcal": 146,
+"protein_g": 7.0,
+"carbs_g": 10.2,
+"fat_g": 8.4,
+"source": "indb"
+},
+{
+"name": "Vegetable and cheese pie",
+"serving_description": "100 g",
+"kcal": 127,
+"protein_g": 4.0,
+"carbs_g": 8.8,
+"fat_g": 8.3,
+"source": "indb"
+},
+{
+"name": "Vegetable and mayonnaise sandwich",
+"serving_description": "100 g",
+"kcal": 244,
+"protein_g": 4.5,
+"carbs_g": 23.2,
+"fat_g": 15.4,
+"source": "indb"
+},
+{
+"name": "Vegetable biryani/biriyani",
+"serving_description": "100 g",
+"kcal": 175,
+"protein_g": 3.2,
+"carbs_g": 18.6,
+"fat_g": 9.5,
+"source": "indb"
+},
+{
+"name": "Vegetable burger",
+"serving_description": "100 g",
+"kcal": 520,
+"protein_g": 3.3,
+"carbs_g": 13.7,
+"fat_g": 50.6,
+"source": "indb"
+},
+{
+"name": "Vegetable chowmein",
+"serving_description": "100 g",
+"kcal": 130,
+"protein_g": 3.1,
+"carbs_g": 15.4,
+"fat_g": 6.4,
+"source": "indb"
+},
+{
+"name": "Vegetable curry with coconut",
+"serving_description": "100 g",
+"kcal": 83,
+"protein_g": 2.8,
+"carbs_g": 7.2,
+"fat_g": 4.7,
+"source": "indb"
+},
+{
+"name": "Vegetable cutlet",
+"serving_description": "100 g",
+"kcal": 665,
+"protein_g": 1.2,
+"carbs_g": 4.7,
+"fat_g": 71.3,
+"source": "indb"
+},
+{
+"name": "Vegetable jalfrezi",
+"serving_description": "100 g",
+"kcal": 68,
+"protein_g": 1.4,
+"carbs_g": 5.4,
+"fat_g": 4.4,
+"source": "indb"
+},
+{
+"name": "Vegetable khichdi/khichri",
+"serving_description": "100 g",
+"kcal": 143,
+"protein_g": 5.6,
+"carbs_g": 19.6,
+"fat_g": 4.5,
+"source": "indb"
+},
+{
+"name": "Vegetable mix",
+"serving_description": "100 g",
+"kcal": 174,
+"protein_g": 4.7,
+"carbs_g": 36.0,
+"fat_g": 0.9,
+"source": "indb"
+},
+{
+"name": "Vegetable namkeen jave",
+"serving_description": "100 g",
+"kcal": 112,
+"protein_g": 2.9,
+"carbs_g": 19.0,
+"fat_g": 2.5,
+"source": "indb"
+},
+{
+"name": "Vegetable pancake",
+"serving_description": "100 g",
+"kcal": 125,
+"protein_g": 3.9,
+"carbs_g": 12.2,
+"fat_g": 6.6,
+"source": "indb"
+},
+{
+"name": "Vegetable patties",
+"serving_description": "100 g",
+"kcal": 262,
+"protein_g": 4.0,
+"carbs_g": 21.0,
+"fat_g": 17.7,
+"source": "indb"
+},
+{
+"name": "Vegetable poha",
+"serving_description": "100 g",
+"kcal": 181,
+"protein_g": 4.9,
+"carbs_g": 21.5,
+"fat_g": 8.1,
+"source": "indb"
+},
+{
+"name": "Vegetable samosa",
+"serving_description": "100 g",
+"kcal": 443,
+"protein_g": 2.2,
+"carbs_g": 13.2,
+"fat_g": 42.2,
+"source": "indb"
+},
+{
+"name": "Vegetable seekh kebab",
+"serving_description": "100 g",
+"kcal": 691,
+"protein_g": 1.6,
+"carbs_g": 5.3,
+"fat_g": 73.7,
+"source": "indb"
+},
+{
+"name": "Vegetable soup",
+"serving_description": "100 g",
+"kcal": 55,
+"protein_g": 2.2,
+"carbs_g": 7.6,
+"fat_g": 1.6,
+"source": "indb"
+},
+{
+"name": "Vegetable stock",
+"serving_description": "100 g",
+"kcal": 18,
+"protein_g": 0.3,
+"carbs_g": 1.0,
+"fat_g": 1.4,
+"source": "indb"
+},
+{
+"name": "Vegetable upma",
+"serving_description": "100 g",
+"kcal": 146,
+"protein_g": 4.7,
+"carbs_g": 16.5,
+"fat_g": 6.6,
+"source": "indb"
+},
+{
+"name": "Vegetable yakhni",
+"serving_description": "100 g",
+"kcal": 406,
+"protein_g": 1.2,
+"carbs_g": 1.9,
+"fat_g": 43.8,
+"source": "indb"
+},
+{
+"name": "Vegetables stir fry",
+"serving_description": "100 g",
+"kcal": 31,
+"protein_g": 1.0,
+"carbs_g": 3.2,
+"fat_g": 1.5,
+"source": "indb"
+},
+{
+"name": "Vegetarian club sandwich",
+"serving_description": "100 g",
+"kcal": 198,
+"protein_g": 5.5,
+"carbs_g": 19.7,
+"fat_g": 11.3,
+"source": "indb"
+},
+{
+"name": "Vegetarian egg kofta curry",
+"serving_description": "100 g",
+"kcal": 627,
+"protein_g": 1.3,
+"carbs_g": 4.3,
+"fat_g": 67.2,
+"source": "indb"
+},
+{
+"name": "Vegetarian nargisi kofta curry",
+"serving_description": "100 g",
+"kcal": 332,
+"protein_g": 2.3,
+"carbs_g": 6.6,
+"fat_g": 32.9,
+"source": "indb"
+},
+{
+"name": "Vegeterian scotch egg",
+"serving_description": "100 g",
+"kcal": 682,
+"protein_g": 2.2,
+"carbs_g": 4.6,
+"fat_g": 72.8,
+"source": "indb"
+},
+{
+"name": "Vermicelli kheer (Semiya/Seviyan ki kheer)",
+"serving_description": "100 g",
+"kcal": 120,
+"protein_g": 3.4,
+"carbs_g": 15.9,
+"fat_g": 5.0,
+"source": "indb"
+},
+{
+"name": "Vermicelli porridge (Semiya/Seviyan porridge)",
+"serving_description": "100 g",
+"kcal": 78,
+"protein_g": 2.5,
+"carbs_g": 10.6,
+"fat_g": 3.0,
+"source": "indb"
+},
+{
+"name": "Vermicelli upma (Semiya/Seviyan upma)",
+"serving_description": "100 g",
+"kcal": 149,
+"protein_g": 3.1,
+"carbs_g": 16.9,
+"fat_g": 7.4,
+"source": "indb"
+},
+{
+"name": "Victorian sandwich cake",
+"serving_description": "100 g",
+"kcal": 373,
+"protein_g": 5.2,
+"carbs_g": 44.7,
+"fat_g": 19.8,
+"source": "indb"
+},
+{
+"name": "Waldroff salad",
+"serving_description": "100 g",
+"kcal": 142,
+"protein_g": 1.5,
+"carbs_g": 11.0,
+"fat_g": 10.1,
+"source": "indb"
+},
+{
+"name": "Walnut chutney (Akhrot ki chutney)",
+"serving_description": "100 g",
+"kcal": 370,
+"protein_g": 9.4,
+"carbs_g": 8.9,
+"fat_g": 33.5,
+"source": "indb"
+},
+{
+"name": "Washed moong dal (Dhuli moong ki dal)",
+"serving_description": "100 g",
+"kcal": 50,
+"protein_g": 2.7,
+"carbs_g": 5.9,
+"fat_g": 1.7,
+"source": "indb"
+},
+{
+"name": "Washed urad dal (Dhuli urad ki dal)",
+"serving_description": "100 g",
+"kcal": 61,
+"protein_g": 2.5,
+"carbs_g": 5.8,
+"fat_g": 3.0,
+"source": "indb"
+},
+{
+"name": "Watercress sandwich",
+"serving_description": "100 g",
+"kcal": 229,
+"protein_g": 5.2,
+"carbs_g": 28.0,
+"fat_g": 11.5,
+"source": "indb"
+},
+{
+"name": "Wheat and gram flour ladoo (Atta besan ladoo)",
+"serving_description": "100 g",
+"kcal": 502,
+"protein_g": 9.4,
+"carbs_g": 50.5,
+"fat_g": 29.9,
+"source": "indb"
+},
+{
+"name": "Wheat cake",
+"serving_description": "100 g",
+"kcal": 315,
+"protein_g": 4.8,
+"carbs_g": 41.1,
+"fat_g": 15.0,
+"source": "indb"
+},
+{
+"name": "Wheat flakes",
+"serving_description": "100 g",
+"kcal": 112,
+"protein_g": 3.6,
+"carbs_g": 15.6,
+"fat_g": 4.0,
+"source": "indb"
+},
+{
+"name": "Wheat flour and moong dal burfi (Atta aur moong dal ki burfi)",
+"serving_description": "100 g",
+"kcal": 441,
+"protein_g": 9.8,
+"carbs_g": 60.0,
+"fat_g": 18.4,
+"source": "indb"
+},
+{
+"name": "Wheat flour and nuts ladoos (Atta nuts ladoos)",
+"serving_description": "100 g",
+"kcal": 392,
+"protein_g": 9.5,
+"carbs_g": 44.3,
+"fat_g": 19.2,
+"source": "indb"
+},
+{
+"name": "Whey soup",
+"serving_description": "100 g",
+"kcal": 69,
+"protein_g": 3.5,
+"carbs_g": 6.3,
+"fat_g": 3.3,
+"source": "indb"
+},
+{
+"name": "White sauce (medium)",
+"serving_description": "100 g",
+"kcal": 151,
+"protein_g": 3.4,
+"carbs_g": 8.0,
+"fat_g": 11.8,
+"source": "indb"
+},
+{
+"name": "White sauce (thick)",
+"serving_description": "100 g",
+"kcal": 210,
+"protein_g": 3.4,
+"carbs_g": 10.2,
+"fat_g": 17.2,
+"source": "indb"
+},
+{
+"name": "White sauce (thin)",
+"serving_description": "100 g",
+"kcal": 115,
+"protein_g": 3.3,
+"carbs_g": 6.6,
+"fat_g": 8.4,
+"source": "indb"
+},
+{
+"name": "White stock",
+"serving_description": "100 g",
+"kcal": 7,
+"protein_g": 0.1,
+"carbs_g": 0.4,
+"fat_g": 0.6,
+"source": "indb"
+},
+{
+"name": "Whole masoor (Masoor ki dal)",
+"serving_description": "100 g",
+"kcal": 54,
+"protein_g": 2.3,
+"carbs_g": 5.4,
+"fat_g": 2.5,
+"source": "indb"
+},
+{
+"name": "Whole moong (Moong ki dal)",
+"serving_description": "100 g",
+"kcal": 54,
+"protein_g": 2.2,
+"carbs_g": 5.2,
+"fat_g": 2.6,
+"source": "indb"
+},
+{
+"name": "Whole moth (Moth ki dal)",
+"serving_description": "100 g",
+"kcal": 55,
+"protein_g": 2.0,
+"carbs_g": 5.7,
+"fat_g": 2.6,
+"source": "indb"
+},
+{
+"name": "Whole urad (Urad ki dal)",
+"serving_description": "100 g",
+"kcal": 54,
+"protein_g": 2.2,
+"carbs_g": 5.0,
+"fat_g": 2.6,
+"source": "indb"
+},
+{
+"name": "Woodapple juice (Bel ka sharbat)",
+"serving_description": "100 g",
+"kcal": 34,
+"protein_g": 0.6,
+"carbs_g": 6.5,
+"fat_g": 0.7,
+"source": "indb"
+},
+{
+"name": "Yam fried (Zimikand/Suran fried)",
+"serving_description": "100 g",
+"kcal": 492,
+"protein_g": 0.8,
+"carbs_g": 5.5,
+"fat_g": 51.8,
+"source": "indb"
+},
+{
+"name": "Yam kofta curry (Zimikand/Suran kofta curry)",
+"serving_description": "100 g",
+"kcal": 323,
+"protein_g": 0.7,
+"carbs_g": 3.7,
+"fat_g": 33.8,
+"source": "indb"
+}
+]

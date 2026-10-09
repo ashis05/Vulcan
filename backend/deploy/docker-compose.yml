@@ -1,0 +1,46 @@
+# VULCAN API — production compose (AWS EC2 + Cloudflare Tunnel).
+#
+# Run from the backend/ directory so the relative paths and --env-file resolve:
+#   docker compose --env-file .env -f deploy/docker-compose.yml up -d --build
+#
+# No inbound ports are published. The only path in is the outbound-only
+# Cloudflare Tunnel; `cf-tunnel` reaches the API by service name (`api:8000`).
+
+name: vulcan
+
+services:
+  api:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: vulcan-api:latest
+    env_file:
+      - ../.env
+    restart: unless-stopped
+    expose:
+      - "8000"
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/health').status == 200 else 1)"
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+  cf-tunnel:
+    image: cloudflare/cloudflared:latest
+    # Locally-managed tunnel: config.yml + <tunnel-id>.json live on the host at
+    # ~/vulcan/cloudflared (deliberately OUTSIDE the rsync'd backend/ tree) and
+    # are mounted read-only. See deployment/02-cloudflare-tunnel.md.
+    command: tunnel --no-autoupdate --config /etc/cloudflared/config.yml run
+    # Run as the host user (ubuntu = uid 1000) so it can read the 0600 tunnel
+    # credentials/config (the image defaults to a non-root user).
+    user: "1000:1000"
+    volumes:
+      - /home/ubuntu/vulcan/cloudflared:/etc/cloudflared:ro
+    restart: unless-stopped
+    depends_on:
+      - api

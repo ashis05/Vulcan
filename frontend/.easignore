@@ -1,0 +1,49 @@
+# EAS Build upload exclusions (gitignore syntax).
+#
+# NOTE: when this file exists, EAS Build uses it INSTEAD of .gitignore, so it must
+# be self-contained — keep the dependency/native/env rules in sync with .gitignore.
+
+# Dependencies — EAS reinstalls these; never upload
+node_modules/
+
+# Generated native projects — EAS regenerates them via prebuild
+/android/
+/ios/
+
+# Expo / Metro output
+.expo/
+/dist/
+/web-build/
+expo-env.d.ts
+.metro-health-check*
+
+# Reference-only design system + HTML prototype (not part of the app bundle)
+/Design/
+
+# Docs, editor, and dev tooling not needed for the build
+AGENTS.md
+ANDROID-EMULATOR.md
+.vscode/
+/scripts/
+*.log
+.expo-start.log
+
+# Env files + build artifacts + secrets
+.env
+.env.*
+!.env.example
+*.tsbuildinfo
+*.jks
+*.keystore
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+*.aab
+*.apk
+*.ipa
+
+# OS cruft
+.DS_Store
+Thumbs.db

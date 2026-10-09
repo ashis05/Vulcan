@@ -4,7 +4,7 @@
 
 **Depends on:** Phase 4 (AI infra). Phase 5 benefits from it but isn't a hard prerequisite.
 
-## DB changes — Alembic revision `0007_physique` (`backend/alembic/versions/0007_physique.py`)
+## DB changes — Alembic revision `0010_physique` (`backend/alembic/versions/0010_physique.py`)
 
 - `progress_photos` (per PLAN.md §6; `analysis jsonb` written by the API).
 - Storage: private bucket `progress-photos` + owner-scoped storage RLS (same pattern as `food-photos`).
@@ -24,11 +24,12 @@
 
 ## Done when
 
-- [ ] Check-in → analysis renders with all schema sections + disclaimer
-- [ ] Focus areas from the latest analysis appear in the next generated program's context (verify in `ai_calls` payload or program rationale)
-- [ ] Refusal path tested (provocative/low-quality image) → friendly tips, no crash, **quota not consumed**
-- [ ] Photos inaccessible to other users (storage RLS test)
-- [ ] Compare slider works between any two check-ins
+- [x] Check-in → analysis renders with all schema sections + disclaimer *(S22-lite + S24 built; `analysis.tsx` renders summary, strong/focus chips, posture, recommendations, disclaimer — code gate green; on-device render not yet re-run this phase)*
+- [x] Focus areas from the latest analysis appear in the next generated program's context *(verified live Session 29: `latest_physique_summary()` / `program_context` reads `focus_areas`; forge prefills focus from latest analysis)*
+- [x] Refusal path tested (provocative/low-quality image) → friendly tips, no crash, **quota not consumed** *(`pytest` `test_physique.py`: refusal → 422, `record_use` not called)*
+- [ ] Photos inaccessible to other users (storage RLS test) *(migration `0010_physique` applied with 4 owner storage policies; cross-user test not yet run)*
+- [x] Compare slider works between any two check-ins *(S23 `app/progress/compare.tsx`: auto first-vs-latest per pose, draggable wipe slider; entry from Progress tab needs ≥2 check-ins of a pose; `vitest` `compare.test.ts` covers pair selection)*
+- [x] 4-week check-in reminder *(opt-in local notification, `features/progress/reminder.ts`; toggle on the Progress tab; `vitest` `reminder.test.ts` covers schedule/reschedule/deny/cancel)*
 
 ## Test plan
 
@@ -39,3 +40,4 @@
 
 - Privacy is the product here: photos never leave the user's private bucket except server-side to Gemini; say so in the UI copy.
 - `Disclaimer` copy: "AI-generated training guidance, not medical advice."
+

@@ -4,12 +4,18 @@
 
 **Depends on:** Phases 0–6 complete.
 
-## API deployment (Oracle Always Free)
+## API deployment (AWS EC2 + Cloudflare Tunnel)
 
-1. **Dockerize** — `backend/Dockerfile` (python:3.12-slim, uvicorn with workers, non-root user), `.dockerignore`. Note: Oracle free tier is often **ARM64 (Ampere)** — build with `docker buildx --platform linux/arm64` or provision the AMD micro instance.
-2. **Server setup** — Docker + Caddy (automatic HTTPS) on the VM; `.env` via `--env-file`; `docker compose up -d` (api + caddy services); restart policies; firewall: 443 only.
-3. **Hardening** — `ALLOWED_ORIGINS` locked to the app scheme, request size limits (photos ≤8MB), structured logging, `/health` wired to uptime checks.
-4. Point `EXPO_PUBLIC_API_URL` at the production domain for release builds.
+Runbook: `deployment/` (index `deployment/README.md`). Locked approach: Docker on a single
+**AWS EC2 instance** provisioned with **Terraform** (`deployment/terraform/`), published via an
+**outbound-only Cloudflare Tunnel** (no Caddy, no open inbound ports, no TLS certs on the
+instance). Domain: `api-vulcan.ashiswadhwani.in`.
+
+1. **Dockerize** — `backend/Dockerfile` (python:3.12-slim, uvicorn with `--proxy-headers`, non-root user) + `backend/.dockerignore` + `backend/deploy/docker-compose.yml` (`api` + `cf-tunnel`). Build **on the instance** (native arch), so no cross-platform build is needed. Default instance `t4g.micro` (2 vCPU burstable / 1 GB ARM) with a 2 GB swapfile; bump to `t4g.small` if the build needs more headroom. Region `ap-south-1`.
+2. **Server setup** — Terraform provisions the VPC + EC2 + Elastic IP and `user_data.sh` installs Docker + the Compose plugin; `backend/.env` via `--env-file`; the tunnel runs from a locally-managed `~/vulcan/cloudflared/config.yml` mounted into `cf-tunnel`; `docker compose up -d --build`; `restart: unless-stopped`. **Security group opens only port 22** — the tunnel dials out on 7844; no inbound 80/443.
+3. **Hardening** — `ALLOWED_ORIGINS` locked to `https://api-vulcan.ashiswadhwani.in`, structured logging, `/health` wired to a free uptime check. FastAPI bodies are tiny (`{photo_path, hint}`) — the app uploads photos to Supabase Storage, so no request size limit is needed on the API.
+4. Point `EXPO_PUBLIC_API_URL` at the production domain for release builds — set as an **EAS environment variable** (cloud builds don't read `frontend/.env`).
+5. **CI/CD** — GitHub Actions: `ci.yml` checks on PRs; `deploy-backend.yml` (manual, master-only) rsyncs `backend/` to the VM and rebuilds; `build-frontend.yml` (manual) runs EAS.
 
 ## App hardening
 
@@ -27,7 +33,7 @@
 
 ## Done when
 
-- [ ] API serves production traffic over HTTPS from the Oracle VM; app release build talks to it
+- [ ] API serves production traffic over HTTPS from the AWS EC2 instance; app release build talks to it
 - [ ] Full smoke pass on the release AAB: auth → onboarding → workout → steps → food scan → program → physique
 - [ ] Sentry receives events from the release build
 - [ ] Delete-account + export work (Play compliance)

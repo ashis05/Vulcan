@@ -15,7 +15,7 @@
 4. When a phase is complete, update its status in the phase table below and check off its items.
 5. Make **minimal, modular** changes. Follow existing code style. Do not expand scope beyond the phase file.
 
-**Project status:** ✅ Phase 2 complete — full gym tracker (routines, offline-tolerant session logging, PRs, history, charts, media catalog). Next: `phases/PHASE-3-steps-budget.md`.
+**Project status:** Phase 6 in progress — physique analysis essentials + feedback loop into programs are built (code gates green); remaining: compare slider (S23), 4-week reminder, month grid, and the manual device/RLS checks in `phases/PHASE-6-physique.md`.
 
 ---
 
@@ -24,7 +24,7 @@
 | # | Pillar | Summary |
 |---|--------|---------|
 | 1 | **Gym tracker** | Exercises, routines, live session logging (sets/reps/weight/RPE/supersets/dropsets), rest timer, PRs, history, 1RM + volume charts. Offline-tolerant. |
-| 2 | **AI workout programs** | Gemini 2.5 Flash generates full programs from the user's profile + actual performance history; materialized as editable routines. |
+| 2 | **AI workout programs** | Gemini Flash-Lite generates full programs from the user's profile + actual performance history; materialized as editable routines. |
 | 3 | **AI food logging** | Photo → Gemini estimates calories/macros → user confirms/edits → logged against daily targets. |
 | 4 | **Physique analysis** | Progress check-in photos → Gemini identifies strong/weak areas → focus areas feed into the next program. |
 | 5 | **Steps & calorie budget** | Health Connect steps refine the daily calorie target; weight trend auto-adjusts cut/bulk budgets. |
@@ -43,10 +43,10 @@ Plus a **personalization engine** (deterministic, unit-tested pure functions) th
 | Backend (AI proxy) | **FastAPI (Python)** — user's own backend, holds the Gemini key server-side |
 | Auth / DB / Storage | **Supabase** hosted free tier: Postgres + RLS, Auth (email + Google), private Storage buckets |
 | App ↔ data | App talks **directly to Supabase** (supabase-js, RLS-secured) for all CRUD; talks to **FastAPI only for AI** |
-| AI model | **Gemini 2.5 Flash** via AI Studio API key, free tier + per-user quotas, upgrade to pay-as-you-go later |
+| AI model | **Gemini Flash-Lite** via AI Studio API key, free tier + per-user quotas, upgrade to pay-as-you-go later |
 | Steps | **Health Connect (Android)** via `react-native-health-connect` |
 | Logging depth | Advanced: RPE, supersets/dropsets, set types, auto 1RM (Epley), PR detection, stall/deload |
-| Hosting (later) | Oracle Cloud Always Free VPS (Docker). Note: Ampere ARM64 — build matching Docker image |
+| Hosting | **AWS EC2** (Docker), provisioned with **Terraform** (`deployment/terraform/`), published via outbound-only Cloudflare Tunnel. Default `t4g.micro` (ARM64) — build the image on the instance |
 | Audience | Public product — therefore: no secrets in the app, quotas mandatory, disclaimers mandatory |
 
 ---
@@ -80,7 +80,7 @@ Plus a **personalization engine** (deterministic, unit-tested pure functions) th
 │                          │  └────────┬─────────────────┘
 │                          │           │
 │                          │  ┌────────▼────────┐
-│                          │  │  Gemini 2.5 Flash│
+│                          │  │  Gemini Flash-Lite│
 │                          │  └─────────────────┘
 └──────────────────────────┘
 ```
@@ -113,7 +113,7 @@ VULCAN/
 │  │  ├─ db.py             # SQLModel engine/session
 │  │  ├─ models.py         # SQLModel tables (schema source of truth)
 │  │  ├─ routers/          # ai.py, health.py
-│  │  ├─ services/         # gemini.py, program_context.py, supabase_admin.py
+│  │  ├─ services/         # gemini.py, ai_log.py, program_context.py, supabase_admin.py, prompts.py
 │  │  └─ schemas.py        # pydantic models (also used as Gemini response_schema)
 │  ├─ tests/
 │  └─ alembic/             # Alembic migrations (versions/0001_profiles.py, ...)
@@ -135,7 +135,8 @@ All tables live in Supabase Postgres, created via **Alembic** migrations in `bac
 | `routine_exercises` | routine_id, exercise_id, sort_order, target_sets, target_reps (e.g. "8-12"), target_rpe?, superset_group?, rest_seconds? | |
 | `workouts` | id, user_id, routine_id?, started_at, ended_at?, notes | a live/finished session |
 | `workout_sets` | workout_id, exercise_id, set_number, set_type (warmup/normal/drop/failure), superset_group?, reps, weight_kg, rpe?, completed, is_pr | the core logging table |
-| `meals` | user_id, logged_at, name, photo_path?, calories, protein_g, carbs_g, fat_g, source (photo/manual), ai_raw jsonb? | |
+| `meals` | user_id, logged_at, name, meal_slot (breakfast/lunch/dinner/snacks), photo_path?, calories, protein_g, carbs_g, fat_g, source (photo/manual), ai_raw jsonb? | |
+| `foods` | id, user_id NULL (global) / set (custom), name, brand?, region?, serving_description, serving_grams?, kcal, protein_g, carbs_g, fat_g, source (indb/off/custom), barcode?, is_custom | global catalog readable by authed users; customs owner-only; seeded from Anuvaad INDB |
 | `progress_photos` | user_id, taken_on, photo_path, analysis jsonb? | analysis written by FastAPI |
 | `programs` | user_id, status (active/archived), goal_snapshot jsonb, payload jsonb, rationale text, created_at | one active at a time |
 | `daily_activity` | user_id, activity_date, steps, target_kcal, step_bonus_kcal | unique(user_id, activity_date) |
@@ -148,7 +149,7 @@ Storage buckets (both **private**): `food-photos`, `progress-photos`. Storage RL
 
 ## 7. AI system
 
-**Model:** `gemini-2.5-flash` via the `google-genai` Python SDK. All calls use **structured output** (`response_mime_type="application/json"` + a Pydantic-derived `response_schema`) so parsing never breaks. Every call is quota-checked, timed, token-logged, and wrapped in retry-once + graceful error.
+**Model:** `gemini-3.1-flash-lite` via the `google-genai` Python SDK (configurable with `GEMINI_MODEL`; Flash-Lite is the reliable free-tier vision model). All calls use **structured output** (`response_mime_type="application/json"` + a Pydantic-derived `response_schema`) so parsing never breaks. Every call is quota-checked, timed, token-logged, and wrapped in retry-once + graceful error.
 
 ### Endpoints (all require `Authorization: Bearer <supabase access_token>`, verified via Supabase JWKS)
 
@@ -204,11 +205,11 @@ Lives in `frontend/src/engine/`. No I/O, no framework imports — deterministic 
 | 0 | `phases/PHASE-0-scaffold.md` | Expo + FastAPI + Supabase scaffold, auth end-to-end | ✅ |
 | 1 | `phases/PHASE-1-onboarding-engine.md` | Onboarding wizard + personalization engine (tested) | ✅ |
 | 2 | `phases/PHASE-2-gym-tracker.md` | Full workout logging core (offline-tolerant) | ✅ |
-| 3 | `phases/PHASE-3-steps-budget.md` | Health Connect steps, calorie budget, weight, manual meals | ⬜ |
-| 4 | `phases/PHASE-4-ai-food.md` | First AI route: food photo → macros, quota system | ⬜ |
-| 5 | `phases/PHASE-5-ai-programs.md` | AI program generation → editable routines | ⬜ |
+| 3 | `phases/PHASE-3-steps-budget.md` | Health Connect steps, calorie budget, weight, manual meals | ✅ |
+| 4 | `phases/PHASE-4-ai-food.md` | First AI route: food photo → macros, quota system | ✅ |
+| 5 | `phases/PHASE-5-ai-programs.md` | AI program generation → editable routines | ✅ |
 | 6 | `phases/PHASE-6-physique.md` | Physique check-ins, analysis, feedback loop into programs | ⬜ |
-| 7 | `phases/PHASE-7-launch.md` | Hardening, deploy API to Oracle, Play Store internal release | ⬜ |
+| 7 | `phases/PHASE-7-launch.md` | Hardening, deploy API to AWS EC2, Play Store internal release | ⬜ |
 
 Phases are sequential — each depends on the previous. Do not start Phase N+1 until Phase N's "Done when" checklist passes.
 
@@ -239,13 +240,13 @@ Auth on the API: verify the Supabase access token against `https://<project>.sup
 
 ---
 
-## 12. Cost plan (beta = $0)
+## 12. Cost plan (~$9/mo on AWS)
 
-| Service | Free tier (verify current limits) | Fits? |
+| Service | Tier / limit | Fits? |
 |---|---|---|
 | Supabase | 500MB DB · 1GB storage · 50k MAU · pauses after ~7d inactivity | ✅ compress photos |
-| Gemini 2.5 Flash (AI Studio) | ~10 RPM / ~250 req/day | ✅ with quotas (5 food scans + weekly gens ≈ 40 users/day comfortable) |
-| Oracle Always Free | ARM64 VM (up to 4 OCPU / 24GB) or 2× AMD micro | ✅ runs FastAPI + Docker easily |
+| Gemini Flash-Lite (AI Studio) | ~10 RPM / ~250 req/day | ✅ with quotas (5 food scans + weekly gens ≈ 40 users/day comfortable) |
+| AWS EC2 + EIP + EBS | `t4g.micro` (2 vCPU burstable / 1 GB ARM) + 16 GB gp3 + public IPv4, Amazon Linux/Ubuntu | ~$9/mo runs FastAPI + Docker (see `deployment/terraform/`) |
 | Expo EAS | limited free builds/month | ✅ local `expo run:android` for daily dev |
 
 Upgrade path when quotas bite: enable billing on the same AI Studio key — zero code change.
@@ -263,3 +264,4 @@ Upgrade path when quotas bite: enable billing on the same AI Studio key — zero
 | Health Connect store approval | Play health-data declaration handled in Phase 7; works on sideloaded builds immediately |
 | Health/AI advice liability | In-app disclaimers (onboarding, food confirm, physique analysis); "guidance, not medical advice" |
 | Supabase free-tier pause | Regular usage keeps it active; dashboard check during dev |
+

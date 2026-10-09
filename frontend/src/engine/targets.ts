@@ -62,16 +62,24 @@ export interface ComputeTargetsInput {
    * mass instead of Mifflin-St Jeor.
    */
   bodyfatPct?: number | null;
+  /**
+   * Optional maintenance override (Phase 3 adaptive TDEE). When supplied, it
+   * replaces the static BMR × activity estimate as the TDEE baseline; the goal
+   * pace delta, caps and floors still apply.
+   */
+  tdeeOverride?: number | null;
 }
 
 export function computeTargets(input: ComputeTargetsInput): Targets {
-  const { sex, weightKg, heightCm, ageYears, activityLevel, goal, paceKgWk, bodyfatPct } = input;
+  const { sex, weightKg, heightCm, ageYears, activityLevel, goal, paceKgWk, bodyfatPct, tdeeOverride } =
+    input;
 
   const useKatch = bodyfatPct != null && bodyfatPct > 0 && bodyfatPct < 100;
   const bmr = useKatch
     ? bmrKatchMcArdle(leanMassKg(weightKg, bodyfatPct))
     : bmrMifflinStJeor(sex, weightKg, heightCm, ageYears);
-  const tdee = tdeeFromBmr(bmr, activityLevel);
+  const tdee =
+    tdeeOverride != null && tdeeOverride > 0 ? tdeeOverride : tdeeFromBmr(bmr, activityLevel);
 
   const effectivePaceKgWk = clampPaceKgWk(paceKgWk, weightKg, goal);
   const maxDeltaKcal = Math.round(tdee * MAX_PACE_DELTA_TDEE_PCT);
@@ -96,4 +104,18 @@ export function computeTargets(input: ComputeTargetsInput): Targets {
     carbsG,
     fatG,
   };
+}
+
+/**
+ * Adaptive maintenance estimate from real data — Phase 3 accuracy upgrade.
+ * Energy balance: `intake − Δweight × 7700 / days` over a rolling window (losing
+ * weight → maintenance above intake). Self-corrects for metabolic adaptation and
+ * logging error. Returns null until there is enough data.
+ */
+export function adaptiveTdee(intakeKcal: number[], weightsKg: number[]): number | null {
+  if (intakeKcal.length < 3 || weightsKg.length < 2) return null;
+  const avgIntake = intakeKcal.reduce((sum, v) => sum + v, 0) / intakeKcal.length;
+  const days = weightsKg.length - 1;
+  const delta = weightsKg[weightsKg.length - 1] - weightsKg[0];
+  return Math.round(avgIntake - (delta * KCAL_PER_KG_BODYFAT) / days);
 }

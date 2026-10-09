@@ -12,22 +12,273 @@ Continuing the project from anywhere. This file is the session log and current-s
 
 ## Current state
 
-- **Active branch:** `feat/steps-budget` (Phase 3). `master` = Phase 2 complete, pushed to `origin` (`github.com/ashis05/Vulcan`).
-- **Branches:** `master` (through Phase 2) · `feat/gym-tracker` (merged to master) · `feat/steps-budget` (Phase 3, current) · historical: `feat/onboarding`, `frontend`, `feat/auth`.
+- **Active branch:** `feat/ai-programs` (Phases 5). `master` = Phase 2 complete, pushed to `origin` (`github.com/ashis05/Vulcan`).
+- **Branches:** `master` (through Phase 2) · `feat/gym-tracker` (merged to master) · `feat/steps-budget` (Phases 3–4) · `feat/ai-programs` (Phase 5, current) · historical: `feat/onboarding`, `frontend`, `feat/auth`.
 - **Frontend** (`frontend/`): Expo SDK 57 · expo-router (new `js-tabs`) · React Native 0.86 · TypeScript · NativeWind v5 preview + Tailwind v4 · fonts (Space Grotesk/Inter) · DESIGN tokens in `src/theme/` + `src/global.css` (`@theme`).
 - **Routes:** `/` = **splash** (`src/app/index.tsx`, S1 ember ignite → wordmark → redirects `/welcome`, `/onboarding`, or `/today`) · `(auth)/welcome` · `(onboarding)` · `(tabs)/today|nutrition|train|progress|profile`. `Stack.Protected` gates `(auth)` / `(onboarding)` / `(tabs)`.
 - **Auth (Google-only UI):** welcome screen offers **Google sign-in only** (email button removed; `login`/`signup`/`forgot-password` route files still exist but unreachable — candidate for deletion). Google flow: PKCE (`src/lib/oauth.ts`, client `flowType:'pkce'`, redirect `vulcan://`), deep-link fallback via `Linking.addEventListener`, WebCrypto polyfill (`react-native-quick-crypto`) for SHA-256. Works end-to-end on device. Session persisted in SecureStore.
 - **Styling:** **No `className` anywhere** — all styles are explicit RN `StyleSheet` objects derived from DESIGN tokens (NativeWind v5 `react-native-css` runtime was unreliable for a subset of `--text-*` utilities on native; inline styles are proven to work). `src/components/ui/{Screen,Button,TextField,TabBar}.tsx` + all screens use tokens directly.
 - **Tab bar:** floating dock (rounded pill, 16px margins, elevated + shadow), center Train button raised with flame gradient, **DumbbellIcon** (64px button / 28px icon).
 - **Backend** (`backend/`): FastAPI skeleton — `GET /health` (public), `GET /health/protected` (JWT verified against Supabase JWKS). **Fixed ES256 support** (Supabase signs with EC P-256): `_key_for_kid` handles EC, decode accepts `["ES256","RS256"]`. Tests 8/8 passing.
-- **Migrations (Alembic + SQLModel):** `backend/app/models.py` = schema source of truth; `backend/app/db.py` (engine, psycopg3 URL normalization); `backend/alembic/`. `DATABASE_URL` set in `backend/.env`; **`0001_profiles` + `0002_training` + `0003_exercise_media` applied to the live DB and RLS verified**. `0002_training` adds `exercises`/`routines`/`routine_exercises`/`workouts`/`workout_sets`; `0003_exercise_media` adds `exercises.media_url` + expands the library to 1,084 gym exercises with GIFs.
-- **Phase 2 complete** (waves A–E + improvement rounds; committed through `6378601`): routines, offline-tolerant session logging (set types/RPE/supersets/bodyweight), rest timer, PR detection on finish, history + past-workout + Repeat, exercise-detail charts (gifted-charts), 1,084-lift catalog with GIF thumbnails + YouTube tutorial link, resume banner, Spark app icon. Device pass confirmed by user; **RPE field not data-verified** (its code path is identical to reps/weight, which are).
-- **Frontend ↔ backend proof:** Today tab "Verify FastAPI (Phase 0 proof)" button calls `/health/protected` with the access token and shows the server-verified `user_id` — **pending device re-test after the ES256 backend fix** (was 401).
-- **Docs:** `README.md` (run backend/frontend/test-on-phone), `frontend/ANDROID-EMULATOR.md` (device/emulator setup).
+- **Migrations (Alembic + SQLModel):** `backend/app/models.py` = schema source of truth; `backend/app/db.py` (engine, psycopg3 URL normalization); `backend/alembic/`. `DATABASE_URL` set in `backend/.env`; **`0001_profiles` → `0008b_ai_quota_timezone` applied to the live DB and RLS verified** (repo head = `0008b_ai_quota_timezone`). `0002_training` = training tables; `0003_exercise_media` = `exercises.media_url` + 1,084-exercise catalog; `0004_activity_nutrition` = `daily_activity` + `meals`; `0004b` = GIF backfill; `0005_meal_slot`; `0006_ai` = `ai_usage`/`ai_calls`/`increment_ai_usage` + `food-photos` bucket; `0007_food_catalog` = `foods` (1,014 INDB); `0008_food_per_gram`; `0008b_ai_quota_timezone` = Pacific quota day.
+- **Phase 2 complete** (waves A–E + improvement rounds; committed through `6378601`): routines, offline-tolerant session logging (set types/RPE/supersets/bodyweight), rest timer, PR detection on finish, history + past-workout + Repeat, exercise-detail charts (gifted-charts), 1,084-lift catalog with GIF thumbnails + YouTube tutorial link, resume banner, Spark app icon. Device pass confirmed by user; **RPE field not data-verified** (its code path is identical to reps/weight).
+- **Phase 3 — Steps, Calorie Budget & Nutrition — ✅ COMPLETE (`feat/steps-budget`).** Device pass confirmed by user. Highlights:
+  - `0004_activity_nutrition` (`daily_activity`, `meals`; RLS owner-only) + `0005_meal_slot` (both applied); engine `trendAdjustment`, `adaptiveTdee`, `tdeeOverride` target path.
+  - Health Connect steps (`react-native-health-connect`, `minSdkVersion 26`, `READ_STEPS`); auto-sync on focus + every 60 s; local-date bucketing; `aggregateGroupByPeriod` (no double-count); 7-day avg = last 7 completed days; new **steps history page** `/steps`.
+  - Today dashboard S6 (ring, macro bar, steps/weight tiles, streak, coach placeholder, trend card); nutrition diary S16 + add meal S17 + meal detail S20 (manual); weight logging → `body_metrics`; persisted ±100 kcal trend offset.
+  - Shared UI: `components/ui/{RingProgress,MacroBar,StatTile,CoachNote}`; `lib/dates.ts`.
+  - Code gate green: vitest 64/64 · `tsc` clean · `expo lint` clean · web export OK · pytest 8/8 · `alembic` head `0005_meal_slot`.
+- **Phase 4 — AI Food Logging — ✅ COMPLETE (device-verified 2026-09-28, `feat/steps-budget`; commits `0fb3803` → `d36ad74`).** Decisions: catalog = **Anuvaad INDB**, scan = **camera + gallery**, build order = **backend first**.
+  - **Wave A** (committed `0fb3803`, docs `9431d3f`): `0006_ai` applied (`ai_usage`, `ai_calls`, `increment_ai_usage` security-definer fn, private `food-photos` bucket + 4 owner storage policies), `core/quotas.py`, `schemas.py`, `services/{gemini,ai_log,supabase_admin,prompts}.py`, `routers/ai.py` (`POST /ai/analyze-food`). `SUPABASE_SERVICE_ROLE_KEY` + `GEMINI_API_KEY` in `backend/.env`.
+  - **Wave B** (committed `d5f9949`, docs `4c1a1f3`): `expo-camera` + `expo-image-picker` + `expo-image-manipulator` (+ app.json camera/photo plugins); `features/nutrition/{ai,photo}.ts` (analyze call, quota query, resize+upload to `food-photos/{uid}/`); S18 `app/meal/scan` (camera + gallery, busy/error/429 states); S19 `app/meal/confirm` (editable estimate, serving rescale, confidence chip, disclaimer, quota meter, slot, log → `source=photo` + `photo_path` + `ai_raw`); S17 "Scan food" wired; shared `MacroEdit`/`ConfidenceChip`.
+  - **Wave C** (committed `2b78635`/`3fa354d`, docs `cab3347`): `0007_food_catalog` — new `foods` table (global/custom; RLS: globals readable by authed users, customs owner-only) seeded with **1,014 Anuvaad INDB recipes** (`scripts/build_foods_seed.py` → `app/data/foods_seed.json`). S17 **Search foods** autofill.
+  - **Fixes** (committed `9a8a2cf` → `d36ad74`): image-mime fix (RN uploaded `text/plain` → Gemini tokenized bytes as text and hallucinated; now uploads `ArrayBuffer` + `contentType: image/jpeg`, backend infers mime from extension); Gemini model default `gemini-3.1-flash-lite` + fallback on model-not-found; `0008_food_per_gram` (INDB rows per 100 g + Amount (g) scaling); `0008b_ai_quota_timezone` (quota day = Pacific midnight); `GET /foods/search` merges INDB + **Open Food Facts** packaged products (ODbL); Today ring = burnt / Nutrition ring = eaten; real app id `in.ashiswadhwani.vulcan`.
+  - **Verified:** device pass confirmed by user 2026-09-28; `tsc` clean · `expo lint` clean · vitest 64/64 · pytest 31/31 · web export OK. `PHASE-4` "Done when" checked; `PLAN.md` §10 Phase 4 ✅.
+- **Phase 5 — AI Program Generation — ✅ COMPLETE (`feat/ai-programs`; commits `537e3b6` → `049c5f9`).** Waves: A schema `0009_programs` + `program_context.py`; B `/ai/generate-program` + materialization + `/ai/program/active`; C S25 forge + S26 review; D Train/Today integration; E verification.
+  - **`0009_programs` applied** to the live DB: `programs` (status active/archived, `goal_snapshot`/`payload` jsonb, `rationale`, `prompt_version`), partial unique index `programs_one_active_key` (one active/user), owner RLS (4 policies), `routines.program_id → programs` FK + index. Repo head = `0009_programs`.
+  - **Backend:** `services/program_context.py` (profile + 12 wks: best e1RM, weekly volume, frequency, stalls — mirrors `engine/strength.ts`; `latest_focus_areas()` degrades gracefully pre-Phase-6); `services/program_materialize.py` (`save_program` archives previous active, inserts program, materializes **week 1** as `routines(source='ai')` + `routine_exercises`, case-insensitive name match, creates customs for unmatched); `gemini.generate_program` (shared retry/fallback path with `analyze_food_image`); `routers/ai.py` (`POST /ai/generate-program`, `GET /ai/program/active`); `core/quotas.py` windowed quota (`check_once_per_days` + `record_use`, `window_resets_at`; recorded only on success).
+  - **Frontend:** `features/programs/` (types, api, hooks, components incl. `ProgramBanner`/`WeekTabs`/`DayCard`/`ProgramQuotaMeter`); `app/program/{_layout,generate,review}.tsx` (S25 forge overlay + quota meter; S26 week tabs/day cards/rationale/Regenerate/Apply + editable name); program banner + rationale on Train/S8/Today; routes guarded.
+  - **Verified:** `pytest` **50/50** · `vitest` 64/64 · `tsc`/`expo lint` clean · web export OK · migration `alembic current = 0009_programs` with RLS/index/FK confirmed · live DB smoke: materialization created routines+sets+custom for an unmatched name, regeneration left exactly one active (old archived), auth 401 unauthenticated, `check_once_per_days` returns allow with no prior use.
+  - **Note:** constraint adherence (days/week, equipment, injuries) is prompt-enforced, not yet verified across 3 real profiles on device.
+- **Phase 6 — Physique Analysis & Check-ins — PARTIAL (essentials done early, `feat/ai-programs`; commit `5975971`).** Pulled forward to make Phase-5 generation **physique-driven**.
+  - **`0010_physique` applied** to the live DB: `progress_photos` (owner RLS, 4 policies, `pose` check) + private `progress-photos` bucket with 4 owner storage policies. Repo head = `0010_physique`.
+  - **Backend:** `schemas.py` `PhysiqueAnalysis` + `AnalyzePhysiqueRequest`; `services/prompts.py` `PHYSIQUE_SYSTEM_INSTRUCTION` (`physique-v1`); `gemini.analyze_physique_images` (multi-image structured output on the shared retry/fallback path); `supabase_admin.download_progress_photo` (generic bucket download via `_download`); `routers/ai.py` **`POST /ai/analyze-physique`** (auth → 7-day window quota → fetch photos → Gemini → log; refusal → **422 without consuming quota**). `PHYSIQUE_BUCKET` + `progress-photos` wired.
+  - **Physique → program loop:** `program_context.build_program_context` now adds a `physique` block (summary/strong/focus/recommendations) and `latest_physique_summary()`; `PROGRAM_SYSTEM_INSTRUCTION` prioritizes `physique.focus_areas`; `gemini.generate_program` passes the user's typed request as "honor unless it conflicts with hard constraints".
+  - **Frontend:** `features/progress/` (types, api incl. `createSignedUrl`, photo upload to `progress-photos`, hooks); Progress tab is now real (check-in grid, latest-analysis card, empty state); **S22-lite** `app/progress/checkin.tsx` (camera/gallery + pose + privacy caption); **S24** `app/progress/analysis.tsx` (summary, strong/focus chips, posture, recommendations, Analyze → 422/429 states, "Forge a program from this"); routes added to root stack.
+  - **Forge button (was missing):** Train tab now has a primary **"Forge a program"** button → `/program/generate`. Forge screen shows a "From your physique check-in" card and **prefills the focus field** with the latest analysis focus areas (editable).
+  - **Verified:** `pytest` **55/55** (+`test_physique.py`) · vitest 64/64 · `tsc` clean · `expo lint` clean · web export OK · live: `/ai/analyze-physique` present + auth 401 unauth; live DB check confirmed `progress_photos` analysis `focus_areas` flow into program context (`latest_physique_summary`) then cleaned up.
+  - **Still TODO for full Phase 6:** photo **compare slider (S23)**, 4-week check-in **reminder** notification, progress **grid by month**, `progress_photos` RLS/storage **cross-user test**, real **physique Gemini call on device** (not yet run live), and Phase-6 "Done when" checklist.
+- **Open issue (unresolved):** Metro **"Unable to resolve ./photo"** from `features/progress/hooks.ts` when bundling for Android (reported Session 29). File exists on disk + committed; `@/lib/id` resolves. **Not re-verified Session 30** (the app was running from a bundle that already contained the progress feature, so resolution appears fine at runtime). If it recurs: `npx expo start -c`. Nothing in Phase 5/6 blocks on it (all gates green).
+- **Phase 6 code status (Session 30):** essentials built early (Session 29) + polish this session + **compare slider & 4-week reminder** built. **All code gates green** (pytest 57/57 · vitest 73/73 · tsc/lint clean). Still open for full Phase 6: progress grid by month, and the manual device + storage RLS checks in the PHASE-6 "Done when" list. See Session 30 log.
+- **Docs:** `README.md` (run backend/frontend/test-on-phone + manual emulator boot), `frontend/ANDROID-EMULATOR.md` (device/emulator setup), `deployment/` (AWS EC2 + Terraform + Cloudflare Tunnel + EAS + GitHub Actions runbook).
+- **Deployment (Phase 7 scaffolding, Session 31; retargeted to AWS Session 32; account/runbook Session 33):** Docker (`backend/Dockerfile`, `backend/deploy/docker-compose.yml` = `api` + `cf-tunnel`), `frontend/eas.json`, CI/deploy workflows in `.github/workflows/`, Terraform (`deployment/terraform/`). Target: single **AWS EC2** (`t4g.micro`, ap-south-1) in a dedicated VPC, published via outbound-only Cloudflare Tunnel at `api-vulcan.ashiswadhwani.in`; deploys = manual rsync+rebuild from `master`. **Target AWS account = CLI profile `vulcan-prod` (account `905418101086`, region ap-south-1); provider pinned via new `aws_profile` var.** **Not yet provisioned/deployed.** ⚠️ An earlier partial `apply` left orphaned resources in the **`default`** account (`111491018377`): `vulcan-vpc` + an **unattached Elastic IP `52.66.33.11`** (billing) — destroy/clean up before proceeding (Step 2 of the new runbook).
+- **New runbook:** `deployment/00-STEP-BY-STEP.md` — start-to-end, copy-paste deploy (account check → default-account cleanup → SSH keygen → tfvars → apply → boot → tunnel → server `.env` → first deploy → Supabase redirect → EAS → GitHub secrets → smoke test). `deployment/README.md` links it.
+- **Cloudflare tunnel = locally-managed (Session 33, user choice):** NOT token mode. The `cf-tunnel` compose service runs `tunnel --no-autoupdate --config /etc/cloudflared/config.yml run` and mounts `/home/ubuntu/vulcan/cloudflared:/etc/cloudflared:ro`. The instance holds `config.yml` + `<tunnel-id>.json` (outside the rsync'd `backend/` tree); the CNAME `api-vulcan.ashiswadhwani.in` is created with `cloudflared tunnel route dns`. `CF_TUNNEL_TOKEN` removed everywhere.
 
 ---
 
 ## Session log
+
+### 2026-10-09 · Session 34 — Deploy stack + CI/CD committed; PR to master
+
+- **Committed the previously-untracked deploy work on `feat/ai-programs`:** `05aa3e1` "chore(deploy): add AWS/Cloudflare deploy stack, Docker, and CI/CD workflows" (`.github/workflows/{ci,deploy-backend,build-frontend}.yml`, `backend/Dockerfile`, `backend/.dockerignore`, `backend/deploy/docker-compose.yml`, `deployment/` incl. `terraform/`, `frontend/eas.json`, `frontend/app.json` EAS link) and `2fea92a` "docs: deployment runbook (Windows cmd) + Phase 7 status updates". Deleted a stray `deployment/output` scratch file (not committed).
+- **Pushed** `feat/ai-programs` → `origin` (`99f2cee..2fea92a`). PR to **`master`** (base master ← head feat/ai-programs) **not yet opened** — `gh` CLI is installed but not authenticated; open via the GitHub compare page.
+- **Pipelines (all manual/`workflow_dispatch`):** `deploy-backend.yml` (rsync+rebuild on EC2, **master-only**), `build-frontend.yml` (EAS Android, any branch), `ci.yml` (PR checks). Secrets needed: `SSH_HOST`, `SSH_USER`, `SSH_PRIVATE_KEY`, `EXPO_TOKEN`.
+- **Deploy reality check:** EC2 is provisioned in `vulcan-prod` (EIP `13.207.208.81`, instance `i-03bba417028764c37`); `api` + `cf-tunnel` containers built and started; fixed `~/vulcan/cloudflared` perms (were root-owned → `cf-tunnel` couldn't read `config.yml`). `/health` over the tunnel not yet confirmed. EAS `production`/`preview` build produced.
+- **Next:** merge PR to `master`, add the 4 GitHub secrets, run **Deploy Backend** from master and **Build Frontend (EAS)**, confirm `https://api-vulcan.ashiswadhwani.in/health`.
+
+---
+
+### 2026-10-08 · Session 33 — AWS account fix + end-to-end deploy runbook
+
+- **Trigger:** `terraform apply` failed with `InvalidKey.Format` (the `terraform.tfvars` still held the placeholder `AAAA...REPLACE_ME...`).
+- **Account discovery:** the earlier partial apply went into the CLI **`default`** profile (`111491018377`); the user's intended prod account is the **`vulcan-prod`** profile (`905418101086`). They'd been checking `vulcan-prod` in the console, hence "nothing was created". Facts: `vulcan-prod` is **empty**; `default` holds `vulcan-vpc` (`vpc-04fa509d17285551b`) + an **unattached EIP `52.66.33.11`** (idle EIPs are billed), **no** instance (apply died at the key pair).
+- **Terraform changes (uncommitted):** new `aws_profile` variable (default `"vulcan-prod"`) and `provider "aws" { profile = var.aws_profile }` so the provider can never silently fall back to `default`; `terraform.tfvars`/`.example` updated (added `aws_profile`, reset `ssh_public_key` to a placeholder and documented the `ssh-keygen` command). `terraform fmt` + `validate` → **Success**.
+- **New runbook `deployment/00-STEP-BY-STEP.md`** (start→end, PowerShell + server bash): account check → one-time `default`-account cleanup (`terraform destroy -var="aws_profile=default"` + reset local state) → generate `~/.ssh/vulcan_deploy` → tfvars → `init/plan/apply` → first boot/SSH → Cloudflare tunnel → server `.env` → first rsync deploy + `/health` → Supabase `vulcan://` redirect → EAS setup/env/build → GitHub secrets → smoke test → teardown + cheat-sheet. `deployment/README.md` now links it as "start here" and notes the account/profile.
+- **Also:** fixed leftover `name: rsync + rebuild on Oracle VM` → `on EC2` in `.github/workflows/deploy-backend.yml`.
+- **Cloudflare tunnel → locally-managed (user choice):** `backend/deploy/docker-compose.yml` `cf-tunnel` now runs `tunnel --no-autoupdate --config /etc/cloudflared/config.yml run` (as `user: "1000:1000"` so it can read `0600` creds) and bind-mounts `/home/ubuntu/vulcan/cloudflared:/etc/cloudflared:ro`; no token. Rewrote `deployment/02-cloudflare-tunnel.md` for the headless flow (install cloudflared → `tunnel login` → `tunnel create` → `tunnel route dns` → `config.yml`). Removed `CF_TUNNEL_TOKEN` from `backend/.env.example`, `00`, `03`; updated `06`, `deployment/README.md`, `deployment/terraform/README.md`, `phases/PHASE-7-launch.md`. Compose YAML parse-checked.
+- **Deployment docs → Windows cmd:** converted all LOCAL commands in `deployment/00`–`06` + `terraform/README` from PowerShell to **cmd** (`set`, `%USERPROFILE%`, `copy /y`, `del /q`, `type ... | clip`, `curl`); replaced the Windows rsync with a `tar | ssh` pipe (rsync isn't available on cmd). Server blocks stay bash (Ubuntu). Every block is now labelled `LOCAL` (cmd) / `SERVER` (bash) and `00`'s header explains the split.
+- **EAS archive bloat fixed:** `easy build` warned the archive is 564 MB. Cause: `frontend/android/` (1,493 MB of native build artifacts) was being uploaded because EAS (project inside the monorepo) wasn't honoring `frontend/.gitignore`'s `/android`. Added **`frontend/.easignore`** (self-contained: excludes `node_modules/`, `/android/`, `/ios/`, `.expo/`, `dist/`, `Design/`, docs, env, native artifacts). Expected archive ≈ ~30 MB. Not yet verified by a rebuild.
+- **NOT yet done (needs user):** run the runbook — clean up the `default` account, set the real `ssh_public_key` (or run the documented `ssh-keygen`), `apply` into `vulcan-prod`, provision the tunnel on the box, then the deploy steps. Nothing committed (branch `feat/ai-programs`).
+- **Next:** execute Step 1–9 of the runbook with the `vulcan-prod` profile; verify `https://api-vulcan.ashiswadhwani.in/health`, then EAS build + GitHub secrets.
+
+---
+
+### 2026-10-05 · Session 32 — Deployment retargeted to AWS EC2 + Terraform
+
+- **Decision (user):** switch the Phase-7 API host from Oracle Always Free to **AWS EC2**, provisioned with **Terraform**; keep the **outbound-only Cloudflare Tunnel** (no inbound 80/443). Region **ap-south-1**; dedicated VPC (one public subnet + IGW); SSH key pair; **no** AWS Budget alarm; **local** Terraform state. Instance default **t4g.micro** (2 vCPU burstable / 1 GB ARM) with a 2 GB swapfile — one variable to move to `t3a.micro` (x86) or `t4g.small` (2 GB).
+- **Added `deployment/terraform/`:** `versions.tf` (aws provider), `variables.tf`, `main.tf` (VPC + public subnet + IGW + route table, SG inbound 22 only / all egress, key pair, arch-aware Ubuntu 24.04 AMI, EC2 gp3 root + encrypted + IMDSv2, Elastic IP), `user_data.sh` (Docker CE + compose plugin, 2 GB swap, `~/vulcan/backend`, unattended-upgrades), `outputs.tf`, `terraform.tfvars.example`, `.gitignore`, `README.md` (resources, cost table, usage, teardown). Secrets never enter Terraform.
+- **Docs updated:** `deployment/01-oracle-vm.md` → **`01-aws-ec2.md`** (Terraform provisioning + first boot); `deployment/README.md` (AWS architecture, deploy flow, checklist, cost ~$9/mo); `02`/`03`/`05`/`06` (VM→EC2, `SSH_HOST` = Elastic IP, key setup, 1 GB OOM section); root `README.md` §7; `backend/deploy/docker-compose.yml` header comment; `PLAN.md` §3 hosting + §10 Phase-7 row + §12 cost table (~$9/mo on AWS); `phases/PHASE-7-launch.md` API section.
+- **Cost facts (ap-south-1):** VPC/subnet/IGW/SG free; public IPv4 ~$3.65/mo; gp3 ~$1.46/mo (16 GB); data-transfer-out free to 100 GB/mo. No NAT gateway (~$32/mo avoided); no ALB/RDS.
+- **Verification:** `terraform init` pulled `hashicorp/aws v6.67.0` (lock file written) · `terraform fmt -check` clean · `terraform validate` → **Success** · `templatefile` render checked (`SWAP_SIZE_GB="2"`, `${SWAP_SIZE_GB}G`). `terraform plan`/`apply` **not** run (needs AWS credentials).
+- **Working tree:** AWS deployment work is **uncommitted** — `deployment/` (incl. `deployment/terraform/`), `.github/`, `backend/Dockerfile`, `backend/deploy/`, `backend/.dockerignore`, `frontend/eas.json` are untracked; `MEM.md`, `PLAN.md`, `README.md`, `backend/.env.example`, `phases/PHASE-7-launch.md` are modified. Branch `feat/ai-programs`. Nothing committed this session.
+- **Next (tomorrow):** put `ssh_public_key` in `terraform.tfvars` → `terraform init/fmt/validate/plan/apply` → note Elastic IP; write `~/vulcan/backend/.env` + Cloudflare tunnel token; then run **Deploy Backend** and **Build Frontend (EAS)**; verify `https://api-vulcan.ashiswadhwani.in/health`. Then go over the AWS plan + Terraform in detail (user asked to review before committing).
+
+---
+
+### 2026-10-01 · Session 31 — Deployment planning + Phase 7 scaffolding (Oracle + Cloudflare Tunnel + EAS + CI)
+
+- **Decisions (user):** Oracle Always Free VM; **Cloudflare Tunnel** (not Caddy, no open ports); domain **`api-vulcan.ashiswadhwani.in`** (zone already on Cloudflare); EAS internal distribution; strict $0; manual (`workflow_dispatch`) deploys from `master`, checks on PRs; deploy = **rsync + rebuild on VM**; repo will be **public**.
+- **Deploy architecture:** APK ↔ Supabase for CRUD; APK → `https://api-vulcan.ashiswadhwani.in` (Cloudflare edge TLS) → outbound-only tunnel → `cf-tunnel` container → `api:8000` (uvicorn). No inbound 80/443; no certs on the VM. Oracle A1 Always Free is now **2 OCPU/12 GB** (cut from 4/24 in 2026 — exceeding it disables the instance); fallback `VM.Standard.E2.1.Micro` (1 GB + swap). Region recommendation: `ap-mumbai-1`.
+- **Artifacts added (committed):** `backend/Dockerfile` (python:3.12-slim, non-root, `--proxy-headers`), `backend/.dockerignore`, `backend/deploy/docker-compose.yml` (`api` + `cf-tunnel`, healthcheck, `CF_TUNNEL_TOKEN` via `--env-file`), `frontend/eas.json` (development/preview/production), `.github/workflows/{ci,deploy-backend,build-frontend}.yml`.
+- **CI checks:** backend pytest (+compileall), frontend `tsc`/`expo lint`/vitest, and a backend Docker image build. Deploy workflows are `workflow_dispatch`; `deploy-backend` hard-fails unless dispatched from `master`.
+- **Docs:** new `deployment/` runbook (`README` + `01-oracle-vm` · `02-cloudflare-tunnel` · `03-backend-deploy` · `04-frontend-eas` · `05-github-actions` · `06-troubleshooting`). `backend/.env.example` gained `CF_TUNNEL_TOKEN`; `README.md` §7 links the runbook; `phases/PHASE-7-launch.md` API section rewritten (Caddy → Cloudflare Tunnel; note PLAN.md never mandated Caddy).
+- **Not done (needs user accounts/resources):** Oracle account/VM, Cloudflare tunnel token, Expo account + EAS env vars, GitHub secrets, Supabase `vulcan://` redirect. No live deploy yet.
+
+**Next:** create the Oracle VM + tunnel, then run the first `Deploy Backend` and `Build Frontend (EAS)`; verify `/health` over HTTPS and smoke-test the APK.
+
+---
+
+### 2026-09-30 · Session 30 — UI polish, routine delete, quota toggle, program-delete diagnostics
+
+- **Routine delete (Train page):** added a small trash affordance to `RoutineCard` (`features/train/components.tsx`, optional `onDelete` prop, 44px target) wired on the Train tab with a confirm `Alert`. Deletes via the existing `useDeleteRoutine`. **History preserved** — `workouts.routine_id` is `ON DELETE SET NULL`, so past workouts/sets stay; confirm copy says so.
+- **Forge button + banner:** removed the raised floating Train tab; `TabBar.tsx` now renders Train as a normal tab (icon + label, ember tint on focus). Removed the **"Active AI program" banner** from Train and Today (deleted the now-unused `ProgramBanner` + styles). Applied program now shows on the **Forge page** as a new `ActiveProgramCard` (name, days/week, tap → review).
+- **Quota toggle (dev):** new `QUOTA_ENABLED` (default `true`) on the backend; `false` disables all three AI quotas (food/program/physique) — `quotas.py` short-circuits with an `UNLIMITED` sentinel; counters still record. Frontend mirror `EXPO_PUBLIC_AI_QUOTA_ENABLED` (via `AI_QUOTA_ENABLED` in `features/nutrition/ai.ts`) hides the food-scan meter and the program forge gate. `.env.example` (both) documented; `backend/.env` set `QUOTA_ENABLED=false`, `frontend/.env` set `EXPO_PUBLIC_AI_QUOTA_ENABLED=false` (both gitignored). Tests +2 → **pytest 57/57**.
+- **`/ai/program/active` 404 diagnosis:** the route is registered in OpenAPI and an authenticated call with a real user token returned **200**; the 404 body is the expected `{"error":"no_active_program"}` (no active program row), which the app maps to `null` (no banner). Verified by minting a session via the Supabase admin API and calling the live endpoint; DB inspected (0 programs at the time), generated + materialized a smoke program via the real pipeline (4 routines, 13 customs), then cleaned it up. Conclusion: backend + route are fine; a visible POST failure was most likely the long-running uvicorn serving stale code (restart required) or a stale Metro bundle.
+- **Check-in reminder (Phase 6 item 7) built:** new `features/progress/reminder.ts` — opt-in repeating **4-week** local notification (reuses `expo-notifications`), persisted in AsyncStorage; `useCheckInReminder` hook + a toggle row on the Progress tab. New `vitest` `__tests__/reminder.test.ts` (schedule/reschedule/deny/cancel) → **vitest 68/68** (was 64).
+- **Compare slider (S23) built:** new `app/progress/compare.tsx` — auto-selects **first vs latest** check-in for a pose (pose tabs when multiple), draggable **wipe slider** (`PanResponder`, before clipped L→R, date tags). Pure helpers in `features/progress/compare.ts` (`pickComparePair`/`posesWithPhotos`) unit-tested. Entry point on the Progress tab ("Compare first vs latest") shown only when a pose has ≥2 check-ins. No new native deps; visual-only (no Gemini `compare_to` call). → **vitest 73/73**.
+- **Env caveat:** Expo inlines `EXPO_PUBLIC_*` at Metro startup and caches it — adding/changing a var requires **`npx expo start -c`**. Confirmed the running bundle's HMR env block was missing the new var. Backend `.env` changes need a uvicorn restart.
+- **Docs:** PHASE-6 + PLAN updated for status; MEM current-state refreshed.
+- **Next:** restart dev servers (`npx expo start -c` + uvicorn) so the new env vars take effect; then the Phase-6 manual device pass (check-in → analyze → forge focus prefill) and the remaining Phase-6 items (compare slider S23, month grid, cross-user storage RLS test).
+
+---
+
+### 2026-09-29 · Session 29 — Physique-driven generation + Train forge button (Phase 6 pulled forward)
+
+- **Trigger:** user asked for generation based on **physique photos (current condition) + a specific request**, and a visible **Forge button** ("can't test shit").
+- **Added the Forge entry point** (Train tab): primary **"Forge a program"** button above "Start empty workout" → `/program/generate`.
+- **Built the physique essentials early (Phase 6 core):** `0010_physique` **applied** (`progress_photos` owner RLS + private `progress-photos` bucket with 4 owner storage policies); `PhysiqueAnalysis`/`AnalyzePhysiqueRequest` schemas; `PHYSIQUE_SYSTEM_INSTRUCTION` (`physique-v1`) — no bodyfat/medical claims, lower confidence on poor photos; multi-image `gemini.analyze_physique_images`; generic `supabase_admin._download` + `download_progress_photo`; **`POST /ai/analyze-physique`** (auth → 7-day window quota → fetch → Gemini → log; refusal 422 **without** consuming quota).
+- **Wired physique → program:** `program_context` adds a `physique` block + `latest_physique_summary()`; program prompt prioritizes `focus_areas`; user request passed as "honor unless it conflicts with hard constraints". Frontend: real Progress tab, check-in (camera/gallery + pose + privacy), analysis screen, forge shows the check-in summary card + **prefills focus** (editable).
+- **Gates:** `pytest` **55/55** · vitest 64/64 · `tsc` clean · `expo lint` clean · web export OK · live route 401 unauth · live DB confirmed focus_areas flow into context (smoke row removed).
+- **Committed `5975971`.**
+- **BLOCKER for next session:** Android bundling failed with `Unable to resolve "./photo" from "src/features/progress/hooks.ts"` — file exists on disk + committed; **likely stale Metro cache**. Try `npx expo start -c` first. User paused here ("will start this later on").
+- **Next:** fix the Metro resolution (cache clear), then on-device: check-in → analyze (real Gemini) → forge (focus prefilled) → review → apply → train. Then finish full Phase 6 (compare slider S23, 4-week reminder, month grid, cross-user storage test).
+
+---
+
+### 2026-09-28 · Session 28 — Phase 5 waves A–E: AI program generation (complete)
+
+- **Branch `feat/ai-programs`** off `feat/steps-budget` (which carried the Phase-4 close-out docs).
+- **Wave A** (`537e3b6`): `Program` model + Alembic `0009_programs` (one-active partial unique index, owner RLS, `routines.program_id` FK) **applied** (`alembic current = 0009_programs`); `services/program_context.py` (pure `summarize_context`/`estimated_1rm`/`detect_stall` mirroring `engine/strength.ts`) + `tests/test_program_context.py`. `pytest` 37/37.
+- **Wave B** (`8bf1f16`): `schemas.py` program models; `gemini.generate_program` (shared retry/fallback `_invoke_models`/`_parse_model`, `analyze_food_image` refactored onto it); `services/program_materialize.py` (archive previous → insert program → materialize **week 1** routines + customs for unmatched names); `routers/ai.py` (`POST /ai/generate-program`, `GET /ai/program/active`); `core/quotas.py` windowed 7-day quota (`check_once_per_days`/`record_use`/`window_resets_at`, recorded only on success). Tests → `pytest` 50/50.
+- **Wave C** (`2d7a59c`): `features/programs/` (types/api/hooks/components) + S25 `app/program/generate.tsx` (snapshot, focus field, quota meter, reduce-motion-aware forge overlay) + S26 `app/program/review.tsx` (week tabs, day cards, progression, rationale CoachNote, Regenerate/Apply, editable name). Fixed lint (`setState`-in-effect → child-key pattern; `useRef().current`/`interpolate` → `useMemo` `Animated.Value`).
+- **Wave D** (`049c5f9`): `ProgramBanner` on Train + Today; AI-routine rationale on S8; Today coach-note copy refreshed.
+- **Wave E (verification):** `pytest` 50/50 · `vitest` 64/64 · `tsc`/`expo lint` clean · web export OK. Live: `GET /health` ok, OpenAPI exposes `/ai/generate-program` + `/ai/program/active`; unauth → **401**; live `save_program` smoke on a real profile materialized routines+sets and **created a custom for an unmatched exercise**, regeneration left **exactly one active** (old archived), then cleaned up. Phase-5 "Done when" checked; `PLAN.md` §10 Phase 5 ✅ + status.
+- **Caveat:** constraint adherence (days/week, equipment, injuries) is prompt-enforced; not yet verified across 3 real profiles on device.
+- **Next:** Phase 6 — physique analysis (`0010_physique`, `progress-photos` bucket, `POST /ai/analyze-physique`, S22/S24, progress grid + compare slider).
+
+---
+
+### 2026-09-28 · Session 27 — Phase 4 closed (device-verified); Phase 5 wave plan
+
+- **Phase 4 device pass confirmed by the user** ("all is working"): scan→analyze→confirm→log, 6th-scan 429, catalog/gram search, burn/eaten rings. Backend `pytest` **31/31**; frontend gates already green (`tsc`/lint/vitest 64/web export).
+- **Phase 4 formally closed:** checked off `PHASE-4` "Done when"; `PLAN.md` §10 Phase 4 → ✅ and project status → Phase 4 complete. No unresolved Phase-4 code.
+- **Ops notes (not code):**
+  - Supabase project `trjtcfnmqufrqxhwhrtk` had **auto-paused** (free tier, ~9 days idle) → every `/auth/v1/*` route returned 502, surfacing as `{"message":"Bad Gateway"}` on Google sign-in. User restored it from the dashboard.
+  - AVD `Medium_Phone_API_36.0` had a **corrupt quick-boot snapshot** (`emulator-5554 offline`); fixed by cold booting (`-no-snapshot-load`). Added a **"Boot the Android emulator manually"** section to `README.md` (incl. the `fastboot.forceColdBoot=yes` permanent fix).
+- **Phase 5 planned:** added a **5-wave build order** to `phases/PHASE-5-ai-programs.md` — A schema `0009_programs` + `program_context.py`; B `POST /ai/generate-program` + materialization (+ `GET /ai/program/active`); C S25 generate + S26 review; D Train/Today integration; E verification/close. Reuses the Phase-4 AI pipeline.
+- **Next:** start **Phase 5 Wave A** (`0009_programs` migration + `program_context.py`), wave-by-wave.
+
+---
+
+### 2026-09-27 · Session 26 — Phase 4 status audit; ready for the device pass
+
+- Confirmed **Phase 4 is code-complete and committed** on `feat/steps-budget` (head `d36ad74`, working tree clean; migrations `0001`→`0008b`). Corrected the stale "Current state" section above (it still reported wave B/C as uncommitted and the branch as Phase 3).
+- No unresolved Phase-4 code. Remaining to close the phase = the device pass + the PHASE-4 "Done when" manual checks.
+- **Next:** run the device checklist (rebuild for camera → scan/confirm/log, gram search, burn ring, 6th-scan 429, `ai_calls`/`ai_usage`, storage privacy); then check off `PHASE-4`, set `PLAN.md` §10 Phase 4 ✅ + project status, and commit.
+
+---
+
+### 2026-09-18 · Session 25 — Phase 4 fixes round 2: per-100g catalog, default-closed add, prompt v2
+
+- **Food amounts by gram (not bowl/plate):** new Alembic **`0008_food_per_gram`** (applied) refreshes the global INDB rows to **per-100 g** macros (`serving_description = "100 g"`); `scripts/build_foods_seed.py` now reads the per-100 g columns; all **1,014** rows verified. S17 search shows **"per 100 g"** and Quick add has an **Amount (g)** field that scales kcal/P/C/F (`foods` values remain per-100 g; no schema change).
+- **Add-food page:** nothing open by default (Quick add no longer auto-expands; Scan/Search/Quick/Recent all collapsed until tapped).
+- **AI prompt v2 (`food-v2`)** — the apple → "Chicken and vegetable stir-fry" misidentification prompted a stricter prompt: identify the literal single food ("apple → Apple"), never invent ingredients/dishes, lower confidence + note uncertainty instead of guessing. Validated live against an apple photo (correct: "Apple", high confidence). Prompt lives in `services/prompts.py`; user prompt in `services/gemini.py` now says "Identify the food in this photo…".
+- **Model resilience:** a `GEMINI_MODEL` of `gemini-3.8-flash-lite` (does **not** exist) caused a 404 → 502. `gemini.analyze_food_image` now falls back to **`gemini-3.1-flash-lite`** on model-not-found (and logs the model actually used). Valid names documented in `.env.example`: `gemini-3.1-flash-lite` (default), `gemini-3.5-flash-lite`, `gemini-flash-lite-latest`, `gemini-3.8-flash`. New tests → pytest 24/24.
+- **ROOT CAUSE of wrong food (apple → "Grilled chicken with rice"):** food photos were stored in `food-photos` with `mimetype: text/plain` (the RN `Blob` upload carried no type, and supabase-js stored `text/plain`), so `download_food_photo` forwarded `text/plain` to Gemini — it tokenized the image bytes as **text** (100k–307k prompt tokens!) and hallucinated a dish. Fix: (a) backend infers the image mime from the file extension when Storage's content-type isn't `image/*` (`supabase_admin._image_mime`, unit-tested); (b) frontend uploads an **`ArrayBuffer`** with `contentType: 'image/jpeg'` so Storage records it correctly. Re-ran the exact stored apple object → **"Apple", 95 kcal, 1,247 tokens** (was 307,432). `GEMINI_MODEL=gemini-3.5-flash-lite` works.
+- **Add-food back button:** top-left back (arrow + "Back") on S17.
+- **Verified:** `tsc` clean · `expo lint` clean · vitest 64/64 · pytest 27/27 · web export OK.
+- **Note:** model is `gemini-3.1-flash-lite` (weakest vision tier) — if misidentification persists on device, try `GEMINI_MODEL=gemini-3.5-flash-lite` or `gemini-3.8-flash` (bad names now auto-fallback).
+
+**Next:** device test of scan→confirm (prompt v2), gram-based search/autofill, burn ring; then close Phase 4.
+
+---
+
+### 2026-09-18 · Session 24 — Phase 4 fixes: model, burn/eaten rings, packaged-food search
+
+- **502 on `/ai/analyze-food` root cause:** Gemini returned `404 ... models/gemini-2.5-flash is no longer available to new users`. Default model changed to **`gemini-3.1-flash-lite`** (configurable via `GEMINI_MODEL`); validated text + **vision** + structured `FoodEstimate` output live. Gemini retries bumped to 3 with backoff (free tier returns transient 503 "high demand"). Docs (`PLAN` §7, `PHASE-4`, `backend/AGENTS`, `.env.example`) updated.
+- **Today ring = burnt, Nutrition ring = eaten (user request):** Today hero now shows **calories burned** (step-based `stepBonusKcal`) against a 10k-step burn goal (`stepKcalBonus(10000, weight)`), with a `steps · goal` caption; the old "remaining" hero is gone. Nutrition card relabelled **"Calories eaten"** (center = consumed / target).
+- **Packaged/barcoded products in search:** new backend `GET /foods/search` (auth, no quota) merges local `foods` (INDB + customs) with **Open Food Facts** packaged products (Search-a-licious index + v2 product detail for nutrition; ODbL attribution in `services/openfoodfacts.py`; degrades gracefully if OFF is down). New `routers/foods.py`, `FoodSearchResult` schema, `tests/test_foods_search.py`. S17 search now calls FastAPI (`foods-api.ts`), shows the **kcal** unit, and discovers packaged items (e.g. "lays", "sting").
+  - Caveat: OFF has gaps for Indian packaged goods — e.g. many "Lays" SKUs return with 0 kcal (no nutrition recorded); the row still appears and is editable. Curating/seeding a packaged subset is a Phase-4 follow-up if needed.
+- **Verified:** `tsc` clean · `expo lint` clean · vitest 64/64 · pytest **22/22** · web export OK. Live OFF + Gemini calls spot-checked from the backend.
+
+**Next:** device test (rebuild for camera) — scan→analyze (now on flash-lite), food search incl. packaged, burn ring; then close Phase 4.
+
+---
+
+### 2026-09-17 · Session 23 — Phase 4 kickoff: wave A (AI infrastructure)
+
+- **Kickoff decisions (user):** food catalog source = **Anuvaad INDB**; scan input = **camera + gallery** (`expo-camera` + `expo-image-picker`); build order = **backend first**.
+- **Revision naming fixed:** added the food-catalog plan to `PHASE-4` (new `foods` table, `0007_food_catalog`) and renumbered future revisions to avoid the `0005_meal_slot` collision → `0006_ai`, `0007_food_catalog`, `0008_programs`, `0009_physique`.
+- **Wave A (backend AI infra), applied + tested:**
+  - `0006_ai` migration: `ai_usage`, `ai_calls` (RLS: `ai_usage` owner-select only; `ai_calls` no policies = service-role only), `increment_ai_usage(uuid, text, int) returns boolean` (SECURITY DEFINER, atomic upsert+increment), private `food-photos` bucket + 4 owner-scoped storage policies. **Applied to the live DB**; verified tables/RLS/function (`prosecdef=true`)/bucket/policies; quota function exercised in a rolled-back txn (allow→deny at limit 1).
+  - `core/config.py` gained `SUPABASE_SERVICE_ROLE_KEY`, `GEMINI_API_KEY`, `GEMINI_MODEL`, quotas (all optional/defaulted so tests boot without secrets).
+  - `schemas.py` (`FoodEstimate`, `AnalyzeFoodRequest`), `services/prompts.py` (versioned), `services/gemini.py` (structured output, lazy SDK import, retry-once, `GeminiRefusal`/`GeminiParseError`), `services/supabase_admin.py` (service-role photo download), `services/ai_log.py` (best-effort `ai_calls`), `routers/ai.py` (`POST /ai/analyze-food`: auth → path-ownership → quota → storage → Gemini → log → respond; 403/429/422/502 mapping).
+  - `requirements.txt` + installed `google-genai`. `pytest` **14/14** (6 new; all AI dependencies mocked).
+- **Live keys added:** `SUPABASE_SERVICE_ROLE_KEY` + `GEMINI_API_KEY` are now in `backend/.env` (presence verified; never printed). Wave A committed (`0fb3803`, docs `9431d3f`) and pushed.
+- **Wave B (scan→confirm) committed `d5f9949` (+ docs `4c1a1f3`), pushed:** installed `expo-camera`, `expo-image-picker`, `expo-image-manipulator` (+ `app.json` permission plugins/`CAMERA`); `features/nutrition/ai.ts` (`analyzeFoodPhoto`, `fetchFoodScansToday`, `FOOD_SCAN_LIMIT`) and `photo.ts` (resize ≤1600px → upload `food-photos/{uid}/{uuid}.jpg`); S18 `app/meal/scan` (camera + gallery, permission-denied fallback, busy overlay, 403/422/429/502 messages); S19 `app/meal/confirm` (editable name/serving/macros, `ConfidenceChip`, mandatory disclaimer, quota meter, slot, Retake/Log → `source=photo`, `photo_path`, `ai_raw`); S17 "Scan food" enabled; shared `MacroEdit`/`ConfidenceChip`; `ApiError` now carries `detail`.
+- **Wave C (food catalog), done/uncommitted:** `0007_food_catalog` **applied** — `foods` table (global/custom; RLS: globals readable by authed users, customs owner-only; partial unique indexes) seeded with **1,014 Anuvaad INDB recipes** (`scripts/build_foods_seed.py` → `app/data/foods_seed.json`, per-serving macros, source=`indb`). S17 **Search foods** autofills Quick add via `features/nutrition/foods-api.ts` + `useFoodSearch`. `pytest` 17/17 · `tsc`/lint clean · vitest 64/64 · web export OK.
+- **Verified:** `tsc` clean · `expo lint` clean · vitest 64/64 · pytest 17/17 · web export OK. **Native rebuild required** for the camera/picker modules.
+  - **Session 24 fixes:** AI model → `gemini-3.1-flash-lite` (2.5-flash retired); Today ring = **burnt** (steps) / Nutrition ring = **eaten**; food search now proxied via FastAPI and includes **Open Food Facts packaged products**.
+  - **Next:** device test of scan→analyze→confirm→log + food search (incl. packaged) + burn ring; then close Phase 4.
+
+---
+
+### 2026-09-17 · Session 22c — Phase 3 CLOSED (device-verified) + committed
+
+- User confirmed the Phase-3 device pass: steps + target rise, backfill, permission-denial/manual entry, meal add/edit/delete, weight row + trend arrow, idempotent `daily_activity`.
+- Checked off `PHASE-3` "Done when"; `PLAN.md` §10 Phase 3 → ✅ and project status → Phase 3 complete.
+- Committed waves C–E + the UX fixes (backend `0005_meal_slot`, frontend dashboard/diary/steps/weight, splash lockup) and pushed `feat/steps-budget`.
+- **Next:** Phase 4 — user trials meal logging (AI + free Indian food datasets); build `0006_ai` + `0007_food_catalog`.
+
+---
+
+### 2026-09-17 · Session 22b — Phase 3 UX fixes + steps history page
+
+- **Today:** removed the "Verify FastAPI (Phase 0 proof)" button (and its state/imports). Steps tile is **read-only** — tapping now opens the new **steps history page** (`/steps`) instead of the manual-entry modal. The manual-entry modal remains reachable only from the `ConnectStepsBanner` degradation path (HC denied/unavailable).
+- **Ring overflow fix:** `RingProgress`'s centre overlay is now inset by the stroke width and constrained; the Today value font dropped from `display` (44) to 34 so `2,140` can't spill past the ring.
+- **Nutrition diary:** one consistent daily goal across the date strip — the base target (adaptive TDEE + confirmed offset); step bonuses are a Today-ring concern only, so the number no longer jumps between days.
+- **New S-steps page (`app/steps.tsx`, guarded route):** today total + kcal bonus, 7-day average, best day, a 14-day `BarChart` (gifted-charts), and a 30-day history list. Auto-syncs on focus with a 30-day backfill (`useSyncSteps`/`useAutoSyncSteps` now take a `days` arg).
+- **FAB:** nutrition add button is now **absolute bottom-right** (safe-area aware, above the floating dock); diary bottom scroll padding trimmed to clear it.
+- **Splash (`app/index.tsx`):** removed the background glow; the spark now ignites at centre, then slides to the **left of VULCAN** (slide distance measured via `onLayout` so it lands as the compact lockup on any font/device). Reduce-motion shows the final lockup immediately.
+- **Verified:** `tsc` clean · `expo lint` clean · vitest 64/64 · web export OK.
+- **Research (Phase 4, not built):** open Indian food datasets identified — **Anuvaad INDB** (1,014 recipes + 1,095 raw items, per-100g & per-serving, open-access, GitHub `lindsayjaacks/Indian-Nutrient-Databank-INDB-`); `prabhubng/indian-nutrition-data` (620+ foods); Kaggle "Indian Food Nutritional Values 2025" (250+/1,014 dishes from INDB); and **Open Food Facts** for **packaged/barcoded** items (ODbL open data, REST API `world.openfoodfacts.org/api/v2/product/{barcode}.json`, India subset via `countries_tags`, nightly dumps/parquet). See open questions.
+- **Phase docs:** added the food-catalog plan to `PHASE-4` (new `foods` reference table, source TBD at kickoff) and renumbered future revisions to avoid the `0005_meal_slot` collision: `0006_ai`, `0007_food_catalog`, `0008_programs`, `0009_physique`.
+
+**Next:** native rebuild + Phase-3 device pass → commit.
+
+---
+
+### 2026-09-17 · Session 22 — Phase 3 waves C–E: Today dashboard + nutrition + weight trend
+
+- **Schema (user-approved):** new Alembic **`0005_meal_slot`** adds `meals.meal_slot` (breakfast/lunch/dinner/snacks, default `snacks`, CHECK). Made idempotent because `0004` creates `meals` from live SQLModel metadata. **Applied to the live DB** and verified (`meal_slot` non-null, `meals_meal_slot_check`, RLS on, `alembic_version = 0005_meal_slot`). `models.py` + `PLAN.md` §6 updated.
+- **Shared UI:** `RingProgress` (SVG gradient ring), `MacroBar`/`MacroLegend`, `StatTile`, `CoachNote`; new icons `Plate/Trash/Camera/Pencil`.
+- **Engine:** `computeTargets` accepts an optional `tdeeOverride` (adaptive maintenance; goal delta/caps/floors still apply). New tests: adaptive override, invalid override fallback, pace cap off the adaptive maintenance. Vitest 64/64.
+- **Wave C — Today S6 (`(tabs)/today`):** live calorie ring (`remaining / live target`), macro bar + legend, steps tile (7-day mini bars) with manual-entry modal fallback, weight tile + log modal, streak flame (consecutive logged days), coach-note placeholder, trend-adjust card. `ConnectStepsCard` became `ConnectStepsBanner` (permission prompt + manual fallback). Adaptive TDEE is used once ≥10 aligned weight+intake days exist (21-day window).
+- **Wave D — nutrition:** `features/nutrition/{types,api,hooks,components}`; diary S16 (date strip, ring, macro bar, slot sections, delete, FAB), add-meal S17 (Quick add + Recent re-log; Scan food disabled → Phase 4), meal detail S20 (edit/delete). Optimistic create so the ring/macros update immediately. Routes `app/meal/{_layout,add,[id]}` guarded in the root stack (modal presentation).
+- **Wave E — weight/trend:** `features/today/weight.ts` (`body_metrics` upsert, invalidates profile so targets recalc); `target-offset.ts` (persisted ±100 kcal the user confirms); trend card only shows when the offset is still 0.
+- **Verified:** vitest 64/64 · `tsc --noEmit` clean · `expo lint` clean · web export OK · pytest 8/8 · migration applied. Not committed yet.
+- **Pending (device):** native rebuild (`npx expo run:android`) then walk test, permission-denial path, meal add/edit/delete, weight row + trend arrow, and the Phase-3 "Done when" gate.
+
+**Next:** native rebuild + Phase-3 device pass → mark Phase 3 complete, commit waves C–E.
+
+---
+
+### 2026-09-15 · Session 21 — steps auto-sync, GIF ratio, media backfill
+
+- **Steps auto-sync:** `useAutoSyncSteps` (focus-aware `useFocusEffect`) syncs on entering Today and then every 60 s **while focused**; the manual "Sync steps" button was removed.
+- **Permission detection fix:** `hasStepsPermission`/`requestStepsPermission`/`readDailySteps` now call `initialize()` first — previously the card queried `getGrantedPermissions()` before the SDK was initialized, so it showed "Connect steps" on every launch even when already granted.
+- **Timezone fix:** steps were bucketed by **UTC** date (`toISOString()`), so just after local midnight the app showed the previous day's total as "today". Now `localDateString()` (phone-local yyyy-mm-dd) is used for step bucketing, the `daily_activity` range filter, and the "today" lookup.
+- **Step double-counting fix:** `readDailySteps` now uses Health Connect's `aggregateGroupByPeriod` (DAYS/1) instead of summing raw `readRecords` — the raw sum double-counted multiple sources (phone + watch/Google Fit), inflating the 7-day average.
+- **7-day average = last 7 completed days:** the card excludes today (`syncDailyActivity` now covers 8 days, today + the last 7 full days; the average is taken over the 7 days with data before today).
+- **GIF ratio (S13):** the exercise hero is now a full-width **square** (`aspectRatio: 1`) with `contentFit="contain"` — the whole 1:1 GIF shows, undistorted, no crop. List thumbnails stay small 1:1 squares.
+- **Media backfill (bug fix):** routines created before the catalog referenced the original seed rows; `0003_exercise_media` preserved referenced rows but 5 had names that didn't match the dataset (Cable Crossover, Incline Dumbbell Press, Overhead Triceps Extension, Pec Deck, Triceps Pushdown), so they had no media. New revision **`0004b_exercise_media_backfill`** maps them to the closest catalog GIFs — **all 1,089 globals now have media** (verified).
+- **Verified:** vitest 61/61 · `tsc` clean · `expo lint` clean.
+
+**Next:** wave C (Today dashboard S6).
+
+---
+
+### 2026-09-15 · Session 20 — Phase 3 waves A + B (schema/engine + Health Connect)
+
+- **Wave A:** new Alembic `0004_activity_nutrition` — `daily_activity` (steps/target_kcal/step_bonus_kcal, unique per user+date) + `meals` (macros, `source` manual|photo, `ai_raw` jsonb). RLS owner-only (4 policies each) + indexes; applied to the live DB. Engine: `trendAdjustment(weightsKg, goal)` in `steps.ts`; `adaptiveTdee(intakeKcal, weightsKg)` in `targets.ts`. Tests 61/61.
+- **Wave B:** `react-native-health-connect` (4.1.3) + its config plugin; `expo-build-properties` with `android.minSdkVersion 26`; `android.permission.health.READ_STEPS`. Added `features/today/health-connect.ts` (status/permission/read daily steps), `features/today/steps.ts` (idempotent `daily_activity` upsert with step bonus), `features/today/hooks.ts`, and `ConnectStepsCard` on Today. Connect once → `useAutoSyncSteps` syncs on focus and every 60 s **while the Today screen is focused** (no manual sync button).
+- **Native:** `npx expo prebuild --clean -p android` regenerated the manifest — verified `READ_STEPS`, the rationale intent-filter + `ViewPermissionUsageActivity` alias, and `minSdkVersion=26`. `android/local.properties` recreated.
+- **Verified:** vitest 61/61 · `tsc` clean · `expo lint` clean · web export OK.
+
+**Next:** rebuild + device test step sync → Phase 3 wave C (Today dashboard S6).
+
+---
 
 ### 2026-09-15 · Session 19 — Phase 2 closed; set-type discoverability fix
 
@@ -373,6 +624,8 @@ Caveats: drag-reorder → up/down; set-type → long-press (not swipe).
 - [x] Session 7: Google sign-in works end-to-end (deep-link fallback + WebCrypto polyfill); **backend ES256 fix** (was rejecting valid tokens with 401 — `auth.py` now handles EC keys, 8/8 pytest); welcome is Google-only with real Google logo; app icon = splash ember mark confirmed; **floating dock tab bar + DumbbellIcon** (64px Train button).
 - [x] Session 8: Verify FastAPI shows `user_id` on device ✅; deep-link fallback diagnostic log added (confirm via Metro log on next Google sign-in); email auth routes deleted; Phase 0 "Done when" closed; `feat/auth` committed + merged into `master`.
 - [x] Phase 1 complete (engine + wizard + settings stub; `0001_profiles` applied, RLS verified, persistence confirmed on device). Merged to `master` and pushed to `origin`.
-- [ ] Phase 2 (waves A–E done, code complete): schema + engine + Train/routine/picker + S10 session/timer/persistence + S11 summary/PR/offline sync + history/past-workout/exercise-detail/charts. **Remaining: native rebuild + device test (airplane sync, kill/resume, rest notification, set types, charts), then mark Phase 2 complete.**
+  - [x] Phase 2 complete: schema + engine + Train/routine/picker + S10 session/timer/persistence + S11 summary/PR/offline sync + history/past-workout/exercise-detail/charts + media catalog. Device pass confirmed; merged to `master`.
+  - [ ] Phase 3 in progress (`feat/steps-budget`): waves A–E code-complete (schema/engine, Health Connect steps, Today dashboard S6, nutrition S16/S17/S20, weight trend). `0005_meal_slot` applied. **Next: native rebuild (`npx expo run:android`) + device pass on the Phase-3 "Done when" gate, then commit waves C–E and mark Phase 3 complete.**
+- [ ] Phase 4 food catalog (planned in `phases/PHASE-4-ai-food.md` — `0007_food_catalog`, source TBD at kickoff): **recipes/dishes** → Anuvaad INDB (open-access, per-100g + per-serving, ~1,014 recipes) or `prabhubng/indian-nutrition-data` (620+ foods); **packaged/barcoded** → Open Food Facts (ODbL, barcode lookup + India filter). Decide bundle-a-seed vs on-demand API and confirm license/attribution before seeding.
 - [ ] Backend: add `routers/ai.py` + `schemas.py` when Phase 4 starts.
-- [ ] Set the real Android bundle id in `app.json` (Phase 7; currently `com.anonymous.vulcan`).
+- [x] Real app id set from `ashiswadhwani.in`: `android.package` + `ios.bundleIdentifier` = **`in.ashiswadhwani.vulcan`**; native project regenerated (`expo prebuild --clean -p android`), minSdk 26 + READ_STEPS/CAMERA verified.

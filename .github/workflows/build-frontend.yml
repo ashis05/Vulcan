@@ -1,0 +1,45 @@
+name: Build Frontend (EAS)
+
+on:
+  workflow_dispatch:
+    inputs:
+      profile:
+        description: EAS build profile
+        type: choice
+        options:
+          - preview
+          - production
+        default: preview
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-frontend-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: EAS build (Android, ${{ inputs.profile }})
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      # EXPO_PUBLIC_* are inlined from the EAS environment selected by the
+      # profile in eas.json (see deployment/04-frontend-eas.md), not from this CI env.
+      - name: EAS build
+        run: npx --yes eas-cli build --platform android --profile ${{ inputs.profile }} --non-interactive
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
