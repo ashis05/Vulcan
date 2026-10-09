@@ -59,6 +59,16 @@ Continuing the project from anywhere. This file is the session log and current-s
 
 ## Session log
 
+### 2026-10-09 · Session 36 — Android app-size reduction
+
+- **Reported:** APK ~200 MB; target under 50 MB.
+- **Diagnosis (from the local debug APK `android/app/build/outputs/apk/debug/app-debug.apk`):** the EAS `preview` build is a **universal APK (4 ABIs)** — one ABI alone has **76 MB** of native libs (`libreactnative` 21.6, `libQuickCrypto` 9.8, `libreanimated` 7.5, `libappmodules` 7.0, `libbarhopper_v3` 5.6, `libworklets` 4.2, `libhermesvm` 3.8, …); release builds are not minified by default.
+- **Change (`frontend/app.json`):** `expo-build-properties` android now sets `buildArchs: ["arm64-v8a"]`, `enableMinifyInReleaseBuilds: true`, `enableShrinkResourcesInReleaseBuilds: true`, `enableBundleCompression: true`. Deleted the unused `assets/images/wordmark.png` (1.17 MB). Gates: `tsc`/`expo lint` clean · `vitest` **73/73**.
+- **Expected:** ~200 MB → ~50–70 MB. Under 50 MB likely needs dropping `react-native-quick-crypto` (~10 MB/ABI) and/or Play AAB per-device splits.
+- **Branch `chore/reduce-app-size`** → PR → `master`. Requires a **new EAS build** to measure.
+
+---
+
 ### 2026-10-09 · Session 35 — Food search: multi-word matching + keyboard/UX fixes
 
 - **Reported (device):** food search often shows "no results", and the keyboard covers the results so you can't scroll.
