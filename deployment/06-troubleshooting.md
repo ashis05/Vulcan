@@ -12,6 +12,22 @@
 - The app's URL is baked at **build** time. Changing `EXPO_PUBLIC_API_URL` requires a new EAS
   build — it is not picked up by reinstalling the same APK.
 
+## API returns HTTP 500 on AI routes / food search (but `/health` is OK)
+
+The AI routes (quota checks, `ai_calls` logging, program context/materialization) and
+`/foods/search` query Postgres directly via SQLAlchemy, so the server needs `DATABASE_URL`.
+
+- Symptom: `/health` and `/health/protected` return 200, but `/ai/*` and `/foods/search`
+  return **500** with an empty body.
+- Fix: add `DATABASE_URL` (the same session-pooler URI as your local `backend/.env`) to
+  `~/vulcan/backend/.env`, then recreate the container:
+  ```
+  cd ~/vulcan/backend
+  docker compose --env-file .env -f deploy/docker-compose.yml up -d
+  ```
+- Verify: `docker compose ... logs -f api` shows the request handling without a
+  `DATABASE_URL is not set` traceback.
+
 ## Cloudflare tunnel "Healthy" but requests 502
 
 - The public hostname's Service URL must be `HTTP` → `api:8000` (the compose service name).
