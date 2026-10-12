@@ -267,6 +267,8 @@ Paste (fill the `<...>` values):
 ```dotenv
 SUPABASE_URL=https://<project-ref>.supabase.co
 ALLOWED_ORIGINS=https://api-vulcan.ashiswadhwani.in
+# Session-pooler URI — required (see note below). Same value as local backend/.env.
+DATABASE_URL=postgresql://postgres.<project-ref>:<db-password>@aws-0-<region>.pooler.supabase.com:5432/postgres
 SUPABASE_SERVICE_ROLE_KEY=<service-role-key>
 GEMINI_API_KEY=<gemini-api-key>
 GEMINI_MODEL=gemini-3.1-flash-lite
@@ -282,8 +284,10 @@ Save, then lock it down:
 chmod 600 ~/vulcan/backend/.env
 ```
 
-> `DATABASE_URL` is **not** needed here — migrations run from your dev machine (step 12).
-> These secrets live only on the instance and are never committed. Details:
+> `DATABASE_URL` **is** required here: the AI routes (quota/`ai_calls`) and `/foods/search`
+> query Postgres directly, so without it those routes return HTTP 500. Use the same
+> session-pooler URI as your local `backend/.env`. Migrations still run from your dev machine
+> (step 12). These secrets live only on the instance and are never committed. Details:
 > [03-backend-deploy.md](03-backend-deploy.md).
 
 ---

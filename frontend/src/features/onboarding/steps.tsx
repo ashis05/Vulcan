@@ -179,7 +179,7 @@ export function WeightStep() {
   );
 }
 
-const GOAL_OPTIONS: { value: Goal; label: string; subtitle: string; icon: ReactNode }[] = [
+export const GOAL_OPTIONS: { value: Goal; label: string; subtitle: string; icon: ReactNode }[] = [
   { value: 'cut', label: 'Cut', subtitle: 'Drop fat, keep the muscle.', icon: <SparkIcon size={18} color={colors.accent.ember500} filled /> },
   { value: 'recomp', label: 'Recomp', subtitle: 'Build and burn at once.', icon: <FlameIcon size={18} color={colors.accent.ember500} /> },
   { value: 'maintain', label: 'Maintain', subtitle: 'Hold. Grind. Stay sharp.', icon: <ChartIcon size={18} color={colors.accent.ember500} /> },
@@ -207,7 +207,7 @@ export function GoalStep() {
   );
 }
 
-const ACTIVITY_OPTIONS: { value: ActivityLevel; label: string; subtitle: string }[] = [
+export const ACTIVITY_OPTIONS: { value: ActivityLevel; label: string; subtitle: string }[] = [
   { value: 'sedentary', label: 'Sedentary', subtitle: 'Desk job, little daily movement' },
   { value: 'light', label: 'Light', subtitle: 'Some walking or 1–2 light workouts a week' },
   { value: 'moderate', label: 'Moderate', subtitle: 'Active job, or 3–5 workouts a week' },
@@ -279,7 +279,7 @@ export function PaceStep() {
   );
 }
 
-const EXP_OPTIONS: { value: Experience; label: string; subtitle: string }[] = [
+export const EXP_OPTIONS: { value: Experience; label: string; subtitle: string }[] = [
   { value: 'beginner', label: 'Beginner', subtitle: 'Under 1 year of lifting' },
   { value: 'intermediate', label: 'Intermediate', subtitle: '1 to 3 years' },
   { value: 'advanced', label: 'Advanced', subtitle: '3 years and up' },
@@ -332,7 +332,7 @@ export function WeekStep() {
   );
 }
 
-const EQUIPMENT_OPTIONS = ['Full gym', 'Dumbbells', 'Barbell + rack', 'Machines', 'Bands', 'Bodyweight'];
+export const EQUIPMENT_OPTIONS = ['Full gym', 'Dumbbells', 'Barbell + rack', 'Machines', 'Bands', 'Bodyweight'];
 
 export function EquipmentStep() {
   const equipment = useWizardStore((s) => s.equipment);
@@ -352,7 +352,7 @@ export function EquipmentStep() {
   );
 }
 
-const INJURY_OPTIONS = ['Lower back', 'Shoulder', 'Knee', 'Wrist'];
+export const INJURY_OPTIONS = ['Lower back', 'Shoulder', 'Knee', 'Wrist'];
 
 export function LimitationsStep() {
   const injuries = useWizardStore((s) => s.injuries);

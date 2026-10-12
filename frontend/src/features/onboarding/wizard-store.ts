@@ -3,7 +3,6 @@ import { create } from 'zustand';
 import type { Profile } from '@/engine/types';
 
 export type WizardFields = Omit<Profile, 'onboardingCompleted'>;
-export type WizardMode = 'onboarding' | 'edit';
 
 export const WIZARD_DEFAULTS: WizardFields = {
   displayName: '',
@@ -26,12 +25,10 @@ export const WIZARD_DEFAULTS: WizardFields = {
 
 interface WizardStore extends WizardFields {
   step: number;
-  mode: WizardMode;
   /** True once the Reveal step has shown the targets card. */
   revealed: boolean;
   set: (patch: Partial<WizardFields>) => void;
   setStep: (step: number) => void;
-  setMode: (mode: WizardMode) => void;
   setRevealed: (revealed: boolean) => void;
   reset: () => void;
 }
@@ -39,13 +36,11 @@ interface WizardStore extends WizardFields {
 export const useWizardStore = create<WizardStore>((set) => ({
   ...WIZARD_DEFAULTS,
   step: 0,
-  mode: 'onboarding',
   revealed: false,
   set: (patch) => set(patch),
   setStep: (step) => set({ step }),
-  setMode: (mode) => set({ mode }),
   setRevealed: (revealed) => set({ revealed }),
-  reset: () => set({ ...WIZARD_DEFAULTS, step: 0, mode: 'onboarding', revealed: false }),
+  reset: () => set({ ...WIZARD_DEFAULTS, step: 0, revealed: false }),
 }));
 
 export function wizardFieldsToProfile(fields: WizardFields): Profile {

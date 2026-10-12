@@ -15,6 +15,8 @@ nano ~/vulcan/backend/.env
 ```dotenv
 SUPABASE_URL=https://<project-ref>.supabase.co
 ALLOWED_ORIGINS=https://api-vulcan.ashiswadhwani.in
+# Session-pooler URI — required at runtime (see notes). Same value as local backend/.env.
+DATABASE_URL=postgresql://postgres.<project-ref>:<db-password>@aws-0-<region>.pooler.supabase.com:5432/postgres
 SUPABASE_SERVICE_ROLE_KEY=<service-role-key>
 GEMINI_API_KEY=<gemini-api-key>
 GEMINI_MODEL=gemini-3.1-flash-lite
@@ -31,8 +33,11 @@ chmod 600 ~/vulcan/backend/.env
 ```
 
 Notes:
-- **`DATABASE_URL` is not needed on the server.** The API never opens Postgres directly;
-  migrations run from your dev machine (see 3.4).
+- **`DATABASE_URL` is required on the server.** The AI routes (quota checks, `ai_calls`
+  logging, program context/materialization) and `/foods/search` query Postgres directly via
+  SQLAlchemy, so without it every DB-backed route returns **HTTP 500**. Use the same
+  session-pooler URI as your local `backend/.env`.
+- Migrations still run from your dev machine (see 3.4); the server only needs the URI at runtime.
 - `GEMINI_MODEL` and the `QUOTA_*` values are optional (defaults apply) but documenting them
   avoids surprises.
 

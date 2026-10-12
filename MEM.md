@@ -59,6 +59,36 @@ Continuing the project from anywhere. This file is the session log and current-s
 
 ## Session log
 
+### 2026-10-12 · Session 39 — Size-reduction regression RCA: slow app + missing exercise GIFs
+
+- **Reported:** after the Android size-reduction build, the app is much slower and all exercise GIFs are gone.
+- **RCA:** both regressions trace to the single commit `542b846` ("cut Android build size"), which added 4 flags to `frontend/app.json` → `expo-build-properties.android`; the prior build had none. GIFs are **remote** (`exercises.media_url` → raw.githubusercontent.com, fetched live = HTTP 200) rendered through `expo-image` (Glide on Android).
+  - **Slowness → `enableBundleCompression: true`.** Expo SDK 57 docs: smaller APK "but may have slower app startup times"; RN 0.79 ships Android bundles uncompressed by default for startup speed.
+  - **GIFs gone → `enableMinifyInReleaseBuilds` (R8) + `enableShrinkResourcesInReleaseBuilds`.** Release-only breakers of reflection/Glide image pipelines (Expo SDK 58 changelog warns R8 needs keep rules for reflection libs). Could also worsen perceived lag: the picker mounts ~1,084 `expo-image` rows that retry failing loads.
+  - `buildArchs: ["arm64-v8a"]` is not a perf cause; only note is it won't run on x86/x86_64 emulators or 32-bit devices.
+- **Fix applied (step 1+2):** reverted `enableBundleCompression`, `enableMinifyInReleaseBuilds`, `enableShrinkResourcesInReleaseBuilds` to unset (defaults off) in `frontend/app.json`; **kept** `buildArchs: ["arm64-v8a"]` (the main size lever). Needs a fresh EAS `preview` build to confirm.
+- **Logcat isolation pass: BLOCKED** — no device/emulator attached (`adb devices` empty). Plan: on the *current* (bad) build, `adb logcat -c` then capture `glide|Gif|expo-image|ClassNotFound|NoClassDef|okhttp` while opening an exercise, to name the exact stripped class. If size still matters later, re-enable R8 alone with `extraProguardRules` for Glide/okhttp and re-test GIFs on device.
+- **Verified:** `frontend/app.json` diff = only the 3 flags removed; JSON still valid. No app rebuild run from here.
+
+### 2026-10-12 · Session 38 — Dedicated Edit Profile page (replaces onboarding-as-edit)
+
+- **Request:** edit profile should be a proper in-place page, not a re-run of the onboarding wizard.
+- **New route `app/edit-profile.tsx`** (thin shell: back nav + spinner until `useProfile()` loads) → renders `features/profile/edit-form.tsx`. Form holds a local `Draft` (no wizard store), mounts only once the profile is available, and edits all fields inline in section cards — Name, Sex, Date of birth (3 steppers), Height/Weight (stepper + cm/ft·kg/lb toggles), Goal chips + pace slider with live `computeTargets()` preview, Activity, Experience, Sessions/week, Session length, Equipment, Limitations + note. Sticky **Save changes** footer; validation gates on name/sex/goal/experience/equipment. Save reuses `saveProfileAndFirstMetric`, seeds the profile cache, invalidates `['profile', uid]`, then `router.back()`.
+- **Reuse:** option lists (`GOAL_OPTIONS`, `ACTIVITY_OPTIONS`, `EXP_OPTIONS`, `EQUIPMENT_OPTIONS`, `INJURY_OPTIONS`) are now exported from `features/onboarding/steps.tsx` and consumed by the edit form; the form reuses the onboarding `Stepper/Segmented/Chip/PaceSlider` controls and `Card`/`TextField`/`Button`.
+- **Removed** the onboarding edit path: `(tabs)/profile` now pushes `/edit-profile` (pencil icon), route registered in the root stack, the `?edit=1` branch + `isEdit` logic stripped from `onboarding/index.tsx`, and `mode`/`setMode`/`WizardMode` dropped from `wizard-store.ts`.
+- **Verified:** `tsc` clean · `expo lint` clean · `expo export -p web` OK. (Typed routes regenerated via a short `expo start`.) Not yet device-tested.
+
+### 2026-10-11 · Session 37 — Deployed backend 500s: missing `DATABASE_URL` on the server
+
+- **Reported:** the deployed **preview** app (phone → `api-vulcan.ashiswadhwani.in`) shows no results and nothing lands in the backend.
+- **Diagnosis (live):** `/health` and `/health/protected` = 200 (auth works), but every DB-backed route returned **500 with an empty body** — `/ai/program/active`, `/foods/search` (verified with a session minted from the service role). The **same calls against the local backend succeed** (`/ai/program/active` → 404 no-active-program; `/foods/search` → real INDB rows). APP check: the installed preview APK (`index.android.bundle`) correctly inlines `api-vulcan.ashiswadhwani.in`; EAS `preview` env is correct — not an app/config issue.
+- **Root cause:** the server has no `DATABASE_URL`. Phase 4/5 added direct Postgres use — `core/quotas.py`, `services/ai_log.py`, `services/program_context.py`, `services/program_materialize.py`, and `routers/foods.py` all call `db.create_db_engine()`, which raises `RuntimeError("DATABASE_URL is not set")` → 500. `ai_calls` logging also fails (best-effort swallow) → no backend logs. The deploy runbook wrongly instructed **omitting** `DATABASE_URL` ("the API never opens Postgres directly", true in earlier phases only).
+- **Fix (docs, this repo):** `deployment/03-backend-deploy.md` + `00-STEP-BY-STEP.md` server `.env` templates now include `DATABASE_URL` (session-pooler URI) with corrected notes; `deployment/06-troubleshooting.md` gains a "500 on AI routes / food search" entry.
+- **Still needs the user (can't SSH from here):** add `DATABASE_URL` (same value as local `backend/.env`) to `~/vulcan/backend/.env` on the EC2 box, then `docker compose --env-file .env -f deploy/docker-compose.yml up -d`, and re-test the app.
+- **Note:** docs edits uncommitted on branch `chore/reduce-app-size`.
+
+---
+
 ### 2026-10-09 · Session 36 — Android app-size reduction
 
 - **Reported:** APK ~200 MB; target under 50 MB.

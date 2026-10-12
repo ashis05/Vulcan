@@ -2,7 +2,7 @@ import { useRouter } from 'expo-router';
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { Screen } from '@/components/ui/Screen';
-import { ArrowLeftIcon, PersonIcon } from '@/components/icons';
+import { ArrowLeftIcon, PencilIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
 import { goalChipLabel } from '@/lib/profile';
 import { supabase } from '@/lib/supabase';
@@ -31,7 +31,7 @@ export default function ProfileScreen() {
   const initial = (profile?.displayName ?? '?').trim().charAt(0).toUpperCase() || '?';
   const chip = goalChipLabel(profile?.goal ?? null, profile?.paceKgWk ?? 0);
 
-  const openEdit = () => router.push('/onboarding?edit=1');
+  const openEdit = () => router.push('/edit-profile');
 
   return (
     <Screen>
@@ -56,7 +56,7 @@ export default function ProfileScreen() {
 
       <View style={styles.card}>
         <Pressable onPress={openEdit} style={({ pressed }) => [styles.row, pressed && styles.pressed]}>
-          <PersonIcon size={20} color={colors.text.secondary} />
+          <PencilIcon size={20} color={colors.text.secondary} />
           <Text style={styles.rowLabel}>Edit profile</Text>
           <View style={{ marginLeft: 'auto', transform: [{ rotate: '180deg' }] }}>
             <ArrowLeftIcon size={18} color={colors.text.muted} />

@@ -72,6 +72,7 @@ function RootNavigator() {
           <Stack.Screen name="exercise-picker" />
           <Stack.Screen name="history" />
           <Stack.Screen name="steps" />
+          <Stack.Screen name="edit-profile" />
           <Stack.Screen name="meal" />
           <Stack.Screen name="program" />
           <Stack.Screen name="progress" />
