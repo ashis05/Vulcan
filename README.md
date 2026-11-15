@@ -1,8 +1,54 @@
-# VULCAN
+<p align="center">
+  <picture>
+    <source media="(max-width: 600px)" srcset="docs/readme/vulcan-mobile.svg">
+    <img src="docs/readme/vulcan.svg" alt="VULCAN. Forge your physique. An AI-native fitness app for Android: workout tracking, AI coaching, food photo analysis, physique analysis and a step-driven calorie budget, personalized to every user. Built with Expo and React Native, FastAPI, Supabase and Gemini Flash-Lite." width="100%">
+  </picture>
+</p>
 
-**Forge your physique.** AI-native, all-in-one fitness app: workout tracking, AI coaching, food photo analysis, physique analysis, and step-driven calorie budgeting — personalized to every user.
+<p align="center">
+  <a href="PLAN.md"><b>Plan</b></a> &nbsp;·&nbsp;
+  <a href="frontend/Design/DESIGN.md"><b>Design system</b></a> &nbsp;·&nbsp;
+  <a href="phases/"><b>Phases</b></a> &nbsp;·&nbsp;
+  <a href="deployment/README.md"><b>Deployment</b></a> &nbsp;·&nbsp;
+  <a href="AGENTS.md"><b>Agent guide</b></a>
+</p>
 
-> Design system, tokens, and the navigable HTML prototype live in `frontend/Design/` (read `frontend/Design/DESIGN.md` before touching any UI). The full plan is `PLAN.md`; phases are in `phases/`.
+<details>
+<summary><b>All 29 prototype screens</b></summary>
+<br>
+
+Rendered from the navigable HTML prototype in [`frontend/Design/screens/`](frontend/Design/screens/). Open `frontend/Design/index.html` in a browser to click through it.
+
+<h4>Sign in and onboarding</h4>
+<table>
+<tr><td align="center" width="20%"><img src="docs/readme/screens/s02-welcome.jpg" alt="Welcome screen" width="150"><br><sub>Welcome</sub></td><td align="center" width="20%"><img src="docs/readme/screens/s03-login.jpg" alt="Log in screen" width="150"><br><sub>Log in</sub></td><td align="center" width="20%"><img src="docs/readme/screens/s04-signup.jpg" alt="Create account screen" width="150"><br><sub>Create account</sub></td><td align="center" width="20%"><img src="docs/readme/screens/s05-onboarding-wizard.jpg" alt="Onboarding screen" width="150"><br><sub>Onboarding</sub></td></tr>
+</table>
+
+<h4>Today and training</h4>
+<table>
+<tr><td align="center" width="20%"><img src="docs/readme/screens/s06-today.jpg" alt="Today screen" width="150"><br><sub>Today</sub></td><td align="center" width="20%"><img src="docs/readme/screens/s07-train-home.jpg" alt="Train screen" width="150"><br><sub>Train</sub></td><td align="center" width="20%"><img src="docs/readme/screens/s08-routine-detail.jpg" alt="Routine screen" width="150"><br><sub>Routine</sub></td><td align="center" width="20%"><img src="docs/readme/screens/s09-routine-builder.jpg" alt="Routine builder screen" width="150"><br><sub>Routine builder</sub></td><td align="center" width="20%"><img src="docs/readme/screens/s10-active-workout.jpg" alt="Active session screen" width="150"><br><sub>Active session</sub></td></tr>
+<tr><td align="center" width="20%"><img src="docs/readme/screens/s11-workout-summary.jpg" alt="Summary screen" width="150"><br><sub>Summary</sub></td><td align="center" width="20%"><img src="docs/readme/screens/s12-exercise-picker.jpg" alt="Exercise picker screen" width="150"><br><sub>Exercise picker</sub></td><td align="center" width="20%"><img src="docs/readme/screens/s13-exercise-detail.jpg" alt="Exercise screen" width="150"><br><sub>Exercise</sub></td><td align="center" width="20%"><img src="docs/readme/screens/s14-history.jpg" alt="History screen" width="150"><br><sub>History</sub></td><td align="center" width="20%"><img src="docs/readme/screens/s15-past-workout.jpg" alt="Past workout screen" width="150"><br><sub>Past workout</sub></td></tr>
+</table>
+
+<h4>Nutrition</h4>
+<table>
+<tr><td align="center" width="20%"><img src="docs/readme/screens/s16-nutrition-diary.jpg" alt="Nutrition screen" width="150"><br><sub>Nutrition</sub></td><td align="center" width="20%"><img src="docs/readme/screens/s17-add-meal.jpg" alt="Add meal screen" width="150"><br><sub>Add meal</sub></td><td align="center" width="20%"><img src="docs/readme/screens/s18-scan-camera.jpg" alt="Food scan screen" width="150"><br><sub>Food scan</sub></td><td align="center" width="20%"><img src="docs/readme/screens/s19-ai-food-confirm.jpg" alt="Confirm meal screen" width="150"><br><sub>Confirm meal</sub></td><td align="center" width="20%"><img src="docs/readme/screens/s20-meal-detail.jpg" alt="Meal screen" width="150"><br><sub>Meal</sub></td></tr>
+</table>
+
+<h4>Progress and AI coaching</h4>
+<table>
+<tr><td align="center" width="20%"><img src="docs/readme/screens/s21-progress-home.jpg" alt="Progress screen" width="150"><br><sub>Progress</sub></td><td align="center" width="20%"><img src="docs/readme/screens/s22-photo-checkin.jpg" alt="Photo check-in screen" width="150"><br><sub>Photo check-in</sub></td><td align="center" width="20%"><img src="docs/readme/screens/s23-photo-compare.jpg" alt="Photo compare screen" width="150"><br><sub>Photo compare</sub></td><td align="center" width="20%"><img src="docs/readme/screens/s24-physique-analysis.jpg" alt="Physique analysis screen" width="150"><br><sub>Physique analysis</sub></td><td align="center" width="20%"><img src="docs/readme/screens/s25-program-generate.jpg" alt="Forge program screen" width="150"><br><sub>Forge program</sub></td></tr>
+<tr><td align="center" width="20%"><img src="docs/readme/screens/s26-program-review.jpg" alt="Program review screen" width="150"><br><sub>Program review</sub></td></tr>
+</table>
+
+<h4>Profile</h4>
+<table>
+<tr><td align="center" width="20%"><img src="docs/readme/screens/s27-profile.jpg" alt="Profile screen" width="150"><br><sub>Profile</sub></td><td align="center" width="20%"><img src="docs/readme/screens/s28-goals-targets.jpg" alt="Goals &amp; targets screen" width="150"><br><sub>Goals &amp; targets</sub></td><td align="center" width="20%"><img src="docs/readme/screens/s29-ai-usage.jpg" alt="AI usage screen" width="150"><br><sub>AI usage</sub></td><td align="center" width="20%"><img src="docs/readme/screens/s30-privacy-data.jpg" alt="Privacy &amp; data screen" width="150"><br><sub>Privacy &amp; data</sub></td></tr>
+</table>
+
+</details>
+
+> Read [`frontend/Design/DESIGN.md`](frontend/Design/DESIGN.md) before touching any UI. [`PLAN.md`](PLAN.md) is the source of truth; build phases live in [`phases/`](phases/).
 
 ---
 
@@ -20,9 +66,11 @@ VULCAN/
 │  ├─ src/lib/        # supabase client, FastAPI client, hooks
 │  ├─ src/theme/      # DESIGN.md tokens
 │  └─ Design/         # design system + HTML prototype (reference only)
-└─ backend/           # FastAPI AI proxy + Supabase migrations (Phase 4+)
-   ├─ app/            # core (config/auth), routers
-   └─ tests/          # pytest
+├─ backend/           # FastAPI AI proxy + Supabase migrations (Phase 4+)
+│  ├─ app/            # core (config/auth), routers
+│  └─ tests/          # pytest
+├─ deployment/        # Terraform + runbooks (AWS EC2, Cloudflare Tunnel, EAS)
+└─ docs/readme/       # README header images, screenshots and the scripts that make them
 ```
 
 ---
@@ -218,3 +266,18 @@ with EAS and shipped on an internal track. Full runbook:
 - **`/health/protected` call fails from the phone** → `EXPO_PUBLIC_API_URL` is wrong (must be your LAN IP, not `localhost`), the backend isn't running, or port 8000 is blocked by the firewall.
 - **Google sign-in button shows a notice** → Google provider flow is wired later; email auth is the tested path.
 - Full emulator/device setup + Android troubleshooting: [`frontend/ANDROID-EMULATOR.md`](frontend/ANDROID-EMULATOR.md).
+
+---
+
+## README images
+
+The header image and the screenshots are generated, so don't edit them by hand:
+
+```bash
+cd docs/readme
+npm install --no-save --no-package-lock playwright && npx playwright install chromium   # once
+node shoot.cjs          # re-shoot the prototype screens into docs/readme/screens/
+python3 make_svg.py     # rebuild vulcan.svg + vulcan-mobile.svg
+```
+
+`make_svg.py` reads the phase table in `PLAN.md` §10, so rerun it whenever a phase is ticked off.
