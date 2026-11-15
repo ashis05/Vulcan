@@ -59,6 +59,13 @@ Continuing the project from anywhere. This file is the session log and current-s
 
 ## Session log
 
+### 2026-11-15 · Session 40 — README redesign, all phases closed, v1.0.0 release
+
+- README rebuilt around a generated animated header (`docs/readme/vulcan.svg` + `vulcan-mobile.svg` via `docs/readme/make_svg.py`) and a 29-screen prototype gallery (`docs/readme/shoot.cjs`). Header logo = the four-point app-icon star.
+- `PLAN.md` §10: Phases 6 and 7 marked ✅ (owner confirmed; API `https://api-vulcan.ashiswadhwani.in/health` returns ok). Project status line updated.
+- Added MIT `LICENSE`. GitHub release `v1.0.0` with `Vulcan.apk` attached.
+- Note: prototype `s06-today.html` skeleton never clears (`.today-main{display:flex}` overrides `[hidden]`); screenshot script works around it, prototype untouched.
+
 ### 2026-10-12 · Session 39 — Size-reduction regression RCA: slow app + missing exercise GIFs
 
 - **Reported:** after the Android size-reduction build, the app is much slower and all exercise GIFs are gone.

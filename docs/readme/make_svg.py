@@ -75,6 +75,8 @@ def read_phases():
 PHASES = read_phases()
 DONE = sum(1 for p in PHASES if p[3])
 CURRENT = next((p for p in PHASES if not p[3]), None)
+VERSION = re.search(r'"version":\s*"([^"]+)"', (ROOT / "frontend" / "app.json").read_text(encoding="utf-8")).group(1)
+LIVE = f"API on AWS EC2 behind a Cloudflare Tunnel. Android APK v{VERSION} on the Releases page."
 
 
 def shot_uri(name, width=330):
@@ -107,14 +109,10 @@ def ease_stops(c0, c1, n=13):
 
 
 def star(cx, cy, R):
-    """VULCAN's eight-point forge star: long cardinal points, shorter diagonals."""
-    import math
-    pts = []
-    for k in range(16):
-        a = math.radians(k * 22.5 - 90)
-        r = (R if k % 4 == 0 else R * 0.6) if k % 2 == 0 else R * 0.2
-        pts.append(f"{cx + r * math.cos(a):.1f},{cy + r * math.sin(a):.1f}")
-    return " ".join(pts)
+    """VULCAN's mark: a four-point star with concave sides (the app icon)."""
+    w = R * 0.14
+    return (f"M{cx} {cy - R}Q{cx + w} {cy - w} {cx + R} {cy}Q{cx + w} {cy + w} {cx} {cy + R}"
+            f"Q{cx - w} {cy + w} {cx - R} {cy}Q{cx - w} {cy - w} {cx} {cy - R}Z")
 
 
 # ================================================================ builder
@@ -167,14 +165,13 @@ class Page:
         m, LX, RX = self.m, self.LX, self.RX
         self.rise(0)
         self.text(LX, 46 if m else 60, "00 — VULCAN", 13 if m else 14, SEC, MONO, spacing=1.6)
-        self.text(RX, 46 if m else 60, "ANDROID · IN BUILD", 13 if m else 14, SEC, MONO, "end", 1.6)
+        self.text(RX, 46 if m else 60, "ANDROID · " + (f"v{VERSION}" if not CURRENT else "IN BUILD"), 13 if m else 14, SEC, MONO, "end", 1.6)
         self.end()
 
         R, cx, cy = (30, LX + 30, 118) if m else (46, LX + 46, 152)
         self.rise(0.1)
         self.add(f'<g class="pulse"><circle cx="{cx}" cy="{cy}" r="{R * 1.6:.0f}" fill="url(#ember)"/></g>')
-        self.add(f'<polygon points="{star(cx, cy, R)}" fill="url(#flame)" filter="url(#glow)"/>')
-        self.add(f'<polygon points="{star(cx, cy, R * 0.55)}" fill="none" stroke="{BASE}" stroke-opacity=".55" stroke-width="1.4"/>')
+        self.add(f'<path d="{star(cx, cy, R)}" fill="url(#starFill)" filter="url(#glow)"/>')
         self.end()
         self.rise(0.2)
         self.text(cx + R + (18 if m else 28), cy + (18 if m else 27), "VULCAN", 52 if m else 80, TEXT, DISPLAY,
@@ -193,7 +190,7 @@ class Page:
         self.end()
         y += (len(lines) - 1) * (27 if m else 30) + (54 if m else 62)
 
-        specs = [("STATUS", f"Phase {CURRENT[0]} · {CURRENT[1]}" if CURRENT else "All phases done",
+        specs = [("STATUS", f"Phase {CURRENT[0]} · {CURRENT[1]}" if CURRENT else f"Live · v{VERSION}",
                   f"{DONE} of {len(PHASES)} phases done"),
                  ("AI", "Gemini Flash-Lite", "behind a FastAPI proxy"),
                  ("DATA", "Supabase", "Postgres with RLS everywhere")]
@@ -355,6 +352,11 @@ class Page:
             self.text(nx, y + 70, "NOW", 12, E400, MONO, spacing=1.4)
             for k, ln in enumerate(textwrap.wrap(CURRENT[2], 26 if m else 52)[:3]):
                 self.text(nx, y + 94 + k * 22, ln, 15.5 if m else 17, TEXT)
+        else:
+            nx = LX + (170 if m else 230)
+            self.text(nx, y + 70, "LIVE", 12, E400, MONO, spacing=1.4)
+            for k, ln in enumerate(textwrap.wrap(LIVE, 26 if m else 52)[:4]):
+                self.text(nx, y + 94 + k * 22, ln, 15.5 if m else 17, TEXT)
         self.end()
 
         def node(cx, cy, done, cur):
@@ -385,7 +387,7 @@ class Page:
                 self.text(f"{cx:.1f}", ty + 62, short, 14, TEXT if done or (CURRENT and num == CURRENT[0]) else SEC, BODY, "middle")
             self.end()
             return ty + 62 + 54
-        ty = y + 176
+        ty = y + 206
         rs = 44
         nx = LX + 12
         self.rise(2.9)
@@ -450,6 +452,7 @@ class Page:
     </style>""")
         self.add(f"""<defs>
     <linearGradient id="flame" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{E300}"/><stop offset=".55" stop-color="{EMBER}"/><stop offset="1" stop-color="#e63e00"/></linearGradient>
+    <linearGradient id="starFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{E400}"/><stop offset=".5" stop-color="{EMBER}"/><stop offset="1" stop-color="#e65c00"/></linearGradient>
     <linearGradient id="flameV" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{E300}"/><stop offset="1" stop-color="{EMBER}"/></linearGradient>
     <linearGradient id="flameText" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="{E300}"/><stop offset=".5" stop-color="{E400}"/><stop offset="1" stop-color="{EMBER}"/></linearGradient>
     <radialGradient id="ember"><stop offset="0" stop-color="{EMBER}" stop-opacity=".45"/><stop offset=".5" stop-color="{EMBER}" stop-opacity=".12"/><stop offset="1" stop-color="{EMBER}" stop-opacity="0"/></radialGradient>
