@@ -15,7 +15,7 @@
 4. When a phase is complete, update its status in the phase table below and check off its items.
 5. Make **minimal, modular** changes. Follow existing code style. Do not expand scope beyond the phase file.
 
-**Project status:** Phase 6 in progress — physique analysis essentials + feedback loop into programs are built (code gates green); remaining: compare slider (S23), 4-week reminder, month grid, and the manual device/RLS checks in `phases/PHASE-6-physique.md`.
+**Project status:** All phases (0–7) complete. The API is deployed on AWS EC2 behind a Cloudflare Tunnel (`api-vulcan.ashiswadhwani.in`), and the Android app v1.0.0 is released as an APK on the GitHub Releases page.
 
 ---
 
@@ -208,8 +208,8 @@ Lives in `frontend/src/engine/`. No I/O, no framework imports — deterministic 
 | 3 | `phases/PHASE-3-steps-budget.md` | Health Connect steps, calorie budget, weight, manual meals | ✅ |
 | 4 | `phases/PHASE-4-ai-food.md` | First AI route: food photo → macros, quota system | ✅ |
 | 5 | `phases/PHASE-5-ai-programs.md` | AI program generation → editable routines | ✅ |
-| 6 | `phases/PHASE-6-physique.md` | Physique check-ins, analysis, feedback loop into programs | ⬜ |
-| 7 | `phases/PHASE-7-launch.md` | Hardening, deploy API to AWS EC2, Play Store internal release | ⬜ |
+| 6 | `phases/PHASE-6-physique.md` | Physique check-ins, analysis, feedback loop into programs | ✅ |
+| 7 | `phases/PHASE-7-launch.md` | Hardening, deploy API to AWS EC2, Play Store internal release | ✅ |
 
 Phases are sequential — each depends on the previous. Do not start Phase N+1 until Phase N's "Done when" checklist passes.
 

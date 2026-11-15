@@ -5,14 +5,6 @@
   </picture>
 </p>
 
-<p align="center">
-  <a href="PLAN.md"><b>Plan</b></a> &nbsp;·&nbsp;
-  <a href="frontend/Design/DESIGN.md"><b>Design system</b></a> &nbsp;·&nbsp;
-  <a href="phases/"><b>Phases</b></a> &nbsp;·&nbsp;
-  <a href="deployment/README.md"><b>Deployment</b></a> &nbsp;·&nbsp;
-  <a href="AGENTS.md"><b>Agent guide</b></a>
-</p>
-
 <details>
 <summary><b>All 29 prototype screens</b></summary>
 <br>
@@ -47,6 +39,10 @@ Rendered from the navigable HTML prototype in [`frontend/Design/screens/`](front
 </table>
 
 </details>
+
+## Download
+
+Grab the Android APK from the [latest release](https://github.com/ashis05/Vulcan/releases/latest). Allow installs from unknown sources when Android asks.
 
 > Read [`frontend/Design/DESIGN.md`](frontend/Design/DESIGN.md) before touching any UI. [`PLAN.md`](PLAN.md) is the source of truth; build phases live in [`phases/`](phases/).
 
@@ -281,3 +277,9 @@ python3 make_svg.py     # rebuild vulcan.svg + vulcan-mobile.svg
 ```
 
 `make_svg.py` reads the phase table in `PLAN.md` §10, so rerun it whenever a phase is ticked off.
+
+---
+
+## License
+
+[MIT](LICENSE) © 2026 Ashis Wadhwani
